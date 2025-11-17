@@ -1,8 +1,7 @@
 export default {
 	logout: async () => {
-		showAlert('Почему-то выход...', 'error');
 		try {
-			if (appsmith.store?.user?.token){
+			if (!appsmith.store.user?.token){
 				navigateTo('Auth');
 				return;
 			}
