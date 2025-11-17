@@ -1,0 +1,92 @@
+{
+  "animateLoading": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 336,
+  "boxShadow": "none",
+  "canEscapeKeyClose": true,
+  "canOutsideClickClose": true,
+  "children": [
+    {
+      "bottomRow": 630,
+      "canExtend": true,
+      "detachFromLayout": true,
+      "displayName": "Canvas",
+      "dynamicBindingPathList": [],
+      "flexLayers": [],
+      "hideCard": true,
+      "isDeprecated": false,
+      "isDisabled": false,
+      "isLoading": false,
+      "isVisible": true,
+      "key": "rn28p55il2",
+      "leftColumn": 0,
+      "minHeight": 632,
+      "minWidth": 450,
+      "mobileBottomRow": 240,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 336.422607421875,
+      "mobileTopRow": 0,
+      "parentColumnSpace": 1,
+      "parentId": "y44p72e4rr",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 336.422607421875,
+      "shouldScrollContents": false,
+      "topRow": 0,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "0o6e0pkaw6",
+      "widgetName": "Canvas7Copy"
+    }
+  ],
+  "detachFromLayout": true,
+  "displayName": "Modal",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClose"
+    }
+  ],
+  "height": 632,
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.b374721fa8e1aeab7cf326c2d865506f.svg",
+  "isCanvas": true,
+  "isDeprecated": false,
+  "isLoading": false,
+  "key": "27mj06srio",
+  "leftColumn": 16,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 24,
+  "mobileBottomRow": 26,
+  "mobileLeftColumn": 16,
+  "mobileRightColumn": 40,
+  "mobileTopRow": 2,
+  "onClose": "{{tasks.btn_closeAddEditTaskModal_onClick();}}",
+  "parentColumnSpace": 14.017608642578125,
+  "parentId": "0",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "rightColumn": 40,
+  "searchTags": [
+    "dialog",
+    "popup",
+    "notification"
+  ],
+  "shouldScrollContents": true,
+  "tags": [
+    "Layout"
+  ],
+  "topRow": 96,
+  "type": "MODAL_WIDGET",
+  "version": 2,
+  "widgetId": "y44p72e4rr",
+  "widgetName": "mdl_addEditTask",
+  "width": 865.9499999999999
+}

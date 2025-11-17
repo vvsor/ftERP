@@ -1,0 +1,79 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 36,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.participant_ids.map(item => item.directus_users_id.id): ''))(sel_TaskParticipants.options, sel_TaskParticipants.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "wy7sk2lv0w",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Участники",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 30,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 7.000000000000002,
+  "mobileTopRow": 35,
+  "needsErrorInfo": false,
+  "optionLabel": "{{sel_TaskParticipants.sourceData.map((item) => (item.last_name + ' ' + item.first_name ))}}",
+  "optionValue": "{{sel_TaskParticipants.sourceData.map((item) => (item.id))}}",
+  "originalBottomRow": 36,
+  "originalTopRow": 29,
+  "parentColumnSpace": 12.82198486328125,
+  "parentId": "9jhq4tliqp",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите участников(-ов)",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "serverSideFiltering": false,
+  "sourceData": "{{utils.getUsersOfficeTerms.data}}",
+  "topRow": 29,
+  "type": "MULTI_SELECT_WIDGET_V2",
+  "version": 1,
+  "widgetId": "3obmz79rt4",
+  "widgetName": "sel_TaskParticipants"
+}

@@ -1,0 +1,81 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "{{ moment(dat_TaskDeadline.selectedDate).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:MM\")\n}}",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{crmTasks.selectedTask ? crmTasks.selectedTask.deadline: moment(Date()).tz(\"Europe/Moscow\").add(1,'days')}}",
+  "displayName": "DatePicker",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "dateFormat"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "dateFormat"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "firstDayOfWeek": "1",
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.c0c4b770ee1862b73198267331d1611c.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": true,
+  "isVisible": true,
+  "key": "38bl0pf86y",
+  "label": "Срок выполнения",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 29,
+  "maxDate": "2121-12-31T18:29:00.000Z",
+  "maxDynamicHeight": 9000,
+  "minDate": "1920-12-31T18:30:00.000Z",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 33,
+  "mobileLeftColumn": 28,
+  "mobileRightColumn": 48,
+  "mobileTopRow": 26,
+  "originalBottomRow": 26,
+  "originalTopRow": 19,
+  "parentColumnSpace": 6.9375,
+  "parentId": "zne97i1g3e",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "searchTags": [
+    "calendar"
+  ],
+  "shortcuts": false,
+  "tags": [
+    "Inputs"
+  ],
+  "timePrecision": "minute",
+  "topRow": 18,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "blzqbie5q0",
+  "widgetName": "dat_TaskDeadline"
+}

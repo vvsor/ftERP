@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_584ac4ff-1dd5-4bfb-b1c1-3637042f66a7",
+  "id": "Clients_channels",
+  "unpublishedCollection": {
+    "name": "channels",
+    "pageId": "Clients",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "selectedChannel",
+        "value": "undefined"
+      },
+      {
+        "name": "savedChannelId",
+        "value": "undefined"
+      }
+    ]
+  }
+}

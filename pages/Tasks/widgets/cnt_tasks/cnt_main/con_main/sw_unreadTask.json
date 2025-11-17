@@ -1,0 +1,61 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "alignWidget": "LEFT",
+  "animateLoading": true,
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "defaultSwitchState": "{{tasks.selectedItem ? tasks.selectedItem.unread : false}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "defaultSwitchState"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultSwitchState"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onChange"
+    }
+  ],
+  "isDisabled": "{{tasks.selectedItem ? (tasks.selectedItem.unread ? false : true) : false}}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "6rdngyenme",
+  "label": "Непрочитано",
+  "labelPosition": "Left",
+  "leftColumn": 30,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "mobileBottomRow": 4,
+  "mobileLeftColumn": 50,
+  "mobileRightColumn": 62,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onChange": "{{tasks.sw_unreadTask_onChange();}}",
+  "originalBottomRow": 4,
+  "originalTopRow": 0,
+  "parentColumnSpace": 8.46875,
+  "parentId": "6e66rd6cwo",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 49,
+  "topRow": 0,
+  "type": "SWITCH_WIDGET",
+  "version": 1,
+  "widgetId": "jhnpxm1b14",
+  "widgetName": "sw_unreadTask"
+}

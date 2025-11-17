@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_cea93d92-3684-4da3-bb2c-c0a5184d4e21",
+  "id": "Profie_profile_tasks",
+  "unpublishedCollection": {
+    "name": "profile_tasks",
+    "pageId": "Profie",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "myVar1",
+        "value": "[]"
+      },
+      {
+        "name": "myVar2",
+        "value": "{}"
+      }
+    ]
+  }
+}

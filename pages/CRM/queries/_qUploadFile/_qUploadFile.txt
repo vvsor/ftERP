@@ -1,0 +1,4 @@
+{
+	// "file": {{this.params.file}};
+	"file": {{fp_filesForComment.files[0].data}}
+}

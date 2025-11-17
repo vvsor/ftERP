@@ -1,0 +1,48 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 9,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "ta9fflkgdv",
+  "leftColumn": 51,
+  "minWidth": 120,
+  "mobileBottomRow": 9,
+  "mobileLeftColumn": 26,
+  "mobileRightColumn": 42,
+  "mobileTopRow": 5,
+  "needsErrorInfo": false,
+  "originalBottomRow": 13,
+  "originalTopRow": 9,
+  "parentColumnSpace": 9.488525390625,
+  "parentId": "nsm4xlhjme",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "text": "Выполнена",
+  "topRow": 4,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "xv1nyor5se",
+  "widgetName": "Button5Copy"
+}

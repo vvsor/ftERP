@@ -1,0 +1,130 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "additionalStaticProps": [
+    "level",
+    "levelData",
+    "prefixMetaWidgetId",
+    "metaWidgetId"
+  ],
+  "animateLoading": true,
+  "backgroundColor": "transparent",
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 32,
+  "bottomRowBeforeCollapse": 32,
+  "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+  "children": [
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 280,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dropDisabled": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "q6l7z2ss13",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 390,
+      "minWidth": 450,
+      "mobileBottomRow": 390,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 349.3125,
+      "mobileTopRow": 0,
+      "needsErrorInfo": false,
+      "noPad": true,
+      "openParentPropertyPane": true,
+      "parentColumnSpace": 1,
+      "parentId": "dhhbzawfys",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 349.3125,
+      "topRow": 0,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "9m0i6krtqf",
+      "widgetName": "Canvas28"
+    }
+  ],
+  "currentItemsView": "{{[]}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "currentItemsView"
+    },
+    {
+      "key": "selectedItemView"
+    },
+    {
+      "key": "triggeredItemView"
+    },
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "boxShadow"
+    },
+    {
+      "key": "listData"
+    },
+    {
+      "key": "primaryKeys"
+    }
+  ],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [],
+  "enhancements": true,
+  "flexVerticalAlignment": "start",
+  "gridType": "vertical",
+  "hasMetaWidgets": true,
+  "isCanvas": true,
+  "isLoading": false,
+  "isVisible": true,
+  "itemBackgroundColor": "#FFFFFF",
+  "itemSpacing": 8,
+  "key": "i5e03py8hp",
+  "leftColumn": 44,
+  "listData": "{{ appsmith.store.editingComment?.id && Array.isArray(files.getCommentFiles.data) && files.getCommentFiles.data.length > 0 ? files.getCommentFiles.data : \n[\n  {\n    \"id\": \"\",\n    \"filesize\": \"\",\n    \"filename_download\": \"\",\n  }\n]\n}}",
+  "mainCanvasId": "9m0i6krtqf",
+  "mainContainerId": "ybofcrzwll",
+  "minWidth": 450,
+  "mobileBottomRow": 39,
+  "mobileLeftColumn": 19,
+  "mobileRightColumn": 43,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "originalBottomRow": 32,
+  "originalTopRow": 4,
+  "pageSize": 4,
+  "parentColumnSpace": 14.5546875,
+  "parentId": "opubpn01wa",
+  "parentRowSpace": 10,
+  "primaryKeys": "{{lst_files.listData.map((currentItem, currentIndex) => currentItem[\"id\"] )}}",
+  "renderMode": "CANVAS",
+  "requiresFlatWidgetChildren": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "selectedItemView": "{{{}}}",
+  "templateHeight": 160,
+  "topRow": 4,
+  "topRowBeforeCollapse": 4,
+  "triggeredItemView": "{{{}}}",
+  "type": "LIST_WIDGET_V2",
+  "widgetId": "dhhbzawfys",
+  "widgetName": "lst_files"
+}

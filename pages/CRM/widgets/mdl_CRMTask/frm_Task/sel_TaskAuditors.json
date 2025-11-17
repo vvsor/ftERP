@@ -1,0 +1,86 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 41,
+  "boxShadow": "none",
+  "defaultOptionValue": "",
+  "displayName": "Select",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "7edlq6wt3w",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Аудиторы",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 10,
+  "mobileRightColumn": 30,
+  "mobileTopRow": 35,
+  "optionLabel": "{{sel_TaskAuditors.sourceData.map((item) => (item.user_id.last_name + ' ' + item.user_id.first_name ))}}",
+  "optionValue": "{{sel_TaskAuditors.sourceData.map((item) => (item.user_id.id))}}",
+  "originalBottomRow": 42,
+  "originalTopRow": 35,
+  "parentColumnSpace": 6.9375,
+  "parentId": "zne97i1g3e",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите аудиторов",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 29,
+  "searchTags": [
+    "dropdown"
+  ],
+  "serverSideFiltering": false,
+  "sourceData": "{{qGetUsersOfficeTerms.data.data}}",
+  "tags": [
+    "Suggested",
+    "Select"
+  ],
+  "topRow": 34,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "uhdtbzgwtw",
+  "widgetName": "sel_TaskAuditors"
+}

@@ -1,0 +1,51 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 13,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "9p0zyvcofu",
+  "leftColumn": 47,
+  "minWidth": 120,
+  "mobileBottomRow": 13,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 9,
+  "needsErrorInfo": false,
+  "onClick": "{{functions.assign_file();}}",
+  "parentColumnSpace": 11.1787109375,
+  "parentId": "ncq124e5e4",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 63,
+  "text": "copy file to filepicker2",
+  "topRow": 9,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "y8pnl3vcqd",
+  "widgetName": "Button1Copy"
+}

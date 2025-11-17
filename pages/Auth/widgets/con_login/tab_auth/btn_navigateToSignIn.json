@@ -1,0 +1,67 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 39,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "TERTIARY",
+  "disabledWhenInvalid": false,
+  "displayName": "Button",
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.05d209fafeb13a8569e3b4e97069d9ee.svg",
+  "isDefaultClickDisabled": true,
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "w5le6pkfax",
+  "leftColumn": 16,
+  "minWidth": 120,
+  "mobileBottomRow": 95,
+  "mobileLeftColumn": 41,
+  "mobileRightColumn": 57,
+  "mobileTopRow": 91,
+  "onClick": "{{auth.setDefaultTab('Sign In')}}",
+  "originalBottomRow": 39,
+  "originalTopRow": 35,
+  "parentColumnSpace": 19.8125,
+  "parentId": "f5yn1hxqze",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": true,
+  "responsiveBehavior": "hug",
+  "rightColumn": 48,
+  "searchTags": [
+    "click",
+    "submit"
+  ],
+  "tags": [
+    "Buttons"
+  ],
+  "text": "Вспомнили пароль? Войти",
+  "topRow": 35,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "at7txr50lc",
+  "widgetName": "btn_navigateToSignIn"
+}

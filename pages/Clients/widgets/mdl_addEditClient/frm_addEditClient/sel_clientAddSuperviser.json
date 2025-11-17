@@ -1,0 +1,89 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 19,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( clients.selectedItem ? clients.selectedItem.supervisor_id: ''))(sel_clientAddSuperviser.options, sel_clientAddSuperviser.serverSideFiltering) }}",
+  "displayName": "Select",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "optionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": true,
+  "isVisible": true,
+  "key": "7edlq6wt3w",
+  "labelAlignment": "right",
+  "labelPosition": "Top",
+  "labelText": "Супервайзер",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 10,
+  "mobileRightColumn": 30,
+  "mobileTopRow": 35,
+  "optionLabel": "{{sel_clientAddSuperviser.sourceData.map((item) => (item.last_name + ' ' + item.first_name ))}}",
+  "optionValue": "{{sel_clientAddSuperviser.sourceData.map((item) => (item.id))}}",
+  "originalBottomRow": 33,
+  "originalTopRow": 26,
+  "parentColumnSpace": 6.9375,
+  "parentId": "b8ogmo52j4",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите супервайзера",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 34,
+  "searchTags": [
+    "dropdown"
+  ],
+  "serverSideFiltering": false,
+  "sourceData": "{{utils.GetUsersOfficeTerms.data}}",
+  "tags": [
+    "Suggested",
+    "Select"
+  ],
+  "topRow": 12,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "eaqxy79mr2",
+  "widgetName": "sel_clientAddSuperviser"
+}

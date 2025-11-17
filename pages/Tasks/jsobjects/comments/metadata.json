@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_cccf84d4-7f6a-4f61-807b-3827c6b03745",
+  "id": "Tasks_comments",
+  "unpublishedCollection": {
+    "name": "comments",
+    "pageId": "Tasks",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "new",
+        "value": "undefined"
+      }
+    ]
+  }
+}

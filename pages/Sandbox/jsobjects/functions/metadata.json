@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_792b882a-4f58-479d-bd3a-50135cc2762d",
+  "id": "Sandbox_functions",
+  "unpublishedCollection": {
+    "name": "functions",
+    "pageId": "Sandbox",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "defaultTab",
+        "value": "'Sign In'"
+      }
+    ]
+  }
+}

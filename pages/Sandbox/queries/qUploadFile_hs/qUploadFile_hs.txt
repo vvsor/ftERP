@@ -1,0 +1,3 @@
+{
+	"file": "{{ FilePicker1.files[0] }}"
+}

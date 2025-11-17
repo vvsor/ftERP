@@ -1,0 +1,60 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 70,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": "{{ clients.selectedClient?.logix_client_id ? true : false\n}}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "irm1sseno2",
+  "leftColumn": 53,
+  "minWidth": 120,
+  "mobileBottomRow": 40,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 11,
+  "mobileTopRow": 36,
+  "needsErrorInfo": false,
+  "onClick": "{{logix.connectWithLogixClient();}}",
+  "originalBottomRow": 70,
+  "originalTopRow": 66,
+  "parentColumnSpace": 14.9375,
+  "parentId": "x6ectq30bd",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "text": "Привязать клиента",
+  "topRow": 66,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "tzpvyjhy0m",
+  "widgetName": "btn_connect2logix"
+}

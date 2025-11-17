@@ -1,0 +1,75 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 55,
+  "boxShadow": "none",
+  "defaultText": "{{tasks.selectedTask ? tasks.selectedTask.description : \"\"}}",
+  "displayName": "Input",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconAlign": "left",
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.f2c34197dbcf03595098986de898928f.svg",
+  "inputType": "MULTI_LINE_TEXT",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "mrq1py9frh",
+  "label": "Описание",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 27,
+  "minDynamicHeight": 12,
+  "minWidth": 450,
+  "mobileBottomRow": 21,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 13,
+  "mobileTopRow": 14,
+  "originalBottomRow": 56,
+  "originalTopRow": 40,
+  "parentColumnSpace": 6.9375,
+  "parentId": "nwrjfyc9nl",
+  "parentRowSpace": 10,
+  "placeholderText": "Добавьте описание задачи",
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "searchTags": [
+    "form",
+    "text input",
+    "number",
+    "textarea"
+  ],
+  "shouldAllowAutofill": false,
+  "shouldScrollContents": true,
+  "showStepArrows": false,
+  "tags": [
+    "Suggested",
+    "Inputs"
+  ],
+  "topRow": 39,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "g5yb59au5o",
+  "widgetName": "inp_TaskCommentCopy"
+}

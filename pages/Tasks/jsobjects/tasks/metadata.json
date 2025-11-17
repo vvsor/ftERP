@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_40b66123-540e-42b0-a821-e44f19731fdf",
+  "id": "Tasks_tasks",
+  "unpublishedCollection": {
+    "name": "tasks",
+    "pageId": "Tasks",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "curAuditorsIds",
+        "value": "undefined"
+      },
+      {
+        "name": "curParticipantsIds",
+        "value": "undefined"
+      }
+    ]
+  }
+}

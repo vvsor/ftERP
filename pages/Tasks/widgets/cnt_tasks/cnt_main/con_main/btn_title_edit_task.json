@@ -1,0 +1,54 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 9,
+  "boxShadow": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+  "buttonColor": "#3f3f46",
+  "buttonVariant": "SECONDARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconAlign": "right",
+  "iconName": "edit",
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "co1c5y7hh9",
+  "leftColumn": 0,
+  "minWidth": 120,
+  "mobileBottomRow": 8,
+  "mobileLeftColumn": 40,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 4,
+  "needsErrorInfo": false,
+  "onClick": "{{tasks.btn_openEditTask_onClick();}}",
+  "originalBottomRow": 9,
+  "originalTopRow": 5,
+  "parentColumnSpace": 8.15625,
+  "parentId": "6e66rd6cwo",
+  "parentRowSpace": 10,
+  "placement": "BETWEEN",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 63,
+  "text": "{{appsmith.store.selectedTask?.id ? `${appsmith.store.selectedTask.title} (${appsmith.store.selectedTask.id})` : \"\"}}",
+  "topRow": 5,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "z5lb5kty61",
+  "widgetName": "btn_title_edit_task"
+}

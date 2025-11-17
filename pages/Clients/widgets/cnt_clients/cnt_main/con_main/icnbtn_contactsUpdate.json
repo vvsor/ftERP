@@ -1,0 +1,49 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconName": "refresh",
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "oxultgfmlx",
+  "leftColumn": 59,
+  "minWidth": 50,
+  "mobileBottomRow": 4,
+  "mobileLeftColumn": 27,
+  "mobileRightColumn": 31,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onClick": "{{contacts.updateContactsList(clients.selectedClient?.id);}}",
+  "originalBottomRow": 57,
+  "originalTopRow": 53,
+  "parentColumnSpace": 16.9375,
+  "parentId": "ddozpsu1dn",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 63,
+  "tooltip": "Обновить список клиентов",
+  "topRow": 0,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "fmvum4ivww",
+  "widgetName": "icnbtn_contactsUpdate"
+}

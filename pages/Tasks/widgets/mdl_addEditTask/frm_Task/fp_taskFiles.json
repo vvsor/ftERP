@@ -1,0 +1,58 @@
+{
+  "allowedFileTypes": [
+    "*"
+  ],
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 20,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onFilesSelected"
+    }
+  ],
+  "dynamicTyping": true,
+  "fileDataType": "Binary",
+  "files": [],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "suycj9t10r",
+  "label": "Прикрепить файлы",
+  "leftColumn": 49,
+  "maxFileSize": "15",
+  "maxNumFiles": "5",
+  "minWidth": 120,
+  "mobileBottomRow": 20,
+  "mobileLeftColumn": 48,
+  "mobileRightColumn": 64,
+  "mobileTopRow": 16,
+  "needsErrorInfo": false,
+  "onFilesSelected": "",
+  "originalBottomRow": 20,
+  "originalTopRow": 16,
+  "parentColumnSpace": 12.82198486328125,
+  "parentId": "9jhq4tliqp",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 63,
+  "selectedFiles": [],
+  "topRow": 16,
+  "type": "FILE_PICKER_WIDGET_V2",
+  "version": 1,
+  "widgetId": "bs9dbxr9y4",
+  "widgetName": "fp_taskFiles"
+}

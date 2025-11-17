@@ -1,0 +1,84 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "allowCurrencyChange": false,
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 21,
+  "boxShadow": "none",
+  "decimals": 0,
+  "defaultCurrencyCode": "RUB",
+  "defaultText": "80000\t",
+  "displayName": "Currency Input",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "hideCard": false,
+  "iconAlign": "left",
+  "iconSVG": "/static/media/icon.c434e04aaa78b8f4337c28b627b7cc81.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": true,
+  "isVisible": true,
+  "key": "q1ss7op561",
+  "label": "Сумма в рублях",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 23,
+  "mobileLeftColumn": 4,
+  "mobileRightColumn": 24,
+  "mobileTopRow": 16,
+  "needsErrorInfo": false,
+  "onCanvasUI": {
+    "disableParentSelection": false,
+    "focusBGCSSVar": "--on-canvas-ui-widget-focus",
+    "focusColorCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionBGCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionColorCSSVar": "--on-canvas-ui-widget-focus"
+  },
+  "onTextChanged": "{{calc_functions.calculate();}}",
+  "originalBottomRow": 21,
+  "originalTopRow": 14,
+  "parentColumnSpace": 17.9375,
+  "parentId": "mw0nzgltf8",
+  "parentRowSpace": 10,
+  "placeholderText": "",
+  "regex": "[0-9]",
+  "renderMode": "CANVAS",
+  "resetOnSubmit": false,
+  "responsiveBehavior": "fill",
+  "rightColumn": 27,
+  "searchTags": [
+    "amount",
+    "total"
+  ],
+  "showStepArrows": false,
+  "tags": [
+    "Inputs"
+  ],
+  "thumbnailSVG": "/static/media/thumbnail.b14e0307b1b312b9e9ca9580d118af39.svg",
+  "topRow": 14,
+  "type": "CURRENCY_INPUT_WIDGET",
+  "version": 1,
+  "widgetId": "jkxoa89obb",
+  "widgetName": "curInp_carrier_sum"
+}

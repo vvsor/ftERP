@@ -1,0 +1,89 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 29,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.assignee.id: ''))(sel_TaskAssignee.options, sel_TaskAssignee.serverSideFiltering) }}",
+  "displayName": "Select",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": true,
+  "isVisible": true,
+  "key": "7edlq6wt3w",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Исполнитель",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 30,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 10,
+  "mobileRightColumn": 30,
+  "mobileTopRow": 35,
+  "optionLabel": "{{sel_TaskAssignee.sourceData.map((item) => (item.last_name + ' ' + item.first_name ))}}",
+  "optionValue": "{{sel_TaskAssignee.sourceData.map((item) => (item.id))}}",
+  "originalBottomRow": 29,
+  "originalTopRow": 22,
+  "parentColumnSpace": 6.9375,
+  "parentId": "9jhq4tliqp",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите исполнителя",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "searchTags": [
+    "dropdown"
+  ],
+  "serverSideFiltering": false,
+  "sourceData": "{{utils.getUsersOfficeTerms.data}}",
+  "tags": [
+    "Suggested",
+    "Select"
+  ],
+  "topRow": 22,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "h24ccq71xd",
+  "widgetName": "sel_TaskAssignee"
+}

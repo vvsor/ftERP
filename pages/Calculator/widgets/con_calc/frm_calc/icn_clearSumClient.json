@@ -1,0 +1,53 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 21,
+  "boxShadow": "none",
+  "buttonColor": "#a1a1aa",
+  "buttonVariant": "TERTIARY",
+  "displayName": "Icon button",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "hideCard": false,
+  "iconName": "eraser",
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.b08054586989b185a0801e9a34f8ad49.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "9xu7j2zb10",
+  "leftColumn": 59,
+  "minWidth": 50,
+  "mobileBottomRow": 17,
+  "mobileLeftColumn": 25,
+  "mobileRightColumn": 29,
+  "mobileTopRow": 13,
+  "onClick": "{{calc_functions.clearClientSum();}}",
+  "parentColumnSpace": 17.3447265625,
+  "parentId": "mw0nzgltf8",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 62,
+  "searchTags": [
+    "click",
+    "submit"
+  ],
+  "tags": [
+    "Buttons"
+  ],
+  "topRow": 17,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "z6z9w8y3ah",
+  "widgetName": "icn_clearSumClient"
+}

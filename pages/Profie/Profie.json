@@ -1,0 +1,33 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_2ccf9dfe-4bf4-49e5-90d0-18e28b4ac32e",
+  "unpublishedPage": {
+    "customSlug": "profile",
+    "isHidden": true,
+    "layouts": [
+      {
+        "dsl": {
+          "backgroundColor": "none",
+          "bottomRow": 550.0,
+          "canExtend": true,
+          "containerStyle": "none",
+          "detachFromLayout": true,
+          "dynamicBindingPathList": [],
+          "leftColumn": 0.0,
+          "minHeight": 790.0,
+          "parentColumnSpace": 1.0,
+          "parentRowSpace": 1.0,
+          "rightColumn": 1224.0,
+          "snapColumns": 64.0,
+          "snapRows": 77.0,
+          "topRow": 0.0,
+          "type": "CANVAS_WIDGET",
+          "version": 94.0,
+          "widgetId": "0",
+          "widgetName": "MainContainer"
+        }
+      }
+    ],
+    "name": "Profie",
+    "slug": "profie"
+  }
+}

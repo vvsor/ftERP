@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_504295ba-2453-4132-8e5f-f9afc611624d",
+  "id": "Tasks_employees",
+  "unpublishedCollection": {
+    "name": "employees",
+    "pageId": "Tasks",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

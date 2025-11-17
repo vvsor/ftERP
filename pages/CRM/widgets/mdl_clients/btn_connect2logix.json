@@ -1,0 +1,53 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 52,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "irm1sseno2",
+  "leftColumn": 21,
+  "minWidth": 120,
+  "mobileBottomRow": 40,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 11,
+  "mobileTopRow": 36,
+  "needsErrorInfo": false,
+  "onClick": "{{clients.btn_connect2logixonClick();}}",
+  "originalBottomRow": 52,
+  "originalTopRow": 48,
+  "parentColumnSpace": 14.9375,
+  "parentId": "sx0vhdqd95",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 32,
+  "text": "Привязать клиента",
+  "topRow": 48,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "zevhcqnhxy",
+  "widgetName": "btn_connect2logix"
+}

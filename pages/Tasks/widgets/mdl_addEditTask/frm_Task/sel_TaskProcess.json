@@ -1,0 +1,77 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 20,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.process_id.id: 1))(sel_TaskProcess.options, sel_TaskProcess.serverSideFiltering) }}",
+  "displayName": "Select",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": true,
+  "isVisible": true,
+  "key": "7edlq6wt3w",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Процесс",
+  "labelTextSize": "0.875rem",
+  "labelWidth": "5",
+  "leftColumn": 36,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 10,
+  "mobileRightColumn": 30,
+  "mobileTopRow": 35,
+  "optionLabel": "name",
+  "optionValue": "id",
+  "originalBottomRow": 20,
+  "originalTopRow": 16,
+  "parentColumnSpace": 6.9375,
+  "parentId": "9jhq4tliqp",
+  "parentRowSpace": 10,
+  "placeholderText": "",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 46,
+  "searchTags": [
+    "dropdown"
+  ],
+  "serverSideFiltering": false,
+  "sourceData": "{{utils.getProcesses.data}}",
+  "tags": [
+    "Suggested",
+    "Select"
+  ],
+  "topRow": 16,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "14mxqob4tq",
+  "widgetName": "sel_TaskProcess"
+}

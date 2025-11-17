@@ -1,0 +1,66 @@
+{
+  "accentColor": "#a1a1aa",
+  "alignWidget": "LEFT",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 18,
+  "defaultCheckedState": "{{tasks.selectedTask ? tasks.selectedTask.is_complete : false}}",
+  "displayName": "Checkbox",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultCheckedState"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultCheckedState"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onCheckChange"
+    }
+  ],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.7b004ee098ca948e952234e7baec6d11.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "ebegn7vl69",
+  "label": "Завершена",
+  "labelPosition": "Left",
+  "leftColumn": 32,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 6,
+  "mobileLeftColumn": 1,
+  "mobileRightColumn": 13,
+  "mobileTopRow": 2,
+  "onCheckChange": "",
+  "originalBottomRow": 19,
+  "originalTopRow": 15,
+  "parentColumnSpace": 5.0537109375,
+  "parentId": "zne97i1g3e",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 42,
+  "searchTags": [
+    "boolean"
+  ],
+  "tags": [
+    "Toggles"
+  ],
+  "topRow": 14,
+  "type": "CHECKBOX_WIDGET",
+  "version": 1,
+  "widgetId": "ie7t1ql839",
+  "widgetName": "chk_TaskCompleted"
+}

@@ -1,0 +1,4 @@
+{
+	// "file": {{this.params.file}};
+	"file": {{FilePicker1.files[0]}}
+}

@@ -1,0 +1,87 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 43,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": true,
+  "displayName": "Button",
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "tooltip"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "hideCard": false,
+  "iconSVG": "/static/media/icon.7a418b9e1899a550d7e8f33b48cbde12.svg",
+  "isDefaultClickDisabled": true,
+  "isDeprecated": false,
+  "isDisabled": "{{!appsmith.store.editingComment?.id || appsmith.store.editingComment?.author_id?.id == appsmith.store.user.id ? false : true}}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "vpxlz1jjd2",
+  "leftColumn": 49,
+  "minWidth": 120,
+  "mobileBottomRow": 37,
+  "mobileLeftColumn": 46,
+  "mobileRightColumn": 62,
+  "mobileTopRow": 33,
+  "needsErrorInfo": false,
+  "onCanvasUI": {
+    "disableParentSelection": false,
+    "focusBGCSSVar": "--on-canvas-ui-widget-focus",
+    "focusColorCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionBGCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionColorCSSVar": "--on-canvas-ui-widget-focus"
+  },
+  "onClick": "{{\nappsmith.store.editingComment?.id ? \ncomments.updateComment() : comments.addComment() \n}}",
+  "originalBottomRow": 43,
+  "originalTopRow": 39,
+  "parentId": "yhl5qxxrpq",
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": true,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "searchTags": [
+    "click",
+    "submit"
+  ],
+  "tags": [
+    "Buttons"
+  ],
+  "text": "{{appsmith.store.editingComment?.id ? \"Сохранить и закрыть\": \"Добавить и закрыть\"}}",
+  "thumbnailSVG": "/static/media/thumbnail.a348658e996feaad96cadc30d99374ff.svg",
+  "tooltip": "{{appsmith.store.editingComment?.id && appsmith.store.editingComment.author_id.id !== appsmith.store.user.id ? 'Невозможно редактировать чужой комментарий' : ''}}",
+  "topRow": 39,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "9ullbd4p8m",
+  "widgetName": "btn_addEditComment"
+}

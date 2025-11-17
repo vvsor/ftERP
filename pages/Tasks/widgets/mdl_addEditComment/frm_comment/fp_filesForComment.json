@@ -1,0 +1,80 @@
+{
+  "allowedFileTypes": [
+    "*"
+  ],
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "displayName": "FilePicker",
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "dynamicTyping": true,
+  "fileDataType": "Binary",
+  "files": [],
+  "hideCard": false,
+  "iconSVG": "/static/media/icon.b08ce7590c570fc5b7ffa528c70d35bf.svg",
+  "isDefaultClickDisabled": true,
+  "isDeprecated": false,
+  "isDisabled": "{{!comments.editingItem || comments.editingItem?.author_id?.id == appsmith.store.user.id ? false : true}}",
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "x1o45ykmgc",
+  "label": "Прикрепить файлы",
+  "leftColumn": 42,
+  "maxFileSize": 5,
+  "maxNumFiles": "5",
+  "minWidth": 120,
+  "mobileBottomRow": 9,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 5,
+  "needsErrorInfo": false,
+  "onCanvasUI": {
+    "disableParentSelection": false,
+    "focusBGCSSVar": "--on-canvas-ui-widget-focus",
+    "focusColorCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionBGCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionColorCSSVar": "--on-canvas-ui-widget-focus"
+  },
+  "onFilesSelected": "{{}}",
+  "originalBottomRow": 54,
+  "originalTopRow": 50,
+  "parentColumnSpace": 6.48828125,
+  "parentId": "yhl5qxxrpq",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 59,
+  "searchTags": [
+    "upload"
+  ],
+  "selectedFiles": [],
+  "tags": [
+    "Inputs"
+  ],
+  "thumbnailSVG": "/static/media/thumbnail.164363adea04c44e54b1fd47657a579e.svg",
+  "topRow": 0,
+  "type": "FILE_PICKER_WIDGET_V2",
+  "version": 1,
+  "widgetId": "ddmmpv919p",
+  "widgetName": "fp_filesForComment"
+}

@@ -1,0 +1,94 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 32,
+  "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+  "defaultText": "{{appsmith.store.editingComment?.id && lst_taskComments.triggeredItem ? lst_taskComments.triggeredItem.content : \"\"}}",
+  "displayName": "Rich Text Editor",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "boxShadow"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "labelText"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "labelTooltip"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChange"
+    }
+  ],
+  "flexVerticalAlignment": "start",
+  "hideCard": false,
+  "iconSVG": "/static/media/icon.757d7d5aeba566dd0ed4fbdfa932c80a.svg",
+  "inputType": "html",
+  "isDefaultClickDisabled": true,
+  "isDeprecated": false,
+  "isDisabled": "{{!appsmith.store.editingComment?.id || appsmith.store.editingComment?.author_id?.id == appsmith.store.user.id ? false : true}}",
+  "isLoading": false,
+  "isRequired": true,
+  "isToolbarHidden": false,
+  "isVisible": true,
+  "key": "pu3103no8z",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "{{appsmith.store.editingComment?.id  ? `Текст комментария (${appsmith.store.editingComment.id})`  : \"Текст нового комментария\"}}",
+  "labelTooltip": "{{appsmith.store.editingComment?.author_id?.id !== appsmith.store.user.id ? 'Невозможно редактировать чужой комментарий' : ''}}",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 67,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 16,
+  "mobileTopRow": 47,
+  "needsErrorInfo": false,
+  "onCanvasUI": {
+    "disableParentSelection": false,
+    "focusBGCSSVar": "--on-canvas-ui-widget-focus",
+    "focusColorCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionBGCSSVar": "--on-canvas-ui-widget-selection",
+    "selectionColorCSSVar": "--on-canvas-ui-widget-focus"
+  },
+  "onTextChange": "",
+  "originalBottomRow": 34,
+  "originalTopRow": 6,
+  "parentColumnSpace": 12.3125,
+  "parentId": "opubpn01wa",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 44,
+  "searchTags": [
+    "input",
+    "rte"
+  ],
+  "tags": [
+    "Inputs"
+  ],
+  "thumbnailSVG": "/static/media/thumbnail.b19d2640527b6f3fd53fe51eb20774d0.svg",
+  "topRow": 4,
+  "type": "RICH_TEXT_EDITOR_WIDGET",
+  "version": 1,
+  "widgetId": "pzsz0bay8r",
+  "widgetName": "rte_Comment"
+}

@@ -1,0 +1,74 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 18,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( tasks.selectedTask ? tasks.selectedTask.status: in_progress))(sel_TaskStatus.options, sel_TaskStatus.serverSideFiltering) }}",
+  "displayName": "Select",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "7edlq6wt3w",
+  "labelAlignment": "left",
+  "labelPosition": "Left",
+  "labelText": "Статус",
+  "labelTextSize": "0.875rem",
+  "labelWidth": "13",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 10,
+  "mobileRightColumn": 30,
+  "mobileTopRow": 35,
+  "optionLabel": "name",
+  "optionValue": "code",
+  "originalBottomRow": 19,
+  "originalTopRow": 15,
+  "parentColumnSpace": 6.9375,
+  "parentId": "zne97i1g3e",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите приоритет",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 32,
+  "searchTags": [
+    "dropdown"
+  ],
+  "serverSideFiltering": false,
+  "sourceData": "[\n  {\n    \"name\": \"черновик\",\n    \"code\": \"draft\"\n  },\n  {\n    \"name\": \"в работе\",\n    \"code\": \"in_progress\"\n  },\n  {\n    \"name\": \"выполнена\",\n    \"code\": \"completed\"\n  }\n]",
+  "tags": [
+    "Suggested",
+    "Select"
+  ],
+  "topRow": 14,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "gja3bcanow",
+  "widgetName": "sel_TaskStatus"
+}

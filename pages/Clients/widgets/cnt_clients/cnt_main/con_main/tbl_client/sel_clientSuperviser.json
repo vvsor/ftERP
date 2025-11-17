@@ -1,0 +1,76 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( clients.selectedClient ? clients.selectedClient.supervisor_id: ''))(sel_clientSuperviser.options, sel_clientSuperviser.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": true,
+  "isVisible": true,
+  "key": "oo3sif2iqb",
+  "labelAlignment": "left",
+  "labelPosition": "Left",
+  "labelText": "Супервайзер:",
+  "labelTextSize": "0.875rem",
+  "labelWidth": "12",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 11,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 18,
+  "mobileTopRow": 4,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{autosave.updateSupervisor();}}",
+  "optionLabel": "{{sel_clientSuperviser.sourceData.map((item) => (item.last_name + ' ' + item.first_name))}}",
+  "optionValue": "id",
+  "parentColumnSpace": 8.373046875,
+  "parentId": "f4biyd68hs",
+  "parentRowSpace": 10,
+  "placeholderText": "",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 40,
+  "serverSideFiltering": false,
+  "sourceData": "{{utils.GetUsersOfficeTerms.data}}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "5bts2vnfiy",
+  "widgetName": "sel_clientSuperviser"
+}

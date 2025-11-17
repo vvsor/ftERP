@@ -1,0 +1,33 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_635ef7fc-2e5b-4562-a2cd-6b14905c06f9",
+  "unpublishedPage": {
+    "customSlug": "calculator",
+    "isHidden": true,
+    "layouts": [
+      {
+        "dsl": {
+          "backgroundColor": "none",
+          "bottomRow": 390.0,
+          "canExtend": true,
+          "containerStyle": "none",
+          "detachFromLayout": true,
+          "dynamicBindingPathList": [],
+          "leftColumn": 0.0,
+          "minHeight": 820.0,
+          "parentColumnSpace": 1.0,
+          "parentRowSpace": 1.0,
+          "rightColumn": 1224.0,
+          "snapColumns": 64.0,
+          "snapRows": 80.0,
+          "topRow": 0.0,
+          "type": "CANVAS_WIDGET",
+          "version": 94.0,
+          "widgetId": "0",
+          "widgetName": "MainContainer"
+        }
+      }
+    ],
+    "name": "Calculator",
+    "slug": "calculator"
+  }
+}

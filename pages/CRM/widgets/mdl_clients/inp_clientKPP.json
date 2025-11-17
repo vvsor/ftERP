@@ -1,0 +1,63 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 52,
+  "boxShadow": "none",
+  "defaultText": "231101002",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "validation"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [],
+  "errorMessage": "КПП должно содержать 9 цифр",
+  "iconAlign": "left",
+  "inputType": "TEXT",
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "77agjnd5fc",
+  "label": "КПП",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 10,
+  "maxChars": "9",
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 54,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 18,
+  "mobileTopRow": 47,
+  "needsErrorInfo": false,
+  "originalBottomRow": 52,
+  "originalTopRow": 48,
+  "parentColumnSpace": 14.9375,
+  "parentId": "sx0vhdqd95",
+  "parentRowSpace": 10,
+  "regex": "^\\d{9}$",
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 20,
+  "showStepArrows": false,
+  "topRow": 48,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "{{inp_clientKPP.text.length == 9}}",
+  "version": 2,
+  "widgetId": "iadp0n459k",
+  "widgetName": "inp_clientKPP"
+}

@@ -1,0 +1,62 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 42,
+  "boxShadow": "none",
+  "defaultText": "{{appsmith.store.user.email}}",
+  "displayName": "Input",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [],
+  "hideCard": false,
+  "iconAlign": "left",
+  "iconSVG": "/static/media/icon.9f505595da61a34f563dba82adeb06ec.svg",
+  "inputType": "EMAIL",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": true,
+  "isVisible": true,
+  "key": "2use2p5sva",
+  "label": "Email",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "originalBottomRow": 33,
+  "originalTopRow": 25,
+  "parentColumnSpace": 18.1875,
+  "parentId": "266885u91y",
+  "parentRowSpace": 10,
+  "placeholderText": "       Введите email",
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "rightColumn": 57,
+  "searchTags": [
+    "form",
+    "text input",
+    "number",
+    "textarea"
+  ],
+  "topRow": 34,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "wvoo0p3ekr",
+  "widgetName": "inp_email"
+}

@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_8733aa2f-17ad-42ce-98a3-dbf3e0bb83c5",
+  "id": "Clients_autosave",
+  "unpublishedCollection": {
+    "name": "autosave",
+    "pageId": "Clients",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "debouncedSaveDescription",
+        "value": "null"
+      },
+      {
+        "name": "debouncedSaveName",
+        "value": "null"
+      }
+    ]
+  }
+}

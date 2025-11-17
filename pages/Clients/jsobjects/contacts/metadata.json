@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_89ded1e3-331c-47d8-8733-fe4e8c48f57c",
+  "id": "Clients_contacts",
+  "unpublishedCollection": {
+    "name": "contacts",
+    "pageId": "Clients",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "selectedContact",
+        "value": "undefined"
+      },
+      {
+        "name": "savedContactId",
+        "value": "undefined"
+      }
+    ]
+  }
+}

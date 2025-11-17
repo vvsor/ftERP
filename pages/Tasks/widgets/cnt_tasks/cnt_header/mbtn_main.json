@@ -1,0 +1,83 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "configureMenuItems": {
+    "config": {
+      "id": "config",
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Menu Item"
+    },
+    "id": "config",
+    "label": "Configure menu items"
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "menuColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "menuItems.menuItem3.onClick"
+    },
+    {
+      "key": "menuItems.menuItem2.onClick"
+    }
+  ],
+  "iconAlign": "left",
+  "iconName": "menu",
+  "isCompact": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "o2kna0hd2j",
+  "label": "Меню",
+  "leftColumn": 58,
+  "menuColor": "{{appsmith.theme.colors.primaryColor}}",
+  "menuItems": {
+    "menuItem2": {
+      "iconName": "person",
+      "id": "menuItem2",
+      "index": 0,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "ЛК",
+      "onClick": "{{navigateTo('Profie', {}, 'SAME_WINDOW');}}",
+      "widgetId": ""
+    },
+    "menuItem3": {
+      "iconName": "log-out",
+      "id": "menuItem3",
+      "index": 1,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Выйти",
+      "onClick": "{{auth.logout();}}",
+      "widgetId": ""
+    }
+  },
+  "menuItemsSource": "STATIC",
+  "menuVariant": "TERTIARY",
+  "mobileBottomRow": 8,
+  "mobileLeftColumn": 44,
+  "mobileRightColumn": 60,
+  "mobileTopRow": 4,
+  "needsErrorInfo": false,
+  "parentColumnSpace": 17.25,
+  "parentId": "7h0i63z2vy",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "renderMode": "CANVAS",
+  "rightColumn": 64,
+  "sourceData": [],
+  "topRow": 0,
+  "type": "MENU_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "3953mfvdsn",
+  "widgetName": "mbtn_main"
+}

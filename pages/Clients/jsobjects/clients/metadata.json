@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "66959955819ac61979db6c71_abb6da86-b293-4c79-bd7e-2b9eb7f723de",
+  "id": "Clients_clients",
+  "unpublishedCollection": {
+    "name": "clients",
+    "pageId": "Clients",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "selectedClient",
+        "value": "undefined"
+      },
+      {
+        "name": "savedClientId",
+        "value": "undefined"
+      }
+    ]
+  }
+}

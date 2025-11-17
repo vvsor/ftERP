@@ -1,0 +1,58 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "dynamicBindingPathList": [
+    {
+      "key": "text"
+    },
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "0.875rem",
+  "fontStyle": "",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "4upiqla0d3",
+  "leftColumn": 24,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 8,
+  "mobileLeftColumn": 16,
+  "mobileRightColumn": 24,
+  "mobileTopRow": 4,
+  "needsErrorInfo": false,
+  "originalBottomRow": 50,
+  "originalTopRow": 46,
+  "overflow": "NONE",
+  "parentId": "opubpn01wa",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 41,
+  "shouldTruncate": false,
+  "text": "Дата: <b> {{ appsmith.store.editingComment?.id ?moment(appsmith.store.editingComment.date_created).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:mm\" ): moment(new Date()).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:mm\" )\n}}</b>",
+  "textAlign": "LEFT",
+  "textColor": "#231F20",
+  "textStyle": "BODY",
+  "topRow": 0,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "l5rh1i6vhk",
+  "widgetName": "txt_commentDateCopy"
+}
