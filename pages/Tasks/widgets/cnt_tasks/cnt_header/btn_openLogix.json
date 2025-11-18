@@ -46,7 +46,7 @@
   },
   "onClick": "{{navigateTo('https://work.fastrans.ru/', {}, 'NEW_WINDOW');}}",
   "parentColumnSpace": 17.3125,
-  "parentId": "7h0i63z2vy",
+  "parentId": "au1rm2q82e",
   "parentRowSpace": 10,
   "placement": "CENTER",
   "recaptchaType": "V3",
@@ -66,6 +66,6 @@
   "topRow": 0,
   "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "t6g22jga8v",
+  "widgetId": "lkf9fzv1if",
   "widgetName": "btn_openLogix"
 }

@@ -46,7 +46,7 @@
       "noPad": true,
       "openParentPropertyPane": true,
       "parentColumnSpace": 1,
-      "parentId": "vi6ck8q0ui",
+      "parentId": "jvsl3yd50q",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -54,7 +54,7 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "u6gqp6srqd",
+      "widgetId": "qyeazmp598",
       "widgetName": "cnv_files"
     }
   ],
@@ -104,8 +104,8 @@
   "key": "zze7r944oz",
   "leftColumn": 0,
   "listData": "{{ Array.isArray(files.getTaskFiles.data) && files.getTaskFiles.data.length > 0 ? files.getTaskFiles.data : \n[\n  {\n    \"id\": \"\",\n    \"filesize\": \"\",\n    \"filename_download\": \"\"\n  }\n]\n}}",
-  "mainCanvasId": "u6gqp6srqd",
-  "mainContainerId": "hwf7c25ao7",
+  "mainCanvasId": "qyeazmp598",
+  "mainContainerId": "yd3ceugdc8",
   "minWidth": 450,
   "mobileBottomRow": 39,
   "mobileLeftColumn": 1,
@@ -115,7 +115,7 @@
   "onItemClick": "",
   "pageSize": 8,
   "parentColumnSpace": 8.15625,
-  "parentId": "1hfqlq8ra2",
+  "parentId": "6lhs3k6oor",
   "parentRowSpace": 10,
   "primaryKeys": "{{lst_task_files.listData.map((currentItem, currentIndex) => currentItem[\"id\"] )}}",
   "renderMode": "CANVAS",
@@ -127,6 +127,6 @@
   "topRow": 0,
   "triggeredItemView": "{{{}}}",
   "type": "LIST_WIDGET_V2",
-  "widgetId": "vi6ck8q0ui",
+  "widgetId": "jvsl3yd50q",
   "widgetName": "lst_task_files"
 }

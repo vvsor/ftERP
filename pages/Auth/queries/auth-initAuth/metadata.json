@@ -25,7 +25,7 @@
     "fullyQualifiedName": "auth.initAuth",
     "name": "initAuth",
     "pageId": "Auth",
-    "runBehaviour": "MANUAL",
+    "runBehaviour": "ON_PAGE_LOAD",
     "userSetOnLoad": true
   }
 }

@@ -6,15 +6,6 @@
     "pageId": "Tasks",
     "pluginId": "js-plugin",
     "pluginType": "JS",
-    "variables": [
-      {
-        "name": "curAuditorsIds",
-        "value": "undefined"
-      },
-      {
-        "name": "curParticipantsIds",
-        "value": "undefined"
-      }
-    ]
+    "variables": []
   }
 }

@@ -2,7 +2,7 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 20,
+  "bottomRow": 31,
   "boxShadow": "none",
   "closeOnSelection": true,
   "dateFormat": "{{ appsmith.store.selectedTask?.id ? moment(appsmith.store.selectedTask.deadline).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:mm\") : \"\"\n}}",
@@ -73,7 +73,7 @@
     "Inputs"
   ],
   "timePrecision": "minute",
-  "topRow": 16,
+  "topRow": 27,
   "type": "DATE_PICKER_WIDGET2",
   "version": 2,
   "widgetId": "ywp9s6kotx",

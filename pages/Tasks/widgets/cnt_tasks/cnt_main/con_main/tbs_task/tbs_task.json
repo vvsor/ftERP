@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": 1,
-  "bottomRow": 83,
+  "bottomRow": 84,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "children": [
     {
@@ -40,7 +40,7 @@
       "mobileTopRow": 0,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "4jc11uxkfa",
+      "parentId": "trje7fe3vv",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -51,7 +51,7 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "gghh0ceds2",
+      "widgetId": "zrkhppyzjo",
       "widgetName": "Canvas17"
     },
     {
@@ -86,7 +86,7 @@
       "mobileTopRow": 0,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "4jc11uxkfa",
+      "parentId": "trje7fe3vv",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -97,7 +97,7 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "ts4mag5twz",
+      "widgetId": "1uk4gqbbbm",
       "widgetName": "Canvas18"
     },
     {
@@ -132,7 +132,7 @@
       "mobileTopRow": 1,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "4jc11uxkfa",
+      "parentId": "trje7fe3vv",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -142,7 +142,7 @@
       "topRow": 1,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "1hfqlq8ra2",
+      "widgetId": "6lhs3k6oor",
       "widgetName": "Canvas19"
     },
     {
@@ -177,7 +177,7 @@
       "mobileTopRow": 1,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "4jc11uxkfa",
+      "parentId": "trje7fe3vv",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -187,7 +187,7 @@
       "topRow": 1,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "ris5smboqn",
+      "widgetId": "gtilb49s0g",
       "widgetName": "Canvas20"
     }
   ],
@@ -225,10 +225,10 @@
   "mobileTopRow": 12,
   "needsErrorInfo": false,
   "onTabSelected": "{{tasks.tbs_task_onTabSelected();}}",
-  "originalBottomRow": 83,
-  "originalTopRow": 9,
+  "originalBottomRow": 84,
+  "originalTopRow": 10,
   "parentColumnSpace": 8.46875,
-  "parentId": "6e66rd6cwo",
+  "parentId": "3xk8hhj43y",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -242,7 +242,7 @@
       "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Файлы",
-      "widgetId": "1hfqlq8ra2"
+      "widgetId": "6lhs3k6oor"
     },
     "tab1": {
       "id": "tab1",
@@ -251,7 +251,7 @@
       "isVisible": true,
       "label": "Комментарии",
       "positioning": "vertical",
-      "widgetId": "gghh0ceds2"
+      "widgetId": "zrkhppyzjo"
     },
     "tab2": {
       "id": "tab2",
@@ -260,7 +260,7 @@
       "isVisible": true,
       "label": "Логи",
       "positioning": "vertical",
-      "widgetId": "ts4mag5twz"
+      "widgetId": "1uk4gqbbbm"
     },
     "taboll5s3t77q": {
       "id": "taboll5s3t77q",
@@ -268,12 +268,12 @@
       "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Описание",
-      "widgetId": "ris5smboqn"
+      "widgetId": "gtilb49s0g"
     }
   },
-  "topRow": 9,
+  "topRow": 10,
   "type": "TABS_WIDGET",
   "version": 3,
-  "widgetId": "4jc11uxkfa",
+  "widgetId": "trje7fe3vv",
   "widgetName": "tbs_task"
 }

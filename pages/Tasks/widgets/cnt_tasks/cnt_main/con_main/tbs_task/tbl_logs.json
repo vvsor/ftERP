@@ -114,7 +114,7 @@
   "mobileTopRow": 0,
   "needsErrorInfo": false,
   "parentColumnSpace": 8.15625,
-  "parentId": "ts4mag5twz",
+  "parentId": "1uk4gqbbbm",
   "parentRowSpace": 10,
   "primaryColumns": {
     "action": {
@@ -369,6 +369,6 @@
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",
-  "widgetId": "8ldvlo1eh9",
+  "widgetId": "xmkhu5l0t6",
   "widgetName": "tbl_logs"
 }

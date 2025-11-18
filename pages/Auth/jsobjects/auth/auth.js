@@ -10,7 +10,6 @@ export default {
 	/// ============== end of test block ===============
 
 	logout: async () => {
-		showAlert('Почему-то выход...', 'error');
 		if (!appsmith.store?.user?.token){
 			auth.setDefaultTab('Sign In');
 			return;
@@ -40,8 +39,6 @@ export default {
 	},
 
 	initAuth: async () => {
-		await new Promise(r => setTimeout(r, 2000));
-
 		const user = appsmith.store?.user;
 
 		if (!user || !user.token) {
@@ -76,9 +73,7 @@ export default {
 				tgchannelusername
 			}, true);
 
-			await new Promise(r => setTimeout(r, 200));
-			// showAlert('Успешный вход', 'success');
-			// navigateTo('Tasks');
+			showAlert('Успешный вход', 'success');
 			await audit.addAuditAction({action: 'logged_in'});
 
 			auth.setDefaultTab('Logged In');

@@ -2,7 +2,7 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "alignWidget": "LEFT",
   "animateLoading": true,
-  "bottomRow": 4,
+  "bottomRow": 5,
   "boxShadow": "none",
   "defaultSwitchState": "{{tasks.selectedItem ? tasks.selectedItem.unread : false}}",
   "dynamicBindingPathList": [
@@ -45,10 +45,10 @@
   "mobileTopRow": 0,
   "needsErrorInfo": false,
   "onChange": "{{tasks.sw_unreadTask_onChange();}}",
-  "originalBottomRow": 4,
+  "originalBottomRow": 5,
   "originalTopRow": 0,
   "parentColumnSpace": 8.46875,
-  "parentId": "6e66rd6cwo",
+  "parentId": "3xk8hhj43y",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -56,6 +56,6 @@
   "topRow": 0,
   "type": "SWITCH_WIDGET",
   "version": 1,
-  "widgetId": "jhnpxm1b14",
+  "widgetId": "ganxa92b6a",
   "widgetName": "sw_unreadTask"
 }

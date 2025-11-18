@@ -1,15 +1,5 @@
 export default {
 	// Tasks' js object
-	curAuditorsIds: undefined, // current Auditors ids
-	curParticipantsIds: undefined,// current Participants ids
-
-	/// ================== test block ==================
-
-	// async Test(){		
-	// console.log("appsmith.store.selectedTask: ", appsmith.store.selectedTask);
-	// },
-	/// ============== end of test block ===============
-
 	setSelectedTask(task){
 		storeValue("selectedTask", task, true);
 		removeValue("savedTaskID");
@@ -26,7 +16,6 @@ export default {
 	},
 
 	async initTasks(){
-		await new Promise(r => setTimeout(r, 2000));
 		const user = appsmith.store?.user;
 
 		// если операция восстановления ещё не завершена — просто не уходить на Auth
@@ -213,8 +202,8 @@ export default {
 				}
 			};
 
-			processRelation(sel_TaskAuditors, this.curAuditorsIds, "tasks_auditors");
-			processRelation(sel_TaskParticipants, this.curParticipantsIds, "tasks_participants");
+			processRelation(sel_TaskAuditors, appsmith.store.curAuditorsIds || [], "tasks_auditors");
+			processRelation(sel_TaskParticipants, appsmith.store.curParticipantsIds || [], "tasks_participants");
 
 			if (updates.length) await Promise.all(updates);
 
@@ -232,7 +221,8 @@ export default {
 			this.tbs_task_onTabSelected();
 			closeModal(mdl_addEditTask.name);
 			await audit.addAuditAction({action: 'task_edit', taskId: taskId});
-
+			await storeValue("curAuditorsIds", undefined, true);
+			await storeValue("curParticipantsIds", undefined, true);
 			showAlert('Задача обновлена!', 'success');
 		} catch (error) {
 			console.error("Error in task updating:", error);
@@ -240,6 +230,14 @@ export default {
 			throw error;
 		}
 	},
+
+	/// ================== test block ==================
+
+	// async Test(){
+	// // const task = appsmith.store.selectedTask;
+	// console.log("this.curAuditorsIds: ", this.curAuditorsIds);
+	// },
+	/// ============== end of test block ===============
 
 	saveSelectedTask(){
 		const savedTaskID = appsmith.store.savedTaskID;
@@ -479,18 +477,23 @@ export default {
 		const task = appsmith.store.selectedTask;
 		if (!task?.id)
 		{
-			showAlert('Успешный выход', 'success');
+			showAlert('Редактирование задачи, в то время как она не выбрана...', 'success');
 			return
 		}
 		utils.getStatusesOfProcess();
-		this.curAuditorsIds=task.auditor_ids.map(item => item.directus_users_id.id);
-		this.curParticipantsIds=task.participant_ids.map(item => item.directus_users_id.id);
-		showModal(mdl_addEditTask.name);		
+
+		// current Auditors ids
+		storeValue("curAuditorsIds", task.auditor_ids.map(i => i.directus_users_id.id), true); 
+		// current Participants ids
+		storeValue("curParticipantsIds", task.participant_ids.map(i => i.directus_users_id.id), true);
+		showModal(mdl_addEditTask.name);
 	},
 
-	btn_closeAddEditTaskModal_onClick() {
+	async btn_closeAddEditTaskModal_onClick() {
 		// restore focus on last task if editing was cancelled
-		this.restoreSavedTaskSelection();
+		await this.restoreSavedTaskSelection();
+		await storeValue("curAuditorsIds", undefined, true);
+		await storeValue("curParticipantsIds", undefined, true);
 		closeModal(mdl_addEditTask.name);
 	}
 

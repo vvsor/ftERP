@@ -2,7 +2,7 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 36,
+  "bottomRow": 47,
   "boxShadow": "none",
   "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.auditor_ids.map(item => item.directus_users_id.id): ''))(sel_TaskAuditors.options, sel_TaskAuditors.serverSideFiltering) }}",
   "dynamicBindingPathList": [
@@ -84,7 +84,7 @@
   "rightColumn": 29,
   "serverSideFiltering": false,
   "sourceData": "{{utils.getUsersOfficeTerms.data}}",
-  "topRow": 29,
+  "topRow": 40,
   "type": "MULTI_SELECT_WIDGET_V2",
   "version": 1,
   "widgetId": "einjk9862a",

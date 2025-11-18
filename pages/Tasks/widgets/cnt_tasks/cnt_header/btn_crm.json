@@ -35,7 +35,7 @@
   "needsErrorInfo": false,
   "onClick": "{{navigateTo('CRM', {}, 'SAME_WINDOW');}}",
   "parentColumnSpace": 17.5625,
-  "parentId": "7h0i63z2vy",
+  "parentId": "au1rm2q82e",
   "parentRowSpace": 10,
   "placement": "CENTER",
   "recaptchaType": "V3",
@@ -47,6 +47,6 @@
   "topRow": 0,
   "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "zdhuhaol08",
+  "widgetId": "xo7wesd2kd",
   "widgetName": "btn_crm"
 }

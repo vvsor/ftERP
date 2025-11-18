@@ -47,7 +47,7 @@
       "noPad": true,
       "openParentPropertyPane": true,
       "parentColumnSpace": 1,
-      "parentId": "3u0a3eng19",
+      "parentId": "suqgvzto9t",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -55,7 +55,7 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "qt3n6qyk6s",
+      "widgetId": "aggqp21fxm",
       "widgetName": "cnv_taskComments"
     }
   ],
@@ -112,8 +112,8 @@
   "key": "p1no5uynro",
   "leftColumn": 0,
   "listData": "{{ comments.getTaskComments.data.length > 0 ? comments.getTaskComments.data : []\n\n}}",
-  "mainCanvasId": "qt3n6qyk6s",
-  "mainContainerId": "boaz35q36p",
+  "mainCanvasId": "aggqp21fxm",
+  "mainContainerId": "n3qpxwyupf",
   "minWidth": 450,
   "mobileBottomRow": 5,
   "mobileLeftColumn": 14,
@@ -125,7 +125,7 @@
   "originalTopRow": 4,
   "pageSize": 4,
   "parentColumnSpace": 8.15625,
-  "parentId": "gghh0ceds2",
+  "parentId": "zrkhppyzjo",
   "parentRowSpace": 10,
   "primaryKeys": "{{lst_taskComments.listData.map((currentItem, currentIndex) => currentItem[\"id\"] )}}",
   "renderMode": "CANVAS",
@@ -138,6 +138,6 @@
   "topRowBeforeCollapse": 4,
   "triggeredItemView": "{{{}}}",
   "type": "LIST_WIDGET_V2",
-  "widgetId": "3u0a3eng19",
+  "widgetId": "suqgvzto9t",
   "widgetName": "lst_taskComments"
 }

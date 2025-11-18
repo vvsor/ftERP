@@ -2,7 +2,7 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 20,
+  "bottomRow": 31,
   "boxShadow": "none",
   "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.status_id.id: 2))(sel_TaskStatus.options, sel_TaskStatus.serverSideFiltering) }}",
   "displayName": "Select",
@@ -69,7 +69,7 @@
     "Suggested",
     "Select"
   ],
-  "topRow": 16,
+  "topRow": 27,
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "p4arlf24is",
