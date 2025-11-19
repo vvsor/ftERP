@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 68,
+  "bottomRow": 57,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonStyle": "PRIMARY",
@@ -36,8 +36,8 @@
   "mobileRightColumn": 47,
   "mobileTopRow": 18,
   "onClick": "{{tasks.btn_closeAddEditTaskModal_onClick();}}",
-  "originalBottomRow": 57,
-  "originalTopRow": 53,
+  "originalBottomRow": 68,
+  "originalTopRow": 64,
   "parentId": "9jhq4tliqp",
   "placement": "CENTER",
   "recaptchaType": "V3",
@@ -53,7 +53,7 @@
     "Buttons"
   ],
   "text": "Закрыть",
-  "topRow": 64,
+  "topRow": 53,
   "type": "BUTTON_WIDGET",
   "version": 1,
   "widgetId": "14wmtkahom",

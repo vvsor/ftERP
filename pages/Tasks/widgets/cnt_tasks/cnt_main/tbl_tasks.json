@@ -48,7 +48,7 @@
     "project_id",
     "task_priority_id"
   ],
-  "columnUpdatedAt": 1763475425186,
+  "columnUpdatedAt": 1763575182807,
   "columnWidthMap": {
     "customColumn1": 66.00000000000001,
     "deadline": 136,
@@ -92,9 +92,6 @@
       "key": "primaryColumns.unreadInfo.computedValue"
     },
     {
-      "key": "primaryColumns.unread.cellBackground"
-    },
-    {
       "key": "primaryColumns.auditor_ids.computedValue"
     },
     {
@@ -126,6 +123,24 @@
     },
     {
       "key": "primaryColumns.task_priority_id.computedValue"
+    },
+    {
+      "key": "primaryColumns.unread.cellBackground"
+    },
+    {
+      "key": "primaryColumns.title.cellBackground"
+    },
+    {
+      "key": "primaryColumns.deadline.cellBackground"
+    },
+    {
+      "key": "primaryColumns.status_id.cellBackground"
+    },
+    {
+      "key": "primaryColumns.assigner.cellBackground"
+    },
+    {
+      "key": "primaryColumns.assignee.cellBackground"
     }
   ],
   "dynamicPropertyPathList": [
@@ -133,10 +148,25 @@
       "key": "primaryColumns.deadline.outputFormat"
     },
     {
+      "key": "tableData"
+    },
+    {
       "key": "primaryColumns.unread.cellBackground"
     },
     {
-      "key": "tableData"
+      "key": "primaryColumns.title.cellBackground"
+    },
+    {
+      "key": "primaryColumns.deadline.cellBackground"
+    },
+    {
+      "key": "primaryColumns.status_id.cellBackground"
+    },
+    {
+      "key": "primaryColumns.assigner.cellBackground"
+    },
+    {
+      "key": "primaryColumns.assignee.cellBackground"
     }
   ],
   "dynamicTriggerPathList": [
@@ -166,8 +196,8 @@
   "multiRowSelection": false,
   "needsErrorInfo": false,
   "onRowSelected": "{{tasks.tbl_tasks_onRowSelected();}}",
-  "originalBottomRow": 70,
-  "originalTopRow": 5,
+  "originalBottomRow": 69,
+  "originalTopRow": 4,
   "parentColumnSpace": 17.9375,
   "parentId": "l0j4th5och",
   "parentRowSpace": 10,
@@ -177,7 +207,7 @@
       "alias": "assignee",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
+      "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#fef9c3\": \"\")) : currentRow.unread ? \"#fef9c3\": \"\" })()}}",
       "columnType": "text",
       "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"assignee\"].last_name + ' '+ currentRow[\"assignee\"].first_name.slice(0,1) + '.')) : currentRow[\"assignee\"].last_name + ' '+ currentRow[\"assignee\"].first_name.slice(0,1) + '.' })()}}",
       "currencyCode": "USD",
@@ -211,7 +241,7 @@
       "alias": "assigner",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
+      "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#fef9c3\": \"\")) : currentRow.unread ? \"#fef9c3\": \"\" })()}}",
       "columnType": "text",
       "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"assigner\"].last_name + ' '+ currentRow[\"assigner\"].first_name.slice(0,1) + '.')) : currentRow[\"assigner\"].last_name + ' '+ currentRow[\"assigner\"].first_name.slice(0,1) + '.' })()}}",
       "currencyCode": "USD",
@@ -279,7 +309,7 @@
       "alias": "deadline",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
+      "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#fef9c3\": \"\")) : currentRow.unread ? \"#fef9c3\": \"\" })()}}",
       "columnType": "date",
       "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deadline\"])) : currentRow[\"deadline\"] })()}}",
       "currencyCode": "USD",
@@ -514,7 +544,7 @@
       "alias": "status_id",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
+      "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#fef9c3\": \"\")) : currentRow.unread ? \"#fef9c3\": \"\" })()}}",
       "columnType": "text",
       "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( currentRow.status_id?.name || \"\" )) :  currentRow.status_id?.name || \"\"  })()}}",
       "currencyCode": "USD",
@@ -582,7 +612,7 @@
       "alias": "title",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
+      "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#fef9c3\": \"\")) : currentRow.unread ? \"#fef9c3\": \"\" })()}}",
       "columnType": "text",
       "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (`${currentRow.title} (${currentRow.id})`)) : `${currentRow.title} (${currentRow.id})` })()}}",
       "currencyCode": "USD",
@@ -615,7 +645,7 @@
       "alias": "unread",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "{{tbl_tasks.processedTableData.map((currentRow, currentIndex) => ( currentRow.unread? \"red\" : \"\"))}}",
+      "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#F7F7F7\" : \"white\" )) : currentRow.unread ? \"#F7F7F7\" : \"white\"  })()}}",
       "columnType": "switch",
       "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ?  currentRow[\"unread\"] : \"\")) : currentRow.unread ?  currentRow[\"unread\"] : \"\" })()}}",
       "currencyCode": "USD",
@@ -633,8 +663,8 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
-      "label": "!",
+      "isVisible": false,
+      "label": "",
       "notation": "standard",
       "originalId": "unread",
       "sticky": "left",

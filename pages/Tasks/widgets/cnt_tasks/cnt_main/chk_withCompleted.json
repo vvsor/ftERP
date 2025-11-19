@@ -36,7 +36,7 @@
   "mobileTopRow": 5,
   "needsErrorInfo": false,
   "onCheckChange": "{{tasks.getTasks();}}",
-  "originalBottomRow": 5,
+  "originalBottomRow": 4,
   "originalTopRow": 0,
   "parentColumnSpace": 17.5625,
   "parentId": "l0j4th5och",

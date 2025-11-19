@@ -225,7 +225,7 @@
   "mobileTopRow": 12,
   "needsErrorInfo": false,
   "onTabSelected": "{{tasks.tbs_task_onTabSelected();}}",
-  "originalBottomRow": 68,
+  "originalBottomRow": 83,
   "originalTopRow": 9,
   "parentColumnSpace": 8.46875,
   "parentId": "3xk8hhj43y",

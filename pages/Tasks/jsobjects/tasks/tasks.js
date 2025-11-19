@@ -76,7 +76,7 @@ export default {
 				assigner: sel_TaskAssigner.selectedOptionValue,
 				assignee: sel_TaskAssignee.selectedOptionValue,
 				description: inp_TaskComment.text,
-				user_created: appsmith.store.user.id
+				author_id: appsmith.store.user.id
 			};
 
 			const params = {
@@ -157,12 +157,11 @@ export default {
 				['process_id', sel_TaskProcess, 'selectedOptionValue'],
 				['assigner', sel_TaskAssigner, 'selectedOptionValue'],
 				['assignee', sel_TaskAssignee, 'selectedOptionValue'],
-				['description', inp_TaskComment],
-				['user_updated', appsmith.store.user.id],
+				['description', inp_TaskComment]
 			].forEach(([key, widget, valueKey]) => addIfDirty(data, key, widget, valueKey));
 
 			// Always update
-			data.user_updated = appsmith.store.user.id;
+			data.editor_id = appsmith.store.user.id;
 			
 			const body = {
 				keys: [taskId],
