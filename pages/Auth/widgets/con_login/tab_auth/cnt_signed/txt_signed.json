@@ -39,7 +39,7 @@
     "label"
   ],
   "shouldTruncate": false,
-  "text": "{{`Вы авторизованы как ${utils.formatUserName(appsmith.store.user)}, ${appsmith.store.user.email}`}}",
+  "text": "{{appsmith.store?.user ? `Вы авторизованы как ${utils.formatUserName(appsmith.store?.user)}, ${appsmith.store.user?.email}` : `Вы неавторизованы.`}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 6,

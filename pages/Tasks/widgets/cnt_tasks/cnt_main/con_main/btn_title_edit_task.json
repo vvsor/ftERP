@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 10,
+  "bottomRow": 9,
   "boxShadow": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
   "buttonColor": "#3f3f46",
   "buttonVariant": "SECONDARY",
@@ -46,7 +46,7 @@
   "responsiveBehavior": "hug",
   "rightColumn": 63,
   "text": "{{appsmith.store.selectedTask?.id ? `${appsmith.store.selectedTask.title} (${appsmith.store.selectedTask.id})` : \"\"}}",
-  "topRow": 6,
+  "topRow": 5,
   "type": "BUTTON_WIDGET",
   "version": 1,
   "widgetId": "2spwy41azq",

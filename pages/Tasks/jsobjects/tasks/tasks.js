@@ -55,6 +55,15 @@ export default {
 		}
 	},
 
+		/// ================== test block ==================
+
+	async Test(){
+	// const task = appsmith.store.selectedTask;
+	console.log("this.curAuditorsIds: ", appsmith.store.user);
+	},
+	/// ============== end of test block ===============
+
+	
 	async addTask(){
 		try {
 			const body = {
@@ -67,6 +76,7 @@ export default {
 				assigner: sel_TaskAssigner.selectedOptionValue,
 				assignee: sel_TaskAssignee.selectedOptionValue,
 				description: inp_TaskComment.text,
+				user_created: appsmith.store.user.id
 			};
 
 			const params = {
@@ -75,7 +85,7 @@ export default {
 			};
 
 			// 1. Create main task
-			showAlert('Создаем задачу...', 'success');
+			showAlert('Создаем задачу...', 'info');
 			const newTask = await items.createItems(params);
 			const taskId = newTask.data.id;
 
@@ -147,12 +157,13 @@ export default {
 				['process_id', sel_TaskProcess, 'selectedOptionValue'],
 				['assigner', sel_TaskAssigner, 'selectedOptionValue'],
 				['assignee', sel_TaskAssignee, 'selectedOptionValue'],
-				['description', inp_TaskComment]
+				['description', inp_TaskComment],
+				['user_updated', appsmith.store.user.id],
 			].forEach(([key, widget, valueKey]) => addIfDirty(data, key, widget, valueKey));
 
-			// Always update date_updated
-			data.date_updated = new Date().toISOString();
-
+			// Always update
+			data.user_updated = appsmith.store.user.id;
+			
 			const body = {
 				keys: [taskId],
 				data
@@ -230,14 +241,6 @@ export default {
 			throw error;
 		}
 	},
-
-	/// ================== test block ==================
-
-	// async Test(){
-	// // const task = appsmith.store.selectedTask;
-	// console.log("this.curAuditorsIds: ", this.curAuditorsIds);
-	// },
-	/// ============== end of test block ===============
 
 	saveSelectedTask(){
 		const savedTaskID = appsmith.store.savedTaskID;

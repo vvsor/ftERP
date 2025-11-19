@@ -2,9 +2,9 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "alignWidget": "LEFT",
   "animateLoading": true,
-  "bottomRow": 5,
+  "bottomRow": 4,
   "boxShadow": "none",
-  "defaultSwitchState": "{{tasks.selectedItem ? tasks.selectedItem.unread : false}}",
+  "defaultSwitchState": "{{appsmith.store.selectedTask ? appsmith.store.selectedTask.unread : false}}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -30,7 +30,7 @@
       "key": "onChange"
     }
   ],
-  "isDisabled": "{{tasks.selectedItem ? (tasks.selectedItem.unread ? false : true) : false}}",
+  "isDisabled": "{{appsmith.store.selectedTask ? (appsmith.store.selectedTask ? false : true) : false}}",
   "isLoading": false,
   "isVisible": true,
   "key": "6rdngyenme",
