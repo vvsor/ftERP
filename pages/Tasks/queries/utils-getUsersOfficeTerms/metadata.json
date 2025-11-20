@@ -25,7 +25,7 @@
     "fullyQualifiedName": "utils.getUsersOfficeTerms",
     "name": "getUsersOfficeTerms",
     "pageId": "Tasks",
-    "runBehaviour": "MANUAL",
+    "runBehaviour": "AUTOMATIC",
     "userSetOnLoad": false
   }
 }

@@ -25,7 +25,7 @@
     "fullyQualifiedName": "utils.getTaskPriorities",
     "name": "getTaskPriorities",
     "pageId": "Tasks",
-    "runBehaviour": "MANUAL",
+    "runBehaviour": "AUTOMATIC",
     "userSetOnLoad": false
   }
 }

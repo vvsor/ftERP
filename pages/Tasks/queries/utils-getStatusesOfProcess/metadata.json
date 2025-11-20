@@ -29,7 +29,7 @@
     "fullyQualifiedName": "utils.getStatusesOfProcess",
     "name": "getStatusesOfProcess",
     "pageId": "Tasks",
-    "runBehaviour": "MANUAL",
+    "runBehaviour": "AUTOMATIC",
     "userSetOnLoad": false
   }
 }
