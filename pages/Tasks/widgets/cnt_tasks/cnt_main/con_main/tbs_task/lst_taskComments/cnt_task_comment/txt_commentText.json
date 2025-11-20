@@ -39,7 +39,7 @@
   "mobileTopRow": 4,
   "needsErrorInfo": false,
   "overflow": "SCROLL",
-  "parentId": "71ac7c1y6c",
+  "parentId": "nqtv8g5fp2",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
   "rightColumn": 63,
@@ -52,6 +52,6 @@
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "ohazz04n9p",
+  "widgetId": "piecvx49an",
   "widgetName": "txt_commentText"
 }

@@ -45,9 +45,10 @@
     "id",
     "assigner",
     "assignee",
-    "project_id"
+    "project_id",
+    "task_priority_id"
   ],
-  "columnUpdatedAt": 1763578876527,
+  "columnUpdatedAt": 1763623025825,
   "columnWidthMap": {
     "customColumn1": 66.00000000000001,
     "deadline": 136,
@@ -140,6 +141,9 @@
     },
     {
       "key": "tableData"
+    },
+    {
+      "key": "primaryColumns.task_priority_id.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -198,10 +202,10 @@
   "multiRowSelection": false,
   "needsErrorInfo": false,
   "onRowSelected": "{{tasks.tbl_tasks_onRowSelected();}}",
-  "originalBottomRow": 69,
-  "originalTopRow": 4,
+  "originalBottomRow": 70,
+  "originalTopRow": 5,
   "parentColumnSpace": 17.9375,
-  "parentId": "l0j4th5och",
+  "parentId": "r4kfmnpi08",
   "parentRowSpace": 10,
   "primaryColumnId": "id",
   "primaryColumns": {
@@ -576,6 +580,40 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
+    "task_priority_id": {
+      "alias": "task_priority_id",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"task_priority_id\"])) : task_priority_id })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "task_priority_id",
+      "index": 4,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "task_priority_id",
+      "notation": "standard",
+      "originalId": "task_priority_id",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
     "title": {
       "alias": "title",
       "allowCellWrapping": false,
@@ -691,6 +729,6 @@
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",
-  "widgetId": "wfpx4ijnuh",
+  "widgetId": "tzv48nvwov",
   "widgetName": "tbl_tasks"
 }

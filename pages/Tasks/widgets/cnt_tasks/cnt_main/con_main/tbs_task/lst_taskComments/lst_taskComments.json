@@ -47,7 +47,7 @@
       "noPad": true,
       "openParentPropertyPane": true,
       "parentColumnSpace": 1,
-      "parentId": "suqgvzto9t",
+      "parentId": "revb0qtepg",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -55,7 +55,7 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "aggqp21fxm",
+      "widgetId": "ava4uotu8d",
       "widgetName": "cnv_taskComments"
     }
   ],
@@ -112,8 +112,8 @@
   "key": "p1no5uynro",
   "leftColumn": 0,
   "listData": "{{ Array.isArray(comments.getTaskComments?.data) ? comments.getTaskComments.data : [] }}\n",
-  "mainCanvasId": "aggqp21fxm",
-  "mainContainerId": "n3qpxwyupf",
+  "mainCanvasId": "ava4uotu8d",
+  "mainContainerId": "nq9yl0vyor",
   "minWidth": 450,
   "mobileBottomRow": 5,
   "mobileLeftColumn": 14,
@@ -125,7 +125,7 @@
   "originalTopRow": 4,
   "pageSize": 4,
   "parentColumnSpace": 8.15625,
-  "parentId": "zrkhppyzjo",
+  "parentId": "59co3xl0o6",
   "parentRowSpace": 10,
   "primaryKeys": "{{lst_taskComments.listData.map((currentItem, currentIndex) => currentItem[\"id\"] )}}",
   "renderMode": "CANVAS",
@@ -138,6 +138,6 @@
   "topRowBeforeCollapse": 4,
   "triggeredItemView": "{{{}}}",
   "type": "LIST_WIDGET_V2",
-  "widgetId": "suqgvzto9t",
+  "widgetId": "revb0qtepg",
   "widgetName": "lst_taskComments"
 }

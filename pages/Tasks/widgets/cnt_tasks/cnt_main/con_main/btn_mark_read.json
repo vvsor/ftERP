@@ -38,7 +38,7 @@
   "needsErrorInfo": false,
   "onClick": "{{tasks.btn_readTask_onClick();}}",
   "parentColumnSpace": 8.15625,
-  "parentId": "3xk8hhj43y",
+  "parentId": "podch0sdln",
   "parentRowSpace": 10,
   "placement": "CENTER",
   "recaptchaType": "V3",
@@ -50,6 +50,6 @@
   "topRow": 0,
   "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "myuraqne7p",
+  "widgetId": "tlrex7qnrp",
   "widgetName": "btn_mark_read"
 }

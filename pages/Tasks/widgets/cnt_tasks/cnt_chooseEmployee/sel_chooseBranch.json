@@ -53,10 +53,10 @@
   "onOptionChange": "{{employees.chooseEmployeeControls();}}",
   "optionLabel": "name",
   "optionValue": "id",
-  "originalBottomRow": 11,
-  "originalTopRow": 4,
+  "originalBottomRow": 12,
+  "originalTopRow": 5,
   "parentColumnSpace": 6.9375,
-  "parentId": "pxu9d52zdg",
+  "parentId": "a4aj91z5g9",
   "parentRowSpace": 10,
   "placeholderText": "Выберите...",
   "renderMode": "CANVAS",
@@ -74,6 +74,6 @@
   "topRow": 4,
   "type": "SELECT_WIDGET",
   "version": 1,
-  "widgetId": "isww6njspr",
+  "widgetId": "5br6oywrq5",
   "widgetName": "sel_chooseBranch"
 }

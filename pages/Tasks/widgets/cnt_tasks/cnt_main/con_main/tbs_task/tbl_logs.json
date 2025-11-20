@@ -123,7 +123,7 @@
   "mobileTopRow": 0,
   "needsErrorInfo": false,
   "parentColumnSpace": 8.15625,
-  "parentId": "1uk4gqbbbm",
+  "parentId": "2tki32fa5u",
   "parentRowSpace": 10,
   "primaryColumns": {
     "action": {
@@ -378,6 +378,6 @@
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",
-  "widgetId": "xmkhu5l0t6",
+  "widgetId": "1uslfun6hk",
   "widgetName": "tbl_logs"
 }

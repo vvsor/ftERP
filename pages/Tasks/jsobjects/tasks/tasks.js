@@ -18,7 +18,8 @@ export default {
 		if (!row?.id) {
 			return;
 		}
-		this.setSelectedTask(tasks.getTasks.data[tbl_tasks.selectedRowIndex]);
+		// this.setSelectedTask(tasks.getTasks.data[tbl_tasks.selectedRowIndex]);
+		this.setSelectedTask(tbl_tasks.tableData[tbl_tasks.selectedRowIndex]);
 		await this.tbs_task_onTabSelected();
 		await audit.addAuditAction({action: 'task_view', taskId: row.id});
 	},

@@ -35,7 +35,7 @@
       "mobileTopRow": 0,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "yd3ceugdc8",
+      "parentId": "j9vlcgaqyc",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -43,7 +43,7 @@
       "type": "CANVAS_WIDGET",
       "useAutoLayout": false,
       "version": 1,
-      "widgetId": "xh219lh51s",
+      "widgetId": "t6i4btnby2",
       "widgetName": "cnv_task_files"
     }
   ],
@@ -80,7 +80,7 @@
   "mobileTopRow": 0,
   "needsErrorInfo": false,
   "noContainerOffset": true,
-  "parentId": "qyeazmp598",
+  "parentId": "xen2hnglra",
   "positioning": "fixed",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -89,6 +89,6 @@
   "topRow": 0,
   "type": "CONTAINER_WIDGET",
   "version": 1,
-  "widgetId": "yd3ceugdc8",
+  "widgetId": "j9vlcgaqyc",
   "widgetName": "cnt_TaskFiles"
 }
