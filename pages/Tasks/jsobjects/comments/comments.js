@@ -10,6 +10,33 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
+	async getTaskComments(taskId) {
+		// Fields to fetch
+		try {
+
+			const fields = [
+				"*",
+				"author_id.id",
+				"author_id.last_name",
+				"author_id.first_name"
+			].join(",");
+
+			const params = {
+				collection: "comments",
+				fields: fields,
+				filter: { task_id: { _eq: taskId } },
+			};
+			const response = await items.getItems(params);
+			const SortedComments = response.data;
+			SortedComments.sort((a, b) => a.id - b.id);
+			return SortedComments;
+
+		} catch (error) {
+			console.error(`Error fetching comments for task ${taskId}:`, error);
+			throw error; // Re-throw to allow calling code to handle the error
+		}
+	},
+	
 	async addComment(){
 		try {
 			if (!appsmith.store?.selectedTask?.id) {
@@ -61,20 +88,9 @@ export default {
 
 	// editing comment
 	lst_taskCommentsonItemClick (triggeredItem) {
-		// console.log("Triggered - param: ", triggeredItem);
-		// console.log("Triggered - from list: ", lst_taskComments.triggeredItem);
-		// console.log("triggeredItem:", triggeredItem);
 		storeValue("editingComment", triggeredItem, true);
-		// console.log("222");
-		// console.log("Current saved: ", this.editingItem);
-		// this.itemChanged = false;
-		// this.setSelectedItem(triggeredItem);
 		files.getCommentFiles(triggeredItem.id);
-		// console.log("333");
-
 		showModal(mdl_addEditComment.name);
-		// console.log("Selected: ", lst_taskComments.selectedItem);
-		// console.log("Triggered: ", lst_taskComments.triggeredItem);
 	},
 
 	closeCommentModalForData() {
@@ -100,32 +116,6 @@ export default {
 		// console.log(unsavedData.length);
 	},
 
-	async getTaskComments(taskId) {
-		// Fields to fetch
-		try {
-
-			const fields = [
-				"*",
-				"author_id.id",
-				"author_id.last_name",
-				"author_id.first_name"
-			].join(",");
-
-			const params = {
-				collection: "comments",
-				fields: fields,
-				filter: { task_id: { _eq: taskId } },
-			};
-			const response = await items.getItems(params);
-			const SortedComments = response.data;
-			SortedComments.sort((a, b) => a.id - b.id);
-			return SortedComments;
-
-		} catch (error) {
-			console.error(`Error fetching comments for task ${taskId}:`, error);
-			throw error; // Re-throw to allow calling code to handle the error
-		}
-	},
 
 	updateComment: async () => {
 		try {

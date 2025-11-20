@@ -7,7 +7,7 @@
   "closeOnSelection": true,
   "dateFormat": "{{ appsmith.store.selectedTask?.id ? moment(appsmith.store.selectedTask.deadline).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:mm\") : \"\"\n}}",
   "datePickerType": "DATE_PICKER",
-  "defaultDate": "{{appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.deadline: moment(Date()).tz(\"Europe/Moscow\").add(1,'days')}}",
+  "defaultDate": "{{\n  appsmith.store.selectedTask?.deadline \n    ?? moment().add(1,'days')\n}}\n",
   "displayName": "DatePicker",
   "dynamicBindingPathList": [
     {
@@ -57,8 +57,8 @@
   "mobileLeftColumn": 28,
   "mobileRightColumn": 48,
   "mobileTopRow": 26,
-  "originalBottomRow": 31,
-  "originalTopRow": 27,
+  "originalBottomRow": 20,
+  "originalTopRow": 16,
   "parentColumnSpace": 6.9375,
   "parentId": "9jhq4tliqp",
   "parentRowSpace": 10,

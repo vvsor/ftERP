@@ -84,9 +84,16 @@
     },
     {
       "key": "primaryKeys"
+    },
+    {
+      "key": "isVisible"
     }
   ],
-  "dynamicPropertyPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
+    }
+  ],
   "dynamicTriggerPathList": [],
   "enhancements": true,
   "flexVerticalAlignment": "start",
@@ -94,12 +101,12 @@
   "hasMetaWidgets": true,
   "isCanvas": true,
   "isLoading": false,
-  "isVisible": true,
+  "isVisible": "{{\nfiles.getCommentFiles.data && files.getCommentFiles.data.length > 0 }}",
   "itemBackgroundColor": "#FFFFFF",
   "itemSpacing": 8,
   "key": "i5e03py8hp",
   "leftColumn": 44,
-  "listData": "{{ appsmith.store.editingComment?.id && Array.isArray(files.getCommentFiles.data) && files.getCommentFiles.data.length > 0 ? files.getCommentFiles.data : \n[\n  {\n    \"id\": \"\",\n    \"filesize\": \"\",\n    \"filename_download\": \"\",\n  }\n]\n}}",
+  "listData": "{{ appsmith.store.editingComment?.id && Array.isArray(files.getCommentFiles.data) ? files.getCommentFiles.data : [] }}",
   "mainCanvasId": "9m0i6krtqf",
   "mainContainerId": "ybofcrzwll",
   "minWidth": 450,
@@ -108,8 +115,8 @@
   "mobileRightColumn": 43,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "originalBottomRow": 32,
-  "originalTopRow": 4,
+  "originalBottomRow": 33,
+  "originalTopRow": 5,
   "pageSize": 4,
   "parentColumnSpace": 14.5546875,
   "parentId": "opubpn01wa",

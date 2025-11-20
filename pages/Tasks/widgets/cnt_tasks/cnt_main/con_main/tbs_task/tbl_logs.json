@@ -85,11 +85,20 @@
     },
     {
       "key": "primaryColumns.client_id.computedValue"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "tableData"
+    },
+    {
+      "key": "primaryColumns.user_id.isCellVisible"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -99,7 +108,7 @@
   "inlineEditingSaveOption": "ROW_LEVEL",
   "isLoading": false,
   "isSortable": true,
-  "isVisible": true,
+  "isVisible": "{{ \naudit.getTaskLog.data && audit.getTaskLog.data.length > 0\n}}",
   "isVisibleDownload": true,
   "isVisibleFilters": false,
   "isVisiblePagination": false,
@@ -338,7 +347,7 @@
       "id": "user_id",
       "index": 4,
       "isCellEditable": false,
-      "isCellVisible": true,
+      "isCellVisible": "true",
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
@@ -362,7 +371,7 @@
   "rightColumn": 64,
   "searchKey": "",
   "serverSidePaginationEnabled": true,
-  "tableData": "{{ Array.isArray(audit.getTaskLog.data) && audit.getTaskLog.data.length > 0 ? audit.getTaskLog.data : [] }}",
+  "tableData": "{{ Array.isArray(audit.getTaskLog?.data)\n? audit.getTaskLog.data\n: []\n}}",
   "textSize": "0.875rem",
   "topRow": 0,
   "totalRecordsCount": 0,

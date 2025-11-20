@@ -51,7 +51,7 @@
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelText": "{{appsmith.store.editingComment?.id  ? `Текст комментария (${appsmith.store.editingComment.id})`  : \"Текст нового комментария\"}}",
-  "labelTooltip": "{{appsmith.store.editingComment?.author_id?.id !== appsmith.store.user.id ? 'Невозможно редактировать чужой комментарий' : ''}}",
+  "labelTooltip": "{{appsmith.store.editingComment?.author_id?.id !== appsmith.store.user.id ? 'Нельзя редактировать чужой комментарий' : ''}}",
   "labelWidth": 5,
   "leftColumn": 0,
   "maxDynamicHeight": 9000,

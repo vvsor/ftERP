@@ -1,6 +1,6 @@
 {
   "animateLoading": true,
-  "backgroundColor": "white",
+  "backgroundColor": "{{\ncomments.getTaskComments.data && comments.getTaskComments.data.length > 0 &&\ncurrentRow?.unread \n? \"#fef9c3\"\n: \"\"}}",
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
@@ -59,9 +59,17 @@
     },
     {
       "key": "boxShadow"
+    },
+    {
+      "key": "backgroundColor"
     }
   ],
   "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "backgroundColor"
+    }
+  ],
   "dynamicTriggerPathList": [],
   "flexVerticalAlignment": "stretch",
   "isCanvas": true,

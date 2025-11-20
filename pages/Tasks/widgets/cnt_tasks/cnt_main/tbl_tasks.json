@@ -45,10 +45,9 @@
     "id",
     "assigner",
     "assignee",
-    "project_id",
-    "task_priority_id"
+    "project_id"
   ],
-  "columnUpdatedAt": 1763575182807,
+  "columnUpdatedAt": 1763578876527,
   "columnWidthMap": {
     "customColumn1": 66.00000000000001,
     "deadline": 136,
@@ -119,12 +118,6 @@
       "key": "primaryColumns.assigner.computedValue"
     },
     {
-      "key": "tableData"
-    },
-    {
-      "key": "primaryColumns.task_priority_id.computedValue"
-    },
-    {
       "key": "primaryColumns.unread.cellBackground"
     },
     {
@@ -141,6 +134,12 @@
     },
     {
       "key": "primaryColumns.assignee.cellBackground"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "tableData"
     }
   ],
   "dynamicPropertyPathList": [
@@ -167,6 +166,9 @@
     },
     {
       "key": "primaryColumns.assignee.cellBackground"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicTriggerPathList": [
@@ -180,7 +182,7 @@
   "inlineEditingSaveOption": "ROW_LEVEL",
   "isLoading": false,
   "isSortable": true,
-  "isVisible": true,
+  "isVisible": "{{ (tasks.getTasks.data?.length ||0)>0}}",
   "isVisibleDownload": false,
   "isVisibleFilters": true,
   "isVisiblePagination": false,
@@ -311,7 +313,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#fef9c3\": \"\")) : currentRow.unread ? \"#fef9c3\": \"\" })()}}",
       "columnType": "date",
-      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deadline\"])) : currentRow[\"deadline\"] })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (tbl_tasks.tableData?.length > 0 ? currentRow[\"deadline\"] : null)) : tbl_tasks.tableData?.length > 0 ? currentRow[\"deadline\"] : null })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -574,47 +576,13 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
-    "task_priority_id": {
-      "alias": "task_priority_id",
-      "allowCellWrapping": false,
-      "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
-      "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"task_priority_id\"])) : task_priority_id })()}}",
-      "currencyCode": "USD",
-      "decimals": 0,
-      "enableFilter": true,
-      "enableSort": true,
-      "fontStyle": "",
-      "horizontalAlignment": "LEFT",
-      "id": "task_priority_id",
-      "index": 4,
-      "isCellEditable": false,
-      "isCellVisible": true,
-      "isDerived": false,
-      "isDisabled": false,
-      "isDiscardVisible": true,
-      "isEditable": false,
-      "isSaveVisible": true,
-      "isVisible": false,
-      "label": "task_priority_id",
-      "notation": "standard",
-      "originalId": "task_priority_id",
-      "sticky": "",
-      "textColor": "",
-      "textSize": "0.875rem",
-      "thousandSeparator": true,
-      "validation": {},
-      "verticalAlignment": "CENTER",
-      "width": 150
-    },
     "title": {
       "alias": "title",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#fef9c3\": \"\")) : currentRow.unread ? \"#fef9c3\": \"\" })()}}",
       "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (`${currentRow.title} (${currentRow.id})`)) : `${currentRow.title} (${currentRow.id})` })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (tbl_tasks.tableData?.length > 0 ? (`${currentRow.title} (${currentRow.id})`) : \"\")) : tbl_tasks.tableData?.length > 0 ? (`${currentRow.title} (${currentRow.id})`) : \"\" })()}}",
       "currencyCode": "USD",
       "customAlias": "",
       "decimals": 0,
@@ -647,7 +615,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#F7F7F7\" : \"white\" )) : currentRow.unread ? \"#F7F7F7\" : \"white\"  })()}}",
       "columnType": "switch",
-      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ?  currentRow[\"unread\"] : \"\")) : currentRow.unread ?  currentRow[\"unread\"] : \"\" })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (tbl_tasks.tableData?.length > 0 ? (currentRow.unread ?  currentRow[\"unread\"] : \"\") : \"\")) : tbl_tasks.tableData?.length > 0 ? (currentRow.unread ?  currentRow[\"unread\"] : \"\") : \"\" })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -664,7 +632,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": false,
-      "label": "",
+      "label": "unread",
       "notation": "standard",
       "originalId": "unread",
       "sticky": "left",
@@ -716,7 +684,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": true,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{tasks.getTasks.data}}",
+  "tableData": "{{tasks.getTasks.data || []}}",
   "textSize": "0.875rem",
   "topRow": 4,
   "totalRecordsCount": 0,

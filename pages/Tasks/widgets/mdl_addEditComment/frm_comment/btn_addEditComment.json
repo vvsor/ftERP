@@ -60,8 +60,8 @@
     "selectionColorCSSVar": "--on-canvas-ui-widget-focus"
   },
   "onClick": "{{\nappsmith.store.editingComment?.id ? \ncomments.updateComment() : comments.addComment() \n}}",
-  "originalBottomRow": 43,
-  "originalTopRow": 39,
+  "originalBottomRow": 44,
+  "originalTopRow": 40,
   "parentId": "yhl5qxxrpq",
   "placement": "CENTER",
   "recaptchaType": "V3",

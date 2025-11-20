@@ -9,12 +9,12 @@
   "animateLoading": true,
   "backgroundColor": "transparent",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 53,
+  "bottomRow": 50,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "children": [
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 530,
+      "bottomRow": 500,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": false,
       "containerStyle": "none",
@@ -84,9 +84,16 @@
     },
     {
       "key": "listData"
+    },
+    {
+      "key": "isVisible"
     }
   ],
-  "dynamicPropertyPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
+    }
+  ],
   "dynamicTriggerPathList": [
     {
       "key": "onItemClick"
@@ -98,12 +105,12 @@
   "hasMetaWidgets": true,
   "isCanvas": true,
   "isLoading": false,
-  "isVisible": true,
+  "isVisible": "{{ \nfiles.getTaskFiles.data && files.getTaskFiles.data.length > 0 }}",
   "itemBackgroundColor": "#FFFFFF",
   "itemSpacing": "8",
   "key": "zze7r944oz",
   "leftColumn": 0,
-  "listData": "{{ Array.isArray(files.getTaskFiles.data) && files.getTaskFiles.data.length > 0 ? files.getTaskFiles.data : \n[\n  {\n    \"id\": \"\",\n    \"filesize\": \"\",\n    \"filename_download\": \"\"\n  }\n]\n}}",
+  "listData": "{{ Array.isArray(files.getTaskFiles?.data) ? files.getTaskFiles.data : [] }}",
   "mainCanvasId": "qyeazmp598",
   "mainContainerId": "yd3ceugdc8",
   "minWidth": 450,

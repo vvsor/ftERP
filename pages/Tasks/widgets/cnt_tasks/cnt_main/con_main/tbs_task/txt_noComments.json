@@ -27,7 +27,7 @@
   "fontSize": "1rem",
   "fontStyle": "BOLD",
   "isLoading": false,
-  "isVisible": "{{ !comments.getTaskComments.data || comments.getTaskComments.data.length === 0 }}",
+  "isVisible": "{{ !comments.getTaskComments.data.length}}",
   "key": "bf61gkz92d",
   "leftColumn": 1,
   "maxDynamicHeight": 9000,
@@ -56,5 +56,5 @@
   "type": "TEXT_WIDGET",
   "version": 1,
   "widgetId": "9wv6xekedq",
-  "widgetName": "Text12"
+  "widgetName": "txt_noComments"
 }

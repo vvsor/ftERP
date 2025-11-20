@@ -12,6 +12,9 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "text"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
@@ -31,7 +34,7 @@
   "mobileRightColumn": 63,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "originalBottomRow": 4,
+  "originalBottomRow": 5,
   "originalTopRow": 0,
   "overflow": "NONE",
   "parentColumnSpace": 14.0234375,
@@ -39,9 +42,9 @@
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 56,
+  "rightColumn": 61,
   "shouldTruncate": false,
-  "text": "Прикрепленные файлы",
+  "text": "{{\nfiles.getCommentFiles.data && files.getCommentFiles.data.length > 0\n? \"Прикрепленные файлы\"\n: \"Прикрепленных файлов нет\"\n}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,

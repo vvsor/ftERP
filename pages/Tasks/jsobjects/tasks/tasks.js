@@ -5,6 +5,14 @@ export default {
 		removeValue("savedTaskID");
 	},
 
+	/// ================== test block ==================
+	// async Test(){
+		// // const task = appsmith.store.selectedTask;
+		// console.log("this.curAuditorsIds: ", appsmith.store.user);
+	// },
+	/// ============== end of test block ===============
+
+
 	async tbl_tasks_onRowSelected(){
 		const row = tbl_tasks.selectedRow;
 		if (!row?.id) {
@@ -15,13 +23,103 @@ export default {
 		await audit.addAuditAction({action: 'task_view', taskId: row.id});
 	},
 
+	async getTasks(){
+		// Determine user ID: substitute or logged-in user
+		const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled) ? sel_chooseEmployee.selectedOptionValue
+		: appsmith.store.user.id;
+		let allTasks = [];
+		try {
+			// Prepare filter for tasks (assigner, assignee, auditor, participant)
+			const orConditions = [
+				{ assigner: { _eq: userid } },
+				{ assignee: { _eq: userid } },
+				{ auditor_ids: {directus_users_id: { _eq: userid } } },
+				{ participant_ids: {directus_users_id: { _eq: userid } } }
+			];
+
+			const filter = { _or: orConditions };
+			// Fields to fetch
+			const fields = [
+				"id", "title", "description", "deadline", 
+				"task_priority_id.*",
+				"status_id.id", "status_id.name",
+				"process_id.id", "process_id.name",
+				"assigner.id", "assigner.last_name", "assigner.first_name",
+				"assignee.id", "assignee.last_name", "assignee.first_name",
+				"project_id.name", "project_id.id",
+				"auditor_ids.directus_users_id.id",
+				"auditor_ids.directus_users_id.last_name",
+				"auditor_ids.directus_users_id.first_name",
+				"participant_ids.directus_users_id.id",
+				"participant_ids.directus_users_id.last_name",
+				"participant_ids.directus_users_id.first_name",
+				"files_id",
+			].join(",");
+
+			const params = {
+				fields: fields,
+				collection: "tasks",
+				filter: filter
+			};
+			const response = await items.getItems(params);
+
+			// Fetch all tasks for user
+			// const response = await qGetTasks.run({ 
+			// filter: JSON.stringify(filterObj),
+			// fields
+			// });
+			allTasks = response.data || [];
+		} catch (error) {
+			console.error("Error in all task processing:", error);
+			throw error;
+		}
+
+		// Filter incomplete tasks if needed
+		// Previous vartiant whith task.is_complete field
+		//const filteredTasks = chk_withCompleted.isChecked	? allTasks : allTasks.filter(task => !task.is_complete);
+		//Actual variant with status name
+		const filteredTasks = chk_withCompleted.isChecked ?	allTasks : allTasks.filter(task => task.status_id?.name !== "Завершена")
+		let unreadTasks = [];
+
+		try {
+			// Prepare and fetch unread tasks
+			const filter = { user_id: { _eq: userid } };
+			const fields = "*";
+			const params = {
+				fields: fields,
+				collection: "unread",
+				filter: filter
+			};
+			const response = await items.getItems(params);
+			unreadTasks = response.data || [];
+		} catch (error) {
+			console.error("Error fetching unread tasks:", error);
+			throw error;
+		}
+
+		// Map for quick unread lookup
+		const unreadMap = new Map(unreadTasks.map(unread => [unread.task_id, unread]));
+
+		// Combine tasks with unread info
+		let combinedTasks = filteredTasks.map(task => ({
+			...task,
+			unread: unreadMap.has(task.id),
+			unreadInfo: unreadMap.get(task.id) || null
+		}));
+
+		// Sort by id (ascending)
+		combinedTasks.sort((a, b) => a.id - b.id);
+		return combinedTasks;
+	},
+
+
 	async initTasks(){
 		const user = appsmith.store?.user;
 
 		// если операция восстановления ещё не завершена — просто не уходить на Auth
 		// если user уже проверен и его нет — уходить
 		if (!user || !user.token) {
-			if (appsmith.user.email === 'vvs@osagent.ru') {
+			if (appsmith.store.user.email === 'vvs@osagent.ru') {
 				showAlert('DEV bypass: normal user go to auth page, while vvs@osagent.ru stays here', 'warning');
 			} else {
 				showAlert('Требуется авторизация. Перенаправление на страницу входа.', 'info');
@@ -34,7 +132,6 @@ export default {
 			const tasksData = await this.getTasks();
 			// Only call tab selection if a task exists
 			if (tasksData.length > 0 ) {
-				console.log("tasksData[0]:", tasksData[0]);
 				this.setSelectedTask(tasksData[0]);
 				await this.tbs_task_onTabSelected();
 			}
@@ -55,15 +152,6 @@ export default {
 		}
 	},
 
-		/// ================== test block ==================
-
-	async Test(){
-	// const task = appsmith.store.selectedTask;
-	console.log("this.curAuditorsIds: ", appsmith.store.user);
-	},
-	/// ============== end of test block ===============
-
-	
 	async addTask(){
 		try {
 			const body = {
@@ -162,7 +250,7 @@ export default {
 
 			// Always update
 			data.editor_id = appsmith.store.user.id;
-			
+
 			const body = {
 				keys: [taskId],
 				data
@@ -255,7 +343,6 @@ export default {
 		}
 	},
 
-
 	async restoreSavedTaskSelection() {
 		const id = appsmith.store.savedTaskID;
 		if (!id) return;
@@ -279,124 +366,6 @@ export default {
 		await tbl_tasks.setSelectedRowIndex(index);
 		this.setSelectedTask(tableData[index]);
 		await removeValue("savedTaskID");
-	},
-
-	async getTasks(){
-		// Determine user ID: substitute or logged-in user
-		const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled) ? sel_chooseEmployee.selectedOptionValue
-		: appsmith.store.user.id;
-		let allTasks = [];
-		try {
-			// Prepare filter for tasks (assigner, assignee, auditor, participant)
-			const orConditions = [
-				{ assigner: { _eq: userid } },
-				{ assignee: { _eq: userid } },
-				{ auditor_ids: {directus_users_id: { _eq: userid } } },
-				{ participant_ids: {directus_users_id: { _eq: userid } } }
-			];
-
-			const filter = { _or: orConditions };
-			// Fields to fetch
-			const fields = [
-				"id", "title", "description", "deadline", 
-				"task_priority_id.*",
-				"status_id.id", "status_id.name",
-				"process_id.id", "process_id.name",
-				"assigner.id", "assigner.last_name", "assigner.first_name",
-				"assignee.id", "assignee.last_name", "assignee.first_name",
-				"project_id.name", "project_id.id",
-				"auditor_ids.directus_users_id.id",
-				"auditor_ids.directus_users_id.last_name",
-				"auditor_ids.directus_users_id.first_name",
-				"participant_ids.directus_users_id.id",
-				"participant_ids.directus_users_id.last_name",
-				"participant_ids.directus_users_id.first_name",
-				"files_id",
-			].join(",");
-
-			const params = {
-				fields: fields,
-				collection: "tasks",
-				filter: filter
-			};
-			const response = await items.getItems(params);
-
-			// Fetch all tasks for user
-			// const response = await qGetTasks.run({ 
-			// filter: JSON.stringify(filterObj),
-			// fields
-			// });
-			allTasks = response.data || [];
-		} catch (error) {
-			console.error("Error in all task processing:", error);
-			throw error;
-		}
-
-		// Filter incomplete tasks if needed
-		// Previous vartiant whith task.is_complete field
-		//const filteredTasks = chk_withCompleted.isChecked	? allTasks : allTasks.filter(task => !task.is_complete);
-		//Actual variant with status name
-		const filteredTasks = chk_withCompleted.isChecked ?	allTasks : allTasks.filter(task => task.status_id?.name !== "Завершена")
-		let unreadTasks = [];
-
-		try {
-			// Prepare and fetch unread tasks
-			const filter = { user_id: { _eq: userid } };
-			const fields = "*";
-			const params = {
-				fields: fields,
-				collection: "unread",
-				filter: filter
-			};
-			const response = await items.getItems(params);
-			unreadTasks = response.data || [];
-		} catch (error) {
-			console.error("Error fetching unread tasks:", error);
-			throw error;
-		}
-
-		// Map for quick unread lookup
-		const unreadMap = new Map(unreadTasks.map(unread => [unread.task_id, unread]));
-
-		// Combine tasks with unread info
-		let combinedTasks = filteredTasks.map(task => ({
-			...task,
-			unread: unreadMap.has(task.id),
-			unreadInfo: unreadMap.get(task.id) || null
-		}));
-
-		// Sort by id (ascending)
-		combinedTasks.sort((a, b) => a.id - b.id);
-		if (combinedTasks.length === 0) {
-			combinedTasks = [
-				{
-					"id": 99999,
-					"title": "Cоздайте первую задачу",
-					"description": "",
-					"deadline": "",
-					"status_id": {
-						"id": 2,
-						"name": "Новая"
-					},
-					"process_id": {
-						"id": 1,
-						"name": "Задача"
-					},
-					"assigner": {},
-					"assignee": {},
-					"project_id": {
-						"name": "ИТ",
-						"id": 3
-					},
-					"auditor_ids": [],
-					"participant_ids": [],
-					"files_id": [],
-					"unread": false,
-					"unreadInfo": null
-				}
-			];
-		}
-		return combinedTasks;
 	},
 
 	async tbs_task_onTabSelected(){
@@ -438,7 +407,7 @@ export default {
 
 
 	// Mark task as read
-	async sw_unreadTask_onChange(){
+	async btn_readTask_onClick(){
 		const unreadInfo = tbl_tasks.selectedRow?.unreadInfo;
 		if (!unreadInfo || !unreadInfo.id) {
 			console.warn("No unreadInfo found for the selected row.");

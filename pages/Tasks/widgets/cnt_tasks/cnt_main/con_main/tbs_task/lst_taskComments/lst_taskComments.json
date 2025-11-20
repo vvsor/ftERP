@@ -111,7 +111,7 @@
   "itemSpacing": 8,
   "key": "p1no5uynro",
   "leftColumn": 0,
-  "listData": "{{ comments.getTaskComments.data.length > 0 ? comments.getTaskComments.data : []\n\n}}",
+  "listData": "{{ Array.isArray(comments.getTaskComments?.data) ? comments.getTaskComments.data : [] }}\n",
   "mainCanvasId": "aggqp21fxm",
   "mainContainerId": "n3qpxwyupf",
   "minWidth": 450,
