@@ -44,11 +44,11 @@
   "mobileRightColumn": 62,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "onChange": "{{tasks.btn_readTask_onClick();}}",
+  "onChange": "{{tasks.btn_markRead_onClick();}}",
   "originalBottomRow": 4,
   "originalTopRow": 0,
   "parentColumnSpace": 8.46875,
-  "parentId": "podch0sdln",
+  "parentId": "8ow6qibxkt",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -56,6 +56,6 @@
   "topRow": 0,
   "type": "SWITCH_WIDGET",
   "version": 1,
-  "widgetId": "dnro1c4dw2",
+  "widgetId": "sgzrtcjew1",
   "widgetName": "sw_unreadTask"
 }

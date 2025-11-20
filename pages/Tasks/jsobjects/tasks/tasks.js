@@ -7,8 +7,8 @@ export default {
 
 	/// ================== test block ==================
 	// async Test(){
-		// // const task = appsmith.store.selectedTask;
-		// console.log("this.curAuditorsIds: ", appsmith.store.user);
+	// // const task = appsmith.store.selectedTask;
+	// console.log("this.curAuditorsIds: ", appsmith.store.user);
 	// },
 	/// ============== end of test block ===============
 
@@ -64,11 +64,6 @@ export default {
 			};
 			const response = await items.getItems(params);
 
-			// Fetch all tasks for user
-			// const response = await qGetTasks.run({ 
-			// filter: JSON.stringify(filterObj),
-			// fields
-			// });
 			allTasks = response.data || [];
 		} catch (error) {
 			console.error("Error in all task processing:", error);
@@ -76,14 +71,11 @@ export default {
 		}
 
 		// Filter incomplete tasks if needed
-		// Previous vartiant whith task.is_complete field
-		//const filteredTasks = chk_withCompleted.isChecked	? allTasks : allTasks.filter(task => !task.is_complete);
-		//Actual variant with status name
 		const filteredTasks = chk_withCompleted.isChecked ?	allTasks : allTasks.filter(task => task.status_id?.name !== "Завершена")
-		let unreadTasks = [];
 
+		// Prepare and fetch unread tasks
+		let unreadTasks = [];
 		try {
-			// Prepare and fetch unread tasks
 			const filter = { user_id: { _eq: userid } };
 			const fields = "*";
 			const params = {
@@ -408,7 +400,7 @@ export default {
 
 
 	// Mark task as read
-	async btn_readTask_onClick(){
+	async btn_markRead_onClick(){
 		const unreadInfo = tbl_tasks.selectedRow?.unreadInfo;
 		if (!unreadInfo || !unreadInfo.id) {
 			console.warn("No unreadInfo found for the selected row.");

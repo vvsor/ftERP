@@ -33,7 +33,7 @@
   "needsErrorInfo": false,
   "onClick": "{{tasks.updateTaskList();}}",
   "parentColumnSpace": 16.9375,
-  "parentId": "r4kfmnpi08",
+  "parentId": "019jh4yv6b",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",
@@ -42,6 +42,6 @@
   "topRow": 0,
   "type": "ICON_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "6d2y51x1wn",
+  "widgetId": "y7gtm2h5br",
   "widgetName": "icnbtn_tasksUpdate"
 }

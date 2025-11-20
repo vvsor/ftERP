@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_c0c6e0b1-96dd-4c5f-ba7a-0a1ea6c976e4",
-  "id": "Tasks_tasks.getTasks",
+  "gitSyncId": "690e57a0dd6b1b7f5b14d7d5_5651b5ff-04d0-4e79-a8ee-b927d4238eb9",
+  "id": "Tasks_tasks.btn_markRead_onClick",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -22,10 +22,10 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "tasks.getTasks",
-    "name": "getTasks",
+    "fullyQualifiedName": "tasks.btn_markRead_onClick",
+    "name": "btn_markRead_onClick",
     "pageId": "Tasks",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": true
+    "userSetOnLoad": false
   }
 }

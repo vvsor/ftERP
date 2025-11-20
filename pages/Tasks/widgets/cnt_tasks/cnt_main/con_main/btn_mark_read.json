@@ -36,9 +36,9 @@
   "mobileRightColumn": 57,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "onClick": "{{tasks.btn_readTask_onClick();}}",
+  "onClick": "{{tasks.btn_markRead_onClick();}}",
   "parentColumnSpace": 8.15625,
-  "parentId": "podch0sdln",
+  "parentId": "8ow6qibxkt",
   "parentRowSpace": 10,
   "placement": "CENTER",
   "recaptchaType": "V3",
@@ -50,6 +50,6 @@
   "topRow": 0,
   "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "tlrex7qnrp",
+  "widgetId": "41fzm8nj7e",
   "widgetName": "btn_mark_read"
 }

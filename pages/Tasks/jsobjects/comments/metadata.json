@@ -6,11 +6,6 @@
     "pageId": "Tasks",
     "pluginId": "js-plugin",
     "pluginType": "JS",
-    "variables": [
-      {
-        "name": "new",
-        "value": "undefined"
-      }
-    ]
+    "variables": []
   }
 }

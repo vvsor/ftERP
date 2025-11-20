@@ -46,7 +46,7 @@
       "noPad": true,
       "openParentPropertyPane": true,
       "parentColumnSpace": 1,
-      "parentId": "divcnqjsbd",
+      "parentId": "6p4hvdsonj",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -54,7 +54,7 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "xen2hnglra",
+      "widgetId": "4vxevdlj3e",
       "widgetName": "cnv_files"
     }
   ],
@@ -111,8 +111,8 @@
   "key": "zze7r944oz",
   "leftColumn": 0,
   "listData": "{{ Array.isArray(files.getTaskFiles?.data) ? files.getTaskFiles.data : [] }}",
-  "mainCanvasId": "xen2hnglra",
-  "mainContainerId": "j9vlcgaqyc",
+  "mainCanvasId": "4vxevdlj3e",
+  "mainContainerId": "zprhjmk49n",
   "minWidth": 450,
   "mobileBottomRow": 39,
   "mobileLeftColumn": 1,
@@ -122,7 +122,7 @@
   "onItemClick": "",
   "pageSize": 8,
   "parentColumnSpace": 8.15625,
-  "parentId": "z0lhwxj84x",
+  "parentId": "09sozub2kc",
   "parentRowSpace": 10,
   "primaryKeys": "{{lst_task_files.listData.map((currentItem, currentIndex) => currentItem[\"id\"] )}}",
   "renderMode": "CANVAS",
@@ -134,6 +134,6 @@
   "topRow": 0,
   "triggeredItemView": "{{{}}}",
   "type": "LIST_WIDGET_V2",
-  "widgetId": "divcnqjsbd",
+  "widgetId": "6p4hvdsonj",
   "widgetName": "lst_task_files"
 }

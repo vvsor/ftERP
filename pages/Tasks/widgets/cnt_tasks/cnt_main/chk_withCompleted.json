@@ -36,10 +36,10 @@
   "mobileTopRow": 5,
   "needsErrorInfo": false,
   "onCheckChange": "{{tasks.getTasks();}}",
-  "originalBottomRow": 5,
+  "originalBottomRow": 4,
   "originalTopRow": 0,
   "parentColumnSpace": 17.5625,
-  "parentId": "r4kfmnpi08",
+  "parentId": "019jh4yv6b",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -47,6 +47,6 @@
   "topRow": 0,
   "type": "CHECKBOX_WIDGET",
   "version": 1,
-  "widgetId": "bcwiwsexsd",
+  "widgetId": "h8korkuto3",
   "widgetName": "chk_withCompleted"
 }

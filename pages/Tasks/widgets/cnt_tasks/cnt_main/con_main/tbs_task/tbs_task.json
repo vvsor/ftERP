@@ -5,12 +5,12 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": 1,
-  "bottomRow": 83,
+  "bottomRow": 68,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "children": [
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 700,
+      "bottomRow": 550,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -40,7 +40,7 @@
       "mobileTopRow": 0,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "mrkwx5f4le",
+      "parentId": "msmdv67uzq",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -51,12 +51,12 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "59co3xl0o6",
+      "widgetId": "7c2dhbo0uq",
       "widgetName": "Canvas17"
     },
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 700,
+      "bottomRow": 550,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -86,7 +86,7 @@
       "mobileTopRow": 0,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "mrkwx5f4le",
+      "parentId": "msmdv67uzq",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -97,12 +97,12 @@
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "2tki32fa5u",
+      "widgetId": "no5v4m8os9",
       "widgetName": "Canvas18"
     },
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 700,
+      "bottomRow": 550,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": false,
       "containerStyle": "none",
@@ -132,7 +132,7 @@
       "mobileTopRow": 1,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "mrkwx5f4le",
+      "parentId": "msmdv67uzq",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -142,12 +142,12 @@
       "topRow": 1,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "z0lhwxj84x",
+      "widgetId": "09sozub2kc",
       "widgetName": "Canvas19"
     },
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 700,
+      "bottomRow": 680,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": false,
       "containerStyle": "none",
@@ -177,7 +177,7 @@
       "mobileTopRow": 1,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "mrkwx5f4le",
+      "parentId": "msmdv67uzq",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -187,7 +187,7 @@
       "topRow": 1,
       "type": "CANVAS_WIDGET",
       "version": 1,
-      "widgetId": "mj4aa9llf6",
+      "widgetId": "x5k2tkws8c",
       "widgetName": "Canvas20"
     }
   ],
@@ -225,10 +225,10 @@
   "mobileTopRow": 12,
   "needsErrorInfo": false,
   "onTabSelected": "{{tasks.tbs_task_onTabSelected();}}",
-  "originalBottomRow": 83,
+  "originalBottomRow": 68,
   "originalTopRow": 9,
   "parentColumnSpace": 8.46875,
-  "parentId": "podch0sdln",
+  "parentId": "8ow6qibxkt",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -242,7 +242,7 @@
       "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Файлы",
-      "widgetId": "z0lhwxj84x"
+      "widgetId": "09sozub2kc"
     },
     "tab1": {
       "id": "tab1",
@@ -251,7 +251,7 @@
       "isVisible": true,
       "label": "Комментарии",
       "positioning": "vertical",
-      "widgetId": "59co3xl0o6"
+      "widgetId": "7c2dhbo0uq"
     },
     "tab2": {
       "id": "tab2",
@@ -260,7 +260,7 @@
       "isVisible": true,
       "label": "Логи",
       "positioning": "vertical",
-      "widgetId": "2tki32fa5u"
+      "widgetId": "no5v4m8os9"
     },
     "taboll5s3t77q": {
       "id": "taboll5s3t77q",
@@ -268,12 +268,12 @@
       "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Описание",
-      "widgetId": "mj4aa9llf6"
+      "widgetId": "x5k2tkws8c"
     }
   },
   "topRow": 9,
   "type": "TABS_WIDGET",
   "version": 3,
-  "widgetId": "mrkwx5f4le",
+  "widgetId": "msmdv67uzq",
   "widgetName": "tbs_task"
 }

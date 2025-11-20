@@ -1,6 +1,6 @@
 {
   "animateLoading": true,
-  "backgroundColor": "{{\ncomments.getTaskComments.data && comments.getTaskComments.data.length > 0 &&\ncurrentRow?.unread \n? \"#fef9c3\"\n: \"\"}}",
+  "backgroundColor": "{{currentItem.unread ? \"#fef9c3\": \"\"}}",
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
@@ -8,6 +8,7 @@
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "children": [
     {
+      "backgroundColor": "",
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
       "bottomRow": 100,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
@@ -23,6 +24,8 @@
         }
       ],
       "dynamicHeight": "AUTO_HEIGHT",
+      "dynamicPropertyPathList": [],
+      "dynamicTriggerPathList": [],
       "flexLayers": [],
       "isLoading": false,
       "isVisible": true,
@@ -35,7 +38,7 @@
       "mobileTopRow": 0,
       "needsErrorInfo": false,
       "parentColumnSpace": 1,
-      "parentId": "nq9yl0vyor",
+      "parentId": "5oz28rbvgk",
       "parentRowSpace": 1,
       "renderMode": "CANVAS",
       "responsiveBehavior": "fill",
@@ -43,7 +46,7 @@
       "type": "CANVAS_WIDGET",
       "useAutoLayout": false,
       "version": 1,
-      "widgetId": "nqtv8g5fp2",
+      "widgetId": "gvtiqi8w6h",
       "widgetName": "cnv_task_comment"
     }
   ],
@@ -88,7 +91,7 @@
   "mobileTopRow": 0,
   "needsErrorInfo": false,
   "noContainerOffset": true,
-  "parentId": "ava4uotu8d",
+  "parentId": "j8s4y9henm",
   "positioning": "fixed",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -97,6 +100,6 @@
   "topRow": 0,
   "type": "CONTAINER_WIDGET",
   "version": 1,
-  "widgetId": "nq9yl0vyor",
+  "widgetId": "5oz28rbvgk",
   "widgetName": "cnt_task_comment"
 }

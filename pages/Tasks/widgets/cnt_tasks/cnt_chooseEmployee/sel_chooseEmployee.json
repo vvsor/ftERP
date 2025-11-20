@@ -68,7 +68,7 @@
   "originalBottomRow": 87,
   "originalTopRow": 80,
   "parentColumnSpace": 6.9375,
-  "parentId": "a4aj91z5g9",
+  "parentId": "ewsuh700c6",
   "parentRowSpace": 10,
   "placeholderText": "Выберите...",
   "renderMode": "CANVAS",
@@ -86,6 +86,6 @@
   "topRow": 4,
   "type": "SELECT_WIDGET",
   "version": 1,
-  "widgetId": "iy988hdrvt",
+  "widgetId": "gepso1ite1",
   "widgetName": "sel_chooseEmployee"
 }

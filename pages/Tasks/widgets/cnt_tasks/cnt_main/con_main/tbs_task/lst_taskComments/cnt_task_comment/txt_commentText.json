@@ -1,5 +1,6 @@
 {
   "animateLoading": true,
+  "backgroundColor": "",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "5",
   "bottomRow": 7,
@@ -22,6 +23,7 @@
     }
   ],
   "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [],
   "dynamicTriggerPathList": [],
   "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
   "fontSize": "0.875rem",
@@ -39,7 +41,7 @@
   "mobileTopRow": 4,
   "needsErrorInfo": false,
   "overflow": "SCROLL",
-  "parentId": "nqtv8g5fp2",
+  "parentId": "gvtiqi8w6h",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
   "rightColumn": 63,
@@ -52,6 +54,6 @@
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "piecvx49an",
+  "widgetId": "8xup2939qc",
   "widgetName": "txt_commentText"
 }

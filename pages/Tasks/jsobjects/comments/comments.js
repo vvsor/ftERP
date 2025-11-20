@@ -1,16 +1,15 @@
-export default {
-	new: undefined,
+export default {	
 	/// ================== test block ==================
-
-	// test() {
-	// // console.log(this.new);
-	// // this.new = "asdf";
-	// // console.log(comments.editingItem);
-	// 
-	// },
+	async test() {
+		let a = await comments.getTaskComments(405);
+		// console.log("AAA: ", a);
+		return a;
+	},
 	/// ============== end of test block ===============
 
 	async getTaskComments(taskId) {
+		const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled) ? sel_chooseEmployee.selectedOptionValue
+		: appsmith.store.user.id;
 		// Fields to fetch
 		try {
 
@@ -24,19 +23,51 @@ export default {
 			const params = {
 				collection: "comments",
 				fields: fields,
-				filter: { task_id: { _eq: taskId } },
+				filter: {	task_id: { _eq: taskId }	},
 			};
 			const response = await items.getItems(params);
-			const SortedComments = response.data;
-			SortedComments.sort((a, b) => a.id - b.id);
-			return SortedComments;
+			const taskComments = response.data;
+
+			// Prepare and fetch unread tasks
+			let unreadComments = [];
+			try {
+				const filter = {
+					task_id: { _eq: taskId },
+					user_id: { _eq: userid }
+				};
+
+				const fields = "*";
+				const params = {
+					fields: fields,
+					collection: "unread",
+					filter: filter
+				};
+				const response = await items.getItems(params);
+				unreadComments = response.data || [];
+			} catch (error) {
+				console.error("Error fetching unread comments:", error);
+				throw error;
+			}
+			console.log("unreadComments: ", unreadComments);
+			// Map for quick unread lookup
+			const unreadMap = new Map(unreadComments.map(unread => [unread.comment_id, unread]));
+
+			// Combine comments with unread info
+			let combinedComments = taskComments.map(comment => ({
+				...comment,
+				unread: unreadMap.has(comment.id)
+				// unreadInfo: unreadMap.get(comment.id) || null
+			}));
+
+			combinedComments.sort((a, b) => a.id - b.id);
+			return combinedComments;
 
 		} catch (error) {
 			console.error(`Error fetching comments for task ${taskId}:`, error);
 			throw error; // Re-throw to allow calling code to handle the error
 		}
 	},
-	
+
 	async addComment(){
 		try {
 			if (!appsmith.store?.selectedTask?.id) {
