@@ -55,22 +55,21 @@ export default {
 	},
 
 	// // for auditors and participants
-	// getNamesFromArray: (usersArray) => {
-		// // Извлекаем JSON часть из строки (удаляем "<b>Участники</b>: ")
-		// // Извлечение фамилий и инициалов
-		// if (Array.isArray(usersArray) && usersArray.length > 0) {
-			// const result = usersArray
-			// .filter(participant => participant && participant.directus_users_id) // Фильтруем некорректные элементы
-			// .map(participant => {
-				// const { last_name, first_name } = participant.directus_users_id;
-				// return(`${last_name} ${first_name[0]}.`);
-			// })
-			// .join(", ");
-			// return(result);
-		// } else {
-			// return ("");
-		// }
-	// },
+	getNamesFromArray: (usersArray) => {
+		// Извлечение фамилий и инициалов
+		if (Array.isArray(usersArray) && usersArray.length > 0) {
+			const result = usersArray
+			.filter(participant => participant && participant.directus_users_id) // Фильтруем некорректные элементы
+			.map(participant => {
+				const { last_name, first_name } = participant.directus_users_id;
+				return(`${last_name} ${first_name[0]}.`);
+			})
+			.join(", ");
+			return(result);
+		} else {
+			return ("");
+		}
+	},
 
 	formatBytes: (bytes, decimals = 2) => {
 		if (bytes === '-') return '';
