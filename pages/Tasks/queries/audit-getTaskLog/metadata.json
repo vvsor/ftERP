@@ -1,5 +1,5 @@
 {
-  "gitSyncId": "66959955819ac61979db6c71_8fe18e79-9abc-46ee-bac9-c273cd3efa2b",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_52059696-20e7-476c-9840-c9d87336be2e",
   "id": "Tasks_audit.getTaskLog",
   "pluginId": "js-plugin",
   "pluginType": "JS",
@@ -25,7 +25,7 @@
     "fullyQualifiedName": "audit.getTaskLog",
     "name": "getTaskLog",
     "pageId": "Tasks",
-    "runBehaviour": "MANUAL",
-    "userSetOnLoad": true
+    "runBehaviour": "AUTOMATIC",
+    "userSetOnLoad": false
   }
 }

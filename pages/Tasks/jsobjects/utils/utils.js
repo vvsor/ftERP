@@ -11,6 +11,7 @@ export default {
 		const first = user.first_name?.[0];
 		return `${last} ${first}.`;
 	},
+
 	getUsersOfficeTerms: async () => {
 		try {
 			// Define the fields to include in the response
@@ -52,7 +53,7 @@ export default {
 			throw error; // Re-throw to allow calling code to handle the error
 		}
 	},
-	
+
 	// for auditors and participants
 	getNamesFromArray: (usersArray) => {
 		// Извлекаем JSON часть из строки (удаляем "<b>Участники</b>: ")

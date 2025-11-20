@@ -6,10 +6,10 @@ export default {
 	},
 
 	/// ================== test block ==================
-	async Test(){
-		// const task = appsmith.store.selectedTask;
-		// console.log("this.curAuditorsIds: ", appsmith.store.user);
-	},
+	// async Test(){
+	// // const task = appsmith.store.selectedTask;
+	// // console.log("this.curAuditorsIds: ", appsmith.store.user);
+	// },
 	/// ============== end of test block ===============
 
 
@@ -18,7 +18,6 @@ export default {
 		if (!row?.id) {
 			return;
 		}
-		// this.setSelectedTask(tasks.getTasks.data[tbl_tasks.selectedRowIndex]);
 		this.setSelectedTask(tbl_tasks.tableData[tbl_tasks.selectedRowIndex]);
 		await this.tbs_task_onTabSelected();
 		await audit.addAuditAction({action: 'task_view', taskId: row.id});
@@ -38,9 +37,8 @@ export default {
 				{ participant_ids: {directus_users_id: { _eq: userid } } }
 			];
 
-			const filter = { _or: orConditions };
 			// Fields to fetch
-			const fields = [
+			const tasksFields = [
 				"id", "title", "description", "deadline", 
 				"task_priority_id.*",
 				"status_id.id", "status_id.name",
@@ -55,16 +53,18 @@ export default {
 				"participant_ids.directus_users_id.last_name",
 				"participant_ids.directus_users_id.first_name",
 				"files_id",
+				"unread.id",
+				"unread.user_id",
 			].join(",");
 
 			const params = {
-				fields: fields,
+				fields: tasksFields,
 				collection: "tasks",
-				filter: filter
+				filter: { _or: orConditions }
 			};
-			const response = await items.getItems(params);
+			const tasksResponse = await items.getItems(params);
 
-			allTasks = response.data || [];
+			allTasks = tasksResponse.data || [];
 		} catch (error) {
 			console.error("Error in all task processing:", error);
 			throw error;
@@ -72,39 +72,16 @@ export default {
 
 		// Filter incomplete tasks if needed
 		const filteredTasks = chk_withCompleted.isChecked ?	allTasks : allTasks.filter(task => task.status_id?.name !== "Завершена")
-
-		// Prepare and fetch unread tasks
-		let unreadTasks = [];
-		try {
-			const filter = { user_id: { _eq: userid } };
-			const fields = "*";
-			const params = {
-				fields: fields,
-				collection: "unread",
-				filter: filter
-			};
-			const response = await items.getItems(params);
-			unreadTasks = response.data || [];
-		} catch (error) {
-			console.error("Error fetching unread tasks:", error);
-			throw error;
-		}
-
-		// Map for quick unread lookup
-		const unreadMap = new Map(unreadTasks.map(unread => [unread.task_id, unread]));
-
-		// Combine tasks with unread info
 		let combinedTasks = filteredTasks.map(task => ({
 			...task,
-			unread: unreadMap.has(task.id),
-			unreadInfo: unreadMap.get(task.id) || null
+			unread: task.unread?.some(u => u.user_id === userid) || false,
+			unreadInfo: task.unread?.find(u => u.user_id === userid) || null
 		}));
 
 		// Sort by id (ascending)
 		combinedTasks.sort((a, b) => a.id - b.id);
 		return combinedTasks;
 	},
-
 
 	async initTasks(){
 		const user = appsmith.store?.user;
@@ -177,20 +154,23 @@ export default {
 
 			// 3. Process relations (auditors/participants)
 			const updates = [];
-			const processRelation = (widget, collection) => {
-				if (!widget.isDirty) return;
-				const userIds = widget.selectedOptionValues;
-				if (userIds.length === 0) return;
-				updates.push(
-					items.createItems({
-						body: userIds.map(userId => ({ tasks_id: taskId, directus_users_id: userId })),
-						collection
-					})
-				);
-			};
+			// const processRelation = (widget, collection) => {
+			// if (!widget.isDirty) return;
+			// const userIds = widget.selectedOptionValues;
+			// if (userIds.length === 0) return;
+			// updates.push(
+			// items.createItems({
+			// body: userIds.map(userId => ({ tasks_id: taskId, directus_users_id: userId })),
+			// collection
+			// })
+			// );
+			// };
 
-			processRelation(sel_TaskAuditors, "tasks_auditors");
-			processRelation(sel_TaskParticipants, "tasks_participants");
+			// processRelation(sel_TaskAuditors, "tasks_auditors");
+			// processRelation(sel_TaskParticipants, "tasks_participants");
+			updates.push(...this.processRelationUpdate(sel_TaskAuditors, taskId, appsmith.store.curAuditorsIds || [], "tasks_auditors"));
+			updates.push(...this.processRelationUpdate(sel_TaskParticipants, taskId, appsmith.store.curParticipantsIds || [], "tasks_participants"));
+
 			if (updates.length > 0) await Promise.all(updates);
 
 			// 4. Refresh tasks (triggers table reactivity)
@@ -205,6 +185,20 @@ export default {
 			this.setSelectedTask(tbl_tasks.tableData[index]);
 			await removeValue("savedTaskID");
 
+			// Optimistic UI update - replace 4 & 5
+			// const tasksData = tbl_tasks.tableData || [];
+			// tasksData.push({ id: taskId, title: body.title, unread: true });
+			// await tbl_tasks.setData(tasksData);
+			// const index = tasksData.findIndex(r => r.id === taskId);
+			// await tbl_tasks.setSelectedRowIndex(index);
+			// this.setSelectedTask({ id: taskId });
+			// 
+			// const updatedTasks = await this.getTasks();
+			// await tbl_tasks.setData(updatedTasks);
+			// const idx = updatedTasks.findIndex(row => row.id === taskId);
+			// await tbl_tasks.setSelectedRowIndex(idx);
+			// this.setSelectedTask(updatedTasks[idx]);
+
 			// 6. Finalize
 			await audit.addAuditAction({action: 'task_added', taskId: taskId});
 
@@ -215,6 +209,39 @@ export default {
 			showAlert('Ошибка при создании задачи', 'error');
 			throw error;
 		}
+	},
+
+	// function for add & update task
+	processRelationUpdate(widget, taskId, currentIds, collection) {
+		if (!widget.isDirty) return [];
+		const newIds = widget.selectedOptionValues;
+		const toAdd = newIds.filter(id => !currentIds.includes(id));
+		const toRemove = currentIds.filter(id => !newIds.includes(id));
+		const ops = [];
+		if (toAdd.length) {
+			ops.push(
+				items.createItems({
+					collection,
+					body: toAdd.map(userId => ({ tasks_id: taskId, directus_users_id: userId }))
+				})
+			);
+		}
+		if (toRemove.length) {
+			ops.push(
+				items.deleteItems({
+					collection,
+					body: {
+						query: {
+							filter: {
+								tasks_id: { _eq: taskId },
+								directus_users_id: { _in: toRemove }
+							}
+						}
+					}
+				})
+			);
+		}
+		return ops;
 	},
 
 	async updateTask(){
@@ -263,38 +290,41 @@ export default {
 			const updates = [];
 
 			// Helper for relation updates
-			const processRelation = (widget, curIds, collection) => {
-				if (!widget.isDirty) return;
-				const newIds = widget.selectedOptionValues;
-				const toAdd = newIds.filter(id => !curIds.includes(id));
-				const toRemove = curIds.filter(id => !newIds.includes(id));
-				if (toAdd.length) {
-					updates.push(
-						items.createItems({
-							body: toAdd.map(userId => ({ tasks_id: taskId, directus_users_id: userId })),
-							collection
-						})
-					);
-				}
-				if (toRemove.length) {
-					updates.push(
-						items.deleteItems({
-							collection,
-							body: {
-								query: {
-									filter: {
-										tasks_id: { "_eq": taskId },
-										directus_users_id: { "_in": toRemove }
-									}
-								}
-							}
-						})
-					);
-				}
-			};
+			// const processRelation = (widget, curIds, collection) => {
+			// if (!widget.isDirty) return;
+			// const newIds = widget.selectedOptionValues;
+			// const toAdd = newIds.filter(id => !curIds.includes(id));
+			// const toRemove = curIds.filter(id => !newIds.includes(id));
+			// if (toAdd.length) {
+			// updates.push(
+			// items.createItems({
+			// body: toAdd.map(userId => ({ tasks_id: taskId, directus_users_id: userId })),
+			// collection
+			// })
+			// );
+			// }
+			// if (toRemove.length) {
+			// updates.push(
+			// items.deleteItems({
+			// collection,
+			// body: {
+			// query: {
+			// filter: {
+			// tasks_id: { "_eq": taskId },
+			// directus_users_id: { "_in": toRemove }
+			// }
+			// }
+			// }
+			// })
+			// );
+			// }
+			// };
 
-			processRelation(sel_TaskAuditors, appsmith.store.curAuditorsIds || [], "tasks_auditors");
-			processRelation(sel_TaskParticipants, appsmith.store.curParticipantsIds || [], "tasks_participants");
+			// processRelation(sel_TaskAuditors, appsmith.store.curAuditorsIds || [], "tasks_auditors");
+			// processRelation(sel_TaskParticipants, appsmith.store.curParticipantsIds || [], "tasks_participants");
+			updates.push(...this.processRelationUpdate(sel_TaskAuditors, taskId, appsmith.store.curAuditorsIds || [], "tasks_auditors"));
+			updates.push(...this.processRelationUpdate(sel_TaskParticipants, taskId, appsmith.store.curParticipantsIds || [], "tasks_participants"));
+
 
 			if (updates.length) await Promise.all(updates);
 
@@ -363,21 +393,21 @@ export default {
 
 	async tbs_task_onTabSelected(){
 		// if task is selected and...
-		if (appsmith.store.selectedTask){
+		if (appsmith.store?.selectedTask){
 			const taskId = appsmith.store.selectedTask.id;
 			switch (tbs_task.selectedTab){
 					// ...we are on comments tab
 				case "Комментарии":
-					comments.getTaskComments(taskId);
+					await comments.getTaskComments(taskId);
 					break;
 					// ...we are on files tab
 				case "Логи":
-					audit.getTaskLog(taskId);
+					await audit.getTaskLog(taskId);
 					break;
 					// ...we are on files tab
 				case "Файлы":
 					console.log("taskId: ", taskId);
-					files.getTaskFiles(taskId);
+					await files.getTaskFiles(taskId);
 					break;
 				default:
 					break;
@@ -417,9 +447,7 @@ export default {
 					}
 				}
 			});
-			// sw_unreadTask.setDisabled(true);
-			const data = await this.getTasks();
-			await tbl_tasks.setData(data);
+			await this.updateTaskList();
 			this.setSelectedTask(tbl_tasks.tableData[tbl_tasks.selectedRowIndex]);
 			await this.tbs_task_onTabSelected();
 		} catch (error) {
@@ -447,9 +475,9 @@ export default {
 		utils.getStatusesOfProcess();
 
 		// current Auditors ids
-		storeValue("curAuditorsIds", task.auditor_ids.map(i => i.directus_users_id.id), true); 
+		storeValue("curAuditorsIds", task.auditor_ids?.map(i => i.directus_users_id.id), true); 
 		// current Participants ids
-		storeValue("curParticipantsIds", task.participant_ids.map(i => i.directus_users_id.id), true);
+		storeValue("curParticipantsIds", task.participant_ids?.map(i => i.directus_users_id.id), true);
 		showModal(mdl_addEditTask.name);
 	},
 
@@ -460,5 +488,4 @@ export default {
 		await storeValue("curParticipantsIds", undefined, true);
 		closeModal(mdl_addEditTask.name);
 	}
-
 } 

@@ -54,14 +54,16 @@ export default {
 			const response = await items.getItems(params);
 			const allSpheres = response.data || [];
 			// Sort by name (ascending)
-			allSpheres.sort((a, b) => a.name.localeCompare(b.name));
+			if (allSpheres.length >1 ) {
+				allSpheres.sort((a, b) => a.name.localeCompare(b.name));
+			}
 			return allSpheres;
 		} catch (error) {
 			console.error("Error in all task processing:", error);
 			throw error;
 		}
 	},
-	
+
 	getFunctionals: async () => {
 		try {
 			// Fields to fetch
@@ -76,7 +78,9 @@ export default {
 			const response = await items.getItems(params);
 			const allSpheres = response.data || [];
 			// Sort by name (ascending)
-			allSpheres.sort((a, b) => a.name.localeCompare(b.name));
+			if (allSpheres.length >1 ) {
+				allSpheres.sort((a, b) => a.name.localeCompare(b.name));
+			}
 			return allSpheres;
 		} catch (error) {
 			console.error("Error in all task processing:", error);

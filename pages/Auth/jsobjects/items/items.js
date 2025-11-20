@@ -1,6 +1,6 @@
 export default {
 	createItems: async(params = {}) => {
-		const {fields, collection, filter = {}, body = {}, limit = -1	} = params;
+		const {fields = "*", collection, filter = {}, body = {}, limit = -1	} = params;
 		try {
 			return await qCreateItems.run({	fields, filter, body, limit, collection })
 		} catch (error) {

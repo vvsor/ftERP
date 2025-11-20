@@ -1,10 +1,9 @@
 export default {	
 	/// ================== test block ==================
-	async test() {
-		let a = await comments.getTaskComments(405);
-		// console.log("AAA: ", a);
-		return a;
-	},
+	// async test() {
+	// let a = await comments.getTaskComments(378);
+	// return a;
+	// },
 	/// ============== end of test block ===============
 
 	async getTaskComments(taskId) {
@@ -12,52 +11,30 @@ export default {
 		: appsmith.store.user.id;
 		// Fields to fetch
 		try {
-
-			const fields = [
-				"*",
-				"author_id.id",
-				"author_id.last_name",
-				"author_id.first_name"
-			].join(",");
-
 			const params = {
 				collection: "comments",
-				fields: fields,
-				filter: {	task_id: { _eq: taskId }	},
+				fields: [
+					"*",
+					"author_id.id",
+					"author_id.last_name",
+					"author_id.first_name",
+					"unread.comment_id",
+					"unread.user_id"
+				].join(","),
+				filter: {
+					task_id: { _eq: taskId || 378 }
+				},
 			};
 			const response = await items.getItems(params);
 			const taskComments = response.data;
-
-			// Prepare and fetch unread tasks
-			let unreadComments = [];
-			try {
-				const filter = {
-					task_id: { _eq: taskId },
-					user_id: { _eq: userid }
-				};
-
-				const fields = "*";
-				const params = {
-					fields: fields,
-					collection: "unread",
-					filter: filter
-				};
-				const response = await items.getItems(params);
-				unreadComments = response.data || [];
-			} catch (error) {
-				console.error("Error fetching unread comments:", error);
-				throw error;
-			}
-			console.log("unreadComments: ", unreadComments);
-			// Map for quick unread lookup
-			const unreadMap = new Map(unreadComments.map(unread => [unread.comment_id, unread]));
-
+			console.log("111taskComments: ",taskComments);
 			// Combine comments with unread info
 			let combinedComments = taskComments.map(comment => ({
 				...comment,
-				unread: unreadMap.has(comment.id)
-				// unreadInfo: unreadMap.get(comment.id) || null
+				unread: comment.unread?.some(u => u.user_id === userid) || false,
+				unreadInfo: comment.unread?.find(u => u.user_id === userid) || null
 			}));
+			console.log("222combinedComments: ", combinedComments);
 
 			combinedComments.sort((a, b) => a.id - b.id);
 			return combinedComments;
@@ -131,7 +108,7 @@ export default {
 			unsavedData.push("Прикрепленные файлы");
 		}
 		// check for unsaved test
-		if (appsmith.store.editingComment.id &&
+		if (appsmith.store?.editingComment?.id &&
 				lst_taskComments.triggeredItemView?.txt_commentText?.text !== undefined &&
 				rte_Comment.text.trim() !== lst_taskComments.triggeredItemView.txt_commentText.text.trim()
 			 ) {
@@ -144,7 +121,6 @@ export default {
 		} else {
 			closeModal(mdl_addEditComment.name);
 		}
-		// console.log(unsavedData.length);
 	},
 
 
@@ -181,15 +157,15 @@ export default {
 			}
 			showAlert('Обновляем комментарий...', 'info');
 
-			if (Object.keys(data).length === 0 && !filesAttached) {
-				const body = {
-					keys: [commentId],
-					data
-				};
-
-				const params = { collection: "comments",	body: body };
-				await items.updateItems(params);
-			}
+			// if (Object.keys(data).length === 0 && !filesAttached) {
+			// const body = {
+			// keys: [commentId],
+			// data
+			// };
+			// 
+			// const params = { collection: "comments",	body: body };
+			// await items.updateItems(params);
+			// }
 
 			// Handle file uploads if any
 			if (filesAttached) {

@@ -11,18 +11,16 @@ export default {
 
 	logout: async () => {
 		if (!appsmith.store?.user?.token){
-			auth.setDefaultTab('Sign In');
+			this.setDefaultTab('Sign In');
 			return;
 		}
 		try {
-			const body = {
-				refresh_token: appsmith.store.user.token,
-				mode: "json"
-			};
-
 			const params = {
 				action: "logout",
-				body: body,	
+				body: {
+					refresh_token: appsmith.store.user.token,
+					mode: "json"
+				}
 			};
 
 			await audit.addAuditAction({action: 'logged_out'});
@@ -30,7 +28,7 @@ export default {
 
 			showAlert('Успешный выход', 'success');
 			clearStore();
-			auth.setDefaultTab('Sign In');
+			this.setDefaultTab('Sign In');
 		} catch (error) {
 			console.error("Error in logout: ", error);
 			showAlert('Ошибка при выходе', 'error');
@@ -56,11 +54,13 @@ export default {
 			};
 
 			// 1. Authenticate and get token
-			const response = await qAuth_login.run({ body: body });
-			const token = response.data.access_token;
+			const response = await qAuth_login.run({ body });
+			const token = response?.data?.access_token;
+			if (!token) throw new Error("No token");
 
 			// 2. Get user data by token
 			const userData = await qGetUserDataByToken.run({ token });
+			if (!userData?.data?.id) throw new Error("No user details");
 			const { id, email, first_name, last_name, tgchannelusername } = userData.data;
 
 			// 3. Store user in Appsmith store

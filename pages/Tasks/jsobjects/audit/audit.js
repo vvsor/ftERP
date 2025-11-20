@@ -1,20 +1,19 @@
 export default {
 	addAuditAction: async ({action, taskId, commentId, clientId}) => {
 		try {
-			const body = {
-				user_id: appsmith.store.user.id,
-				action: action,
-				task_id: taskId,
-				comment_id: commentId,
-				client_id: clientId
-			};
 
 			const params = {
 				collection: "tasklog",
-				body: body
+				body: {
+					user_id: appsmith.store.user.id,
+					action: action,
+					task_id: taskId,
+					comment_id: commentId,
+					client_id: clientId
+				}
 			};
 
-			items.createItems(params);
+			await items.createItems(params);
 		} catch (error) {
 			// General catch for the entire operation
 			console.error("Error in saving activity log: ", error);
@@ -22,7 +21,7 @@ export default {
 		}
 	},
 
-	getTaskLog: async () => {
+	async getTaskLog(){
 		if (!appsmith.store.selectedTask) {
 			return;
 		}

@@ -1,6 +1,6 @@
 export default {
 	createItems: async(params = {}) => {
-		const {fields, collection, filter = {}, body = {}, limit = -1	} = params;
+		const {fields = "*", collection, filter = {}, body = {}, limit = -1	} = params;
 		try {
 			return await qCreateItems.run({	fields, filter, body, limit, collection })
 		} catch (error) {
@@ -10,7 +10,7 @@ export default {
 	},
 
 	updateItems: async(params = {}) => {
-		const {fields, collection, filter = {}, body = {}, limit = -1	} = params;
+		const {fields = "*", collection, filter = {}, body = {}, limit = -1	} = params;
 
 		// Validate required parameters
 		if (!body || !collection) {
@@ -26,7 +26,7 @@ export default {
 	},
 
 	getItems: async(params = {}) => {
-		const {fields, collection, filter = {}, body = {}, limit = -1	} = params;
+		const {fields = "*", collection, filter = {}, body = {}, limit = -1	} = params;
 
 		// Validate required parameters
 		if (!fields || !collection) {
@@ -42,7 +42,7 @@ export default {
 	},
 
 	deleteItems: async(params ={}) => {
-		const {fields, collection, filter = {}, body = {}, limit = -1	} = params;
+		const {fields = "*", collection, filter = {}, body = {}, limit = -1	} = params;
 
 		if ((!body || Object.keys(body).length === 0)) {
 			throw new Error("You must specify body for deletion!");

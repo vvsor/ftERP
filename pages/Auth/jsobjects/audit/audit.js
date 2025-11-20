@@ -1,5 +1,6 @@
 export default {
 	async addAuditAction({action, taskId, commentId, clientId}){
+		if (!appsmith.store?.user?.id) return;
 		try {
 			const body = {
 				user_id: appsmith.store.user.id,
@@ -9,12 +10,11 @@ export default {
 				client_id: clientId
 			};
 
-			const params = {
+			return await items.createItems({
 				collection: "tasklog",
-				body: body
-			};
+				body
+			});
 
-			await items.createItems(params);
 		} catch (error) {
 			// General catch for the entire operation
 			console.error("Error in saving activity log: ", error);

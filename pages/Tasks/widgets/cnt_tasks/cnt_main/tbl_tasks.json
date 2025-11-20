@@ -32,11 +32,9 @@
     }
   },
   "columnOrder": [
-    "unread",
     "title",
     "deadline",
     "description",
-    "unreadInfo",
     "auditor_ids",
     "participant_ids",
     "files_id",
@@ -46,9 +44,11 @@
     "assigner",
     "assignee",
     "project_id",
-    "task_priority_id"
+    "task_priority_id",
+    "unread",
+    "unreadInfo"
   ],
-  "columnUpdatedAt": 1763623025825,
+  "columnUpdatedAt": 1763656423061,
   "columnWidthMap": {
     "customColumn1": 66.00000000000001,
     "deadline": 136,
@@ -86,12 +86,6 @@
       "key": "primaryColumns.description.computedValue"
     },
     {
-      "key": "primaryColumns.unread.computedValue"
-    },
-    {
-      "key": "primaryColumns.unreadInfo.computedValue"
-    },
-    {
       "key": "primaryColumns.auditor_ids.computedValue"
     },
     {
@@ -119,9 +113,6 @@
       "key": "primaryColumns.assigner.computedValue"
     },
     {
-      "key": "primaryColumns.unread.cellBackground"
-    },
-    {
       "key": "primaryColumns.title.cellBackground"
     },
     {
@@ -144,6 +135,12 @@
     },
     {
       "key": "primaryColumns.task_priority_id.computedValue"
+    },
+    {
+      "key": "primaryColumns.unread.computedValue"
+    },
+    {
+      "key": "primaryColumns.unreadInfo.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -152,9 +149,6 @@
     },
     {
       "key": "tableData"
-    },
-    {
-      "key": "primaryColumns.unread.cellBackground"
     },
     {
       "key": "primaryColumns.title.cellBackground"
@@ -202,8 +196,8 @@
   "multiRowSelection": false,
   "needsErrorInfo": false,
   "onRowSelected": "{{tasks.tbl_tasks_onRowSelected();}}",
-  "originalBottomRow": 69,
-  "originalTopRow": 4,
+  "originalBottomRow": 70,
+  "originalTopRow": 5,
   "parentColumnSpace": 17.9375,
   "parentId": "019jh4yv6b",
   "parentRowSpace": 10,
@@ -651,9 +645,9 @@
       "alias": "unread",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.unread ? \"#F7F7F7\" : \"white\" )) : currentRow.unread ? \"#F7F7F7\" : \"white\"  })()}}",
-      "columnType": "switch",
-      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (tbl_tasks.tableData?.length > 0 ? (currentRow.unread ?  currentRow[\"unread\"] : \"\") : \"\")) : tbl_tasks.tableData?.length > 0 ? (currentRow.unread ?  currentRow[\"unread\"] : \"\") : \"\" })()}}",
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"unread\"])) : unread })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -661,7 +655,7 @@
       "fontStyle": "",
       "horizontalAlignment": "LEFT",
       "id": "unread",
-      "index": 15,
+      "index": 13,
       "isCellEditable": false,
       "isCellVisible": true,
       "isDerived": false,
@@ -669,11 +663,11 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": false,
+      "isVisible": true,
       "label": "unread",
       "notation": "standard",
       "originalId": "unread",
-      "sticky": "left",
+      "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
@@ -687,7 +681,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"unreadInfo\"])) : currentRow[\"unreadInfo\"] })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_tasks.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"unreadInfo\"])) : unreadInfo })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -695,7 +689,7 @@
       "fontStyle": "",
       "horizontalAlignment": "LEFT",
       "id": "unreadInfo",
-      "index": 16,
+      "index": 14,
       "isCellEditable": false,
       "isCellVisible": true,
       "isDerived": false,
@@ -703,7 +697,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": false,
+      "isVisible": true,
       "label": "unreadInfo",
       "notation": "standard",
       "originalId": "unreadInfo",
@@ -722,7 +716,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": true,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ Array.isArray(tasks.getTasks.data) ? tasks.getTasks.data : [] }}\n",
+  "tableData": "{{ Array.isArray(tasks.getTasks.data) ? tasks.getTasks.data : [] }}",
   "textSize": "0.875rem",
   "topRow": 4,
   "totalRecordsCount": 0,
