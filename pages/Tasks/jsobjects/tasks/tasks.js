@@ -6,10 +6,10 @@ export default {
 	},
 
 	/// ================== test block ==================
-	// async Test(){
-	// // const task = appsmith.store.selectedTask;
-	// console.log("this.curAuditorsIds: ", appsmith.store.user);
-	// },
+	async Test(){
+		// const task = appsmith.store.selectedTask;
+		// console.log("this.curAuditorsIds: ", appsmith.store.user);
+	},
 	/// ============== end of test block ===============
 
 
@@ -417,11 +417,11 @@ export default {
 					}
 				}
 			});
-			console.log("Deleted unread record with ID:", unread_id);
-			// Optionally disable the switch if needed:
 			// sw_unreadTask.setDisabled(true);
 			const data = await this.getTasks();
 			await tbl_tasks.setData(data);
+			this.setSelectedTask(tbl_tasks.tableData[tbl_tasks.selectedRowIndex]);
+			await this.tbs_task_onTabSelected();
 		} catch (error) {
 			console.error("Error deleting unread record:", error);
 			// Optionally, show an alert or handle the error further here

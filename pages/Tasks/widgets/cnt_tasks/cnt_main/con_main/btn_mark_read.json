@@ -12,11 +12,20 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "isVisible"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -25,7 +34,7 @@
     }
   ],
   "isDefaultClickDisabled": true,
-  "isDisabled": false,
+  "isDisabled": "{{!appsmith.store.selectedTask?.unread}}",
   "isLoading": false,
   "isVisible": "true",
   "key": "nk252rr2ae",
@@ -46,7 +55,7 @@
   "resetFormOnClick": false,
   "responsiveBehavior": "hug",
   "rightColumn": 63,
-  "text": "Отметить прочитанной",
+  "text": "{{appsmith.store.selectedTask?.unread ? \"Отметить прочитанной\" : \"Нет новых изменений\"\n}}",
   "topRow": 0,
   "type": "BUTTON_WIDGET",
   "version": 1,
