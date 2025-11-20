@@ -16,6 +16,7 @@ export default {
 			toggleWidgetState(sel_chooseFunctional, sel_chooseEmployee); // Functional -> Employee
 		} catch (error) {
 			console.error("Error in chooseEmployeeControls: ", error);
+			throw error;
 		}
 	},
 	getBranches: async () => {

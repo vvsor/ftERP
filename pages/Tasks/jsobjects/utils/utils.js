@@ -54,23 +54,23 @@ export default {
 		}
 	},
 
-	// for auditors and participants
-	getNamesFromArray: (usersArray) => {
-		// Извлекаем JSON часть из строки (удаляем "<b>Участники</b>: ")
-		// Извлечение фамилий и инициалов
-		if (Array.isArray(usersArray) && usersArray.length > 0) {
-			const result = usersArray
-			.filter(participant => participant && participant.directus_users_id) // Фильтруем некорректные элементы
-			.map(participant => {
-				const { last_name, first_name } = participant.directus_users_id;
-				return(`${last_name} ${first_name[0]}.`);
-			})
-			.join(", ");
-			return(result);
-		} else {
-			return ("");
-		}
-	},
+	// // for auditors and participants
+	// getNamesFromArray: (usersArray) => {
+		// // Извлекаем JSON часть из строки (удаляем "<b>Участники</b>: ")
+		// // Извлечение фамилий и инициалов
+		// if (Array.isArray(usersArray) && usersArray.length > 0) {
+			// const result = usersArray
+			// .filter(participant => participant && participant.directus_users_id) // Фильтруем некорректные элементы
+			// .map(participant => {
+				// const { last_name, first_name } = participant.directus_users_id;
+				// return(`${last_name} ${first_name[0]}.`);
+			// })
+			// .join(", ");
+			// return(result);
+		// } else {
+			// return ("");
+		// }
+	// },
 
 	formatBytes: (bytes, decimals = 2) => {
 		if (bytes === '-') return '';
@@ -86,10 +86,6 @@ export default {
 	},
 
 	getStatusesOfProcess: async(process_id) => {
-		const fields = [
-			"process_id", "status_id.id", "status_id.name", "order"
-		].join(",");
-
 		let current_process;
 		// use process_id if was passed
 		if (process_id) {
@@ -106,7 +102,12 @@ export default {
 
 		const filter = { "process_id": { "_eq": current_process	}	};
 		const params = {
-			fields: fields,
+			fields: [
+				"process_id",
+				"status_id.id",
+				"status_id.name",
+				"order"
+			].join(","),
 			collection: "processes_statuses",
 			// Filter: JSON.stringify(FilterObj),
 			filter: filter,
