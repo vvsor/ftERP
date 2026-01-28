@@ -29,7 +29,7 @@ export default {
 		d.setDate(1);
 		return d.toISOString().slice(0, 10); // "YYYY-MM-01"
 	},
-	
+
 	async getOfficeTerms() {
 		try {
 			const branchId = sel_chooseBranch.selectedOptionValue;
@@ -119,5 +119,18 @@ export default {
 		const last = user.last_name;
 		const first = user.first_name?.[0];
 		return `${last} ${first}.`;
+	},
+
+	async setFirstDayOfMonth(offset = 0) {
+		const current = new Date(dp_periodMonth.selectedDate || dp_periodMonth.value || new Date())
+
+		const firstDay = new Date(
+			current.getFullYear(),
+			current.getMonth() + offset,
+			1
+		)
+
+		dp_periodMonth.setValue(firstDay.toISOString());
+		salary.loadSalaryPayments();
 	}
 }

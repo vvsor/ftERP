@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_af525e16-c7f1-4d30-8b91-67fb645c71a9",
-  "id": "Salary_utils.formatUserName",
+  "gitSyncId": "691b0ec0e80d41540d602aea_8421970f-41dd-4606-9a46-95cc0ff71f5d",
+  "id": "Salary_utils.setFirstDayOfMonth",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,7 +8,8 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": "user"
+          "name": "offset",
+          "value": "{{0}}"
         }
       ],
       "paginationType": "NONE",
@@ -26,8 +27,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.formatUserName",
-    "name": "formatUserName",
+    "fullyQualifiedName": "utils.setFirstDayOfMonth",
+    "name": "setFirstDayOfMonth",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
