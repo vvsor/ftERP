@@ -412,7 +412,6 @@ export default {
 				default:
 					break;
 			}
-			// utils.addAuditAction.data("task_view",tbl_tasks.selectedRow.id);
 		} else {
 			return
 		}

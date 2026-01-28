@@ -59,6 +59,10 @@
     {
       "id": "Sandbox",
       "isDefault": false
+    },
+    {
+      "id": "Salary",
+      "isDefault": false
     }
   ],
   "unpublishedAppLayout": {

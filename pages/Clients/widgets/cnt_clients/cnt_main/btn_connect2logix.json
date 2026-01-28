@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 70,
+  "bottomRow": 62,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonVariant": "PRIMARY",
@@ -52,7 +52,7 @@
   "responsiveBehavior": "hug",
   "rightColumn": 64,
   "text": "Привязать клиента",
-  "topRow": 66,
+  "topRow": 58,
   "type": "BUTTON_WIDGET",
   "version": 1,
   "widgetId": "tzpvyjhy0m",

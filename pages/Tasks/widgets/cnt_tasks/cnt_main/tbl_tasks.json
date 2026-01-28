@@ -167,6 +167,9 @@
     },
     {
       "key": "isVisible"
+    },
+    {
+      "key": "onRowSelected"
     }
   ],
   "dynamicTriggerPathList": [
