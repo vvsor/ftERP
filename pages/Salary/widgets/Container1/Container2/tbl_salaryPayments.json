@@ -361,7 +361,7 @@
   },
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 63,
+  "rightColumn": 64,
   "searchKey": "",
   "tableData": "{{ Array.isArray(salary.loadSalaryPayments?.data) ? salary.loadSalaryPayments.data : [] }}",
   "textSize": "0.875rem",
