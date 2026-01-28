@@ -3,7 +3,7 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 14,
+  "bottomRow": 23,
   "boxShadow": "none",
   "defaultText": "{{inp_salaryCash.text*inp_maxAdvancePerc.text/100}}",
   "dynamicBindingPathList": [
@@ -51,7 +51,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 59,
   "showStepArrows": false,
-  "topRow": 7,
+  "topRow": 16,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
   "widgetId": "pb1dyp66q4",

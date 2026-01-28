@@ -3,7 +3,7 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 14,
+  "bottomRow": 23,
   "boxShadow": "none",
   "defaultText": "{{\nsalary.loadSalary.data?.max_advance_percent ?salary.loadSalary.data.max_advance_percent : \"\"\n}}",
   "dynamicBindingPathList": [
@@ -61,7 +61,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 49,
   "showStepArrows": false,
-  "topRow": 7,
+  "topRow": 16,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
   "widgetId": "xagspu1l2t",
