@@ -3,36 +3,38 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 23,
+  "bottomRow": 53,
   "boxShadow": "none",
-  "defaultText": "{{inp_total_salary.text-inp_CashlessAmount.text}}",
+  "defaultText": "",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
-    },
-    {
-      "key": "defaultText"
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
   "iconAlign": "left",
   "inputType": "TEXT",
-  "isDisabled": true,
+  "isDisabled": false,
   "isLoading": false,
   "isRequired": false,
   "isVisible": true,
   "key": "cd3vdlp0xa",
-  "label": "Нал",
+  "label": "Сумма выплаты",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 51,
+  "leftColumn": 40,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -41,17 +43,21 @@
   "mobileRightColumn": 52,
   "mobileTopRow": 17,
   "needsErrorInfo": false,
+  "onTextChanged": "",
+  "originalBottomRow": 72,
+  "originalTopRow": 65,
   "parentColumnSpace": 16.9755859375,
-  "parentId": "itflhxqalz",
+  "parentId": "9fkfudkavr",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
-  "rightColumn": 59,
+  "rightColumn": 48,
   "showStepArrows": false,
-  "topRow": 16,
+  "topRow": 46,
   "type": "INPUT_WIDGET_V2",
+  "validation": "",
   "version": 2,
-  "widgetId": "tt0d27vryp",
-  "widgetName": "inp_salaryCash"
+  "widgetId": "uwzexxrc7h",
+  "widgetName": "inp_paymentSum"
 }

@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 30,
+  "bottomRow": 7,
   "boxShadow": "none",
-  "defaultText": "{{inp_salaryCash.text*inp_maxAdvancePerc.text/100}}",
+  "defaultText": "{{\nsalary.loadSalary.data?.cashless_amount ?salary.loadSalary.data.cashless_amount : \"\"\n}}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -18,21 +18,30 @@
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
   "iconAlign": "left",
   "inputType": "TEXT",
-  "isDisabled": true,
+  "isDisabled": false,
   "isLoading": false,
   "isRequired": false,
   "isVisible": true,
   "key": "cd3vdlp0xa",
-  "label": "Руб.",
+  "label": "Безнал",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 51,
+  "leftColumn": 42,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -41,17 +50,20 @@
   "mobileRightColumn": 52,
   "mobileTopRow": 17,
   "needsErrorInfo": false,
+  "onTextChanged": "{{ autosave.autosave(inp_CashlessAmount, \"cashless_amount\")\n}}",
+  "originalBottomRow": 26,
+  "originalTopRow": 19,
   "parentColumnSpace": 16.9755859375,
-  "parentId": "itflhxqalz",
+  "parentId": "9fkfudkavr",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
-  "rightColumn": 59,
+  "rightColumn": 49,
   "showStepArrows": false,
-  "topRow": 23,
+  "topRow": 0,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "pb1dyp66q4",
-  "widgetName": "inp_maxAdvanceRub"
+  "widgetId": "znmuy0dp5i",
+  "widgetName": "inp_CashlessAmount"
 }

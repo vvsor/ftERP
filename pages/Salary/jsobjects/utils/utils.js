@@ -29,6 +29,7 @@ export default {
 		d.setDate(1);
 		return d.toISOString().slice(0, 10); // "YYYY-MM-01"
 	},
+	
 	async getOfficeTerms() {
 		try {
 			const branchId = sel_chooseBranch.selectedOptionValue;
@@ -64,8 +65,18 @@ export default {
 
 			// Transform the data as needed
 			const sourceData = response.data ;
-	w
-			// ✅ Remove duplicates by user ID
+			let contacts = sourceData.map(item => ({
+				id: item.id,
+				user_id: item.user_id.id,
+				// last_name: item.user_id.last_name,
+				// first_name: item.user_id.first_name,
+				employee: `${item.user_id.last_name} ${item.user_id.first_name[0]}.`,
+				// initials: `${item.user_id.first_name[0]}.`,
+				title: item.position_id.title_id.title,
+				branch_id: item.position_id.branch_id.id,
+				branch_name: item.position_id.branch_id.name,
+			}));
+			// Remove duplicates by user ID
 			const seen = new Set();
 			contacts = contacts.filter(c => {
 				if (seen.has(c.user_id)) return false;

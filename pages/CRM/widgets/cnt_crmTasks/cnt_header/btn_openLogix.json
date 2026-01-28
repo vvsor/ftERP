@@ -22,7 +22,7 @@
   ],
   "hideCard": false,
   "iconAlign": "left",
-  "iconName": "globe-network",
+  "iconName": "resolve",
   "iconSVG": "/static/media/icon.7a418b9e1899a550d7e8f33b48cbde12.svg",
   "isDefaultClickDisabled": true,
   "isDeprecated": false,
@@ -30,7 +30,7 @@
   "isLoading": false,
   "isVisible": true,
   "key": "frmqyy3qtm",
-  "leftColumn": 42,
+  "leftColumn": 51,
   "minWidth": 120,
   "mobileBottomRow": 9,
   "mobileLeftColumn": 45,
@@ -44,7 +44,7 @@
     "selectionBGCSSVar": "--on-canvas-ui-widget-selection",
     "selectionColorCSSVar": "--on-canvas-ui-widget-focus"
   },
-  "onClick": "{{navigateTo('https://fastrans.ru/', {}, 'NEW_WINDOW');}}",
+  "onClick": "{{navigateTo('https://work.fastrans.ru/', {}, 'NEW_WINDOW');}}",
   "parentColumnSpace": 17.3125,
   "parentId": "ygr9f46ar1",
   "parentRowSpace": 10,
@@ -53,7 +53,7 @@
   "renderMode": "CANVAS",
   "resetFormOnClick": false,
   "responsiveBehavior": "hug",
-  "rightColumn": 50,
+  "rightColumn": 57,
   "searchTags": [
     "click",
     "submit"
@@ -61,11 +61,11 @@
   "tags": [
     "Buttons"
   ],
-  "text": "fastrans.ru",
+  "text": "Logix",
   "thumbnailSVG": "/static/media/thumbnail.a348658e996feaad96cadc30d99374ff.svg",
   "topRow": 0,
   "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "e0jal18vx5",
-  "widgetName": "btn_openSiteCopy"
+  "widgetId": "sppuw9w7pp",
+  "widgetName": "btn_openLogix"
 }
