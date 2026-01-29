@@ -13,11 +13,9 @@ export default {
 	},
 
 	// ================== UTILS ==================
-	getPeriodMonth() {
-		const selectedDate = dp_periodMonth.selectedDate;
-		if (!selectedDate) return null;
-		return utils.YM_01day(selectedDate);
-	},
+getPeriodMonth() {
+  return appsmith.store.periodMonth || null;
+},
 
 	extractValue(widget) {
 		if (!widget) return null;

@@ -29,7 +29,7 @@
     "fullyQualifiedName": "salary.loadSalaryPayments",
     "name": "loadSalaryPayments",
     "pageId": "Salary",
-    "runBehaviour": "AUTOMATIC",
-    "userSetOnLoad": false
+    "runBehaviour": "MANUAL",
+    "userSetOnLoad": true
   }
 }

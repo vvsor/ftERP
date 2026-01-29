@@ -3,6 +3,8 @@ export default {
 	async test(){
 		// return appsmith.store.SelectedOfficeTerm;
 		// return salary.loadSalary.data;
+		moment.locale("ru");
+		return moment.locale();
 	},
 
 	/// ============== end of test block ===============
@@ -277,7 +279,6 @@ export default {
 		}
 	},
 
-
 	setSelectedOfficeTerm(officeTerm){
 		storeValue("SelectedOfficeTerm", officeTerm, true);
 	},
@@ -293,20 +294,20 @@ export default {
 	async loadSalary() {
 		try {
 			const officeTerm = appsmith.store?.SelectedOfficeTerm;
-			const selectedDate = dp_periodMonth.selectedDate;
+			const periodMonth = utils.getPeriodMonth();
 
-			if (!officeTerm || !selectedDate) {
-				throw new Error("officeTerm or selectedDate missing");
+			if (!officeTerm) {
+				throw new Error("officeTerm missing");
 			}
 
-			const periodMonth = utils.YM_01day(selectedDate);
-			console.log("periodMonth",periodMonth);
-			const prevMonth = utils.YM_01day(
-				moment(selectedDate)
-				.subtract(1, "month")
-				.toDate()
-			);
-			console.log("prevMonth",prevMonth);
+			if (!periodMonth) {
+				showAlert("Период не инициализирован", "warning");
+				return;
+			}
+
+			const prevMonth = moment(periodMonth)
+			.subtract(1, "month")
+			.format("YYYY-MM-01");
 
 			// ================= helpers =================
 
@@ -390,11 +391,13 @@ export default {
 			return;
 		}
 		salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
+		await utils.initPeriod();
 		await salary.loadSalary();
 		await salary.loadSalaryPayments();
 	},
 
 	async initSalary(){
+		moment.locale("ru");
 		const user = appsmith.store?.user;
 
 		// если операция восстановления ещё не завершена — просто не уходить на Auth
@@ -413,8 +416,9 @@ export default {
 		try {
 			const data = await utils.getOfficeTerms();
 			// Only call tab selection if a task exists
-			if (data.length > 0 ) {
+			if (data.length > 0) {
 				salary.setSelectedOfficeTerm(data[0]);
+				await utils.initPeriod();
 				await salary.loadSalary();
 				await salary.loadSalaryPayments();
 			}

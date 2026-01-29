@@ -1,10 +1,5 @@
 export default {
 
-	/// ================== test block ==================
-	// test: async () => {
-	// },
-	/// ============== end of test block ===============
-
 	getPaymentTypeName(code) {
 		const map = {
 			CASH_ADVANCE: "Аванс наличными",
@@ -27,7 +22,7 @@ export default {
 	YM_01day(date) {
 		const d = new Date(date);
 		d.setDate(1);
-		return d.toISOString().slice(0, 10); // "YYYY-MM-01"
+		return d.toISOString().slice(0, 10);
 	},
 
 	async getOfficeTerms() {
@@ -114,6 +109,7 @@ export default {
 			throw error;
 		}
 	},
+
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name;
@@ -121,16 +117,68 @@ export default {
 		return `${last} ${first}.`;
 	},
 
-	async setFirstDayOfMonth(offset = 0) {
-		const current = new Date(dp_periodMonth.selectedDate || dp_periodMonth.value || new Date())
+	/// ================== test block ==================
+	test: async () => {
+		removeValue("periodMonth");
+		// const now = new Date();
+		// 
+		// console.log("initPeriod(): now: ", now.toISOString());
+		// const firstDay = new Date(
+		// now.getFullYear(),
+		// now.getMonth(),
+		// 1
+		// );
+		// console.log("initPeriod(): firstDay: ", firstDay.toISOString());
+		const now = new Date();
 
+		const y = now.getFullYear();
+		const m = String(now.getMonth() + 1).padStart(2, "0");
+
+		const iso = `${y}-${m}-01`;   // БЕЗ UTC СДВИГА
+		await storeValue("periodMonth", iso, true);
+
+		return iso;
+	},
+	/// ============== end of test block ===============
+
+	async initPeriod() {
+		if (!appsmith.store.periodMonth) {
+			const now = new Date();
+
+			const y = now.getFullYear();
+			const m = String(now.getMonth() + 1).padStart(2, "0");
+
+			const iso = `${y}-${m}-01`;   // БЕЗ UTC СДВИГА
+			await storeValue("periodMonth", iso, true);
+
+			return iso;
+		}
+		return appsmith.store.periodMonth;
+	},
+
+	async shiftPeriod(monthOffset = 0) {
+		const base = new Date(appsmith.store.periodMonth);
 		const firstDay = new Date(
-			current.getFullYear(),
-			current.getMonth() + offset,
+			base.getFullYear(),
+			base.getMonth() + monthOffset,
 			1
-		)
+		);
 
-		dp_periodMonth.setValue(firstDay.toISOString());
-		salary.loadSalaryPayments();
+		const y = firstDay.getFullYear();
+		const m = String(firstDay.getMonth() + 1).padStart(2, "0");
+		const iso = `${y}-${m}-01`;
+
+		await storeValue("periodMonth", iso, true);
+
+		await salary.loadSalary();
+		await salary.loadSalaryPayments();
+
+		return iso;
+	},
+
+	getPeriodMonth() {
+		console.log("getPeriodMonth(): appsmith.store.periodMonth: ", appsmith.store.periodMonth);
+		return appsmith.store.periodMonth || null;
 	}
+
 }
