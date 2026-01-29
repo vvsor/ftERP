@@ -13,9 +13,9 @@ export default {
 	},
 
 	// ================== UTILS ==================
-getPeriodMonth() {
-  return appsmith.store.periodMonth || null;
-},
+	getPeriodMonth() {
+		return appsmith.store.periodMonth || null;
+	},
 
 	extractValue(widget) {
 		if (!widget) return null;
@@ -33,10 +33,30 @@ getPeriodMonth() {
 
 	// ================== CORE SAVE ==================
 	async saveField(fieldName, widget) {
+		if (!appsmith.store?.salaryReady) {
+			console.warn("Autosave blocked: salary not ready");
+			return;
+		}
 		try {
-						
-			const keys = [salary.loadSalary.data[0].id];
+			const salaryRec = appsmith.store?.salaryOfPeriod;
+
+			if (!salaryRec || !salaryRec.id) {
+				console.warn("Autosave skipped: salaryOfPeriod not ready", {
+					fieldName,
+					widget: widget?.widgetName
+				});
+				return;
+			}
+
 			const value = this.extractValue(widget);
+
+			// Не шлём пустые значения при инициализации
+			if (value === null || value === undefined) {
+				console.warn("Autosave skipped: empty value", fieldName);
+				return;
+			}
+
+			const keys = [salaryRec.id];
 
 			const body = {
 				keys,

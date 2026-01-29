@@ -375,7 +375,8 @@ export default {
 
 			// 4. ВСЕГДА сохраняем в store
 			salary.setSalaryOfPeriod(salaryRecord);
-
+			
+			await storeValue("salaryReady", true, true);
 			return salaryRecord;
 
 		} catch (error) {
@@ -386,6 +387,8 @@ export default {
 	},
 
 	async tbl_employees_onRowSelected() {
+		await storeValue("salaryReady", false, true);
+
 		const row = tbl_employees.selectedRow;
 		if (!row?.id) {
 			return;
@@ -397,7 +400,8 @@ export default {
 	},
 
 	async initSalary(){
-		moment.locale("ru");
+		await storeValue("salaryReady", false, true);
+
 		const user = appsmith.store?.user;
 
 		// если операция восстановления ещё не завершена — просто не уходить на Auth
