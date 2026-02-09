@@ -1,0 +1,50 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "TERTIARY",
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconName": "double-chevron-left",
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "mz1gyuwe0d",
+  "leftColumn": 20,
+  "minWidth": 50,
+  "mobileBottomRow": 6,
+  "mobileLeftColumn": 18,
+  "mobileRightColumn": 22,
+  "mobileTopRow": 2,
+  "needsErrorInfo": false,
+  "onClick": "{{ utils.shiftPeriod(-1) }}",
+  "parentColumnSpace": 16.6630859375,
+  "parentId": "9fkfudkavr",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 22,
+  "topRow": 3,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "2oh9utinwp",
+  "widgetName": "ibtn_prevPeriod"
+}

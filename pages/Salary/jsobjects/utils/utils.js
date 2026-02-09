@@ -1,14 +1,25 @@
 export default {
 
-	getPaymentTypeName(code) {
-		const map = {
-			CASH_ADVANCE: "Аванс наличными",
-			CASH_FINAL: "Наличными остаток",
-			CASHLESS_ADVANCE: "Аванс безналично",
-			CASHLESS_FINAL: "Безналично остаток",
-			BONUS: "Бонус"
-		};
-		return map[code] || code;
+	async getAccrualTypes() {
+		try {
+			// Fields to fetch
+			const fields = [
+				"*"
+			].join(",");
+
+			const params = {
+				fields: fields,
+				collection: "salary_accrual_types",
+			};
+			const response = await items.getItems(params);
+			const allBranches = response.data || [];
+			// Sort by name (ascending)
+			allBranches.sort((a, b) => a.name.localeCompare(b.name));
+			return allBranches;
+		} catch (error) {
+			console.error("Error in all task processing:", error);
+			throw error;
+		}
 	},
 
 	toLocalYMD(date) {
@@ -88,16 +99,16 @@ export default {
 		}
 	},
 
-	async getBranches() {
+	async getBranchAccounts() {
 		try {
 			// Fields to fetch
 			const fields = [
-				"id", "name"
+				"id", "name", "type"
 			].join(",");
 
 			const params = {
 				fields: fields,
-				collection: "branches",
+				collection: "branch_accounts",
 			};
 			const response = await items.getItems(params);
 			const allBranches = response.data || [];

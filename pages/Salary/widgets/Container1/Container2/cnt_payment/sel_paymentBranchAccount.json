@@ -1,0 +1,79 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "defaultOptionValue": "",
+  "displayName": "Select",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "hideCard": false,
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
+  "isDeprecated": false,
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "7edlq6wt3w",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 22,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 10,
+  "mobileRightColumn": 30,
+  "mobileTopRow": 35,
+  "onOptionChange": "",
+  "optionLabel": "name",
+  "optionValue": "id",
+  "originalBottomRow": 51,
+  "originalTopRow": 47,
+  "parentColumnSpace": 6.9375,
+  "parentId": "9knkxudwv0",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите счет",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 42,
+  "searchTags": [
+    "dropdown"
+  ],
+  "serverSideFiltering": false,
+  "sourceData": "{{ Array.isArray(utils.getBranchAccounts?.data) ? utils.getBranchAccounts.data : [] }}",
+  "tags": [
+    "Suggested",
+    "Select"
+  ],
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "n7yspr1vb7",
+  "widgetName": "sel_paymentBranchAccount"
+}

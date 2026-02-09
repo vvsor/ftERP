@@ -1,0 +1,52 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconName": "plus",
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "wsjmostpd6",
+  "leftColumn": 59,
+  "minWidth": 50,
+  "mobileBottomRow": 51,
+  "mobileLeftColumn": 59,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 47,
+  "needsErrorInfo": false,
+  "onClick": "{{salary.createSalaryPayment();}}",
+  "originalBottomRow": 51,
+  "originalTopRow": 47,
+  "parentColumnSpace": 16.6630859375,
+  "parentId": "9knkxudwv0",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 63,
+  "topRow": 0,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "c9n8rfejg8",
+  "widgetName": "btn_addPayment"
+}

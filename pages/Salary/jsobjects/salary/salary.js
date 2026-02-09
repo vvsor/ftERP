@@ -3,35 +3,92 @@ export default {
 	async test(){
 		// return appsmith.store.SelectedOfficeTerm;
 		// return salary.loadSalary.data;
-		moment.locale("ru");
-		return moment.locale();
+		// moment.locale("ru");
+		// return moment.locale();
+		// inp_accrualSum.setValue("");
 	},
 
 	/// ============== end of test block ===============
+
+	async loadSalaryPayments(salaryIdParam) {
+		try {
+			const salaryId =
+						salaryIdParam ||
+						appsmith.store?.salaryOfPeriod?.id;
+
+			if (!salaryId) {
+				throw new Error("salaryId missing in store and params");
+			}
+
+			// Fields to fetch
+			const Fields = [
+				"id",
+				"salary_id",
+				"amount",
+				"payment_date",
+				"branch_account_id.id",
+				"branch_account_id.name",
+			].join(",");
+
+			const params = {
+				collection: "salary_payments",
+				fields: Fields,
+				filter: {
+					salary_id: {
+						id: { _eq: salaryId }
+					}
+				}
+			};
+
+			const res = await items.getItems(params);
+
+			const rows = res.data ?? [];
+
+			// Важно: возвращаем ПЛОСКИЙ объект
+			return rows.map(p => ({
+				id: p.id,
+				salary_id: p.salary_id,
+				amount: p.amount,
+				payment_date: p.payment_date,
+
+				// для селектов (editable)
+				branch_account_id: p.branch_account_id?.id ?? null,
+				branch_account_name: p.branch_account_id?.name ?? "",
+
+				// // служебное (необязательно)
+				// __rowState: {
+				// isNew: false,
+				// isDirty: false,
+				// error: null
+				// }
+			}));
+		} catch (error) {
+			console.error("loadSalaryPayments failed:", error);
+			showAlert("Ошибка загрузки выплат зарплаты", "error");
+			throw error;
+		}
+	},
+
 	async createSalaryPayment() {
-		console.log("CHECK payments", tbl_salaryPayments.tableData);
-		console.log("CHECK salaryId", appsmith.store.salaryOfPeriod?.id);
 		try {
 			// --- Валидация ---
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
 			const amount = Number(inp_paymentSum.text);
-			const paymentType = sel_paymentType.selectedOptionValue;
-			const branchId = sel_branchPayment?.selectedOptionValue;
+			const branchAccountId = sel_paymentBranchAccount?.selectedOptionValue;
+			const paymentDate = dp_paymentDate ? moment(dp_paymentDate).format("YYYY-MM-DD") : null;
 
 			if (!salaryId) {
 				showAlert("Нет salaryID", "error");
 				return;
 			}
 
-			if (!paymentType) {
-				showAlert("Не выбран тип выплаты", "error");
+			if (!paymentDate) {
+				showAlert("Не выбрана дата", "error");
 				return;
 			}
 
-			const needsBranch = !paymentType.startsWith("CASHLESS");
-
-			if (needsBranch && !branchId) {
-				showAlert("Не выбран филиал выплаты", "error");
+			if (!branchAccountId) {
+				showAlert("Не выбран счет филиала", "error");
 				return;
 			}
 
@@ -40,128 +97,12 @@ export default {
 				return;
 			}
 
-			// --- Правило: безнал не требует филиала ---
-			// if (paymentType.startsWith("CASHLESS") && branchId) {
-			// showAlert("Для безналичной выплаты филиал указывать не нужно", "warning");
-			// }
-
-			// ================= БИЗНЕС-ПРОВЕРКИ =================
-
-			// Источник правды — таблица
-			const payments = tbl_salaryPayments.tableData || [];
-
-			// Контекст зарплаты
-			const salaryRec = appsmith.store?.salaryOfPeriod;
-			if (!salaryRec) {
-				showAlert("Нет данных по зарплате", "error");
-				return;
-			}
-
-			// Числа
-			const totalSalary = Number(salaryRec.total_salary) || 0;
-			const cashlessLimit = Number(salaryRec.cashless_amount) || 0;
-			const maxAdvancePercent = Number(salaryRec.max_advance_percent) || 0;
-			const amountNum = Number(amount) || 0;
-
-			// Наличная часть зарплаты
-			const cashPart = Math.max(totalSalary - cashlessLimit, 0);
-
-			// ===== Агрегация выплат =====
-			const sums = payments.reduce((acc, p) => {
-				const amt = Number(p.amount) || 0;
-
-				acc.total += amt;
-
-				if (p.type === "CASH_ADVANCE") acc.cashAdvance += amt;
-				if (p.type === "CASHLESS_ADVANCE") acc.cashlessAdvance += amt;
-				if (p.type === "CASH_FINAL") acc.cashFinal += amt;
-				if (p.type === "CASHLESS_FINAL") acc.cashlessFinal += amt;
-
-				return acc;
-			}, {
-				total: 0,
-				cashAdvance: 0,
-				cashlessAdvance: 0,
-				cashFinal: 0,
-				cashlessFinal: 0
-			});
-
-			// ===== 1. Уникальность безнала =====
-			if (
-				paymentType === "CASHLESS_ADVANCE" ||
-				paymentType === "CASHLESS_FINAL"
-			) {
-				const exists = payments.some(p => p.type === paymentType);
-
-				if (exists) {
-					const label =
-								paymentType === "CASHLESS_ADVANCE"
-					? "Безналичный аванс"
-					: "Безналичный финальный платёж";
-
-					showAlert(
-						`${label} уже существует за этот месяц. Повторная выплата запрещена.`,
-						"error"
-					);
-					return;
-				}
-			}
-
-			// ===== 2. Лимит наличного аванса (процент от НАЛИЧНОЙ части) =====
-			if (paymentType === "CASH_ADVANCE") {
-				const maxCashAdvance = (cashPart * maxAdvancePercent) / 100;
-				const alreadyCashAdvanced = sums.cashAdvance;
-
-				if (alreadyCashAdvanced + amountNum > maxCashAdvance) {
-					showAlert(
-						`Превышен лимит наличного аванса.
-Наличная часть: ${cashPart}
-Лимит (${maxAdvancePercent}%): ${maxCashAdvance}
-Уже выдано: ${alreadyCashAdvanced}`,
-						"error"
-					);
-					return;
-				}
-			}
-
-			// ===== 3. Лимит общей безналичной суммы =====
-			if (
-				paymentType === "CASHLESS_ADVANCE" ||
-				paymentType === "CASHLESS_FINAL"
-			) {
-				const totalCashless = sums.cashlessAdvance + sums.cashlessFinal;
-
-				if (totalCashless + amountNum > cashlessLimit) {
-					showAlert(
-						`Превышен лимит безналичных выплат.
-Разрешено: ${cashlessLimit}
-Уже безналом: ${totalCashless}`,
-						"error"
-					);
-					return;
-				}
-			}
-
-			// ===== 4. Общий лимит зарплаты =====
-			if (sums.total + amountNum > totalSalary) {
-				showAlert(
-					`Превышение общей суммы выплат.
-Зарплата: ${totalSalary}
-Уже выплачено: ${sums.total}`,
-					"error"
-				);
-				return;
-			}
-
-			// ================= КОНЕЦ БИЗНЕС-ПРОВЕРОК =================
-
 			// --- Формирование записи ---
 			const body = {
 				salary_id: salaryId,
-				branch_id: paymentType.startsWith("CASHLESS") ? null : branchId,
-				type: paymentType,
+				branch_account_id: branchAccountId,
 				amount: amount,
-				date: new Date().toISOString().split("T")[0] // YYYY-MM-DD
+				payment_date: paymentDate
 			};
 
 			const params = {
@@ -178,8 +119,8 @@ export default {
 			showAlert(`Выплата создана (ID: ${paymentId})`, "success");
 			// --- Обновление UI ---
 			await salary.loadSalaryPayments();
-			inp_paymentSum.setValue("");
-			sel_paymentType.setSelectedOption("");
+			sel_paymentBranchAccount.setSelectedOption("");
+			inp_paymentSum.setValue("");			
 
 			return paymentId;
 
@@ -190,7 +131,7 @@ export default {
 		}
 	},
 
-	async loadSalaryPayments(salaryIdParam) {
+	async loadSalaryAccruals(salaryIdParam) {
 		try {
 			const salaryId =
 						salaryIdParam ||
@@ -204,15 +145,15 @@ export default {
 			const Fields = [
 				"id",
 				"salary_id",
-				"branch_id.id",
-				"branch_id.name",
-				"type",
-				"amount",
-				"date"
+				"branch_account_id.id",
+				"branch_account_id.name",
+				"accrual_type_id.id",
+				"accrual_type_id.name",
+				"amount"
 			].join(",");
 
 			const params = {
-				collection: "salary_payments",
+				collection: "salary_accruals",
 				fields: Fields,
 				filter: {
 					salary_id: {
@@ -222,62 +163,98 @@ export default {
 			};
 
 			const res = await items.getItems(params);
+			const rows = res.data ?? [];
 
-			return (res.data || []).map(p => ({
-				...p,
-				type_name: utils.getPaymentTypeName(p.type)
+			// Важно: возвращаем ПЛОСКИЙ объект
+			return rows.map(p => ({
+				id: p.id,
+				salary_id: p.salary_id,
+				amount: p.amount,
+
+				// для селектов (editable)
+				branch_account_id: p.branch_account_id?.id ?? null,
+				branch_account_name: p.branch_account_id?.name ?? "",
+
+				accrual_type_id: p.accrual_type_id?.id ?? null,
+				accrual_name: p.accrual_type_id?.name ?? "",
+
+				// // служебное (необязательно)
+				// __rowState: {
+				// isNew: false,
+				// isDirty: false,
+				// error: null
+				// }
 			}));
-
 		} catch (error) {
-			console.error("loadSalaryPayments failed:", error);
-			showAlert("Ошибка загрузки выплат зарплаты", "error");
+			console.error("loadSalaryAccruals failed:", error);
+			showAlert("Ошибка загрузки начислений зарплаты", "error");
 			throw error;
 		}
 	},
 
-	async sel_paymentType_chosenOption() {
-		const type = sel_paymentType.selectedOptionValue;
-		if (!type) return;
+	async createSalaryAccrual() {
+		try {
+			// --- Валидация ---
+			const salaryId = appsmith.store?.salaryOfPeriod?.id;
+			const amount = Number(inp_accrualSum.text);
+			const accrualType = sel_accrualType?.selectedOptionValue;
+			const branchAccountId = sel_accrualBranchAccount?.selectedOptionValue;
 
-		switch (type) {
-
-			case "CASHLESS_ADVANCE": {
-				// Безнал аванс — филиал не нужен
-				sel_branchPayment.setDisabled(true);
-				const base1 = Number(inp_CashlessAmount.text) || 0;
-				inp_paymentSum.setValue(base1 / 2);
-				break;
+			if (!salaryId) {
+				showAlert("Нет salaryID", "error");
+				return;
 			}
 
-			case "CASHLESS_FINAL": {
-				// Безнал остаток — филиал не нужен
-				sel_branchPayment.setDisabled(true);
-				const base2 = Number(inp_CashlessAmount.text) || 0;
-				inp_paymentSum.setValue(base2 / 2);
-				break;
+			if (!accrualType) {
+				showAlert("Не выбран тип начисления", "error");
+				return;
 			}
 
-			case "BONUS":
-				// Бонус — филиал нужен
-				sel_branchPayment.setDisabled(false);
-				break;
+			if (!branchAccountId) {
+				showAlert("Не выбран счет филиала", "error");
+				return;
+			}
 
-			case "CASH_ADVANCE":
-				// Нал аванс — филиал нужен
-				sel_branchPayment.setDisabled(false);
-				break;
+			if (!amount || amount <= 0) {
+				showAlert("Сумма должна быть больше 0", "error");
+				return;
+			}
 
-			case "CASH_FINAL":
-				// Нал финал — филиал нужен
-				sel_branchPayment.setDisabled(false);
-				break;
+			// --- Формирование записи ---
+			const body = {
+				salary_id: salaryId,
+				branch_account_id: branchAccountId,
+				accrual_type_id: accrualType,
+				amount: amount
+			};
 
-			default:
-				// Защита от мусорных значений
-				sel_branchPayment.setDisabled(false);
-				showAlert(`Неизвестный тип выплаты: ${type}`, "warning");
+			const params = {
+				collection: "salary_accruals",
+				body: body
+			};
+
+			// --- Создание ---
+			showAlert("Создаем начисление...", "info");
+			const result = await items.createItems(params);
+
+			const accrualId = result.data.id;
+
+			showAlert(`Начисление создано (ID: ${accrualId})`, "success");
+			// --- Обновление UI ---
+			await salary.loadSalaryAccruals();
+			sel_accrualType.setSelectedOption("");
+			sel_accrualBranchAccount.setSelectedOption("");
+			inp_accrualSum.setValue("");
+
+			return accrualId;
+
+		} catch (err) {
+			console.error("createSalaryPayment error:", err);
+			showAlert("Ошибка при создании начисления", "error");
+			throw err;
 		}
 	},
+
 
 	setSelectedOfficeTerm(officeTerm){
 		storeValue("SelectedOfficeTerm", officeTerm, true);
@@ -375,7 +352,7 @@ export default {
 
 			// 4. ВСЕГДА сохраняем в store
 			salary.setSalaryOfPeriod(salaryRecord);
-			
+
 			await storeValue("salaryReady", true, true);
 			return salaryRecord;
 
@@ -425,9 +402,11 @@ export default {
 				await utils.initPeriod();
 				await salary.loadSalary();
 				await salary.loadSalaryPayments();
+				await salary.loadSalaryAccruals();
 			}
 			await Promise.all([
-				utils.getBranches()
+				utils.getAccrualTypes(),
+				utils.getBranchAccounts()
 			]);
 			return;
 		} catch (error) {

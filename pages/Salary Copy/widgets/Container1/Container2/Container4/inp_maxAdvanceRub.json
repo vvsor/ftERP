@@ -1,0 +1,59 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 18,
+  "boxShadow": "none",
+  "defaultText": "{{inp_salaryCash.text*inp_maxAdvancePerc.text/100}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicTriggerPathList": [],
+  "iconAlign": "left",
+  "inputType": "TEXT",
+  "isDisabled": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "cd3vdlp0xa",
+  "label": "Руб.",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 54,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 24,
+  "mobileLeftColumn": 32,
+  "mobileRightColumn": 52,
+  "mobileTopRow": 17,
+  "needsErrorInfo": false,
+  "originalBottomRow": 24,
+  "originalTopRow": 17,
+  "parentColumnSpace": 16.9755859375,
+  "parentId": "b47t27t6k8",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 62,
+  "showStepArrows": false,
+  "topRow": 11,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "pb1dyp66q4",
+  "widgetName": "inp_maxAdvanceRub"
+}

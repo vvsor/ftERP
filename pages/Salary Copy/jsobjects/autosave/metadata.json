@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_8d9b521f-8ab2-4424-a403-a57fb8cea669",
+  "id": "Salary Copy_autosave",
+  "unpublishedCollection": {
+    "name": "autosave",
+    "pageId": "Salary Copy",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "DEBOUNCE_DELAY",
+        "value": "2000"
+      },
+      {
+        "name": "debouncedSaveFn",
+        "value": "null"
+      }
+    ]
+  }
+}
