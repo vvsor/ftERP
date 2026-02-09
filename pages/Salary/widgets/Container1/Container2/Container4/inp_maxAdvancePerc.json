@@ -5,7 +5,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 7,
   "boxShadow": "none",
-  "defaultText": "{{\nsalary.loadSalary.data?.max_advance_percent ?salary.loadSalary.data.max_advance_percent : \"\"\n}}",
+  "defaultText": "{{\nsalary.loadSalary.data?.max_cash_advance_percent ?salary.loadSalary.data.max_cash_advance_percent : \"\"\n}}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -41,7 +41,7 @@
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 52,
+  "leftColumn": 49,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,

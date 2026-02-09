@@ -1,4 +1,9 @@
 export default {
+	formatMoneyRu(amount) {
+		const n = Number(amount) || 0;
+		const rounded = Math.round(n * 100) / 100; // защита от float-noise
+		return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+	},
 
 	async getAccrualTypes() {
 		try {

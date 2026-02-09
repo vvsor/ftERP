@@ -10,6 +10,54 @@ export default {
 
 	/// ============== end of test block ===============
 
+	async advanceInRub() {
+		const salary = appsmith.store?.salaryOfPeriod;
+		const pct = Number(salary?.max_cash_advance_percent);
+
+		if (!Number.isFinite(pct) || pct <= 0) return "—";
+
+		const rows = tbl_salaryAccruals?.tableData || [];
+
+		const base = rows.reduce((sum, r) => {
+			const ok =
+						r.branch_account_type === "CASH" &&
+						r.counts_for_salary_total === true &&
+						r.counts_for_cashless_limit === false;
+
+			return sum + (ok ? (Number(r.amount) || 0) : 0);
+		}, 0);
+
+		const advance = (base * pct) / 100;
+		// убираем .00, если копеек нет
+		const formatted = utils.formatMoneyRu(advance);
+
+		return `${formatted} ₽`;
+	},
+
+	paymentsSummaryText() {
+		const accruals = tbl_salaryAccruals?.tableData || [];
+		const payments = tbl_salaryPayments?.tableData || [];
+
+		const sumByType = (rows, type) =>
+		rows.reduce((s, r) => {
+			return s + (String(r.branch_account_type || "").toUpperCase() === type
+									? (Number(r.amount) || 0)
+									: 0);
+		}, 0);
+
+		const cashAccrued = sumByType(accruals, "CASH");
+		const cashPaid = sumByType(payments, "CASH");
+
+		const cashlessAccrued = sumByType(accruals, "CASHLESS");
+		const cashlessPaid = sumByType(payments, "CASHLESS");
+
+		const text =
+					`Безнал: Начислено: ${utils.formatMoneyRu(cashlessAccrued)}, Выплачено: ${utils.formatMoneyRu(cashlessPaid)}.\n` +
+					`Нал: Начислено: ${utils.formatMoneyRu(cashAccrued)}, Выплачено: ${utils.formatMoneyRu(cashPaid)}.`;
+
+		return text;
+	},
+
 	async loadSalaryPayments(salaryIdParam) {
 		try {
 			const salaryId =
@@ -28,6 +76,7 @@ export default {
 				"payment_date",
 				"branch_account_id.id",
 				"branch_account_id.name",
+				"branch_account_id.type",
 			].join(",");
 
 			const params = {
@@ -54,7 +103,7 @@ export default {
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
 				branch_account_name: p.branch_account_id?.name ?? "",
-
+				branch_account_type: p.branch_account_id?.type ?? null,
 				// // служебное (необязательно)
 				// __rowState: {
 				// isNew: false,
@@ -71,56 +120,144 @@ export default {
 
 	async createSalaryPayment() {
 		try {
-			// --- Валидация ---
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
-			const amount = Number(inp_paymentSum.text);
+			const salaryRec = appsmith.store?.salaryOfPeriod;
+
+			const amountNum = Number(inp_paymentSum.text);
 			const branchAccountId = sel_paymentBranchAccount?.selectedOptionValue;
 			const paymentDate = dp_paymentDate ? moment(dp_paymentDate).format("YYYY-MM-DD") : null;
 
-			if (!salaryId) {
-				showAlert("Нет salaryID", "error");
-				return;
+			if (!salaryId) return showAlert("Нет salaryID", "error");
+			if (!salaryRec) return showAlert("Нет данных salaryOfPeriod", "error");
+			if (!paymentDate) return showAlert("Не выбрана дата", "error");
+			if (!branchAccountId) return showAlert("Не выбран счет филиала", "error");
+			if (!amountNum || amountNum <= 0) return showAlert("Сумма должна быть больше 0", "error");
+
+			// ====== 0) Получаем тип счета (CASH / CASHLESS / ...)
+			const baRes = await items.getItems({
+				collection: "branch_accounts",
+				fields: ["id", "name", "type"].join(","),
+				filter: { id: { _eq: branchAccountId } },
+				limit: 1,
+			});
+
+			const branchAcc = baRes.data?.[0];
+			if (!branchAcc) return showAlert("Счет филиала не найден", "error");
+
+			const isCashAccount = branchAcc.type === "CASH";
+
+			// ====== 1) Начисления по этому счету (с флагами типа начисления)
+			const accrRes = await items.getItems({
+				collection: "salary_accruals",
+				fields: [
+					"id",
+					"amount",
+					"branch_account_id.id",
+					"accrual_type_id.id",
+					"accrual_type_id.counts_for_salary_total",
+					"accrual_type_id.counts_for_cashless_limit",
+				].join(","),
+				filter: {
+					salary_id: { id: { _eq: salaryId } },
+					branch_account_id: { id: { _eq: branchAccountId } },
+				},
+				limit: -1,
+			});
+
+			const accruals = accrRes.data ?? [];
+
+			const accrualSum = accruals.reduce((s, a) => s + (Number(a.amount) || 0), 0);
+
+			// База для лимита аванса по наличному счету
+			const advanceBaseSum = accruals.reduce((s, a) => {
+				const t = a.accrual_type_id;
+				const ok =
+							t?.counts_for_salary_total === true &&
+							t?.counts_for_cashless_limit === false;
+				return s + (ok ? (Number(a.amount) || 0) : 0);
+			}, 0);
+
+			// ====== 2) Уже выплачено по этому счету
+			const payRes = await items.getItems({
+				collection: "salary_payments",
+				fields: ["id", "amount", "branch_account_id.id"].join(","),
+				filter: {
+					salary_id: { id: { _eq: salaryId } },
+					branch_account_id: { id: { _eq: branchAccountId } },
+				},
+				limit: -1,
+			});
+
+			const payments = payRes.data ?? [];
+			const paidSum = payments.reduce((s, p) => s + (Number(p.amount) || 0), 0);
+
+			const remaining = accrualSum - paidSum;
+
+			// ====== (1) Запрет превышения выплат относительно начислений по счету
+			const EPS = 0.0001;
+			if (amountNum > remaining + EPS) {
+				return showAlert(
+					`Превышение выплат по счету "${branchAcc.name}".\n` +
+					`Начислено: ${accrualSum}\nУже выплачено: ${paidSum}\nОстаток: ${remaining}\n` +
+					`Пытаетесь выплатить: ${amountNum}`,
+					"error"
+				);
 			}
 
-			if (!paymentDate) {
-				showAlert("Не выбрана дата", "error");
-				return;
+			// ====== (2) Лимит аванса по наличному счету
+			// "Аванс" = выплата меньше остатка (т.е. не закрывает счет полностью)
+			const isAdvancePayment = amountNum < (remaining - EPS);
+
+			if (isCashAccount && isAdvancePayment) {
+				const maxPctRaw = salaryRec.max_cash_advance_percent;
+				const maxPct = Number(maxPctRaw);
+
+				// (C) если процент не задан / не число / 0 => аванс запрещён
+				if (!Number.isFinite(maxPct) || maxPct <= 0) {
+					return showAlert(
+						"Аванс по наличному счету запрещён: не задан salary.max_cash_advance (или он равен 0).",
+						"error"
+					);
+				}
+
+				const maxAdvance = (advanceBaseSum * maxPct) / 100;
+
+				if (paidSum + amountNum > maxAdvance + EPS) {
+					return showAlert(
+						`Превышен лимит аванса по наличному счету.\n` +
+						`База (counts_for_salary_total=true и counts_for_cashless_limit=false): ${advanceBaseSum}\n` +
+						`Лимит (${maxPct}%): ${maxAdvance}\n` +
+						`Уже выплачено по счету: ${paidSum}\n` +
+						`Пытаетесь выплатить: ${amountNum}`,
+						"error"
+					);
+				}
 			}
 
-			if (!branchAccountId) {
-				showAlert("Не выбран счет филиала", "error");
-				return;
-			}
-
-			if (!amount || amount <= 0) {
-				showAlert("Сумма должна быть больше 0", "error");
-				return;
-			}
-
-			// --- Формирование записи ---
+			// ====== Создание записи выплаты
 			const body = {
 				salary_id: salaryId,
 				branch_account_id: branchAccountId,
-				amount: amount,
-				payment_date: paymentDate
+				amount: amountNum,
+				payment_date: paymentDate,
 			};
 
-			const params = {
-				collection: "salary_payments",
-				body: body
-			};
-
-			// --- Создание ---
 			showAlert("Создаем выплату...", "info");
-			const result = await items.createItems(params);
 
-			const paymentId = result.data.id;
+			const result = await items.createItems({
+				collection: "salary_payments",
+				body,
+			});
+
+			const paymentId = result?.data?.id;
 
 			showAlert(`Выплата создана (ID: ${paymentId})`, "success");
-			// --- Обновление UI ---
+
+			// Обновление UI
 			await salary.loadSalaryPayments();
+
 			sel_paymentBranchAccount.setSelectedOption("");
-			inp_paymentSum.setValue("");			
+			inp_paymentSum.setValue("");
 
 			return paymentId;
 
@@ -147,8 +284,11 @@ export default {
 				"salary_id",
 				"branch_account_id.id",
 				"branch_account_id.name",
+				"branch_account_id.type",
 				"accrual_type_id.id",
 				"accrual_type_id.name",
+				"accrual_type_id.counts_for_salary_total",
+				"accrual_type_id.counts_for_cashless_limit",
 				"amount"
 			].join(",");
 
@@ -174,9 +314,12 @@ export default {
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
 				branch_account_name: p.branch_account_id?.name ?? "",
+				branch_account_type: p.branch_account_id?.type ?? null,
 
 				accrual_type_id: p.accrual_type_id?.id ?? null,
 				accrual_name: p.accrual_type_id?.name ?? "",
+				counts_for_salary_total: !!p.accrual_type_id?.counts_for_salary_total,
+				counts_for_cashless_limit: !!p.accrual_type_id?.counts_for_cashless_limit,
 
 				// // служебное (необязательно)
 				// __rowState: {
@@ -242,6 +385,7 @@ export default {
 			showAlert(`Начисление создано (ID: ${accrualId})`, "success");
 			// --- Обновление UI ---
 			await salary.loadSalaryAccruals();
+
 			sel_accrualType.setSelectedOption("");
 			sel_accrualBranchAccount.setSelectedOption("");
 			inp_accrualSum.setValue("");
@@ -254,7 +398,6 @@ export default {
 			throw err;
 		}
 	},
-
 
 	setSelectedOfficeTerm(officeTerm){
 		storeValue("SelectedOfficeTerm", officeTerm, true);
@@ -403,6 +546,7 @@ export default {
 				await salary.loadSalary();
 				await salary.loadSalaryPayments();
 				await salary.loadSalaryAccruals();
+				await salary.paymentsSummaryText();
 			}
 			await Promise.all([
 				utils.getAccrualTypes(),
