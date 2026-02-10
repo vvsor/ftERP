@@ -517,6 +517,7 @@ export default {
 		await utils.initPeriod();
 		await salary.loadSalary();
 		await salary.loadSalaryPayments();
+		await salary.loadSalaryAccruals();
 	},
 
 	async initSalary(){
