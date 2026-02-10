@@ -188,6 +188,7 @@ export default {
 
 		await salary.loadSalary();
 		await salary.loadSalaryPayments();
+		await salary.loadSalaryAccruals();
 
 		return iso;
 	},
