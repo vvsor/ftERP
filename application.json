@@ -63,10 +63,6 @@
     {
       "id": "Salary",
       "isDefault": false
-    },
-    {
-      "id": "Salary Copy",
-      "isDefault": false
     }
   ],
   "unpublishedAppLayout": {

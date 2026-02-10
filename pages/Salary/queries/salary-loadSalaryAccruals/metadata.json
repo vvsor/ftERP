@@ -29,7 +29,7 @@
     "fullyQualifiedName": "salary.loadSalaryAccruals",
     "name": "loadSalaryAccruals",
     "pageId": "Salary",
-    "runBehaviour": "AUTOMATIC",
-    "userSetOnLoad": false
+    "runBehaviour": "MANUAL",
+    "userSetOnLoad": true
   }
 }

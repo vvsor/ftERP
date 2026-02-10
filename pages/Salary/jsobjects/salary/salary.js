@@ -10,30 +10,6 @@ export default {
 
 	/// ============== end of test block ===============
 
-	async advanceInRub() {
-		const salary = appsmith.store?.salaryOfPeriod;
-		const pct = Number(salary?.max_cash_advance_percent);
-
-		if (!Number.isFinite(pct) || pct <= 0) return "—";
-
-		const rows = tbl_salaryAccruals?.tableData || [];
-
-		const base = rows.reduce((sum, r) => {
-			const ok =
-						r.branch_account_type === "CASH" &&
-						r.counts_for_salary_total === true &&
-						r.counts_for_cashless_limit === false;
-
-			return sum + (ok ? (Number(r.amount) || 0) : 0);
-		}, 0);
-
-		const advance = (base * pct) / 100;
-		// убираем .00, если копеек нет
-		const formatted = utils.formatMoneyRu(advance);
-
-		return `${formatted} ₽`;
-	},
-
 	paymentsSummaryText() {
 		const accruals = tbl_salaryAccruals?.tableData || [];
 		const payments = tbl_salaryPayments?.tableData || [];
@@ -97,7 +73,7 @@ export default {
 			return rows.map(p => ({
 				id: p.id,
 				salary_id: p.salary_id,
-				amount: p.amount,
+				amount: p.amount || 0,
 				payment_date: p.payment_date,
 
 				// для селектов (editable)
@@ -144,7 +120,7 @@ export default {
 			const branchAcc = baRes.data?.[0];
 			if (!branchAcc) return showAlert("Счет филиала не найден", "error");
 
-			const isCashAccount = branchAcc.type === "CASH";
+			const isCashAccount = String(branchAcc.type || "").toUpperCase() === "CASH";
 
 			// ====== 1) Начисления по этому счету (с флагами типа начисления)
 			const accrRes = await items.getItems({
@@ -215,7 +191,7 @@ export default {
 				// (C) если процент не задан / не число / 0 => аванс запрещён
 				if (!Number.isFinite(maxPct) || maxPct <= 0) {
 					return showAlert(
-						"Аванс по наличному счету запрещён: не задан salary.max_cash_advance (или он равен 0).",
+						"Аванс по наличному счету запрещён: не задан salary.max_cash_advance_percent (или он равен 0).",
 						"error"
 					);
 				}
@@ -309,7 +285,7 @@ export default {
 			return rows.map(p => ({
 				id: p.id,
 				salary_id: p.salary_id,
-				amount: p.amount,
+				amount: p.amount || 0,
 
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
@@ -393,7 +369,7 @@ export default {
 			return accrualId;
 
 		} catch (err) {
-			console.error("createSalaryPayment error:", err);
+			console.error("createSalaryAccrual error:", err);
 			showAlert("Ошибка при создании начисления", "error");
 			throw err;
 		}
@@ -480,7 +456,7 @@ export default {
 					period_month: periodMonth,
 					total_salary: previous?.total_salary || 0,
 					cashless_amount: previous?.cashless_amount || 0,
-					max_advance_percent: previous?.max_advance_percent || 0
+					max_cash_advance_percent: previous?.max_cash_advance_percent || 0
 				};
 
 				await createSalary(body);

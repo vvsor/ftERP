@@ -22,7 +22,29 @@ export default {
 		return iso;
 	},
 	/// ============== end of test block ===============
+	advanceInRub() {
+		const salary = appsmith.store?.salaryOfPeriod;
+		const pct = Number(salary?.max_cash_advance_percent);
 
+		if (!Number.isFinite(pct) || pct <= 0) return "—";
+
+		const rows = tbl_salaryAccruals?.tableData || [];
+
+		const base = rows.reduce((sum, r) => {
+			const ok =
+						r.branch_account_type === "CASH" &&
+						r.counts_for_salary_total === true &&
+						r.counts_for_cashless_limit === false;
+
+			return sum + (ok ? (Number(r.amount) || 0) : 0);
+		}, 0);
+
+		const advance = (base * pct) / 100;
+		// убираем .00, если копеек нет
+		const formatted = utils.formatMoneyRu(advance);
+
+		return `${formatted} ₽`;
+	},
 	formatMoneyRu(amount) {
 		const n = Number(amount) || 0;
 		const rounded = Math.round(n * 100) / 100; // защита от float-noise
