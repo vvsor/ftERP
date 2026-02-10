@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_ac754c63-fc88-4cf8-9dbb-53430c420407",
-  "id": "Salary_utils.test",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_9c53973b-e90e-431c-8afc-641ed9171bee",
+  "id": "Salary_utils.reloadSalaryContext",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -22,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.test",
-    "name": "test",
+    "fullyQualifiedName": "utils.reloadSalaryContext",
+    "name": "reloadSalaryContext",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

@@ -254,7 +254,7 @@ export default {
 			showAlert(`Выплата создана (ID: ${paymentId})`, "success");
 
 			// Обновление UI
-			await salary.loadSalaryPayments();
+			await utils.reloadSalaryContext();
 
 			sel_paymentBranchAccount.setSelectedOption("");
 			inp_paymentSum.setValue("");
@@ -384,7 +384,7 @@ export default {
 
 			showAlert(`Начисление создано (ID: ${accrualId})`, "success");
 			// --- Обновление UI ---
-			await salary.loadSalaryAccruals();
+			await utils.reloadSalaryContext();
 
 			sel_accrualType.setSelectedOption("");
 			sel_accrualBranchAccount.setSelectedOption("");
@@ -515,9 +515,7 @@ export default {
 		}
 		salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
 		await utils.initPeriod();
-		await salary.loadSalary();
-		await salary.loadSalaryPayments();
-		await salary.loadSalaryAccruals();
+		await utils.reloadSalaryContext();
 	},
 
 	async initSalary(){
@@ -544,10 +542,7 @@ export default {
 			if (data.length > 0) {
 				salary.setSelectedOfficeTerm(data[0]);
 				await utils.initPeriod();
-				await salary.loadSalary();
-				await salary.loadSalaryPayments();
-				await salary.loadSalaryAccruals();
-				await salary.paymentsSummaryText();
+				await utils.reloadSalaryContext();
 			}
 			await Promise.all([
 				utils.getAccrualTypes(),

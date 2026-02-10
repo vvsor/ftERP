@@ -1,4 +1,28 @@
 export default {
+	/// ================== test block ==================
+	test: async () => {
+		removeValue("periodMonth");
+		// const now = new Date();
+		// 
+		// console.log("initPeriod(): now: ", now.toISOString());
+		// const firstDay = new Date(
+		// now.getFullYear(),
+		// now.getMonth(),
+		// 1
+		// );
+		// console.log("initPeriod(): firstDay: ", firstDay.toISOString());
+		const now = new Date();
+
+		const y = now.getFullYear();
+		const m = String(now.getMonth() + 1).padStart(2, "0");
+
+		const iso = `${y}-${m}-01`;   // БЕЗ UTC СДВИГА
+		await storeValue("periodMonth", iso, true);
+
+		return iso;
+	},
+	/// ============== end of test block ===============
+
 	formatMoneyRu(amount) {
 		const n = Number(amount) || 0;
 		const rounded = Math.round(n * 100) / 100; // защита от float-noise
@@ -133,29 +157,15 @@ export default {
 		return `${last} ${first}.`;
 	},
 
-	/// ================== test block ==================
-	test: async () => {
-		removeValue("periodMonth");
-		// const now = new Date();
-		// 
-		// console.log("initPeriod(): now: ", now.toISOString());
-		// const firstDay = new Date(
-		// now.getFullYear(),
-		// now.getMonth(),
-		// 1
-		// );
-		// console.log("initPeriod(): firstDay: ", firstDay.toISOString());
-		const now = new Date();
+	async reloadSalaryContext() {
+		await storeValue("salaryReady", false, true);
 
-		const y = now.getFullYear();
-		const m = String(now.getMonth() + 1).padStart(2, "0");
-
-		const iso = `${y}-${m}-01`;   // БЕЗ UTC СДВИГА
-		await storeValue("periodMonth", iso, true);
-
-		return iso;
+		await salary.loadSalary();          // обновит appsmith.store.salaryOfPeriod (и id)
+		await salary.loadSalaryPayments();  // загрузка выплат для нового salaryId
+		await salary.loadSalaryAccruals();  // загрузка начислений для нового salaryId
+		await salary.paymentsSummaryText();
+		await storeValue("salaryReady", true, true);
 	},
-	/// ============== end of test block ===============
 
 	async initPeriod() {
 		if (!appsmith.store.periodMonth) {
@@ -186,9 +196,7 @@ export default {
 
 		await storeValue("periodMonth", iso, true);
 
-		await salary.loadSalary();
-		await salary.loadSalaryPayments();
-		await salary.loadSalaryAccruals();
+		await utils.reloadSalaryContext();
 
 		return iso;
 	},
