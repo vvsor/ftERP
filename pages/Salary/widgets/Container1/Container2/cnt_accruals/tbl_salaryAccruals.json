@@ -44,7 +44,7 @@
     "counts_for_cashless_limit",
     "branch_account_type"
   ],
-  "columnUpdatedAt": 1770651759133,
+  "columnUpdatedAt": 1770712026576,
   "columnWidthMap": {
     "amount": 101,
     "branch_account_name": 199
@@ -326,7 +326,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "branch_account_type",
       "notation": "standard",
       "originalId": "branch_account_type",
@@ -360,7 +360,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "counts_for_cashless_limit",
       "notation": "standard",
       "originalId": "counts_for_cashless_limit",
@@ -394,7 +394,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "counts_for_salary_total",
       "notation": "standard",
       "originalId": "counts_for_salary_total",
