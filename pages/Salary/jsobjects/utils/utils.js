@@ -46,6 +46,7 @@ export default {
 
 		return `${formatted} ₽`;
 	},
+	
 	formatMoneyRu(amount) {
 		const n = Number(amount) || 0;
 		const rounded = Math.round(n * 100) / 100; // защита от float-noise
@@ -151,6 +152,29 @@ export default {
 		}
 	},
 
+		async getBranches() {
+		try {
+			// Fields to fetch
+			const fields = [
+				"*"
+			].join(",");
+
+			const params = {
+				fields: fields,
+				collection: "branches",
+			};
+			const response = await items.getItems(params);
+			const allBranches = response.data || [];
+			// Sort by name (ascending)
+			allBranches.sort((a, b) => a.name.localeCompare(b.name));
+			return allBranches;
+		} catch (error) {
+			console.error("Error in all task processing:", error);
+			throw error;
+		}
+	},
+
+	
 	async getBranchAccounts() {
 		try {
 			// Fields to fetch

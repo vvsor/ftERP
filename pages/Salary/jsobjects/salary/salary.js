@@ -522,7 +522,8 @@ export default {
 			}
 			await Promise.all([
 				utils.getAccrualTypes(),
-				utils.getBranchAccounts()
+				utils.getBranchAccounts(),
+				utils.getBranches()
 			]);
 			return;
 		} catch (error) {
