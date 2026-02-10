@@ -22,6 +22,7 @@ export default {
 		return iso;
 	},
 	/// ============== end of test block ===============
+	
 	advanceInRub() {
 		const salary = appsmith.store?.salaryOfPeriod;
 		const pct = Number(salary?.max_cash_advance_percent);
@@ -186,6 +187,7 @@ export default {
 		await salary.loadSalaryPayments();  // загрузка выплат для нового salaryId
 		await salary.loadSalaryAccruals();  // загрузка начислений для нового salaryId
 		await salary.paymentsSummaryText();
+		utils.advanceInRub();
 		await storeValue("salaryReady", true, true);
 	},
 
