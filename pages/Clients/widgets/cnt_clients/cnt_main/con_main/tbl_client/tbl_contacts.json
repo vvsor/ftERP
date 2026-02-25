@@ -85,9 +85,6 @@
       "key": "primaryColumns.EditActions1.isSaveDisabled"
     },
     {
-      "key": "primaryColumns.EditActions1.isDiscardDisabled"
-    },
-    {
       "key": "tableData"
     },
     {
@@ -100,9 +97,6 @@
     },
     {
       "key": "primaryColumns.EditActions1.isSaveDisabled"
-    },
-    {
-      "key": "primaryColumns.EditActions1.isDiscardDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -169,7 +163,7 @@
       "isCellVisible": true,
       "isDerived": true,
       "isDisabled": false,
-      "isDiscardDisabled": "{{tbl_contacts.processedTableData.map((currentRow, currentIndex) => ( !tbl_contacts.updatedRowIndices.includes(currentIndex)))}}",
+      "isDiscardDisabled": false,
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveDisabled": "{{tbl_contacts.processedTableData.map((currentRow, currentIndex) => ( !tbl_contacts.updatedRowIndices.includes(currentIndex)))}}",

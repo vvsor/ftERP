@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_60b1a090-270c-4847-8cdb-b2efa98167e9",
-  "id": "Salary_utils.getAccrualTypes",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_c739741f-ddce-48bc-aa38-9ba6b0e7b19b",
+  "id": "Salary_utils.getAccrualTypesOptions",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -22,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.getAccrualTypes",
-    "name": "getAccrualTypes",
+    "fullyQualifiedName": "utils.getAccrualTypesOptions",
+    "name": "getAccrualTypesOptions",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": true

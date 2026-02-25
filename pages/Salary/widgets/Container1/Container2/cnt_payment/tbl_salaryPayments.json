@@ -1,10 +1,11 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "allowAddNewRow": true,
   "animateLoading": true,
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 32,
+  "bottomRow": 34,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -38,14 +39,20 @@
     "payment_date",
     "branch_account_id",
     "branch_account_name",
-    "branch_account_type"
+    "branch_account_type",
+    "customColumn1",
+    "EditActions1"
   ],
-  "columnUpdatedAt": 1770702617386,
+  "columnUpdatedAt": 1772032102927,
   "columnWidthMap": {
-    "amount": 101
+    "amount": 112,
+    "branch_account_name": 202,
+    "customColumn1": 60,
+    "payment_date": 162
   },
   "customIsLoading": false,
   "customIsLoadingValue": "",
+  "defaultNewRow": "{{ \n  {\n    payment_date: moment().format(\"YYYY-MM-DD\")\n  }\n}}",
   "defaultPageSize": 0,
   "defaultSelectedRowIndex": 0,
   "defaultSelectedRowIndices": [
@@ -85,24 +92,74 @@
     },
     {
       "key": "primaryColumns.branch_account_type.computedValue"
+    },
+    {
+      "key": "primaryColumns.customColumn1.buttonColor"
+    },
+    {
+      "key": "primaryColumns.EditActions1.saveButtonColor"
+    },
+    {
+      "key": "primaryColumns.EditActions1.saveBorderRadius"
+    },
+    {
+      "key": "primaryColumns.EditActions1.discardBorderRadius"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveVisible"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardVisible"
+    },
+    {
+      "key": "primaryColumns.branch_account_name.selectOptions"
+    },
+    {
+      "key": "defaultNewRow"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "tableData"
+    },
+    {
+      "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveVisible"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardVisible"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "primaryColumns.customColumn1.onClick"
+    },
+    {
+      "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
+    }
+  ],
   "enableClientSideSearch": true,
   "endOfData": false,
   "flexVerticalAlignment": "start",
   "horizontalAlignment": "LEFT",
+  "infiniteScrollEnabled": false,
   "inlineEditingSaveOption": "ROW_LEVEL",
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
-  "isVisibleDownload": true,
-  "isVisibleFilters": false,
+  "isVisibleDownload": false,
+  "isVisibleFilters": true,
   "isVisiblePagination": true,
   "isVisibleSearch": true,
   "key": "hrvnmmllo0",
@@ -113,34 +170,78 @@
   "mobileLeftColumn": 30,
   "mobileRightColumn": 64,
   "mobileTopRow": 20,
+  "multiRowSelection": false,
   "needsErrorInfo": false,
-  "originalBottomRow": 32,
-  "originalTopRow": 4,
+  "onAddNewRowSave": "{{\npayments.createSalaryPayment(tbl_salaryPayments.newRow)\n}}",
+  "originalBottomRow": 34,
+  "originalTopRow": 5,
   "parentColumnSpace": 16.9755859375,
   "parentId": "9knkxudwv0",
   "parentRowSpace": 10,
+  "primaryColumnId": "id",
   "primaryColumns": {
+    "EditActions1": {
+      "alias": "EditActions1",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "buttonStyle": "rgb(3, 179, 101)",
+      "columnType": "editActions",
+      "computedValue": "",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "discardActionLabel": "Отмена",
+      "discardBorderRadius": "{{tbl_salaryPayments.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "discardButtonColor": "#F22B2B",
+      "discardButtonVariant": "TERTIARY",
+      "discardIconAlign": "left",
+      "enableFilter": true,
+      "enableSort": true,
+      "id": "EditActions1",
+      "index": 8,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardDisabled": false,
+      "isDiscardVisible": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( tbl_salaryPayments.updatedRowIndices.includes(currentIndex) || false\n)) :  tbl_salaryPayments.updatedRowIndices.includes(currentIndex) || false\n })()}}",
+      "isEditable": false,
+      "isSaveDisabled": false,
+      "isSaveVisible": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( tbl_salaryPayments.updatedRowIndices.includes(currentIndex) || false\n)) :  tbl_salaryPayments.updatedRowIndices.includes(currentIndex) || false\n })()}}",
+      "isVisible": true,
+      "label": "Save",
+      "notation": "standard",
+      "onSave": "{{\npayments.updateSalaryPayment (tbl_salaryPayments.updatedRows[0])\n}}",
+      "originalId": "EditActions1",
+      "saveActionLabel": "Сохранить",
+      "saveBorderRadius": "{{tbl_salaryPayments.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "saveButtonColor": "{{tbl_salaryPayments.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
+      "saveIconAlign": "left",
+      "sticky": "right",
+      "thousandSeparator": true,
+      "validation": {},
+      "width": 150
+    },
     "amount": {
       "alias": "amount",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
+      "columnType": "currency",
       "computedValue": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"amount\"])) : amount })()}}",
-      "currencyCode": "USD",
-      "decimals": 0,
+      "currencyCode": "RUB",
+      "decimals": 2,
       "enableFilter": true,
       "enableSort": true,
       "fontStyle": "",
       "horizontalAlignment": "LEFT",
       "id": "amount",
       "index": 4,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Сумма",
@@ -150,7 +251,9 @@
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -193,7 +296,7 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
+      "columnType": "select",
       "computedValue": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"branch_account_name\"])) : branch_account_name })()}}",
       "currencyCode": "USD",
       "decimals": 0,
@@ -203,22 +306,27 @@
       "horizontalAlignment": "LEFT",
       "id": "branch_account_name",
       "index": 5,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Счёт",
       "notation": "standard",
       "originalId": "branch_account_name",
+      "placeholderText": "Выберите счёт",
+      "selectOptions": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (utils.getBranchAccountsOptions.data || [])) : utils.getBranchAccountsOptions.data || [] })()}}",
+      "sortBy": "label",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -250,6 +358,45 @@
       "originalId": "branch_account_type",
       "sticky": "",
       "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "customColumn1": {
+      "alias": "Del",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "buttonColor": "{{tbl_salaryPayments.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
+      "buttonStyle": "rgb(3, 179, 101)",
+      "buttonVariant": "TERTIARY",
+      "columnType": "iconButton",
+      "computedValue": "",
+      "currencyCode": "USD",
+      "customAlias": "",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "horizontalAlignment": "LEFT",
+      "iconName": "delete",
+      "id": "customColumn1",
+      "index": 7,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Del",
+      "labelColor": "#FFFFFF",
+      "menuItemsSource": "STATIC",
+      "notation": "standard",
+      "onClick": "{{payments.deleteSalaryPayment()}}",
+      "originalId": "customColumn1",
+      "sticky": "right",
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {},
@@ -295,32 +442,38 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"payment_date\"])) : payment_date })()}}",
+      "columnType": "date",
+      "computedValue": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"payment_date\"])) : currentRow[\"payment_date\"] })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
       "enableSort": true,
+      "firstDayOfWeek": "1",
       "fontStyle": "",
       "horizontalAlignment": "LEFT",
       "id": "payment_date",
       "index": 3,
-      "isCellEditable": false,
+      "inputFormat": "YYYY-MM-DD HH:mm",
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Дата платежа",
       "notation": "standard",
       "originalId": "payment_date",
+      "outputFormat": "DD/MM/YYYY",
+      "shortcuts": false,
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -363,9 +516,11 @@
   "responsiveBehavior": "fill",
   "rightColumn": 64,
   "searchKey": "",
+  "serverSidePaginationEnabled": false,
+  "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(salary.loadSalaryPayments?.data) ? salary.loadSalaryPayments.data : [] }}",
   "textSize": "0.875rem",
-  "topRow": 4,
+  "topRow": 5,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,

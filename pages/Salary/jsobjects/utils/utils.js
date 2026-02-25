@@ -22,7 +22,7 @@ export default {
 		return iso;
 	},
 	/// ============== end of test block ===============
-	
+
 	advanceInRub() {
 		const salary = appsmith.store?.salaryOfPeriod;
 		const pct = Number(salary?.max_cash_advance_percent);
@@ -46,14 +46,14 @@ export default {
 
 		return `${formatted} ₽`;
 	},
-	
+
 	formatMoneyRu(amount) {
 		const n = Number(amount) || 0;
 		const rounded = Math.round(n * 100) / 100; // защита от float-noise
 		return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
 	},
 
-	async getAccrualTypes() {
+	async getAccrualTypesRaw() {
 		try {
 			// Fields to fetch
 			const fields = [
@@ -73,6 +73,15 @@ export default {
 			console.error("Error in all task processing:", error);
 			throw error;
 		}
+	},
+
+	async getAccrualTypesOptions() {
+		const rows = await this.getAccrualTypesRaw();
+
+		return rows.map(x => ({
+			label: x.name,
+			value: x.id,
+		}));
 	},
 
 	toLocalYMD(date) {
@@ -152,7 +161,7 @@ export default {
 		}
 	},
 
-		async getBranches() {
+	async getBranches() {
 		try {
 			// Fields to fetch
 			const fields = [
@@ -174,8 +183,8 @@ export default {
 		}
 	},
 
-	
-	async getBranchAccounts() {
+
+	async getBranchAccountsRaw() {
 		try {
 			// Fields to fetch
 			const fields = [
@@ -197,6 +206,15 @@ export default {
 		}
 	},
 
+	async getBranchAccountsOptions() {
+		const rows = await this.getBranchAccountsRaw();
+
+		return rows.map(x => ({
+			label: x.name,
+			value: x.id,
+		}));
+	},
+	
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name;

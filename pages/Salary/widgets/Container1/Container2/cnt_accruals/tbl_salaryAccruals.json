@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 28,
+  "bottomRow": 38,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -33,21 +33,25 @@
     }
   },
   "columnOrder": [
-    "id",
-    "salary_id",
     "amount",
     "branch_account_id",
-    "accrual_type_id",
     "branch_account_name",
+    "accrual_type_id",
     "accrual_name",
     "counts_for_salary_total",
+    "id",
+    "salary_id",
     "counts_for_cashless_limit",
-    "branch_account_type"
+    "branch_account_type",
+    "customColumn1",
+    "EditActions1"
   ],
-  "columnUpdatedAt": 1770712026576,
+  "columnUpdatedAt": 1772012000717,
   "columnWidthMap": {
+    "accrual_name": 279,
     "amount": 101,
-    "branch_account_name": 199
+    "branch_account_name": 180,
+    "customColumn1": 60
   },
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -99,24 +103,83 @@
     },
     {
       "key": "primaryColumns.branch_account_type.computedValue"
+    },
+    {
+      "key": "primaryColumns.EditActions1.saveButtonColor"
+    },
+    {
+      "key": "primaryColumns.EditActions1.saveBorderRadius"
+    },
+    {
+      "key": "primaryColumns.EditActions1.discardBorderRadius"
+    },
+    {
+      "key": "primaryColumns.accrual_name.selectOptions"
+    },
+    {
+      "key": "primaryColumns.customColumn1.borderRadius"
+    },
+    {
+      "key": "primaryColumns.customColumn1.buttonColor"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveVisible"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardVisible"
+    },
+    {
+      "key": "primaryColumns.branch_account_name.selectOptions"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "tableData"
+    },
+    {
+      "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveVisible"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardVisible"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
+    },
+    {
+      "key": "primaryColumns.accrual_name.onOptionChange"
+    },
+    {
+      "key": "primaryColumns.branch_account_name.onOptionChange"
+    }
+  ],
   "enableClientSideSearch": true,
   "endOfData": false,
   "flexVerticalAlignment": "start",
   "horizontalAlignment": "LEFT",
+  "infiniteScrollEnabled": false,
   "inlineEditingSaveOption": "ROW_LEVEL",
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
   "isVisibleDownload": true,
-  "isVisibleFilters": false,
+  "isVisibleFilters": true,
   "isVisiblePagination": true,
   "isVisibleSearch": true,
   "key": "hrvnmmllo0",
@@ -128,18 +191,61 @@
   "mobileRightColumn": 64,
   "mobileTopRow": 20,
   "needsErrorInfo": false,
-  "originalBottomRow": 28,
-  "originalTopRow": 4,
+  "onAddNewRowSave": "{{\naccruals.createSalaryAccrual(tbl_salaryAccruals.newRow)\n}}\t",
+  "originalBottomRow": 38,
+  "originalTopRow": 6,
   "parentColumnSpace": 16.9755859375,
   "parentId": "286an5sofs",
   "parentRowSpace": 10,
+  "primaryColumnId": "id",
   "primaryColumns": {
+    "EditActions1": {
+      "alias": "EditActions1",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "buttonStyle": "rgb(3, 179, 101)",
+      "columnType": "editActions",
+      "computedValue": "",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "discardActionLabel": "Отмена",
+      "discardBorderRadius": "{{tbl_salaryAccruals.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "discardButtonColor": "#F22B2B",
+      "discardButtonVariant": "TERTIARY",
+      "discardIconAlign": "left",
+      "enableFilter": true,
+      "enableSort": true,
+      "id": "EditActions1",
+      "index": 9,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardDisabled": false,
+      "isDiscardVisible": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( tbl_salaryAccruals.updatedRowIndices.includes(currentIndex) || false\n)) :  tbl_salaryAccruals.updatedRowIndices.includes(currentIndex) || false\n })()}}",
+      "isEditable": false,
+      "isSaveDisabled": false,
+      "isSaveVisible": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( tbl_salaryAccruals.updatedRowIndices.includes(currentIndex) || false\n)) :  tbl_salaryAccruals.updatedRowIndices.includes(currentIndex) || false\n })()}}",
+      "isVisible": true,
+      "label": "Save",
+      "notation": "standard",
+      "onSave": "{{\naccruals.updateSalaryAccrual(tbl_salaryAccruals.updatedRows[0])\n}}",
+      "originalId": "EditActions1",
+      "saveActionLabel": "Сохранить",
+      "saveBorderRadius": "{{tbl_salaryAccruals.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "saveButtonColor": "{{tbl_salaryAccruals.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
+      "saveIconAlign": "left",
+      "sticky": "right",
+      "thousandSeparator": true,
+      "validation": {},
+      "width": 150
+    },
     "accrual_name": {
       "alias": "accrual_name",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
+      "columnType": "select",
       "computedValue": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"accrual_name\"])) : accrual_name })()}}",
       "currencyCode": "USD",
       "decimals": 0,
@@ -149,22 +255,27 @@
       "horizontalAlignment": "LEFT",
       "id": "accrual_name",
       "index": 6,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Тип начисления",
       "notation": "standard",
+      "onOptionChange": "",
       "originalId": "accrual_name",
+      "selectOptions": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( Array.isArray(utils.getAccrualTypesOptions?.data) ? utils.getAccrualTypesOptions.data : [] )) :  Array.isArray(utils.getAccrualTypesOptions?.data) ? utils.getAccrualTypesOptions.data : []  })()}}",
+      "sortBy": "label",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -207,22 +318,22 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
+      "columnType": "currency",
       "computedValue": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"amount\"])) : amount })()}}",
-      "currencyCode": "USD",
-      "decimals": 0,
+      "currencyCode": "RUB",
+      "decimals": 2,
       "enableFilter": true,
       "enableSort": true,
       "fontStyle": "",
       "horizontalAlignment": "LEFT",
       "id": "amount",
       "index": 4,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Сумма",
@@ -232,7 +343,10 @@
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true,
+        "min": "1"
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -275,7 +389,7 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
+      "columnType": "select",
       "computedValue": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"branch_account_name\"])) : branch_account_name })()}}",
       "currencyCode": "USD",
       "decimals": 0,
@@ -285,22 +399,29 @@
       "horizontalAlignment": "LEFT",
       "id": "branch_account_name",
       "index": 5,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Счёт",
       "notation": "standard",
+      "onOptionChange": "",
       "originalId": "branch_account_name",
+      "placeholderText": "Выберите счёт",
+      "selectOptions": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (utils.getBranchAccountsOptions.data || [])) : utils.getBranchAccountsOptions.data || [] })()}}",
+      "serverSideFiltering": false,
+      "sortBy": "label",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -406,6 +527,46 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
+    "customColumn1": {
+      "alias": "Del",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "borderRadius": "{{tbl_salaryAccruals.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "boxShadow": "none",
+      "buttonColor": "{{tbl_salaryAccruals.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
+      "buttonStyle": "rgb(3, 179, 101)",
+      "buttonVariant": "TERTIARY",
+      "columnType": "iconButton",
+      "computedValue": "",
+      "currencyCode": "USD",
+      "customAlias": "",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "horizontalAlignment": "LEFT",
+      "iconName": "delete",
+      "id": "customColumn1",
+      "index": 10,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Del",
+      "labelColor": "#FFFFFF",
+      "notation": "standard",
+      "onClick": "{{accruals.deleteSalaryAccrual()}}",
+      "originalId": "customColumn1",
+      "sticky": "right",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
     "id": {
       "alias": "id",
       "allowCellWrapping": false,
@@ -479,9 +640,11 @@
   "responsiveBehavior": "fill",
   "rightColumn": 64,
   "searchKey": "",
+  "serverSidePaginationEnabled": false,
+  "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(salary.loadSalaryAccruals?.data) ? salary.loadSalaryAccruals.data : [] }}",
   "textSize": "0.875rem",
-  "topRow": 4,
+  "topRow": 6,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,
