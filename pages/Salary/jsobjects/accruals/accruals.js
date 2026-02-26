@@ -42,6 +42,7 @@ export default {
 				id: p.id,
 				salary_id: p.salary_id,
 				amount: p.amount || 0,
+				comment: p.comment,
 
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
@@ -74,10 +75,9 @@ export default {
 			salary_id: salaryId,
 			branch_account_id: newRow.branch_account_name,	// select keeps id in that field
 			accrual_type_id: newRow.accrual_name,	// select keeps id in that field
+			comment: newRow.comment,	// select keeps id in that field
 			amount: Number(newRow.amount),
 		};
-		console.log("raw: ", newRow);
-		console.log("body: ", body);
 
 		const result = await items.createItems({
 			collection: "salary_accruals",
@@ -106,6 +106,10 @@ export default {
 
 		if ("accrual_name" in updatedFields) {
 			patch.accrual_type_id = updatedFields.accrual_name;
+		}
+
+		if ("comment" in updatedFields) {
+			patch.comment = updatedFields.comment;
 		}
 
 		// если ничего полезного не поменялось — не дёргаем API

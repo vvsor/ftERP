@@ -43,10 +43,11 @@
     "salary_id",
     "counts_for_cashless_limit",
     "branch_account_type",
+    "comment",
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1772093818189,
+  "columnUpdatedAt": 1772096358911,
   "columnWidthMap": {
     "accrual_name": 279,
     "amount": 101,
@@ -130,6 +131,9 @@
     },
     {
       "key": "primaryColumns.branch_account_name.selectOptions"
+    },
+    {
+      "key": "primaryColumns.comment.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -451,6 +455,40 @@
       "label": "branch_account_type",
       "notation": "standard",
       "originalId": "branch_account_type",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "comment": {
+      "alias": "comment",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"comment\"])) : comment })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "comment",
+      "index": 10,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "comment",
+      "notation": "standard",
+      "originalId": "comment",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

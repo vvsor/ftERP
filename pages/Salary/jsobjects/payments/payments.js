@@ -41,6 +41,7 @@ export default {
 				salary_id: p.salary_id,
 				amount: p.amount || 0,
 				payment_date: p.payment_date,
+				comment: p.comment,
 
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
@@ -59,7 +60,7 @@ export default {
 			throw error;
 		}
 	},
-	
+
 	async createSalaryPayment(newRow) {
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
@@ -68,6 +69,7 @@ export default {
 			const amountNum = newRow.amount;
 			const branchAccountId = newRow.branch_account_name;
 			const paymentDate = newRow.payment_date;
+			const comment = newRow.comment;
 			//const paymentDate = dp_paymentDate ? moment(dp_paymentDate).format("YYYY-MM-DD") : null;
 
 			// ====== 0) Получаем тип счета (CASH / CASHLESS / ...)
@@ -177,6 +179,7 @@ export default {
 				branch_account_id: branchAccountId,
 				amount: amountNum,
 				payment_date: paymentDate,
+				comment: comment
 			};
 
 			showAlert("Создаем выплату...", "info");
@@ -220,6 +223,10 @@ export default {
 
 		if ("payment_date" in updatedFields) {
 			patch.payment_date = updatedFields.payment_date;
+		}
+
+		if ("comment" in updatedFields) {
+			patch.comment = updatedFields.comment;
 		}
 
 		// exit without changes
