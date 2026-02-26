@@ -40,10 +40,11 @@
     "branch_account_id",
     "branch_account_name",
     "branch_account_type",
+    "comment",
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1772032102927,
+  "columnUpdatedAt": 1772096597640,
   "columnWidthMap": {
     "amount": 112,
     "branch_account_name": 202,
@@ -116,6 +117,9 @@
     },
     {
       "key": "defaultNewRow"
+    },
+    {
+      "key": "primaryColumns.comment.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -356,6 +360,40 @@
       "label": "branch_account_type",
       "notation": "standard",
       "originalId": "branch_account_type",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "comment": {
+      "alias": "comment",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"comment\"])) : comment })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "comment",
+      "index": 4,
+      "isCellEditable": true,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": true,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "comment",
+      "notation": "standard",
+      "originalId": "comment",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
