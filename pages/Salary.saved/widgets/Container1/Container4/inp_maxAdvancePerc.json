@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 14,
+  "bottomRow": 7,
   "boxShadow": "none",
-  "defaultText": "{{ utils.advanceInRub() || \"—\" }}",
+  "defaultText": "{{\nsalary.loadSalary.data?.max_cash_advance_percent ?salary.loadSalary.data.max_cash_advance_percent : \"\"\n}}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -18,7 +18,16 @@
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
   "iconAlign": "left",
   "inputType": "TEXT",
   "isDisabled": true,
@@ -26,13 +35,13 @@
   "isRequired": false,
   "isVisible": true,
   "key": "cd3vdlp0xa",
-  "label": "Руб.",
+  "label": "Макс. % аванса",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 52,
+  "leftColumn": 49,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -41,19 +50,20 @@
   "mobileRightColumn": 52,
   "mobileTopRow": 17,
   "needsErrorInfo": false,
+  "onTextChanged": "{{\nautosave.autosave(inp_maxAdvancePerc, \"max_cash_advance_percent\")\n}}",
   "originalBottomRow": 24,
   "originalTopRow": 17,
   "parentColumnSpace": 16.9755859375,
-  "parentId": "b47t27t6k8",
+  "parentId": "1q95ltm1r8",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
   "rightColumn": 64,
   "showStepArrows": false,
-  "topRow": 7,
+  "topRow": 0,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "pb1dyp66q4",
-  "widgetName": "inp_maxAdvanceRub"
+  "widgetId": "cmio2u6lqj",
+  "widgetName": "inp_maxAdvancePerc"
 }

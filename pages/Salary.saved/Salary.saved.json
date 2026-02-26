@@ -1,23 +1,23 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_bad6ef01-602b-4e7f-b207-5cfcfccb7e79",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_a4b359f0-b468-43a1-b991-c439777b2a55",
   "unpublishedPage": {
-    "isHidden": true,
+    "isHidden": false,
     "layouts": [
       {
         "dsl": {
           "backgroundColor": "none",
-          "bottomRow": 880,
+          "bottomRow": 380,
           "canExtend": true,
           "containerStyle": "none",
           "detachFromLayout": true,
           "dynamicBindingPathList": [],
           "leftColumn": 0,
-          "minHeight": 780,
+          "minHeight": 820,
           "parentColumnSpace": 1,
           "parentRowSpace": 1,
           "rightColumn": 1224,
           "snapColumns": 64,
-          "snapRows": 76,
+          "snapRows": 80,
           "topRow": 0,
           "type": "CANVAS_WIDGET",
           "version": 94,
@@ -26,7 +26,7 @@
         }
       }
     ],
-    "name": "Salary",
-    "slug": "salary"
+    "name": "Salary.saved",
+    "slug": "salary-saved"
   }
 }

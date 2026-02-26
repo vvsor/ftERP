@@ -1,22 +1,4 @@
 export default {
-	async createSalaryAccrual(row) {
-		const salaryId = appsmith.store?.salaryOfPeriod?.id;
-		const body = {
-			salary_id: salaryId,
-			branch_account_id: row.branch_account_name,	// select keeps id in that field
-			accrual_type_id: row.accrual_type_name,	// select keeps id in that field
-			amount: Number(row.amount),
-		};
-
-		const result = await items.createItems({
-			collection: "salary_accruals",
-			body
-		});
-
-		await salary.loadSalaryAccruals();
-		return result.data?.id;
-	},
-
 	async createSalaryPayment(newRow) {
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;

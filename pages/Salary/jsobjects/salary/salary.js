@@ -2,7 +2,6 @@ export default {
 	/// ================== test block ==================
 	async test(){
 	},
-
 	/// ============== end of test block ===============
 
 	getPaymentsSummary() {
@@ -39,6 +38,7 @@ export default {
 		);
 	},
 
+	// 2do - move to payments
 	async loadSalaryPayments(salaryIdParam) {
 		try {
 			const salaryId =
@@ -98,7 +98,6 @@ export default {
 			throw error;
 		}
 	},
-
 
 	async loadSalaryAccruals(salaryIdParam) {
 		try {
@@ -179,6 +178,111 @@ export default {
 		return await utils.getOfficeTerms()
 	},
 
+	// Добавить в jsobjects/salary/salary.js (внутрь export default)
+
+	async fetchSalaryByMonth(officeTermId, month) {
+		const params = {
+			collection: "salary",
+			fields: "*",
+			filter: {
+				_and: [
+					{
+						office_term_id: {
+							id: { _eq: officeTermId }
+						}
+					},
+					{
+						period_month: {
+							_eq: month
+						}
+					}
+				]
+			}
+		};
+
+		const res = await items.getItems(params);
+		return res.data?.[0] || null;
+	},
+
+	async ensureSalaryExists(officeTermId, periodMonth) {
+		const existing = await this.fetchSalaryByMonth(officeTermId, periodMonth);
+		if (existing) {
+			return { salaryRecord: existing, wasCreated: false, previousSalary: null };
+		}
+
+		const prevMonth = moment(periodMonth).subtract(1, "month").format("YYYY-MM-01");
+		const previousSalary = await this.fetchSalaryByMonth(officeTermId, prevMonth);
+
+		const body = {
+			office_term_id: officeTermId,
+			period_month: periodMonth,
+			total_salary: previousSalary?.total_salary || 0,
+			cashless_amount: previousSalary?.cashless_amount || 0,
+			max_cash_advance_percent: previousSalary?.max_cash_advance_percent || 0
+		};
+
+		showAlert("Создаем запись зарплаты...", "info");
+		await items.createItems({
+			collection: "salary",
+			body
+		});
+		showAlert("Запись зарплаты создана.", "success");
+
+		const created = await this.fetchSalaryByMonth(officeTermId, periodMonth);
+		if (!created) {
+			throw new Error("Salary created but not found on reload");
+		}
+
+		return { salaryRecord: created, wasCreated: true, previousSalary };
+	},
+
+	async createRecurringAccrualsFromPreviousMonth(previousSalaryId, newSalaryId) {
+		if (!previousSalaryId || !newSalaryId) return;
+
+		// защита от дублей: если в новом периоде уже есть начисления, ничего не копируем
+		const existingRes = await items.getItems({
+			collection: "salary_accruals",
+			fields: "id",
+			filter: {
+				salary_id: { id: { _eq: newSalaryId } }
+			},
+			limit: 1
+		});
+		if ((existingRes.data || []).length > 0) return;
+
+		const prevRes = await items.getItems({
+			collection: "salary_accruals",
+			fields: [
+				"amount",
+				"branch_account_id.id",
+				"accrual_type_id.id",
+				"accrual_type_id.is_recurring"
+			].join(","),
+			filter: {
+				salary_id: { id: { _eq: previousSalaryId } },
+				accrual_type_id: { is_recurring: { _eq: true } }
+			},
+			limit: -1
+		});
+
+		const recurring = prevRes.data || [];
+		if (recurring.length === 0) return;
+
+		await Promise.all(
+			recurring.map((a) =>
+										items.createItems({
+				collection: "salary_accruals",
+				body: {
+					salary_id: newSalaryId,
+					branch_account_id: a.branch_account_id?.id ?? null,
+					accrual_type_id: a.accrual_type_id?.id ?? null,
+					amount: Number(a.amount) || 0
+				}
+			})
+									 )
+		);
+	},
+
 	async loadSalary() {
 		try {
 			const officeTerm = appsmith.store?.SelectedOfficeTerm;
@@ -193,80 +297,17 @@ export default {
 				return;
 			}
 
-			const prevMonth = moment(periodMonth)
-			.subtract(1, "month")
-			.format("YYYY-MM-01");
+			const { salaryRecord, wasCreated, previousSalary } =
+						await this.ensureSalaryExists(officeTerm.id, periodMonth);
 
-			// ================= helpers =================
-
-			const fetchSalary = async (month) => {
-				const params = {
-					collection: "salary",
-					fields: "*",
-					filter: {
-						_and: [
-							{
-								office_term_id: {
-									id: { _eq: officeTerm.id }
-								}
-							},
-							{
-								period_month: {
-									_eq: month
-								}
-							}
-						]
-					}
-				};
-
-				const res = await items.getItems(params);
-				return res.data?.[0] || null;
-			};
-
-			const createSalary = async (body) => {
-				const params = {
-					collection: "salary",
-					body: body
-				};
-
-				showAlert("Создаем запись зарплаты...", "info");
-				await items.createItems(params);
-				showAlert("Запись зарплаты созадна.", "success");
-			};
-
-			// ================= main flow =================
-
-			// 1. Пробуем получить текущий
-			let salaryRecord = await fetchSalary(periodMonth);
-
-			// 2. Если нет — берем прошлый и создаем новый
-			if (!salaryRecord) {
-				const previous = await fetchSalary(prevMonth);
-
-				const body = {
-					office_term_id: officeTerm.id,
-					period_month: periodMonth,
-					total_salary: previous?.total_salary || 0,
-					cashless_amount: previous?.cashless_amount || 0,
-					max_cash_advance_percent: previous?.max_cash_advance_percent || 0
-				};
-
-				await createSalary(body);
-
-				// 3. Перечитываем
-				salaryRecord = await fetchSalary(periodMonth);
-
-				if (!salaryRecord) {
-					throw new Error("Salary created but not found on reload");
-				}
+			if (wasCreated) {
+				await this.createRecurringAccrualsFromPreviousMonth(previousSalary?.id, salaryRecord.id);
 			}
 
-			// 4. ВСЕГДА сохраняем в store
-			salary.setSalaryOfPeriod(salaryRecord);
-
+			this.setSalaryOfPeriod(salaryRecord);
 			await storeValue("salaryReady", true, true);
-			return salaryRecord;
 
+			return salaryRecord;
 		} catch (error) {
 			console.error("loadSalary failed:", error);
 			showAlert("Ошибка загрузки/создания зарплаты", "error");
