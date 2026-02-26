@@ -46,7 +46,7 @@
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1772012000717,
+  "columnUpdatedAt": 1772093818189,
   "columnWidthMap": {
     "accrual_name": 279,
     "amount": 101,
@@ -178,7 +178,7 @@
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
-  "isVisibleDownload": true,
+  "isVisibleDownload": false,
   "isVisibleFilters": true,
   "isVisiblePagination": true,
   "isVisibleSearch": true,
@@ -642,7 +642,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": false,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ Array.isArray(salary.loadSalaryAccruals?.data) ? salary.loadSalaryAccruals.data : [] }}",
+  "tableData": "{{ Array.isArray(accruals.loadSalaryAccruals?.data) ? accruals.loadSalaryAccruals.data : [] }}",
   "textSize": "0.875rem",
   "topRow": 6,
   "totalRecordsCount": 0,

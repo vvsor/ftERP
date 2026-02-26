@@ -1,4 +1,65 @@
 export default {
+	async loadSalaryPayments(salaryIdParam) {
+		try {
+			const salaryId =
+						salaryIdParam ||
+						appsmith.store?.salaryOfPeriod?.id;
+
+			if (!salaryId) {
+				throw new Error("salaryId missing in store and params");
+			}
+
+			// Fields to fetch
+			const Fields = [
+				"id",
+				"salary_id",
+				"amount",
+				"payment_date",
+				"comment",
+				"branch_account_id.id",
+				"branch_account_id.name",
+				"branch_account_id.type",
+			].join(",");
+
+			const params = {
+				collection: "salary_payments",
+				fields: Fields,
+				filter: {
+					salary_id: {
+						id: { _eq: salaryId }
+					}
+				}
+			};
+
+			const res = await items.getItems(params);
+
+			const rows = res.data ?? [];
+
+			// Важно: возвращаем ПЛОСКИЙ объект
+			return rows.map(p => ({
+				id: p.id,
+				salary_id: p.salary_id,
+				amount: p.amount || 0,
+				payment_date: p.payment_date,
+
+				// для селектов (editable)
+				branch_account_id: p.branch_account_id?.id ?? null,
+				branch_account_name: p.branch_account_id?.name ?? "",
+				branch_account_type: p.branch_account_id?.type ?? null,
+				// // служебное (необязательно)
+				// __rowState: {
+				// isNew: false,
+				// isDirty: false,
+				// error: null
+				// }
+			}));
+		} catch (error) {
+			console.error("loadSalaryPayments failed:", error);
+			showAlert("Ошибка загрузки выплат зарплаты", "error");
+			throw error;
+		}
+	},
+	
 	async createSalaryPayment(newRow) {
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
@@ -83,31 +144,31 @@ export default {
 			// ====== (2) Лимит аванса по наличному счету
 			// "Аванс" = выплата меньше остатка (т.е. не закрывает счет полностью)
 			// const isAdvancePayment = amountNum < (remaining - EPS);
-// 
+			// 
 			// if (isCashAccount && isAdvancePayment) {
-				// const maxPctRaw = salaryRec.max_cash_advance_percent;
-				// const maxPct = Number(maxPctRaw);
-// 
-				// // (C) если процент не задан / не число / 0 => аванс запрещён
-				// if (!Number.isFinite(maxPct) || maxPct <= 0) {
-					// return showAlert(
-						// "Аванс по наличному счету запрещён: не задан salary.max_cash_advance_percent (или он равен 0).",
-						// "error"
-					// );
-				// }
-// 
-				// const maxAdvance = (advanceBaseSum * maxPct) / 100;
-// 
-				// if (paidSum + amountNum > maxAdvance + EPS) {
-					// return showAlert(
-						// `Превышен лимит аванса по наличному счету.\n` +
-						// `База (counts_for_salary_total=true и counts_for_cashless_limit=false): ${advanceBaseSum}\n` +
-						// `Лимит (${maxPct}%): ${maxAdvance}\n` +
-						// `Уже выплачено по счету: ${paidSum}\n` +
-						// `Пытаетесь выплатить: ${amountNum}`,
-						// "error"
-					// );
-				// }
+			// const maxPctRaw = salaryRec.max_cash_advance_percent;
+			// const maxPct = Number(maxPctRaw);
+			// 
+			// // (C) если процент не задан / не число / 0 => аванс запрещён
+			// if (!Number.isFinite(maxPct) || maxPct <= 0) {
+			// return showAlert(
+			// "Аванс по наличному счету запрещён: не задан salary.max_cash_advance_percent (или он равен 0).",
+			// "error"
+			// );
+			// }
+			// 
+			// const maxAdvance = (advanceBaseSum * maxPct) / 100;
+			// 
+			// if (paidSum + amountNum > maxAdvance + EPS) {
+			// return showAlert(
+			// `Превышен лимит аванса по наличному счету.\n` +
+			// `База (counts_for_salary_total=true и counts_for_cashless_limit=false): ${advanceBaseSum}\n` +
+			// `Лимит (${maxPct}%): ${maxAdvance}\n` +
+			// `Уже выплачено по счету: ${paidSum}\n` +
+			// `Пытаетесь выплатить: ${amountNum}`,
+			// "error"
+			// );
+			// }
 			// }
 
 			// ====== Создание записи выплаты
@@ -130,7 +191,7 @@ export default {
 			showAlert(`Выплата создана (ID: ${paymentId})`, "success");
 
 			// Обновление UI
-			await salary.loadSalaryPayments();
+			await payments.loadSalaryPayments();
 
 			return paymentId;
 
@@ -175,7 +236,7 @@ export default {
 			body
 		});
 
-		await salary.loadSalaryPayments();
+		await payments.loadSalaryPayments();
 	},
 
 	async deleteSalaryPayment () {
@@ -196,7 +257,7 @@ export default {
 			console.error("Error during deleting payment:", error);
 			throw error; // Re-throw to allow calling code to handle the error
 		}
-		await salary.loadSalaryPayments();
+		await payments.loadSalaryPayments();
 		return;
 	}
 }

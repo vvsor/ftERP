@@ -518,7 +518,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": false,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ Array.isArray(salary.loadSalaryPayments?.data) ? salary.loadSalaryPayments.data : [] }}",
+  "tableData": "{{ Array.isArray(payments.loadSalaryPayments?.data) ? payments.loadSalaryPayments.data : [] }}",
   "textSize": "0.875rem",
   "topRow": 5,
   "totalRecordsCount": 0,

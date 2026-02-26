@@ -226,8 +226,8 @@ export default {
 		await storeValue("salaryReady", false, true);
 
 		await salary.loadSalary();          // обновит appsmith.store.salaryOfPeriod (и id)
-		await salary.loadSalaryPayments();  // загрузка выплат для нового salaryId
-		await salary.loadSalaryAccruals();  // загрузка начислений для нового salaryId
+		await payments.loadSalaryPayments();  // загрузка выплат для нового salaryId
+		await accruals.loadSalaryAccruals();  // загрузка начислений для нового salaryId
 		await salary.paymentsSummaryText();
 		utils.advanceInRub();
 		await storeValue("salaryReady", true, true);
