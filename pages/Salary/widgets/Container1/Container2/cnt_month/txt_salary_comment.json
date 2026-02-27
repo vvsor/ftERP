@@ -3,19 +3,31 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 11,
+  "bottomRow": 16,
   "boxShadow": "none",
-  "defaultText": "",
+  "defaultText": "{{appsmith.store.salaryOfPeriod.comment || \"\"}}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
   "iconAlign": "left",
   "inputType": "MULTI_LINE_TEXT",
   "isDisabled": false,
@@ -29,7 +41,7 @@
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 31,
+  "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -38,20 +50,21 @@
   "mobileRightColumn": 52,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "originalBottomRow": 11,
-  "originalTopRow": 1,
+  "onTextChanged": "{{ autosave.autosave(txt_salary_comment, \"comment\")\n}}",
+  "originalBottomRow": 16,
+  "originalTopRow": 6,
   "parentColumnSpace": 16.6630859375,
-  "parentId": "9fkfudkavr",
+  "parentId": "xu44hczbr2",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
-  "rightColumn": 64,
+  "rightColumn": 63,
   "shouldAllowAutofill": false,
   "showStepArrows": false,
-  "topRow": 1,
+  "topRow": 6,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
   "widgetId": "hnhbnd1ml2",
-  "widgetName": "Input1"
+  "widgetName": "txt_salary_comment"
 }

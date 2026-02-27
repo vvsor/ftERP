@@ -214,7 +214,7 @@ export default {
 			value: x.id,
 		}));
 	},
-	
+
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name;
@@ -268,8 +268,21 @@ export default {
 	},
 
 	getPeriodMonth() {
-		console.log("getPeriodMonth(): appsmith.store.periodMonth: ", appsmith.store.periodMonth);
 		return appsmith.store.periodMonth || null;
+	},
+	
+	extractValue(widget) {
+		if (!widget) return null;
+
+		// Input, TextArea
+		if ("text" in widget) return widget.text;
+
+		// Select, Dropdown
+		if ("selectedOptionValue" in widget) {
+			return widget.selectedOptionValue;
+		}
+
+		throw new Error("Unsupported widget type");
 	}
 
 }

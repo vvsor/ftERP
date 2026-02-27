@@ -11,6 +11,9 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "text"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
@@ -38,9 +41,9 @@
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 11,
+  "rightColumn": 63,
   "shouldTruncate": false,
-  "text": "Выплаты",
+  "text": "Выплаты {{tbl_employees.selectedRow.employee}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,

@@ -25,7 +25,7 @@ export default {
 	accrualsSummaryText() {
 		const s = this.getPaymentsSummary();
 		return (
-			`Начислено безналично: ${utils.formatMoneyRu(s.cashlessAccrued)}\n` +
+			`Безнал: ${utils.formatMoneyRu(s.cashlessAccrued)}. ` +
 			`Начислено наличными: ${utils.formatMoneyRu(s.cashAccrued)}`
 		);
 	},

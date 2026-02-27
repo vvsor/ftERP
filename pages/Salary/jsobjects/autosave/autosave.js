@@ -12,25 +12,6 @@ export default {
 		};
 	},
 
-	// ================== UTILS ==================
-	getPeriodMonth() {
-		return appsmith.store.periodMonth || null;
-	},
-
-	extractValue(widget) {
-		if (!widget) return null;
-
-		// Input, TextArea
-		if ("text" in widget) return widget.text;
-
-		// Select, Dropdown
-		if ("selectedOptionValue" in widget) {
-			return widget.selectedOptionValue;
-		}
-
-		throw new Error("Unsupported widget type");
-	},
-
 	// ================== CORE SAVE ==================
 	async saveField(fieldName, widget) {
 		if (!appsmith.store?.salaryReady) {
@@ -48,7 +29,7 @@ export default {
 				return;
 			}
 
-			const value = this.extractValue(widget);
+			const value = utils.extractValue(widget);
 
 			// Не шлём пустые значения при инициализации
 			if (value === null || value === undefined) {
