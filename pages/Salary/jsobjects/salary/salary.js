@@ -2,6 +2,19 @@ export default {
 	/// ================== test block ==================
 	async test(){
 	},
+
+	async tbl_employees_onRowSelected() {
+		await storeValue("salaryReady", false, true);
+
+		const row = tbl_employees.selectedRow;
+		if (!row?.id) {
+			return;
+		}
+		salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
+		// salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndices[tbl_employees.selectedRowIndices.length-1]]);
+		await utils.initPeriod();
+		await utils.reloadSalaryContext();
+	},
 	/// ============== end of test block ===============
 
 	getPaymentsSummary() {
@@ -186,18 +199,6 @@ export default {
 			showAlert("Ошибка загрузки/создания зарплаты", "error");
 			throw error;
 		}
-	},
-
-	async tbl_employees_onRowSelected() {
-		await storeValue("salaryReady", false, true);
-
-		const row = tbl_employees.selectedRow;
-		if (!row?.id) {
-			return;
-		}
-		salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
-		await utils.initPeriod();
-		await utils.reloadSalaryContext();
 	},
 
 	async initSalary(){

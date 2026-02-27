@@ -6,6 +6,11 @@
     "pageId": "Salary",
     "pluginId": "js-plugin",
     "pluginType": "JS",
-    "variables": []
+    "variables": [
+      {
+        "name": "DELETE_CONFIRM_WINDOW_MS",
+        "value": "5000"
+      }
+    ]
   }
 }

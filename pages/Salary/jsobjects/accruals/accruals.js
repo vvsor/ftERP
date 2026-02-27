@@ -1,4 +1,6 @@
 export default {
+	DELETE_CONFIRM_WINDOW_MS: 5000,
+
 	async loadSalaryAccruals(salaryIdParam) {
 		try {
 			const salaryId =
@@ -68,7 +70,6 @@ export default {
 		}
 	},
 
-
 	async createSalaryAccrual(newRow) {
 		const salaryId = appsmith.store?.salaryOfPeriod?.id;
 		const body = {
@@ -131,6 +132,25 @@ export default {
 
 	async deleteSalaryAccrual () {
 		const accrualIdToDelete = tbl_salaryAccruals.triggeredRow.id;
+
+		const now = Date.now();
+		const pending = appsmith.store?.pendingDeleteSalaryAccrual;
+
+		if (
+			pending?.id !== accrualIdToDelete ||
+			!pending?.ts ||
+			now - pending.ts > this.DELETE_CONFIRM_WINDOW_MS
+		) {
+			await storeValue("pendingDeleteSalaryAccrual", {
+				id: accrualIdToDelete,
+				ts: now
+			});
+			showAlert("Нажмите удалить еще раз в течение 5 секунд для подтверждения", "warning");
+			return;
+		}
+
+		await removeValue("pendingDeleteSalaryAccrual");
+
 		try {
 			await items.deleteItems({
 				collection: "salary_accruals",

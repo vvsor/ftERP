@@ -1,4 +1,6 @@
 export default {
+	DELETE_CONFIRM_WINDOW_MS: 5000,
+
 	async loadSalaryPayments(salaryIdParam) {
 		try {
 			const salaryId =
@@ -66,7 +68,7 @@ export default {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
 			const salaryRec = appsmith.store?.salaryOfPeriod;
 
-			const amountNum = newRow.amount;
+			const amountNum = Number(newRow.amount) || 0;
 			const branchAccountId = newRow.branch_account_name;
 			const paymentDate = newRow.payment_date;
 			const comment = newRow.comment;
@@ -172,7 +174,7 @@ export default {
 			// );
 			// }
 			// }
-
+			console.log("creating payment");
 			// ====== Создание записи выплаты
 			const body = {
 				salary_id: salaryId,
@@ -194,14 +196,14 @@ export default {
 			showAlert(`Выплата создана (ID: ${paymentId})`, "success");
 
 			// Обновление UI
-			await payments.loadSalaryPayments();
+			await this.loadSalaryPayments();
 
 			return paymentId;
 
 		} catch (err) {
 			console.error("createSalaryPayment error:", err);
 			showAlert("Ошибка при создании выплаты", "error");
-			throw err;
+			// throw err;
 		}
 	},
 
@@ -243,11 +245,29 @@ export default {
 			body
 		});
 
-		await payments.loadSalaryPayments();
+		await this.loadSalaryPayments();
 	},
 
 	async deleteSalaryPayment () {
 		const paymentIdToDelete = tbl_salaryPayments.triggeredRow.id;
+		const now = Date.now();
+		const pending = appsmith.store?.pendingDeleteSalaryPayment;
+
+		if (
+			pending?.id !== paymentIdToDelete ||
+			!pending?.ts ||
+			now - pending.ts > this.DELETE_CONFIRM_WINDOW_MS
+		) {
+			await storeValue("pendingDeleteSalaryPayment", {
+				id: paymentIdToDelete,
+				ts: now
+			});
+			showAlert("Нажмите удалить еще раз в течение 5 секунд для подтверждения", "warning");
+			return;
+		}
+
+		await removeValue("pendingDeleteSalaryPayment");
+
 		try {
 			await items.deleteItems({
 				collection: "salary_payments",
@@ -264,7 +284,7 @@ export default {
 			console.error("Error during deleting payment:", error);
 			throw error; // Re-throw to allow calling code to handle the error
 		}
-		await payments.loadSalaryPayments();
+		await this.loadSalaryPayments();
 		return;
 	}
 }
