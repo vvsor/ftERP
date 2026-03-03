@@ -144,9 +144,6 @@
     },
     {
       "key": "primaryColumns.amount.textColor"
-    },
-    {
-      "key": "primaryColumns.branch_account_name.cellBackground"
     }
   ],
   "dynamicPropertyPathList": [
@@ -173,9 +170,6 @@
     },
     {
       "key": "primaryColumns.amount.textColor"
-    },
-    {
-      "key": "primaryColumns.branch_account_name.cellBackground"
     }
   ],
   "dynamicTriggerPathList": [
@@ -414,7 +408,7 @@
       "alias": "branch_account_name",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ('{{}}')) : '{{}}' })()}}",
+      "cellBackground": "",
       "columnType": "select",
       "computedValue": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"branch_account_name\"])) : branch_account_name })()}}",
       "currencyCode": "USD",

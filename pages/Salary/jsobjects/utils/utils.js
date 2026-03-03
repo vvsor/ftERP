@@ -22,7 +22,7 @@ export default {
 		return iso;
 	},
 	/// ============== end of test block ===============
-
+	
 	advanceInRub() {
 		const salary = appsmith.store?.salaryOfPeriod;
 		const pct = Number(salary?.max_cash_advance_percent);
@@ -99,108 +99,108 @@ export default {
 	},
 
 	async getOfficeTerms() {
-	const branchId = sel_chooseBranch.selectedOptionValue;
-	const periodMonth = appsmith.store?.periodMonth;
+		const branchId = sel_chooseBranch.selectedOptionValue;
+		const periodMonth = appsmith.store?.periodMonth;
 
-	const officeFilter = branchId
+		const officeFilter = branchId
 		? { position_id: { branch_id: { id: { _eq: branchId } } } }
 		: {};
 
-	const officeRes = await items.getItems({
-		collection: "office_term",
-		fields: [
-			"id",
-			"user_id.id",
-			"user_id.first_name",
-			"user_id.last_name",
-			"position_id.title_id.title",
-			"position_id.branch_id.id",
-			"position_id.branch_id.name"
-		].join(","),
-		filter: officeFilter,
-		limit: -1
-	});
+		const officeRes = await items.getItems({
+			collection: "office_term",
+			fields: [
+				"id",
+				"user_id.id",
+				"user_id.first_name",
+				"user_id.last_name",
+				"position_id.title_id.title",
+				"position_id.branch_id.id",
+				"position_id.branch_id.name"
+			].join(","),
+			filter: officeFilter,
+			limit: -1
+		});
 
-	const contacts = (officeRes.data || []).map((item) => ({
-		id: item.id,
-		user_id: item.user_id.id,
-		employee: `${item.user_id.last_name} ${item.user_id.first_name?.[0] || ""}.`,
-		title: item.position_id.title_id.title,
-		branch_id: item.position_id.branch_id.id,
-		branch_name: item.position_id.branch_id.name
-	}));
+		const contacts = (officeRes.data || []).map((item) => ({
+			id: item.id,
+			user_id: item.user_id.id,
+			employee: `${item.user_id.last_name} ${item.user_id.first_name?.[0] || ""}.`,
+			title: item.position_id.title_id.title,
+			branch_id: item.position_id.branch_id.id,
+			branch_name: item.position_id.branch_id.name
+		}));
 
-	const officeTermIds = contacts.map((x) => x.id);
-	if (!periodMonth || officeTermIds.length === 0) {
-		return contacts.map((x) => ({ ...x, accruals_sum: 0, payments_sum: 0, balance: 0 }));
-	}
+		const officeTermIds = contacts.map((x) => x.id);
+		if (!periodMonth || officeTermIds.length === 0) {
+			return contacts.map((x) => ({ ...x, accruals_sum: 0, payments_sum: 0, balance: 0 }));
+		}
 
-	const salaryRes = await items.getItems({
-		collection: "salary",
-		fields: "id,office_term_id.id",
-		filter: {
-			_and: [
-				{ period_month: { _eq: periodMonth } },
-				{ office_term_id: { id: { _in: officeTermIds } } }
-			]
-		},
-		limit: -1
-	});
-
-	const salaries = salaryRes.data || [];
-	const salaryIds = salaries.map((s) => s.id);
-	const officeBySalary = new Map(salaries.map((s) => [s.id, s.office_term_id?.id]));
-
-	const [accrRes, payRes] = await Promise.all([
-		items.getItems({
-			collection: "salary_accruals",
-			fields: "salary_id.id,amount",
+		const salaryRes = await items.getItems({
+			collection: "salary",
+			fields: "id,office_term_id.id",
 			filter: {
 				_and: [
-					{ salary_id: { id: { _in: salaryIds } } },
-					{ deleted_at: { _null: true } }
+					{ period_month: { _eq: periodMonth } },
+					{ office_term_id: { id: { _in: officeTermIds } } }
 				]
 			},
 			limit: -1
-		}),
-		items.getItems({
-			collection: "salary_payments",
-			fields: "salary_id.id,amount",
-			filter: {
-				_and: [
-					{ salary_id: { id: { _in: salaryIds } } },
-					{ deleted_at: { _null: true } }
-				]
-			},
-			limit: -1
-		})
-	]);
+		});
 
-	const accrByOffice = {};
-	for (const r of (accrRes.data || [])) {
-		const officeId = officeBySalary.get(r.salary_id?.id);
-		if (!officeId) continue;
-		accrByOffice[officeId] = (accrByOffice[officeId] || 0) + (Number(r.amount) || 0);
-	}
+		const salaries = salaryRes.data || [];
+		const salaryIds = salaries.map((s) => s.id);
+		const officeBySalary = new Map(salaries.map((s) => [s.id, s.office_term_id?.id]));
 
-	const payByOffice = {};
-	for (const r of (payRes.data || [])) {
-		const officeId = officeBySalary.get(r.salary_id?.id);
-		if (!officeId) continue;
-		payByOffice[officeId] = (payByOffice[officeId] || 0) + (Number(r.amount) || 0);
-	}
+		const [accrRes, payRes] = await Promise.all([
+			items.getItems({
+				collection: "salary_accruals",
+				fields: "salary_id.id,amount",
+				filter: {
+					_and: [
+						{ salary_id: { id: { _in: salaryIds } } },
+						{ deleted_at: { _null: true } }
+					]
+				},
+				limit: -1
+			}),
+			items.getItems({
+				collection: "salary_payments",
+				fields: "salary_id.id,amount",
+				filter: {
+					_and: [
+						{ salary_id: { id: { _in: salaryIds } } },
+						{ deleted_at: { _null: true } }
+					]
+				},
+				limit: -1
+			})
+		]);
 
-	return contacts.map((c) => {
-		const accruals_sum = accrByOffice[c.id] || 0;
-		const payments_sum = payByOffice[c.id] || 0;
-		return {
-			...c,
-			accruals_sum,
-			payments_sum,
-			balance: accruals_sum - payments_sum
-		};
-	});
-},
+		const accrByOffice = {};
+		for (const r of (accrRes.data || [])) {
+			const officeId = officeBySalary.get(r.salary_id?.id);
+			if (!officeId) continue;
+			accrByOffice[officeId] = (accrByOffice[officeId] || 0) + (Number(r.amount) || 0);
+		}
+
+		const payByOffice = {};
+		for (const r of (payRes.data || [])) {
+			const officeId = officeBySalary.get(r.salary_id?.id);
+			if (!officeId) continue;
+			payByOffice[officeId] = (payByOffice[officeId] || 0) + (Number(r.amount) || 0);
+		}
+
+		return contacts.map((c) => {
+			const accruals_sum = accrByOffice[c.id] || 0;
+			const payments_sum = payByOffice[c.id] || 0;
+			return {
+				...c,
+				accruals_sum,
+				payments_sum,
+				balance: accruals_sum - payments_sum
+			};
+		});
+	},
 
 	async getBranches() {
 		try {
@@ -269,7 +269,7 @@ export default {
 		await salary.loadSalary();          // обновит appsmith.store.salaryOfPeriod (и id)
 		await payments.loadSalaryPayments();  // загрузка выплат для нового salaryId
 		await accruals.loadSalaryAccruals();  // загрузка начислений для нового salaryId
-		await salary.paymentsSummaryText();
+		// await salary.paymentsSummaryTextPerson();
 		utils.advanceInRub();
 		await storeValue("salaryReady", true, true);
 	},
@@ -311,7 +311,7 @@ export default {
 	getPeriodMonth() {
 		return appsmith.store.periodMonth || null;
 	},
-	
+
 	extractValue(widget) {
 		if (!widget) return null;
 

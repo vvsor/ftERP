@@ -1,7 +1,9 @@
 export default {
 	/// ================== test block ==================
 	async test(){
+		console.log(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
 	},
+	/// ============== end of test block ===============
 
 	async tbl_employees_onRowSelected() {
 		await storeValue("salaryReady", false, true);
@@ -9,13 +11,22 @@ export default {
 		const row = tbl_employees.selectedRow;
 		if (!row?.id) {
 			return;
-		}
-		salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
-		// salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndices[tbl_employees.selectedRowIndices.length-1]]);
+		}		salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
 		await utils.initPeriod();
 		await utils.reloadSalaryContext();
 	},
-	/// ============== end of test block ===============
+
+	accrualsSummaryTextVisibleEmployees() {
+		const rows = Array.isArray(utils.getOfficeTerms?.data) ? utils.getOfficeTerms.data : [];
+		const total = rows.reduce((s, r) => s + (Number(r.accruals_sum) || 0), 0);
+		return `Начислено: ${utils.formatMoneyRu(total)}`;
+	},
+
+	paymentsSummaryTextVisibleEmployees() {
+		const rows = Array.isArray(utils.getOfficeTerms?.data) ? utils.getOfficeTerms.data : [];
+		const total = rows.reduce((s, r) => s + (Number(r.payments_sum) || 0), 0);
+		return `Выплачено: ${utils.formatMoneyRu(total)}`;
+	},
 
 	getPaymentsSummaryPerson() {
 		const accruals = tbl_salaryAccruals?.tableData || [];
@@ -39,7 +50,7 @@ export default {
 		const s = this.getPaymentsSummaryPerson();
 		return (
 			`Безнал: ${utils.formatMoneyRu(s.cashlessAccrued)}. ` +
-			`Начислено наличными: ${utils.formatMoneyRu(s.cashAccrued)}`
+			`Наличными: ${utils.formatMoneyRu(s.cashAccrued)}`
 		);
 	},
 
