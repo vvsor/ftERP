@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_da9aaff8-2914-4537-a7ee-b0061fd4ca3a",
-  "id": "Salary_salary.getPaymentsSummary",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_f423cc3c-f32d-4413-8cc3-4a2795531fc5",
+  "id": "Salary_salary.accrualsSummaryTextPerson",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -22,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "salary.getPaymentsSummary",
-    "name": "getPaymentsSummary",
+    "fullyQualifiedName": "salary.accrualsSummaryTextPerson",
+    "name": "accrualsSummaryTextPerson",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

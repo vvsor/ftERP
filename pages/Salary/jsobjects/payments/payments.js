@@ -18,6 +18,7 @@ export default {
 				"amount",
 				"payment_date",
 				"comment",
+				"deleted_at",
 				"branch_account_id.id",
 				"branch_account_id.name",
 				"branch_account_id.type",
@@ -29,7 +30,8 @@ export default {
 				filter: {
 					salary_id: {
 						id: { _eq: salaryId }
-					}
+					},
+					...(sw_deletedPayments.isSwitchedOn ? {} : { deleted_at: { _null: true } })
 				}
 			};
 
@@ -44,6 +46,7 @@ export default {
 				amount: p.amount || 0,
 				payment_date: p.payment_date,
 				comment: p.comment,
+				deleted_at: p.deleted_at,
 
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
@@ -101,6 +104,7 @@ export default {
 				filter: {
 					salary_id: { id: { _eq: salaryId } },
 					branch_account_id: { id: { _eq: branchAccountId } },
+					deleted_at: { _null: true }
 				},
 				limit: -1,
 			});
@@ -125,6 +129,7 @@ export default {
 				filter: {
 					salary_id: { id: { _eq: salaryId } },
 					branch_account_id: { id: { _eq: branchAccountId } },
+					deleted_at: { _null: true }
 				},
 				limit: -1,
 			});
@@ -269,16 +274,13 @@ export default {
 		await removeValue("pendingDeleteSalaryPayment");
 
 		try {
-			await items.deleteItems({
+			await items.updateItems({
 				collection: "salary_payments",
 				body: {
-					query: {
-						filter: {
-							id: { "_eq": paymentIdToDelete }
-						}
-					}
+					keys: [paymentIdToDelete],
+					data: { deleted_at: new Date().toISOString() }
 				}
-			})
+			});
 		} catch (error) {
 			// General catch for the entire operation
 			console.error("Error during deleting payment:", error);

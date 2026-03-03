@@ -17,6 +17,7 @@ export default {
 				"salary_id",
 				"amount",
 				"comment",
+				"deleted_at",
 				"branch_account_id.id",
 				"branch_account_id.name",
 				"branch_account_id.type",
@@ -30,9 +31,11 @@ export default {
 				collection: "salary_accruals",
 				fields: Fields,
 				filter: {
-					salary_id: {
+					salary_id:
+					{
 						id: { _eq: salaryId }
-					}
+					},
+					...(sw_deletedAccruals.isSwitchedOn ? {} : { deleted_at: { _null: true } })
 				}
 			};
 
@@ -45,6 +48,7 @@ export default {
 				salary_id: p.salary_id,
 				amount: p.amount || 0,
 				comment: p.comment,
+				deleted_at: p.deleted_at,
 
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
@@ -152,16 +156,23 @@ export default {
 		await removeValue("pendingDeleteSalaryAccrual");
 
 		try {
-			await items.deleteItems({
+			await items.updateItems({
 				collection: "salary_accruals",
 				body: {
-					query: {
-						filter: {
-							id: { "_eq": accrualIdToDelete }
-						}
-					}
+					keys: [accrualIdToDelete],
+					data: { deleted_at: new Date().toISOString() }
 				}
-			})
+			});
+			// await items.deleteItems({
+			// collection: "salary_accruals",
+			// body: {
+			// query: {
+			// filter: {
+			// id: { "_eq": accrualIdToDelete }
+			// }
+			// }
+			// }
+			// })
 		} catch (error) {
 			// General catch for the entire operation
 			console.error("Error during deleting accrual:", error);

@@ -17,7 +17,7 @@ export default {
 	},
 	/// ============== end of test block ===============
 
-	getPaymentsSummary() {
+	getPaymentsSummaryPerson() {
 		const accruals = tbl_salaryAccruals?.tableData || [];
 		const payments = tbl_salaryPayments?.tableData || [];
 
@@ -35,19 +35,19 @@ export default {
 		};
 	},
 
-	accrualsSummaryText() {
-		const s = this.getPaymentsSummary();
+	accrualsSummaryTextPerson() {
+		const s = this.getPaymentsSummaryPerson();
 		return (
 			`Безнал: ${utils.formatMoneyRu(s.cashlessAccrued)}. ` +
 			`Начислено наличными: ${utils.formatMoneyRu(s.cashAccrued)}`
 		);
 	},
 
-	paymentsSummaryText() {
-		const s = this.getPaymentsSummary();
+	paymentsSummaryTextPerson() {
+		const s = this.getPaymentsSummaryPerson();
 		return (
-			`Выплачено безналично: ${utils.formatMoneyRu(s.cashlessPaid)}\n` +
-			`Выплачено наличными: ${utils.formatMoneyRu(s.cashPaid)}`
+			`Безналично: ${utils.formatMoneyRu(s.cashlessPaid)}. ` +
+			`Наличными: ${utils.formatMoneyRu(s.cashPaid)}`
 		);
 	},
 
@@ -71,18 +71,8 @@ export default {
 			collection: "salary",
 			fields: "*",
 			filter: {
-				_and: [
-					{
-						office_term_id: {
-							id: { _eq: officeTermId }
-						}
-					},
-					{
-						period_month: {
-							_eq: month
-						}
-					}
-				]
+				office_term_id: { id: { _eq: officeTermId } },
+				period_month: { _eq: month },
 			}
 		};
 
@@ -130,7 +120,8 @@ export default {
 			collection: "salary_accruals",
 			fields: "id",
 			filter: {
-				salary_id: { id: { _eq: newSalaryId } }
+				salary_id: { id: { _eq: newSalaryId } },
+				deleted_at: { _null: true }
 			},
 			limit: 1
 		});
@@ -146,7 +137,8 @@ export default {
 			].join(","),
 			filter: {
 				salary_id: { id: { _eq: previousSalaryId } },
-				accrual_type_id: { is_recurring: { _eq: true } }
+				accrual_type_id: { is_recurring: { _eq: true } },
+				deleted_at: { _null: true }
 			},
 			limit: -1
 		});

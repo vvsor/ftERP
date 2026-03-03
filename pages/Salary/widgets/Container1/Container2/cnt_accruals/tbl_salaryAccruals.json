@@ -44,10 +44,11 @@
     "counts_for_cashless_limit",
     "branch_account_type",
     "comment",
+    "deleted_at",
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1772096358911,
+  "columnUpdatedAt": 1772567993813,
   "columnWidthMap": {
     "accrual_name": 279,
     "amount": 101,
@@ -134,6 +135,18 @@
     },
     {
       "key": "primaryColumns.comment.computedValue"
+    },
+    {
+      "key": "primaryColumns.deleted_at.computedValue"
+    },
+    {
+      "key": "primaryColumns.amount.fontStyle"
+    },
+    {
+      "key": "primaryColumns.amount.textColor"
+    },
+    {
+      "key": "primaryColumns.branch_account_name.cellBackground"
     }
   ],
   "dynamicPropertyPathList": [
@@ -154,6 +167,15 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardVisible"
+    },
+    {
+      "key": "primaryColumns.amount.fontStyle"
+    },
+    {
+      "key": "primaryColumns.amount.textColor"
+    },
+    {
+      "key": "primaryColumns.branch_account_name.cellBackground"
     }
   ],
   "dynamicTriggerPathList": [
@@ -328,7 +350,7 @@
       "decimals": 2,
       "enableFilter": true,
       "enableSort": true,
-      "fontStyle": "",
+      "fontStyle": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deleted_at\"] ? \"ITALIC\" : \" \")) : currentRow[\"deleted_at\"] ? \"ITALIC\" : \" \" })()}}",
       "horizontalAlignment": "LEFT",
       "id": "amount",
       "index": 4,
@@ -344,7 +366,7 @@
       "notation": "standard",
       "originalId": "amount",
       "sticky": "",
-      "textColor": "",
+      "textColor": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deleted_at\"] ? \"#ef4444\" : \" \")) : currentRow[\"deleted_at\"] ? \"#ef4444\" : \" \" })()}}",
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {
@@ -392,7 +414,7 @@
       "alias": "branch_account_name",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
+      "cellBackground": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ('{{}}')) : '{{}}' })()}}",
       "columnType": "select",
       "computedValue": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"branch_account_name\"])) : branch_account_name })()}}",
       "currencyCode": "USD",
@@ -599,6 +621,40 @@
       "onClick": "{{accruals.deleteSalaryAccrual()}}",
       "originalId": "customColumn1",
       "sticky": "right",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "deleted_at": {
+      "alias": "deleted_at",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "date",
+      "computedValue": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deleted_at\"])) : deleted_at })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "deleted_at",
+      "index": 4,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Удалено",
+      "notation": "standard",
+      "originalId": "deleted_at",
+      "sticky": "",
+      "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {},

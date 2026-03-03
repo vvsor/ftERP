@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_a67227a9-9a33-435f-bad2-2aa965bb5add",
-  "id": "Salary_salary.accrualsSummaryText",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_035fd83b-7ded-45bf-a46c-323fa3d64946",
+  "id": "Salary_salary.tbl_employees_onRowSelected",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -22,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "salary.accrualsSummaryText",
-    "name": "accrualsSummaryText",
+    "fullyQualifiedName": "salary.tbl_employees_onRowSelected",
+    "name": "tbl_employees_onRowSelected",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

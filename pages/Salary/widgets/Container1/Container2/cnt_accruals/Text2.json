@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 5,
+  "bottomRow": 4,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -41,9 +41,9 @@
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 63,
+  "rightColumn": 49,
   "shouldTruncate": false,
-  "text": "Начисления: {{tbl_employees.selectedRow.employee}} {{ salary.accrualsSummaryText() }}",
+  "text": "Начисления: {{\ntbl_employees.selectedRow.employee\n}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,

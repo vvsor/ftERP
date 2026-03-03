@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 33,
+  "bottomRow": 37,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -41,10 +41,11 @@
     "branch_account_name",
     "branch_account_type",
     "comment",
+    "deleted_at",
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1772096597640,
+  "columnUpdatedAt": 1772568812490,
   "columnWidthMap": {
     "amount": 112,
     "branch_account_name": 202,
@@ -120,6 +121,15 @@
     },
     {
       "key": "primaryColumns.comment.computedValue"
+    },
+    {
+      "key": "primaryColumns.deleted_at.computedValue"
+    },
+    {
+      "key": "primaryColumns.amount.fontStyle"
+    },
+    {
+      "key": "primaryColumns.amount.textColor"
     }
   ],
   "dynamicPropertyPathList": [
@@ -140,6 +150,12 @@
     },
     {
       "key": "primaryColumns.customColumn1.onClick"
+    },
+    {
+      "key": "primaryColumns.amount.fontStyle"
+    },
+    {
+      "key": "primaryColumns.amount.textColor"
     }
   ],
   "dynamicTriggerPathList": [
@@ -177,8 +193,8 @@
   "multiRowSelection": false,
   "needsErrorInfo": false,
   "onAddNewRowSave": "{{\npayments.createSalaryPayment(tbl_salaryPayments.newRow)\n}}",
-  "originalBottomRow": 33,
-  "originalTopRow": 9,
+  "originalBottomRow": 37,
+  "originalTopRow": 8,
   "parentColumnSpace": 16.9755859375,
   "parentId": "9knkxudwv0",
   "parentRowSpace": 10,
@@ -236,7 +252,7 @@
       "decimals": 2,
       "enableFilter": true,
       "enableSort": true,
-      "fontStyle": "",
+      "fontStyle": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deleted_at\"] ? \"ITALIC\" : \" \")) : currentRow[\"deleted_at\"] ? \"ITALIC\" : \" \" })()}}",
       "horizontalAlignment": "LEFT",
       "id": "amount",
       "index": 4,
@@ -252,7 +268,7 @@
       "notation": "standard",
       "originalId": "amount",
       "sticky": "",
-      "textColor": "",
+      "textColor": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deleted_at\"] ? \"#ef4444\" : \" \")) : currentRow[\"deleted_at\"] ? \"#ef4444\" : \" \" })()}}",
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {
@@ -441,6 +457,40 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
+    "deleted_at": {
+      "alias": "deleted_at",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "date",
+      "computedValue": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"deleted_at\"])) : deleted_at })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "deleted_at",
+      "index": 8,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Удалено",
+      "notation": "standard",
+      "originalId": "deleted_at",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
     "id": {
       "alias": "id",
       "allowCellWrapping": false,
@@ -558,7 +608,7 @@
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(payments.loadSalaryPayments?.data) ? payments.loadSalaryPayments.data : [] }}",
   "textSize": "0.875rem",
-  "topRow": 9,
+  "topRow": 8,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,
