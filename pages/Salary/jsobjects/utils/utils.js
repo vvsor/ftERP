@@ -275,10 +275,9 @@ export default {
 	async reloadSalaryContext() {
 		await storeValue("salaryReady", false, true);
 
-		await salary.loadSalary();          // обновит appsmith.store.salaryOfPeriod (и id)
-		await payments.loadSalaryPayments();  // загрузка выплат для нового salaryId
-		await accruals.loadSalaryAccruals();  // загрузка начислений для нового salaryId
-		// await salary.paymentsSummaryTextPerson();
+		const salaryRecord = await salary.loadSalary();          // refresh appsmith.store.salaryOfPeriod (и id)
+		await payments.loadSalaryPayments(salaryRecord.id);
+		await accruals.loadSalaryAccruals(salaryRecord.id);
 		utils.advanceInRub();
 		await storeValue("salaryReady", true, true);
 	},
@@ -312,6 +311,7 @@ export default {
 
 		await storeValue("periodMonth", iso, true);
 
+		await utils.getOfficeTerms();
 		await utils.reloadSalaryContext();
 
 		return iso;

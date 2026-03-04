@@ -63,12 +63,12 @@ export default {
 	},
 
 
-	setSelectedOfficeTerm(officeTerm){
-		storeValue("SelectedOfficeTerm", officeTerm, true);
+	async setSelectedOfficeTerm(officeTerm){
+		return await storeValue("SelectedOfficeTerm", officeTerm, true);
 	},
 
-	setSalaryOfPeriod(salaryRecord){
-		storeValue("salaryOfPeriod", salaryRecord, true);
+	async setSalaryOfPeriod(salaryRecord){
+		return await storeValue("salaryOfPeriod", salaryRecord, true);
 	},
 
 	async sel_chooseBranch_OptionChanged() {
@@ -205,7 +205,7 @@ export default {
 				await this.createRecurringAccrualsFromPreviousMonth(previousSalary?.id, salaryRecord.id);
 			}
 
-			this.setSalaryOfPeriod(salaryRecord);
+			await this.setSalaryOfPeriod(salaryRecord);
 			await storeValue("salaryReady", true, true);
 
 			return salaryRecord;
