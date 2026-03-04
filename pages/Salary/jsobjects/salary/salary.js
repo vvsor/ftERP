@@ -72,7 +72,19 @@ export default {
 	},
 
 	async sel_chooseBranch_OptionChanged() {
-		return await utils.getOfficeTerms()
+		// return await utils.getOfficeTerms()
+		await storeValue("salaryReady", false, true);
+
+		const rows = await utils.getOfficeTerms();
+		if (!rows?.length) {
+			await removeValue("SelectedOfficeTerm");
+			await removeValue("salaryOfPeriod");
+			return;
+		}
+
+		salary.setSelectedOfficeTerm(rows[0]);
+		await utils.initPeriod();
+		await utils.reloadSalaryContext();
 	},
 
 	// Добавить в jsobjects/salary/salary.js (внутрь export default)

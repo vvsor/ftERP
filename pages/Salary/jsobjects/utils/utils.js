@@ -22,7 +22,7 @@ export default {
 		return iso;
 	},
 	/// ============== end of test block ===============
-	
+
 	advanceInRub() {
 		const salary = appsmith.store?.salaryOfPeriod;
 		const pct = Number(salary?.max_cash_advance_percent);
@@ -150,6 +150,15 @@ export default {
 		const salaries = salaryRes.data || [];
 		const salaryIds = salaries.map((s) => s.id);
 		const officeBySalary = new Map(salaries.map((s) => [s.id, s.office_term_id?.id]));
+
+		if (salaryIds.length === 0) {
+			return contacts.map((c) => ({
+				...c,
+				accruals_sum: 0,
+				payments_sum: 0,
+				balance: 0
+			}));
+		}
 
 		const [accrRes, payRes] = await Promise.all([
 			items.getItems({

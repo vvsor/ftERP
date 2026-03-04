@@ -67,11 +67,30 @@ export default {
 	},
 
 	async createSalaryPayment(newRow) {
+		const fail = (msg) => {
+			showAlert(msg, "error");
+			throw new Error(msg);
+		};
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
-			const salaryRec = appsmith.store?.salaryOfPeriod;
+			// const salaryRec = appsmith.store?.salaryOfPeriod;
 
-			const amountNum = Number(newRow.amount) || 0;
+
+			// const amountNum = Number(newRow.amount);
+			// 
+			// if (!Number.isFinite(amountNum) || amountNum <= 0) {
+			// showAlert("Ошибочная сумма выплаты", "error");
+			// throw new Error("Invalid payment amount");
+			// }
+
+			const toCents = (v) => Math.round(Number(v) * 100);
+			const amountCents = toCents(newRow.amount);
+			if (!Number.isInteger(amountCents) || amountCents <= 0) {
+				showAlert("Ошибочная сумма выплаты", "error");
+				throw new Error("Invalid payment amount");
+			}
+			const amountNum = amountCents / 100;
+
 			const branchAccountId = newRow.branch_account_name;
 			const paymentDate = newRow.payment_date;
 			const comment = newRow.comment;
@@ -86,9 +105,9 @@ export default {
 			});
 
 			const branchAcc = baRes.data?.[0];
-			if (!branchAcc) return showAlert("Счет филиала не найден", "error");
+			if (!branchAcc) fail("Счет филиала не найден");
 
-			const isCashAccount = String(branchAcc.type || "").toUpperCase() === "CASH";
+			// const isCashAccount = String(branchAcc.type || "").toUpperCase() === "CASH";
 
 			// ====== 1) Начисления по этому счету (с флагами типа начисления)
 			const accrRes = await items.getItems({
@@ -114,13 +133,13 @@ export default {
 			const accrualSum = accruals.reduce((s, a) => s + (Number(a.amount) || 0), 0);
 
 			// База для лимита аванса по наличному счету
-			const advanceBaseSum = accruals.reduce((s, a) => {
-				const t = a.accrual_type_id;
-				const ok =
-							t?.counts_for_salary_total === true &&
-							t?.counts_for_cashless_limit === false;
-				return s + (ok ? (Number(a.amount) || 0) : 0);
-			}, 0);
+			// const advanceBaseSum = accruals.reduce((s, a) => {
+				// const t = a.accrual_type_id;
+				// const ok =
+							// t?.counts_for_salary_total === true &&
+							// t?.counts_for_cashless_limit === false;
+				// return s + (ok ? (Number(a.amount) || 0) : 0);
+			// }, 0);
 
 			// ====== 2) Уже выплачено по этому счету
 			const payRes = await items.getItems({
@@ -142,11 +161,10 @@ export default {
 			// ====== (1) Запрет превышения выплат относительно начислений по счету
 			const EPS = 0.0001;
 			if (amountNum > remaining + EPS) {
-				return showAlert(
+				fail(
 					`Превышение выплат по счету "${branchAcc.name}".\n` +
 					`Начислено: ${accrualSum}\nУже выплачено: ${paidSum}\nОстаток: ${remaining}\n` +
-					`Пытаетесь выплатить: ${amountNum}`,
-					"error"
+					`Пытаетесь выплатить: ${amountNum}`
 				);
 			}
 
@@ -179,7 +197,6 @@ export default {
 			// );
 			// }
 			// }
-			console.log("creating payment");
 			// ====== Создание записи выплаты
 			const body = {
 				salary_id: salaryId,
@@ -211,7 +228,7 @@ export default {
 			throw err;
 		}
 	},
-	
+
 	async updateSalaryPayment(changed) {
 		const { allFields, updatedFields } = changed;
 		const salaryId = appsmith.store?.salaryOfPeriod?.id;
