@@ -47,7 +47,7 @@
       "isDisabled": false,
       "isVisible": true,
       "label": "ЛК",
-      "onClick": "{{navigateTo('Profie', {}, 'SAME_WINDOW');}}",
+      "onClick": "{{navigateTo('Profile', {}, 'SAME_WINDOW');}}",
       "widgetId": ""
     },
     "menuItem3": {

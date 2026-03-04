@@ -134,8 +134,8 @@ export default {
 				limit: -1,
 			});
 
-			const payments = payRes.data ?? [];
-			const paidSum = payments.reduce((s, p) => s + (Number(p.amount) || 0), 0);
+			const paymentsRows = payRes.data ?? [];
+			const paidSum = paymentsRows.reduce((s, p) => s + (Number(p.amount) || 0), 0);
 
 			const remaining = accrualSum - paidSum;
 
@@ -201,20 +201,21 @@ export default {
 			showAlert(`Выплата создана (ID: ${paymentId})`, "success");
 
 			// Обновление UI
-			await this.loadSalaryPayments();
+			await payments.loadSalaryPayments();
 
 			return paymentId;
 
 		} catch (err) {
 			console.error("createSalaryPayment error:", err);
 			showAlert("Ошибка при создании выплаты", "error");
-			// throw err;
+			throw err;
 		}
 	},
-
+	
 	async updateSalaryPayment(changed) {
 		const { allFields, updatedFields } = changed;
 		const salaryId = appsmith.store?.salaryOfPeriod?.id;
+		const paymentId = allFields.id;
 
 		const patch = {};
 
@@ -222,8 +223,7 @@ export default {
 			patch.amount = Number(updatedFields.amount);
 		}
 
-		// IMPORTANT: Selects return values value (ID)
-		// if branch_account_name change -> than it became branch_account_id
+		// Select returns id in branch_account_name field
 		if ("branch_account_name" in updatedFields) {
 			patch.branch_account_id = updatedFields.branch_account_name;
 		}
@@ -236,21 +236,71 @@ export default {
 			patch.comment = updatedFields.comment;
 		}
 
-		// exit without changes
+		// No meaningful changes
 		if (Object.keys(patch).length === 0) return;
 
-		const body = {
-			keys: [allFields.id],
-			data: patch
-		};
+		// Final values after edit
+		const nextAmount = "amount" in patch ? Number(patch.amount) : Number(allFields.amount);
+		const nextBranchAccountId =
+					"branch_account_id" in patch ? patch.branch_account_id : (allFields.branch_account_id || allFields.branch_account_name);
 
+		// Basic validation
+		if (!Number.isFinite(nextAmount) || nextAmount < 0) {
+			showAlert("Ошибочная сумма выплаты", "error");
+			throw new Error("Invalid payment amount");
+		}
+
+		// Sum accruals for target account (active only)
+		const accrRes = await items.getItems({
+			collection: "salary_accruals",
+			fields: "id,amount",
+			filter: {
+				salary_id: { id: { _eq: salaryId } },
+				branch_account_id: { id: { _eq: nextBranchAccountId } },
+				deleted_at: { _null: true }
+			},
+			limit: -1
+		});
+		const accrualSum = (accrRes.data || []).reduce((s, a) => s + (Number(a.amount) || 0), 0);
+
+		// Sum other payments for same account (exclude current payment)
+		const payRes = await items.getItems({
+			collection: "salary_payments",
+			fields: "id,amount",
+			filter: {
+				_and: [
+					{ salary_id: { id: { _eq: salaryId } } },
+					{ branch_account_id: { id: { _eq: nextBranchAccountId } } },
+					{ deleted_at: { _null: true } },
+					{ id: { _neq: paymentId } }
+				]
+			},
+			limit: -1
+		});
+		const otherPaidSum = (payRes.data || []).reduce((s, p) => s + (Number(p.amount) || 0), 0);
+
+		// Do not allow payments to exceed accruals after edit
+		const EPS = 0.0001;
+		if (otherPaidSum + nextAmount > accrualSum + EPS) {
+			showAlert(
+				`Выплата превышает начисления по данному счету.\n` +
+				`Начислено: ${accrualSum}\n` +
+				`Уже выплачено (excluding edited row): ${otherPaidSum}\n` +
+				`Попытка выплатить: ${nextAmount}`,
+				"error"
+			);
+			throw new Error("Выплата превышает начисление");
+		}
 
 		await items.updateItems({
 			collection: "salary_payments",
-			body
+			body: {
+				keys: [paymentId],
+				data: patch
+			}
 		});
 
-		await this.loadSalaryPayments();
+		await payments.loadSalaryPayments();
 	},
 
 	async deleteSalaryPayment () {
@@ -272,7 +322,7 @@ export default {
 		}
 
 		await removeValue("pendingDeleteSalaryPayment");
-
+		console.log("paymentIdToDelete: ", paymentIdToDelete);
 		try {
 			await items.updateItems({
 				collection: "salary_payments",
@@ -283,10 +333,10 @@ export default {
 			});
 		} catch (error) {
 			// General catch for the entire operation
-			console.error("Error during deleting payment:", error);
+			console.error("Ошибка при удалении выплаты:", error);
 			throw error; // Re-throw to allow calling code to handle the error
 		}
-		await this.loadSalaryPayments();
+		await payments.loadSalaryPayments();
 		return;
 	}
 }
