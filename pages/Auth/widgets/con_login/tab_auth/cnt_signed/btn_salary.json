@@ -33,7 +33,7 @@
   "mobileRightColumn": 38,
   "mobileTopRow": 7,
   "needsErrorInfo": false,
-  "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
+  "onClick": "{{navigateTo('https://app.fastrans.ru/app/sal/auth', {}, 'SAME_WINDOW');}}",
   "originalBottomRow": 37,
   "originalTopRow": 33,
   "parentColumnSpace": 17.5625,

@@ -19,6 +19,14 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "menuItems.menuItem65tkw9ll6l.isVisible"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "menuItems.menuItem65tkw9ll6l.isVisible"
     }
   ],
   "dynamicTriggerPathList": [
@@ -27,6 +35,18 @@
     },
     {
       "key": "menuItems.menuItem2.onClick"
+    },
+    {
+      "key": "menuItems.menuItemfm1y0hegwu.onClick"
+    },
+    {
+      "key": "menuItems.menuItem65tkw9ll6l.onClick"
+    },
+    {
+      "key": "menuItems.menuItem70uputj26a.onClick"
+    },
+    {
+      "key": "menuItems.menuItemk37rpnjs3i.onClick"
     }
   ],
   "iconAlign": "left",
@@ -41,24 +61,80 @@
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {
     "menuItem2": {
+      "iconAlign": "right",
       "iconName": "person",
       "id": "menuItem2",
       "index": 0,
       "isDisabled": false,
       "isVisible": true,
       "label": "ЛК",
-      "onClick": "{{navigateTo('Profie', {}, 'SAME_WINDOW');}}",
+      "onClick": "{{navigateTo('Profile', {}, 'SAME_WINDOW');}}",
       "widgetId": ""
     },
     "menuItem3": {
+      "iconAlign": "right",
       "iconName": "log-out",
       "id": "menuItem3",
-      "index": 1,
+      "index": 6,
       "isDisabled": false,
       "isVisible": true,
       "label": "Выйти",
       "onClick": "{{auth.logout();}}",
       "widgetId": ""
+    },
+    "menuItem65tkw9ll6l": {
+      "iconAlign": "right",
+      "iconName": "variable",
+      "id": "menuItem65tkw9ll6l",
+      "index": 3,
+      "isDisabled": false,
+      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store.user.role)\n}}",
+      "label": "Зарплата",
+      "onClick": "{{navigateTo('https://app.fastrans.ru/app/sal/auth', {}, 'SAME_WINDOW');}}",
+      "widgetId": "6fuzk32n92"
+    },
+    "menuItem70uputj26a": {
+      "iconAlign": "right",
+      "iconName": "globe-network",
+      "id": "menuItem70uputj26a",
+      "index": 4,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "fastrans.ru",
+      "onClick": "{{navigateTo('https://fastrans.ru', {}, 'SAME_WINDOW');}}",
+      "widgetId": "5ui644gx6t"
+    },
+    "menuItemfm1y0hegwu": {
+      "iconAlign": "right",
+      "iconName": "people",
+      "id": "menuItemfm1y0hegwu",
+      "index": 1,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Клиенты",
+      "onClick": "{{navigateTo('Clients', {}, 'SAME_WINDOW');}}",
+      "widgetId": "0tybw7in3u"
+    },
+    "menuItemk37rpnjs3i": {
+      "iconAlign": "right",
+      "iconName": "resolve",
+      "id": "menuItemk37rpnjs3i",
+      "index": 5,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "logix",
+      "onClick": "{{navigateTo('https://work.fastrans.ru', {}, 'SAME_WINDOW');}}",
+      "widgetId": "mxkig1ojbv"
+    },
+    "menuItemnrwq5tg2tx": {
+      "iconAlign": "right",
+      "iconName": "inbox",
+      "id": "menuItemnrwq5tg2tx",
+      "index": 2,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "CRM",
+      "widgetId": "qd5n7frtgb"
     }
   },
   "menuItemsSource": "STATIC",
@@ -74,7 +150,7 @@
   "placement": "CENTER",
   "renderMode": "CANVAS",
   "rightColumn": 64,
-  "sourceData": [],
+  "sourceData": "[]",
   "topRow": 0,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,

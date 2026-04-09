@@ -78,6 +78,7 @@ export default {
 				id,
 				email,
 				token,
+				role: payload.role,
 				first_name,
 				last_name,
 				tgchannelusername
