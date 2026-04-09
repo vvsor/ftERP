@@ -61,6 +61,10 @@
       "isDefault": false
     }
   ],
+  "staticUrlSettings": {
+    "enabled": true,
+    "uniqueSlug": "erp"
+  },
   "unpublishedAppLayout": {
     "type": "FLUID"
   },

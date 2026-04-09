@@ -29,6 +29,7 @@
       }
     ],
     "name": "Tasks",
-    "slug": "tasks"
+    "slug": "tasks",
+    "uniqueSlug": "tasks"
   }
 }

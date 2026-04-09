@@ -29,6 +29,7 @@
       }
     ],
     "name": "CRM",
-    "slug": "crm"
+    "slug": "crm",
+    "uniqueSlug": "crm"
   }
 }

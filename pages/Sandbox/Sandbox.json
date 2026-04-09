@@ -29,6 +29,7 @@
       }
     ],
     "name": "Sandbox",
-    "slug": "sandbox"
+    "slug": "sandbox",
+    "uniqueSlug": "sandbox"
   }
 }

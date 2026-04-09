@@ -28,6 +28,7 @@
       }
     ],
     "name": "Profile",
-    "slug": "profile"
+    "slug": "profile",
+    "uniqueSlug": "profile"
   }
 }

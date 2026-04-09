@@ -28,6 +28,7 @@
       }
     ],
     "name": "Calculator",
-    "slug": "calculator"
+    "slug": "calculator",
+    "uniqueSlug": "calculator"
   }
 }

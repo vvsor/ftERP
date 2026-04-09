@@ -29,6 +29,7 @@
       }
     ],
     "name": "Clients",
-    "slug": "clients"
+    "slug": "clients",
+    "uniqueSlug": "clients"
   }
 }
