@@ -1,0 +1,10 @@
+{
+  "accessor": [
+    "jwt_decode"
+  ],
+  "defs": "{\"!name\":\"LIB/jwt_decode\",\"jwt_decode\":{\"!type\":\"fn()\",\"prototype\":{}}}",
+  "name": "jwt_decode",
+  "uidString": "jwt_decode_https://cdn.jsdelivr.net/npm/jwt-decode@3/build/jwt-decode.min.js",
+  "url": "https://cdn.jsdelivr.net/npm/jwt-decode@3/build/jwt-decode.min.js",
+  "version": ""
+}
