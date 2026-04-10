@@ -47,6 +47,12 @@
     },
     {
       "key": "menuItems.menuItemk37rpnjs3i.onClick"
+    },
+    {
+      "key": "menuItems.menuItemnrwq5tg2tx.onClick"
+    },
+    {
+      "key": "menuItems.menuItemi5rrevnk6a.onClick"
     }
   ],
   "iconAlign": "left",
@@ -75,7 +81,7 @@
       "iconAlign": "right",
       "iconName": "log-out",
       "id": "menuItem3",
-      "index": 6,
+      "index": 7,
       "isDisabled": false,
       "isVisible": true,
       "label": "Выйти",
@@ -86,7 +92,7 @@
       "iconAlign": "right",
       "iconName": "variable",
       "id": "menuItem65tkw9ll6l",
-      "index": 3,
+      "index": 4,
       "isDisabled": false,
       "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store.user.role)\n}}",
       "label": "Зарплата",
@@ -97,7 +103,7 @@
       "iconAlign": "right",
       "iconName": "globe-network",
       "id": "menuItem70uputj26a",
-      "index": 4,
+      "index": 5,
       "isDisabled": false,
       "isVisible": true,
       "label": "fastrans.ru",
@@ -108,18 +114,29 @@
       "iconAlign": "right",
       "iconName": "people",
       "id": "menuItemfm1y0hegwu",
-      "index": 1,
+      "index": 3,
       "isDisabled": false,
       "isVisible": true,
       "label": "Клиенты",
       "onClick": "{{navigateTo('Clients', {}, 'SAME_WINDOW');}}",
       "widgetId": "0tybw7in3u"
     },
+    "menuItemi5rrevnk6a": {
+      "iconAlign": "right",
+      "iconName": "array-timestamp",
+      "id": "menuItemi5rrevnk6a",
+      "index": 1,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Задачи",
+      "onClick": "{{navigateTo('Tasks', {}, 'SAME_WINDOW');}}",
+      "widgetId": "askecys7qf"
+    },
     "menuItemk37rpnjs3i": {
       "iconAlign": "right",
       "iconName": "resolve",
       "id": "menuItemk37rpnjs3i",
-      "index": 5,
+      "index": 6,
       "isDisabled": false,
       "isVisible": true,
       "label": "logix",
@@ -134,6 +151,7 @@
       "isDisabled": false,
       "isVisible": true,
       "label": "CRM",
+      "onClick": "{{navigateTo('CRM', {}, 'SAME_WINDOW');}}",
       "widgetId": "qd5n7frtgb"
     }
   },

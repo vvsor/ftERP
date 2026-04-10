@@ -47,6 +47,9 @@
     },
     {
       "key": "menuItems.menuItemk37rpnjs3i.onClick"
+    },
+    {
+      "key": "menuItems.menuItemnrwq5tg2tx.onClick"
     }
   ],
   "iconAlign": "left",
@@ -111,8 +114,8 @@
       "index": 1,
       "isDisabled": false,
       "isVisible": true,
-      "label": "Клиенты",
-      "onClick": "{{navigateTo('Clients', {}, 'SAME_WINDOW');}}",
+      "label": "Задачи",
+      "onClick": "{{navigateTo('Tasks', {}, 'SAME_WINDOW');}}",
       "widgetId": "0tybw7in3u"
     },
     "menuItemk37rpnjs3i": {
@@ -134,6 +137,7 @@
       "isDisabled": false,
       "isVisible": true,
       "label": "CRM",
+      "onClick": "{{navigateTo('CRM', {}, 'SAME_WINDOW');}}",
       "widgetId": "qd5n7frtgb"
     }
   },
