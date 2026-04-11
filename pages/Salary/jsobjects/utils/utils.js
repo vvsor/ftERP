@@ -110,9 +110,11 @@ export default {
 			collection: "office_term",
 			fields: [
 				"id",
+				"user_id",
 				"user_id.id",
 				"user_id.first_name",
 				"user_id.last_name",
+				"position_id",
 				"position_id.title_id.title",
 				"position_id.branch_id.id",
 				"position_id.branch_id.name"
@@ -123,16 +125,22 @@ export default {
 
 		const contacts = (officeRes.data || [])
 		.map((item) => {
-			const user = item?.user_id;
+			const rawUser = item?.user_id;
+
+			const user = typeof rawUser === "string"
+			? { id: rawUser }
+			: rawUser;
+
 			const position = item?.position_id;
 			const branch = position?.branch_id;
 
 			if (!item?.id || !user?.id) {
-				console.warn("Skipping malformed office_term without item.id/user_id", item);
+				console.warn("Skipping malformed office_term", item);
 				return null;
 			}
 
 			const firstInitial = user.first_name?.[0] ? ` ${user.first_name[0]}.` : "";
+
 
 			return {
 				id: item.id,

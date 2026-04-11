@@ -32,7 +32,20 @@
           "value": true
         }
       ],
-      "queryParameters": [],
+      "queryParameters": [
+        {
+          "key": "filter",
+          "value": "{{this.params.filter}}"
+        },
+        {
+          "key": "fields[]",
+          "value": "{{this.params.fields}}"
+        },
+        {
+          "key": "limit",
+          "value": "{{this.params.limit}}"
+        }
+      ],
       "timeoutInMillisecond": 10000
     },
     "confirmBeforeExecute": false,
@@ -47,6 +60,12 @@
         "key": "path"
       },
       {
+        "key": "headers[0].value"
+      },
+      {
+        "key": "body"
+      },
+      {
         "key": "queryParameters[0].value"
       },
       {
@@ -54,12 +73,6 @@
       },
       {
         "key": "queryParameters[2].value"
-      },
-      {
-        "key": "headers[0].value"
-      },
-      {
-        "key": "body"
       }
     ],
     "name": "qGetItems",
