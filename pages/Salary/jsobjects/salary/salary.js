@@ -17,16 +17,19 @@ export default {
 	},
 
 	accrualsSummaryTextVisibleEmployees() {
-		const rows = Array.isArray(utils.getOfficeTerms?.data) ? utils.getOfficeTerms.data : [];
+		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
+		const rows = Array.isArray(tableRows) ? tableRows : [];
 		const total = rows.reduce((s, r) => s + (Number(r.accruals_sum) || 0), 0);
 		return `Начислено: ${utils.formatMoneyRu(total)}`;
 	},
 
 	paymentsSummaryTextVisibleEmployees() {
-		const rows = Array.isArray(utils.getOfficeTerms?.data) ? utils.getOfficeTerms.data : [];
+		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
+		const rows = Array.isArray(tableRows) ? tableRows : [];
 		const total = rows.reduce((s, r) => s + (Number(r.payments_sum) || 0), 0);
 		return `Выплачено: ${utils.formatMoneyRu(total)}`;
 	},
+
 
 	getPaymentsSummaryPerson() {
 		const accruals = tbl_salaryAccruals?.tableData || [];
