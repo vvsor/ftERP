@@ -93,7 +93,7 @@
       "isDisabled": false,
       "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store.user.role)\n}}",
       "label": "Зарплата",
-      "onClick": "{{navigateTo('https://app.fastrans.ru/app/sal/auth', {}, 'SAME_WINDOW');}}",
+      "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
       "widgetId": "6fuzk32n92"
     },
     "menuItem70uputj26a": {
