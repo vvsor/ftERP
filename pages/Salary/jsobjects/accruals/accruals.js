@@ -61,6 +61,7 @@ export default {
 				counts_for_cashless_limit: !!p.accrual_type_id?.counts_for_cashless_limit
 			}));
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("loadSalaryAccruals failed:", error);
 			showAlert("Ошибка загрузки начислений зарплаты", "error");
 			throw error;
@@ -69,20 +70,45 @@ export default {
 
 	async createSalaryAccrual(newRow) {
 		const salaryId = appsmith.store?.salaryOfPeriod?.id;
-		const body = {
-			salary_id: salaryId,
-			branch_account_id: newRow.branch_account_name,	// select keeps id in that field
-			accrual_type_id: newRow.accrual_name,	// select keeps id in that field
-			comment: newRow.comment,	// select keeps id in that field
-			amount: Number(newRow.amount),
-		};
+		const branchAccountId = newRow.branch_account_name;
+		const accrualTypeId = newRow.accrual_name;
+		const amount = Number(newRow.amount);
+		const comment = newRow.comment;
+
+		if (!salaryId) {
+			showAlert("Зарплата периода не выбрана", "error");
+			throw new Error("salaryId missing");
+		}
+
+		if (!branchAccountId) {
+			showAlert("Выберите счет филиала", "error");
+			throw new Error("Branch account is required");
+		}
+
+		if (!accrualTypeId) {
+			showAlert("Выберите тип начисления", "error");
+			throw new Error("Accrual type is required");
+		}
+
+		if (!Number.isFinite(amount) || amount < 0) {
+			showAlert("Ошибочная сумма начисления", "error");
+			throw new Error("Invalid accrual amount");
+		}
 
 		const result = await items.createItems({
 			collection: "salary_accruals",
-			body
+			body: {
+				salary_id: salaryId,
+				branch_account_id: branchAccountId,
+				accrual_type_id: accrualTypeId,
+				comment,
+				amount
+			}
 		});
 
 		await accruals.loadSalaryAccruals();
+		await utils.getOfficeTerms();
+
 		return result.data?.id;
 	},
 
@@ -203,6 +229,7 @@ export default {
 		});
 
 		await accruals.loadSalaryAccruals();
+		await utils.getOfficeTerms();
 	},
 
 	async deleteSalaryAccrual() {
@@ -280,6 +307,7 @@ export default {
 		});
 
 		await accruals.loadSalaryAccruals();
+		await utils.getOfficeTerms();
 	}
 
 }

@@ -14,8 +14,6 @@ export default {
 
 		try {
 			if (refreshToken) {
-				await audit.addAuditAction({ action: "logged_out" });
-
 				await qPostAuth.run({
 					action: "logout",
 					body: {
@@ -28,8 +26,8 @@ export default {
 			console.warn("Remote logout failed:", error);
 		} finally {
 			clearStore();
-			this.setDefaultTab("Sign In");
 			showAlert("Успешный выход", "success");
+			navigateTo("Auth");
 		}
 	},
 

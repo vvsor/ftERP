@@ -11,7 +11,8 @@ export default {
 		const row = tbl_employees.selectedRow;
 		if (!row?.id) {
 			return;
-		}		salary.setSelectedOfficeTerm(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
+		}
+		await salary.setSelectedOfficeTerm(row);
 		await utils.initPeriod();
 		await utils.reloadSalaryContext();
 	},
@@ -75,8 +76,8 @@ export default {
 	},
 
 	async sel_chooseBranch_OptionChanged() {
-		// return await utils.getOfficeTerms()
 		await storeValue("salaryReady", false, true);
+		await utils.initPeriod();
 
 		const rows = await utils.getOfficeTerms();
 		if (!rows?.length) {
@@ -85,8 +86,7 @@ export default {
 			return;
 		}
 
-		salary.setSelectedOfficeTerm(rows[0]);
-		await utils.initPeriod();
+		await salary.setSelectedOfficeTerm(rows[0]);
 		await utils.reloadSalaryContext();
 	},
 
@@ -213,6 +213,7 @@ export default {
 
 			return salaryRecord;
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("loadSalary failed:", error);
 			showAlert("Ошибка загрузки/создания зарплаты", "error");
 			throw error;
@@ -238,13 +239,17 @@ export default {
 
 		// Only select salary if any employee exist
 		try {
+			await utils.initPeriod();
 			const data = await utils.getOfficeTerms();
 			// Only call tab selection if a task exists
 			if (data.length > 0) {
-				salary.setSelectedOfficeTerm(data[0]);
-				await utils.initPeriod();
+				await salary.setSelectedOfficeTerm(data[0]);
 				await utils.reloadSalaryContext();
+			} else {
+				await removeValue("SelectedOfficeTerm");
+				await removeValue("salaryOfPeriod");
 			}
+
 			await Promise.all([
 				utils.getAccrualTypesRaw(),
 				utils.getAccrualTypesOptions(),
@@ -254,7 +259,8 @@ export default {
 			]);
 			return;
 		} catch (error) {
-			console.error("Error loading office terms:", error);
+			if (error?.authHandled) throw error;
+			console.error("Error loading office terms: ", error);
 		}
 	}
 }

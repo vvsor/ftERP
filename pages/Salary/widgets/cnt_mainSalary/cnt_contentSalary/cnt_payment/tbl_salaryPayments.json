@@ -606,7 +606,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": false,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ Array.isArray(payments.loadSalaryPayments?.data) ? payments.loadSalaryPayments.data : [] }}",
+  "tableData": "{{ appsmith.store?.salaryOfPeriod?.id && Array.isArray(payments.loadSalaryPayments?.data)\n? payments.loadSalaryPayments.data\n: [] }}",
   "textSize": "0.875rem",
   "topRow": 8,
   "totalRecordsCount": 0,

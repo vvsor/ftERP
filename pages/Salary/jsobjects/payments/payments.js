@@ -60,6 +60,7 @@ export default {
 				// }
 			}));
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("loadSalaryPayments failed:", error);
 			showAlert("Ошибка загрузки выплат зарплаты", "error");
 			throw error;
@@ -134,11 +135,11 @@ export default {
 
 			// База для лимита аванса по наличному счету
 			// const advanceBaseSum = accruals.reduce((s, a) => {
-				// const t = a.accrual_type_id;
-				// const ok =
-							// t?.counts_for_salary_total === true &&
-							// t?.counts_for_cashless_limit === false;
-				// return s + (ok ? (Number(a.amount) || 0) : 0);
+			// const t = a.accrual_type_id;
+			// const ok =
+			// t?.counts_for_salary_total === true &&
+			// t?.counts_for_cashless_limit === false;
+			// return s + (ok ? (Number(a.amount) || 0) : 0);
 			// }, 0);
 
 			// ====== 2) Уже выплачено по этому счету
@@ -219,10 +220,12 @@ export default {
 
 			// Обновление UI
 			await payments.loadSalaryPayments();
+			await utils.getOfficeTerms();
 
 			return paymentId;
 
 		} catch (err) {
+			if (err?.authHandled) throw err;
 			console.error("createSalaryPayment error:", err);
 			showAlert("Ошибка при создании выплаты", "error");
 			throw err;
@@ -318,6 +321,7 @@ export default {
 		});
 
 		await payments.loadSalaryPayments();
+		await utils.getOfficeTerms();
 	},
 
 	async deleteSalaryPayment () {
@@ -354,6 +358,7 @@ export default {
 			throw error; // Re-throw to allow calling code to handle the error
 		}
 		await payments.loadSalaryPayments();
+		await utils.getOfficeTerms();
 		return;
 	}
 }

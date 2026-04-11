@@ -730,7 +730,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": false,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ Array.isArray(accruals.loadSalaryAccruals?.data) ? accruals.loadSalaryAccruals.data : [] }}",
+  "tableData": "{{ appsmith.store?.salaryOfPeriod?.id && Array.isArray(accruals.loadSalaryAccruals?.data)\n\t? accruals.loadSalaryAccruals.data\n\t: [] }}",
   "textSize": "0.875rem",
   "topRow": 9,
   "totalRecordsCount": 0,
