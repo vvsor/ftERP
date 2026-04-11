@@ -30,6 +30,6 @@
     "name": "loadSalaryAccruals",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": false
+    "userSetOnLoad": true
   }
 }

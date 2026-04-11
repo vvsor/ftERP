@@ -26,6 +26,6 @@
     "name": "getBranchAccountsOptions",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": false
+    "userSetOnLoad": true
   }
 }

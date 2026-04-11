@@ -25,7 +25,7 @@
     "fullyQualifiedName": "salary.initSalary",
     "name": "initSalary",
     "pageId": "Salary",
-    "runBehaviour": "MANUAL",
-    "userSetOnLoad": false
+    "runBehaviour": "AUTOMATIC",
+    "userSetOnLoad": true
   }
 }
