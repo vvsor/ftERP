@@ -37,7 +37,7 @@
   "needsErrorInfo": false,
   "onClick": "{{ utils.shiftPeriod(-1) }}",
   "parentColumnSpace": 16.6630859375,
-  "parentId": "k2fyneak6s",
+  "parentId": "y3sb0idcs9",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",
@@ -45,6 +45,6 @@
   "topRow": 0,
   "type": "ICON_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "itdcj9bu9r",
+  "widgetId": "gwdxq9vjji",
   "widgetName": "ibtn_prevPeriod"
 }

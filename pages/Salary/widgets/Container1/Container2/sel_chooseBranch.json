@@ -56,7 +56,7 @@
   "originalBottomRow": 26,
   "originalTopRow": 19,
   "parentColumnSpace": 6.9375,
-  "parentId": "p49qitvdni",
+  "parentId": "z2qwd83fgb",
   "parentRowSpace": 10,
   "placeholderText": "Выберите...",
   "renderMode": "CANVAS",
@@ -74,6 +74,6 @@
   "topRow": 0,
   "type": "SELECT_WIDGET",
   "version": 1,
-  "widgetId": "kgil2e4alv",
+  "widgetId": "ylhw3s4viy",
   "widgetName": "sel_chooseBranch"
 }

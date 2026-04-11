@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 13,
+  "bottomRow": 8,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -37,7 +37,7 @@
   "originalTopRow": 4,
   "overflow": "NONE",
   "parentColumnSpace": 8.01904296875,
-  "parentId": "zx0qlrbu3e",
+  "parentId": "qea5e6g59l",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -46,10 +46,10 @@
   "text": "{{\nsalary.accrualsSummaryTextPerson()\n}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
-  "topRow": 7,
+  "topRow": 4,
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "iffem1pzv3",
+  "widgetId": "5haxfw9qy9",
   "widgetName": "txt_sumAccruals"
 }

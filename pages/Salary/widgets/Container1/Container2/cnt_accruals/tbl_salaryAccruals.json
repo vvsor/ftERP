@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 40,
+  "bottomRow": 35,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -215,7 +215,7 @@
   "originalBottomRow": 35,
   "originalTopRow": 9,
   "parentColumnSpace": 16.9755859375,
-  "parentId": "zx0qlrbu3e",
+  "parentId": "qea5e6g59l",
   "parentRowSpace": 10,
   "primaryColumnId": "id",
   "primaryColumns": {
@@ -732,11 +732,11 @@
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(accruals.loadSalaryAccruals?.data) ? accruals.loadSalaryAccruals.data : [] }}",
   "textSize": "0.875rem",
-  "topRow": 14,
+  "topRow": 9,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",
-  "widgetId": "ovg15o1xeg",
+  "widgetId": "4dsdnh5fbj",
   "widgetName": "tbl_salaryAccruals"
 }

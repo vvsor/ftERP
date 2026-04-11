@@ -4,7 +4,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 106,
+  "bottomRow": 100,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -135,7 +135,7 @@
   "originalBottomRow": 100,
   "originalTopRow": 6,
   "parentColumnSpace": 10.9384765625,
-  "parentId": "p49qitvdni",
+  "parentId": "z2qwd83fgb",
   "parentRowSpace": 10,
   "primaryColumns": {
     "accruals_sum": {
@@ -451,11 +451,11 @@
   "searchKey": "",
   "tableData": "{{ Array.isArray(utils.getOfficeTerms?.data) ? utils.getOfficeTerms.data : [] }}",
   "textSize": "0.875rem",
-  "topRow": 12,
+  "topRow": 6,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",
-  "widgetId": "culugmw6zo",
+  "widgetId": "5d1oaof4i9",
   "widgetName": "tbl_employees"
 }

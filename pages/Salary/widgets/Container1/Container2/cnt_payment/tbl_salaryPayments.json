@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 39,
+  "bottomRow": 37,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -196,7 +196,7 @@
   "originalBottomRow": 37,
   "originalTopRow": 8,
   "parentColumnSpace": 16.9755859375,
-  "parentId": "29gvtahodl",
+  "parentId": "90l8jo0fx8",
   "parentRowSpace": 10,
   "primaryColumnId": "id",
   "primaryColumns": {
@@ -608,11 +608,11 @@
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(payments.loadSalaryPayments?.data) ? payments.loadSalaryPayments.data : [] }}",
   "textSize": "0.875rem",
-  "topRow": 10,
+  "topRow": 8,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",
-  "widgetId": "5y7kgih1yd",
+  "widgetId": "cg9oawzcy1",
   "widgetName": "tbl_salaryPayments"
 }

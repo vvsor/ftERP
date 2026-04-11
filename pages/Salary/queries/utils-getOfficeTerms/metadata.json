@@ -1,5 +1,5 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_8cbe284e-aac5-4e4f-9799-dfe3c9835e4b",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_6e5f0fe6-b06b-4430-ada6-5ee74c642024",
   "id": "Salary_utils.getOfficeTerms",
   "pluginId": "js-plugin",
   "pluginType": "JS",
@@ -26,6 +26,6 @@
     "name": "getOfficeTerms",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": true
+    "userSetOnLoad": false
   }
 }

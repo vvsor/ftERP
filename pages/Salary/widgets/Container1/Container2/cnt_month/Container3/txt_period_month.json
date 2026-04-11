@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 19,
+  "bottomRow": 4,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -37,7 +37,7 @@
   "originalTopRow": 0,
   "overflow": "NONE",
   "parentColumnSpace": 16.6630859375,
-  "parentId": "k2fyneak6s",
+  "parentId": "y3sb0idcs9",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -50,6 +50,6 @@
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "daduj6ab3z",
+  "widgetId": "qm4iyaiwj5",
   "widgetName": "txt_period_month"
 }

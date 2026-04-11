@@ -1,5 +1,5 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_96fdb77e-0ef9-4dcd-9795-fec0165291cc",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_bf11834c-e38f-441f-8da1-a7918108e9d9",
   "id": "Salary_salary.initSalary",
   "pluginId": "js-plugin",
   "pluginType": "JS",
@@ -25,7 +25,7 @@
     "fullyQualifiedName": "salary.initSalary",
     "name": "initSalary",
     "pageId": "Salary",
-    "runBehaviour": "AUTOMATIC",
-    "userSetOnLoad": true
+    "runBehaviour": "MANUAL",
+    "userSetOnLoad": false
   }
 }

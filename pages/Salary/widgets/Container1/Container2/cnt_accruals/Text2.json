@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 7,
+  "bottomRow": 4,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -37,7 +37,7 @@
   "originalTopRow": 0,
   "overflow": "NONE",
   "parentColumnSpace": 16.6630859375,
-  "parentId": "zx0qlrbu3e",
+  "parentId": "qea5e6g59l",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
@@ -50,6 +50,6 @@
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "tikc0q2piz",
+  "widgetId": "nb6sxsim5q",
   "widgetName": "Text2"
 }

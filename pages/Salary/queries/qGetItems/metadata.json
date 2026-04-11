@@ -1,5 +1,5 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_aa7f71ef-c5f9-4901-9194-625116a27ca8",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_17c5aa20-7ae3-421d-bfd2-c2fd127eaad1",
   "id": "Salary_qGetItems",
   "pluginId": "restapi-plugin",
   "pluginType": "API",
@@ -19,7 +19,7 @@
       },
       "headers": [
         {
-          "key": "Bearer {{ appsmith.store.user.token }}",
+          "key": "Authorization",
           "value": "Bearer {{ appsmith.store.user.token }}"
         }
       ],

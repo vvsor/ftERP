@@ -1,5 +1,5 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_3fd1d3d6-439c-44de-a923-2bd7366241e2",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_fd73218e-55d9-479e-98ad-db3d89bbb05b",
   "id": "Salary_accruals.loadSalaryAccruals",
   "pluginId": "js-plugin",
   "pluginType": "JS",
@@ -30,6 +30,6 @@
     "name": "loadSalaryAccruals",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": true
+    "userSetOnLoad": false
   }
 }

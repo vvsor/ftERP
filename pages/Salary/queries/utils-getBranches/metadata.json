@@ -1,5 +1,5 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_114bf821-66dd-4b4f-973c-cad1d4f48b5f",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_07bd8239-0bc1-460b-a7c9-7a9226621bec",
   "id": "Salary_utils.getBranches",
   "pluginId": "js-plugin",
   "pluginType": "JS",
@@ -25,7 +25,7 @@
     "fullyQualifiedName": "utils.getBranches",
     "name": "getBranches",
     "pageId": "Salary",
-    "runBehaviour": "AUTOMATIC",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }
 }
