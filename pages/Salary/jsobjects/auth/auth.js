@@ -16,7 +16,7 @@ export default {
 				body: body,	
 			};
 
-			await qPostAuth.run(params);
+			await qPostAuth1.run(params);
 			showAlert('Успешный выход', 'success');
 			clearStore();
 			navigateTo('Auth');

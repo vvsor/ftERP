@@ -121,14 +121,29 @@ export default {
 			limit: -1
 		});
 
-		const contacts = (officeRes.data || []).map((item) => ({
-			id: item.id,
-			user_id: item.user_id.id,
-			employee: `${item.user_id.last_name} ${item.user_id.first_name?.[0] || ""}.`,
-			title: item.position_id.title_id.title,
-			branch_id: item.position_id.branch_id.id,
-			branch_name: item.position_id.branch_id.name
-		}));
+		const contacts = (officeRes.data || [])
+		.map((item) => {
+			const user = item?.user_id;
+			const position = item?.position_id;
+			const branch = position?.branch_id;
+
+			if (!item?.id || !user?.id) {
+				console.warn("Skipping malformed office_term without item.id/user_id", item);
+				return null;
+			}
+
+			const firstInitial = user.first_name?.[0] ? ` ${user.first_name[0]}.` : "";
+
+			return {
+				id: item.id,
+				user_id: user.id,
+				employee: `${user.last_name || ""}${firstInitial}`.trim(),
+				title: position?.title_id?.title ?? "—",
+				branch_id: branch?.id ?? null,
+				branch_name: branch?.name ?? "—"
+			};
+		})
+		.filter(Boolean);
 
 		const officeTermIds = contacts.map((x) => x.id);
 		if (!periodMonth || officeTermIds.length === 0) {
