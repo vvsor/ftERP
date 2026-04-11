@@ -1,0 +1,156 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "configureMenuItems": {
+    "config": {
+      "id": "config",
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Menu Item"
+    },
+    "id": "config",
+    "label": "Configure menu items"
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "menuColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "menuItems.menuItem3.onClick"
+    },
+    {
+      "key": "menuItems.menuItem2.onClick"
+    },
+    {
+      "key": "menuItems.menuItemfm1y0hegwu.onClick"
+    },
+    {
+      "key": "menuItems.menuItem65tkw9ll6l.onClick"
+    },
+    {
+      "key": "menuItems.menuItem70uputj26a.onClick"
+    },
+    {
+      "key": "menuItems.menuItemk37rpnjs3i.onClick"
+    },
+    {
+      "key": "menuItems.menuItemnrwq5tg2tx.onClick"
+    }
+  ],
+  "iconAlign": "left",
+  "iconName": "menu",
+  "isCompact": false,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "o2kna0hd2j",
+  "label": "Меню",
+  "leftColumn": 58,
+  "menuColor": "{{appsmith.theme.colors.primaryColor}}",
+  "menuItems": {
+    "menuItem2": {
+      "iconAlign": "right",
+      "iconName": "person",
+      "id": "menuItem2",
+      "index": 0,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "ЛК",
+      "onClick": "{{navigateTo('Profile', {}, 'SAME_WINDOW');}}",
+      "widgetId": ""
+    },
+    "menuItem3": {
+      "iconAlign": "right",
+      "iconName": "log-out",
+      "id": "menuItem3",
+      "index": 6,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Выйти",
+      "onClick": "{{auth.logout();}}",
+      "widgetId": ""
+    },
+    "menuItem65tkw9ll6l": {
+      "iconAlign": "right",
+      "iconName": "array-timestamp",
+      "id": "menuItem65tkw9ll6l",
+      "index": 1,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Задачи",
+      "onClick": "{{navigateTo('https://app.fastrans.ru/app/erp/tasks', {}, 'SAME_WINDOW');}}",
+      "widgetId": "6fuzk32n92"
+    },
+    "menuItem70uputj26a": {
+      "iconAlign": "right",
+      "iconName": "globe-network",
+      "id": "menuItem70uputj26a",
+      "index": 4,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "fastrans.ru",
+      "onClick": "{{navigateTo('https://fastrans.ru', {}, 'SAME_WINDOW');}}",
+      "widgetId": "5ui644gx6t"
+    },
+    "menuItemfm1y0hegwu": {
+      "iconAlign": "right",
+      "iconName": "people",
+      "id": "menuItemfm1y0hegwu",
+      "index": 2,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "Клиенты",
+      "onClick": "{{navigateTo('https://app.fastrans.ru/app/erp/clients', {}, 'SAME_WINDOW');}}",
+      "widgetId": "0tybw7in3u"
+    },
+    "menuItemk37rpnjs3i": {
+      "iconAlign": "right",
+      "iconName": "resolve",
+      "id": "menuItemk37rpnjs3i",
+      "index": 5,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "logix",
+      "onClick": "{{navigateTo('https://work.fastrans.ru', {}, 'SAME_WINDOW');}}",
+      "widgetId": "mxkig1ojbv"
+    },
+    "menuItemnrwq5tg2tx": {
+      "iconAlign": "right",
+      "iconName": "inbox",
+      "id": "menuItemnrwq5tg2tx",
+      "index": 3,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "CRM",
+      "onClick": "{{navigateTo('https://app.fastrans.ru/app/erp/crm', {}, 'SAME_WINDOW');}}",
+      "widgetId": "qd5n7frtgb"
+    }
+  },
+  "menuItemsSource": "STATIC",
+  "menuVariant": "TERTIARY",
+  "mobileBottomRow": 8,
+  "mobileLeftColumn": 44,
+  "mobileRightColumn": 60,
+  "mobileTopRow": 4,
+  "needsErrorInfo": false,
+  "parentColumnSpace": 17.25,
+  "parentId": "4k9c96ezno",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "renderMode": "CANVAS",
+  "rightColumn": 64,
+  "sourceData": "[]",
+  "topRow": 0,
+  "type": "MENU_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "yqy0zkn67i",
+  "widgetName": "mbtn_main"
+}

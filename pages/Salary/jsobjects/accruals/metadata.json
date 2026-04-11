@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_b2823740-1fb0-4189-ae39-381bd43b9da3",
+  "id": "Salary_accruals",
+  "unpublishedCollection": {
+    "name": "accruals",
+    "pageId": "Salary",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "DELETE_CONFIRM_WINDOW_MS",
+        "value": "5000"
+      }
+    ]
+  }
+}

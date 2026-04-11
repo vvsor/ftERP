@@ -17,7 +17,12 @@
       "formData": {
         "apiContentType": "application/json"
       },
-      "headers": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{ appsmith.store.user.token }}"
+        }
+      ],
       "httpMethod": "PATCH",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
@@ -43,6 +48,9 @@
       },
       {
         "key": "body"
+      },
+      {
+        "key": "headers[0].value"
       }
     ],
     "name": "qUpdateItems",

@@ -1,0 +1,52 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "alignWidget": "LEFT",
+  "animateLoading": true,
+  "bottomRow": 8,
+  "boxShadow": "none",
+  "defaultSwitchState": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "onChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onChange"
+    }
+  ],
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "7fy91byfyu",
+  "label": "Удаленные",
+  "labelPosition": "Left",
+  "leftColumn": 45,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "mobileBottomRow": 4,
+  "mobileLeftColumn": 53,
+  "mobileRightColumn": 64,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onChange": "{{\npayments.loadSalaryPayments()\n}}",
+  "originalBottomRow": 8,
+  "originalTopRow": 4,
+  "parentColumnSpace": 8.279403686523438,
+  "parentId": "29gvtahodl",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "topRow": 4,
+  "type": "SWITCH_WIDGET",
+  "version": 1,
+  "widgetId": "04e0w9d9cv",
+  "widgetName": "sw_deletedPayments"
+}

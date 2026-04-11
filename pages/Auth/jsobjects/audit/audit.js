@@ -9,7 +9,6 @@ export default {
 				comment_id: commentId,
 				client_id: clientId
 			};
-
 			return await items.createItems({
 				collection: "tasklog",
 				body

@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_f3c75ff1-d799-4c9a-8c88-2ad35554776c",
+  "id": "Salary_payments",
+  "unpublishedCollection": {
+    "name": "payments",
+    "pageId": "Salary",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "DELETE_CONFIRM_WINDOW_MS",
+        "value": "5000"
+      }
+    ]
+  }
+}

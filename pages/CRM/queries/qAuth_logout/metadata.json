@@ -17,7 +17,12 @@
       "formData": {
         "apiContentType": "none"
       },
-      "headers": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{ appsmith.store.user.token }}"
+        }
+      ],
       "httpMethod": "POST",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
@@ -40,6 +45,9 @@
     "dynamicBindingPathList": [
       {
         "key": "body"
+      },
+      {
+        "key": "headers[0].value"
       }
     ],
     "name": "qAuth_logout",

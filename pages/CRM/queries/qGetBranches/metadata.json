@@ -12,7 +12,12 @@
       "formData": {
         "apiContentType": "none"
       },
-      "headers": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{ appsmith.store.user.token }}"
+        }
+      ],
       "httpMethod": "GET",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
@@ -32,7 +37,11 @@
       "name": "dir.fastrans.ru",
       "pluginId": "restapi-plugin"
     },
-    "dynamicBindingPathList": [],
+    "dynamicBindingPathList": [
+      {
+        "key": "headers[0].value"
+      }
+    ],
     "name": "qGetBranches",
     "pageId": "CRM",
     "runBehaviour": "ON_PAGE_LOAD",
