@@ -6,6 +6,15 @@
     "pageId": "Salary",
     "pluginId": "js-plugin",
     "pluginType": "JS",
-    "variables": []
+    "variables": [
+      {
+        "name": "refreshPromise",
+        "value": "null"
+      },
+      {
+        "name": "authFailureHandled",
+        "value": "false"
+      }
+    ]
   }
 }

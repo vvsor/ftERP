@@ -17,12 +17,7 @@
       "formData": {
         "apiContentType": "application/json"
       },
-      "headers": [
-        {
-          "key": "Authorization",
-          "value": "Bearer {{ appsmith.store.user.token }}"
-        }
-      ],
+      "headers": [],
       "httpMethod": "POST",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",

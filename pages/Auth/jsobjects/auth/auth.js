@@ -10,29 +10,26 @@ export default {
 	/// ============== end of test block ===============
 
 	logout: async () => {
-		if (!appsmith.store?.user?.token){
-			this.setDefaultTab('Sign In');
-			return;
-		}
+		const refreshToken = appsmith.store?.user?.refresh_token;
+
 		try {
-			const params = {
-				action: "logout",
-				body: {
-					refresh_token: appsmith.store.user.token,
-					mode: "json"
-				}
-			};
+			if (refreshToken) {
+				await audit.addAuditAction({ action: "logged_out" });
 
-			await audit.addAuditAction({action: 'logged_out'});
-			await qPostAuth.run(params);
-
-			showAlert('Успешный выход', 'success');
-			clearStore();
-			this.setDefaultTab('Sign In');
+				await qPostAuth.run({
+					action: "logout",
+					body: {
+						refresh_token: refreshToken,
+						mode: "json"
+					}
+				});
+			}
 		} catch (error) {
-			console.error("Error in logout: ", error);
-			showAlert('Ошибка при выходе', 'error');
-			throw error; // Re-throw to allow calling code to handle the error
+			console.warn("Remote logout failed:", error);
+		} finally {
+			clearStore();
+			this.setDefaultTab("Sign In");
+			showAlert("Успешный выход", "success");
 		}
 	},
 
@@ -55,10 +52,17 @@ export default {
 
 			// 1. Authenticate and get token
 			const response = await qAuth_login.run({ body });
-			const token = response?.data?.access_token;
-			if (!token) throw new Error("No token");
 
-			const payload = jwt_decode(token);
+			const accessToken = response?.data?.access_token;
+			const refreshToken = response?.data?.refresh_token;
+
+
+			if (!accessToken || !refreshToken) {
+				throw new Error("No access_token or refresh_token");
+			}
+
+			const payload = jwt_decode(accessToken);
+
 			const allowedRoles = [
 				"a0258883-621a-4e27-a1f3-4a0f99ea1de6",	// "ERP users" role
 				"cbdd561a-af1b-4602-a606-74b8d824220f"	// "ERP+Salary users" role
@@ -68,8 +72,9 @@ export default {
 				showAlert('Нет прав доступа', 'error');
 				return;
 			}
+
 			// 2. Get user data by token
-			const userData = await qGetUserDataByToken.run({ token });
+			const userData = await qGetUserDataByToken.run({ token: accessToken });
 			if (!userData?.data?.id) throw new Error("No user details");
 			const { id, email, first_name, last_name, tgchannelusername } = userData.data;
 
@@ -77,7 +82,8 @@ export default {
 			await storeValue("user", {
 				id,
 				email,
-				token,
+				token: accessToken,
+				refresh_token: refreshToken,
 				role: payload.role,
 				first_name,
 				last_name,

@@ -1,5 +1,6 @@
 export default {
 	logout: async () => {
+		const refreshToken = appsmith.store?.user?.refresh_token;
 		try {
 			if (!appsmith.store.user?.token){
 				navigateTo('Auth');
@@ -7,7 +8,7 @@ export default {
 			}
 
 			const body = {
-				refresh_token: appsmith.store.user.token,
+				refresh_token: refreshToken,
 				mode: "json"
 			};
 
@@ -16,7 +17,7 @@ export default {
 				body: body,	
 			};
 
-			await qPostAuth1.run(params);
+			await qPostAuth.run(params);
 			showAlert('Успешный выход', 'success');
 			clearStore();
 			navigateTo('Auth');
