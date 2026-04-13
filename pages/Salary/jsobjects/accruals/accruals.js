@@ -146,6 +146,25 @@ export default {
 		const oldAmount = Number(allFields.amount) || 0;
 		const newAmount = "amount" in patch ? Number(patch.amount) : oldAmount;
 
+		const nextAccrualTypeId =
+					"accrual_type_id" in patch ? patch.accrual_type_id : (allFields.accrual_type_id || allFields.accrual_name);
+
+		if (!salaryId) {
+			showAlert("Зарплата периода не выбрана", "error");
+			throw new Error("salaryId missing");
+		}
+
+		if (!newAccountId) {
+			showAlert("Выберите счет филиала", "error");
+			throw new Error("Branch account is required");
+		}
+
+		if (!nextAccrualTypeId) {
+			showAlert("Выберите тип начисления", "error");
+			throw new Error("Accrual type is required");
+		}
+
+
 		if (!Number.isFinite(newAmount) || newAmount < 0) {
 			showAlert("Accrual amount is invalid", "error");
 			throw new Error("Ошибочная сумма начисления");

@@ -259,8 +259,8 @@ export default {
 			]);
 			return;
 		} catch (error) {
-			if (error?.authHandled) throw error;
-			console.error("Error loading office terms: ", error);
+			if (error?.authHandled) return;
+			console.error("Error loading office terms:", error);
 		}
 	}
 }

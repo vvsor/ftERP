@@ -74,6 +74,7 @@ export default {
 		};
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
+			if (!salaryId) fail("Зарплата периода не выбрана");
 			// const salaryRec = appsmith.store?.salaryOfPeriod;
 
 
@@ -95,6 +96,9 @@ export default {
 			const branchAccountId = newRow.branch_account_name;
 			const paymentDate = newRow.payment_date;
 			const comment = newRow.comment;
+
+			if (!branchAccountId) fail("Выберите счет филиала");
+			if (!paymentDate) fail("Укажите дату выплаты");
 			//const paymentDate = dp_paymentDate ? moment(dp_paymentDate).format("YYYY-MM-DD") : null;
 
 			// ====== 0) Получаем тип счета (CASH / CASHLESS / ...)
@@ -263,9 +267,25 @@ export default {
 		const nextAmount = "amount" in patch ? Number(patch.amount) : Number(allFields.amount);
 		const nextBranchAccountId =
 					"branch_account_id" in patch ? patch.branch_account_id : (allFields.branch_account_id || allFields.branch_account_name);
+		const nextPaymentDate =
+					"payment_date" in patch ? patch.payment_date : allFields.payment_date;
 
-		// Basic validation
-		if (!Number.isFinite(nextAmount) || nextAmount < 0) {
+		if (!salaryId) {
+			showAlert("Зарплата периода не выбрана", "error");
+			throw new Error("salaryId missing");
+		}
+
+		if (!nextBranchAccountId) {
+			showAlert("Выберите счет филиала", "error");
+			throw new Error("Branch account is required");
+		}
+
+		if (!nextPaymentDate) {
+			showAlert("Укажите дату выплаты", "error");
+			throw new Error("Payment date is required");
+		}
+
+		if (!Number.isFinite(nextAmount) || nextAmount <= 0) {
 			showAlert("Ошибочная сумма выплаты", "error");
 			throw new Error("Invalid payment amount");
 		}
