@@ -69,8 +69,10 @@ export default {
 
 	async createSalaryPayment(newRow) {
 		const fail = (msg) => {
+			const err = new Error(msg);
+			err.userFacing = true;
 			showAlert(msg, "error");
-			throw new Error(msg);
+			throw err;
 		};
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
@@ -88,8 +90,7 @@ export default {
 			const toCents = (v) => Math.round(Number(v) * 100);
 			const amountCents = toCents(newRow.amount);
 			if (!Number.isInteger(amountCents) || amountCents <= 0) {
-				showAlert("Ошибочная сумма выплаты", "error");
-				throw new Error("Invalid payment amount");
+				fail("Ошибочная сумма выплаты");
 			}
 			const amountNum = amountCents / 100;
 
@@ -227,9 +228,9 @@ export default {
 			await utils.getOfficeTerms();
 
 			return paymentId;
-
 		} catch (err) {
 			if (err?.authHandled) throw err;
+			if (err?.userFacing) throw err;
 			console.error("createSalaryPayment error:", err);
 			showAlert("Ошибка при создании выплаты", "error");
 			throw err;
