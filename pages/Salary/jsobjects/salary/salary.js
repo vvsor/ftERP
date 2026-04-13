@@ -90,8 +90,6 @@ export default {
 		await utils.reloadSalaryContext();
 	},
 
-	// Добавить в jsobjects/salary/salary.js (внутрь export default)
-
 	async fetchSalaryByMonth(officeTermId, month) {
 		const params = {
 			collection: "salary",
