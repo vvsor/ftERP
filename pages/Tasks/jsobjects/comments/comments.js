@@ -87,7 +87,7 @@ export default {
 			}
 
 			// Post-comment actions
-			await audit.addAuditAction({action: 'comment_added', taskId: taskId, commentId: commentId});
+			// await audit.addAuditAction({action: 'comment_added', taskId: taskId, commentId: commentId});
 			showAlert('Комментарий добавлен!', 'success');
 			await comments.getTaskComments(taskId);
 			closeModal(mdl_addEditComment.name);
@@ -183,7 +183,7 @@ export default {
 			}
 
 			// Post-update actions
-			await audit.addAuditAction({action: 'comment_updated', taskId: taskId, commentId: commentId});
+			// await audit.addAuditAction({action: 'comment_updated', taskId: taskId, commentId: commentId});
 
 			showAlert('Комментарий обновлен!', 'success');
 			await comments.getTaskComments(taskId);

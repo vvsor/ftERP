@@ -34,7 +34,7 @@ export default {
 
 		await this.setSelectedTask(row);
 		await this.tbs_task_onTabSelected();
-		await audit.addAuditAction({ action: "task_view", taskId });
+		// await audit.addAuditAction({ action: "task_view", taskId });
 	},
 
 
@@ -198,7 +198,7 @@ export default {
 			}
 
 			// 6. Finalize
-			await audit.addAuditAction({action: 'task_added', taskId: taskId});
+			// await audit.addAuditAction({action: 'task_added', taskId: taskId});
 
 			showAlert('Задача создана!', 'success');
 			closeModal(mdl_addEditTask.name);
@@ -317,7 +317,7 @@ export default {
 			}
 
 			closeModal(mdl_addEditTask.name);
-			await audit.addAuditAction({action: 'task_edit', taskId: taskId});
+			// await audit.addAuditAction({action: 'task_edit', taskId: taskId});
 			await storeValue("curAuditorsIds", undefined, true);
 			await storeValue("curParticipantsIds", undefined, true);
 			showAlert('Задача обновлена!', 'success');

@@ -32,7 +32,7 @@
   "isDefaultClickDisabled": true,
   "isDisabled": false,
   "isLoading": false,
-  "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store.user.role)\n}}",
+  "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store?.user?.role)\n}}",
   "key": "n35qezmzc6",
   "leftColumn": 52,
   "minWidth": 120,

@@ -92,7 +92,7 @@ export default {
 			}, true);
 
 			showAlert('Успешный вход', 'success');
-			await audit.addAuditAction({action: 'logged_in'});
+			// await audit.addAuditAction({action: 'logged_in'});
 
 			auth.setDefaultTab('Logged In');
 		} catch (error) {
@@ -197,11 +197,20 @@ export default {
 
 	async ensureValidSession(bufferMs = 60000) {
 		const user = appsmith.store?.user;
-
 		if (!user?.token) return false;
-		if (!user?.refresh_token) return true;
 
-		if (!auth.isTokenExpiringSoon(bufferMs)) {
+		const expiringSoon = auth.isTokenExpiringSoon(bufferMs);
+
+		if (!user?.refresh_token) {
+			if (expiringSoon) {
+				clearStore();
+				auth.setDefaultTab("Sign In");
+				return false;
+			}
+			return true;
+		}
+
+		if (!expiringSoon) {
 			return true;
 		}
 
@@ -215,4 +224,5 @@ export default {
 			return false;
 		}
 	}
+
 }

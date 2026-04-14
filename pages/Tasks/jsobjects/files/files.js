@@ -138,9 +138,14 @@ export default {
 			};
 
 			const response = await items.getItems(params);
-			const flatFiles = response.data.flatMap(item =>
-																							item.files_id.map(fileObj => fileObj.file_id)
-																						 );
+			const rows = Array.isArray(response.data) ? response.data : [];
+
+			const flatFiles = rows.flatMap((item) =>
+																		 Array.isArray(item?.files_id)
+																		 ? item.files_id.map((fileObj) => fileObj?.file_id).filter(Boolean)
+																		 : []
+																		);
+
 			return flatFiles;
 		} catch (error) {
 			throw error; // Re-throw to allow calling code to handle the error
@@ -160,11 +165,15 @@ export default {
 
 			// Await the query response
 			const response = await items.getItems(params);
+			const rows = Array.isArray(response.data) ? response.data : [];
 
 			// Flatten the files array from the response
-			const flatFiles = response.data.flatMap(item =>
-																							item.files_id.map(fileObj => fileObj.file_id)
-																						 );
+			const flatFiles = rows.flatMap((item) =>
+																		 Array.isArray(item?.files_id)
+																		 ? item.files_id.map((fileObj) => fileObj?.file_id).filter(Boolean)
+																		 : []
+																		);
+
 			return flatFiles;
 		} catch (error) {
 			console.error(`Error fetching files for comment ${commentId}:`, error);
