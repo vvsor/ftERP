@@ -120,7 +120,7 @@ export default {
 		}
 
 		const currentContent = rte_Comment.text?.trim() || "";
-		const originalContent = (appsmith.store?.editingComment?.content).trim() || "";
+		const originalContent = (appsmith.store?.editingComment?.content || "").trim();
 
 		if (appsmith.store?.editingComment?.id) {
 			if (currentContent !== originalContent) {

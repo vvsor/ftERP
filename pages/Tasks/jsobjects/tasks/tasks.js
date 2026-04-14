@@ -343,29 +343,35 @@ export default {
 	},
 
 	async restoreSavedTaskSelection() {
-		const id = appsmith.store.savedTaskID;
-		if (!id) return;
+	const id = appsmith.store.savedTaskID;
+	if (!id) return;
 
-		// Wait until table data is available
-		let retries = 10;
-		while ((!tbl_tasks.tableData || tbl_tasks.tableData.length === 0) && retries > 0) {
-			console.log("Waiting for tbl_tasks.tableData to load...");
-			await new Promise(r => setTimeout(r, 300)); // wait 300 ms
-			retries--;
-		}
+	let retries = 10;
+	while ((!tbl_tasks.tableData || tbl_tasks.tableData.length === 0) && retries > 0) {
+		console.log("Waiting for tbl_tasks.tableData to load...");
+		await new Promise(r => setTimeout(r, 300));
+		retries--;
+	}
 
-		const tableData = tbl_tasks.tableData || [];
-		const index = tableData.findIndex(row => row.id === id);
+	const displayRows = tbl_tasks.tableData || [];
+	const index = displayRows.findIndex(row => row.id === id);
 
-		if (index === -1) {
-			console.warn(`Task with ID ${id} not found in table`);
-			return;
-		}
+	if (index === -1) {
+		console.warn(`Task with ID ${id} not found in table`);
+		return;
+	}
 
-		await tbl_tasks.setSelectedRowIndex(index);
-		await this.setSelectedTask(tableData[index]);
-		await this.tbs_task_onTabSelected();
-	},
+	const sourceTask = this.getSourceTaskById(id);
+	if (!sourceTask) {
+		console.warn(`Source task ${id} not found`);
+		return;
+	}
+
+	await tbl_tasks.setSelectedRowIndex(index);
+	await this.setSelectedTask(sourceTask);
+	await this.tbs_task_onTabSelected();
+},
+
 
 	async tbs_task_onTabSelected(){
 		// if task is selected and...
