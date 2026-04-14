@@ -120,6 +120,7 @@ export default {
 		}
 
 		try {
+			await items.ensureFreshToken();
 			const tasksData = await this.getTasks();
 			// Only call tab selection if a task exists
 			if (tasksData.length > 0 ) {
@@ -328,49 +329,50 @@ export default {
 		}
 	},
 
-	saveSelectedTask(){
+	async saveSelectedTask(){
 		const savedTaskID = appsmith.store.savedTaskID;
 		if (savedTaskID) {
 			showAlert('There is saved task ID: ' + savedTaskID, 'error');
 		}
 		const selectedTaskId = appsmith.store.selectedTask?.id;
 		if (selectedTaskId) {
-			storeValue("savedTaskID", selectedTaskId, true);
-			removeValue("selectedTask");
+			await storeValue("savedTaskID", selectedTaskId, true);
+			await removeValue("selectedTask");
 		} else {
 			showAlert('There is NO selected task ID', 'error');
 		}
 	},
 
+
 	async restoreSavedTaskSelection() {
-	const id = appsmith.store.savedTaskID;
-	if (!id) return;
+		const id = appsmith.store.savedTaskID;
+		if (!id) return;
 
-	let retries = 10;
-	while ((!tbl_tasks.tableData || tbl_tasks.tableData.length === 0) && retries > 0) {
-		console.log("Waiting for tbl_tasks.tableData to load...");
-		await new Promise(r => setTimeout(r, 300));
-		retries--;
-	}
+		let retries = 10;
+		while ((!tbl_tasks.tableData || tbl_tasks.tableData.length === 0) && retries > 0) {
+			console.log("Waiting for tbl_tasks.tableData to load...");
+			await new Promise(r => setTimeout(r, 300));
+			retries--;
+		}
 
-	const displayRows = tbl_tasks.tableData || [];
-	const index = displayRows.findIndex(row => row.id === id);
+		const displayRows = tbl_tasks.tableData || [];
+		const index = displayRows.findIndex(row => row.id === id);
 
-	if (index === -1) {
-		console.warn(`Task with ID ${id} not found in table`);
-		return;
-	}
+		if (index === -1) {
+			console.warn(`Task with ID ${id} not found in table`);
+			return;
+		}
 
-	const sourceTask = this.getSourceTaskById(id);
-	if (!sourceTask) {
-		console.warn(`Source task ${id} not found`);
-		return;
-	}
+		const sourceTask = this.getSourceTaskById(id);
+		if (!sourceTask) {
+			console.warn(`Source task ${id} not found`);
+			return;
+		}
 
-	await tbl_tasks.setSelectedRowIndex(index);
-	await this.setSelectedTask(sourceTask);
-	await this.tbs_task_onTabSelected();
-},
+		await tbl_tasks.setSelectedRowIndex(index);
+		await this.setSelectedTask(sourceTask);
+		await this.tbs_task_onTabSelected();
+	},
 
 
 	async tbs_task_onTabSelected(){
@@ -449,29 +451,22 @@ export default {
 		}
 	},
 
-
-	btn_openAddTask_onClick(){
-		this.saveSelectedTask();		// keeping last selectedItem for restoring last state if we cancel adding task
-		removeValue("selectedTask");
-
+	async btn_openAddTask_onClick(){
+		await this.saveSelectedTask();
+		await removeValue("selectedTask");
 		showModal(mdl_addEditTask.name);
 	},
 
-	btn_openEditTask_onClick(){
-		// save auditors and participants
-		// vvs 2do: check it later
+	async btn_openEditTask_onClick(){
 		const task = appsmith.store.selectedTask;
-		if (!task?.id)
-		{
+		if (!task?.id) {
 			showAlert('Редактирование задачи, в то время как она не выбрана...', 'success');
-			return
+			return;
 		}
-		utils.getStatusesOfProcess();
 
-		// current Auditors ids
-		storeValue("curAuditorsIds", task.auditor_ids?.map(i => i.directus_users_id.id), true); 
-		// current Participants ids
-		storeValue("curParticipantsIds", task.participant_ids?.map(i => i.directus_users_id.id), true);
+		await utils.getStatusesOfProcess();
+		await storeValue("curAuditorsIds", task.auditor_ids?.map(i => i.directus_users_id.id), true);
+		await storeValue("curParticipantsIds", task.participant_ids?.map(i => i.directus_users_id.id), true);
 		showModal(mdl_addEditTask.name);
 	},
 

@@ -7,7 +7,7 @@
   "closeOnSelection": true,
   "dateFormat": "DD.MM.YYYY, HH:mm",
   "datePickerType": "DATE_PICKER",
-  "defaultDate": "{{ appsmith.store.selectedTask?.deadline ?? moment().add(1,'days')\n}}\n",
+  "defaultDate": "{{ appsmith.store.selectedTask?.deadline ?? moment().add(1,'days')\n}}",
   "displayName": "DatePicker",
   "dynamicBindingPathList": [
     {

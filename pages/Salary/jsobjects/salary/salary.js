@@ -83,6 +83,7 @@ export default {
 		if (!rows?.length) {
 			await removeValue("SelectedOfficeTerm");
 			await removeValue("salaryOfPeriod");
+			await storeValue("salaryReady", true, true);
 			return;
 		}
 
@@ -207,7 +208,6 @@ export default {
 			}
 
 			await this.setSalaryOfPeriod(salaryRecord);
-			await storeValue("salaryReady", true, true);
 
 			return salaryRecord;
 		} catch (error) {
@@ -237,6 +237,7 @@ export default {
 
 		// Only select salary if any employee exist
 		try {
+			await items.ensureFreshToken();
 			await utils.initPeriod();
 			const data = await utils.getOfficeTerms();
 			// Only call tab selection if a task exists
@@ -246,12 +247,11 @@ export default {
 			} else {
 				await removeValue("SelectedOfficeTerm");
 				await removeValue("salaryOfPeriod");
+				await storeValue("salaryReady", true, true);
 			}
 
 			await Promise.all([
-				utils.getAccrualTypesRaw(),
 				utils.getAccrualTypesOptions(),
-				utils.getBranchAccountsRaw(),
 				utils.getBranchAccountsOptions(),
 				utils.getBranches()
 			]);

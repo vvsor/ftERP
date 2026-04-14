@@ -295,19 +295,26 @@ export default {
 		return `${last} ${first}.`;
 	},
 
-	async reloadSalaryContext() {
+	async reloadSalaryContext({ refreshEmployees = false } = {}) {
 		await storeValue("salaryReady", false, true);
 
 		const salaryRecord = await salary.loadSalary();
 
-		await Promise.all([
+		const jobs = [
 			payments.loadSalaryPayments(salaryRecord.id),
-			accruals.loadSalaryAccruals(salaryRecord.id),
-			utils.getOfficeTerms()
-		]);
+			accruals.loadSalaryAccruals(salaryRecord.id)
+		];
+
+		if (refreshEmployees) {
+			jobs.push(utils.getOfficeTerms());
+		}
+
+		await Promise.all(jobs);
 
 		utils.advanceInRub();
 		await storeValue("salaryReady", true, true);
+
+		return salaryRecord;
 	},
 
 	async initPeriod() {
@@ -340,7 +347,7 @@ export default {
 		await storeValue("periodMonth", iso, true);
 
 		if (appsmith.store?.SelectedOfficeTerm?.id) {
-			await utils.reloadSalaryContext();
+			await utils.reloadSalaryContext({ refreshEmployees: true });
 		} else {
 			await utils.getOfficeTerms();
 		}

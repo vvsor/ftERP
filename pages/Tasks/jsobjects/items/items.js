@@ -45,6 +45,7 @@ export default {
 
 			const accessToken = response?.data?.access_token;
 			const nextRefreshToken = response?.data?.refresh_token || refreshToken;
+			const nextTokenExpMs = items.getTokenExpMsFromToken(accessToken);
 
 			if (!accessToken) {
 				throw new Error("No access_token in refresh response");
@@ -53,8 +54,11 @@ export default {
 			await storeValue("user", {
 				...user,
 				token: accessToken,
-				refresh_token: nextRefreshToken
+				refresh_token: nextRefreshToken,
+				token_exp_ms: nextTokenExpMs || user?.token_exp_ms || null
 			}, true);
+
+			items.authFailureHandled = false;
 
 			return accessToken;
 		})();
@@ -83,6 +87,12 @@ export default {
 
 	async runWithRefresh(runQuery) {
 		try {
+			await items.ensureFreshToken();
+		} catch (refreshError) {
+			return await items.handleRefreshFailure(refreshError);
+		}
+
+		try {
 			return await runQuery();
 		} catch (error) {
 			if (!items.isTokenExpiredError(error)) {
@@ -99,12 +109,13 @@ export default {
 		}
 	},
 
+
 	createItems: async (params = {}) => {
 		const { fields = "*", collection, filter = {}, body = {}, limit = -1 } = params;
 
 		return await items.runWithRefresh(() =>
-			qCreateItems.run({ fields, filter, body, limit, collection })
-		);
+																			qCreateItems.run({ fields, filter, body, limit, collection })
+																		 );
 	},
 
 	updateItems: async (params = {}) => {
@@ -115,8 +126,8 @@ export default {
 		}
 
 		return await items.runWithRefresh(() =>
-			qUpdateItems.run({ fields, filter, body, limit, collection })
-		);
+																			qUpdateItems.run({ fields, filter, body, limit, collection })
+																		 );
 	},
 
 	getItems: async (params = {}) => {
@@ -127,8 +138,8 @@ export default {
 		}
 
 		return await items.runWithRefresh(() =>
-			qGetItems.run({ fields, filter, body, limit, collection })
-		);
+																			qGetItems.run({ fields, filter, body, limit, collection })
+																		 );
 	},
 
 	deleteItems: async (params = {}) => {
@@ -139,7 +150,54 @@ export default {
 		}
 
 		return await items.runWithRefresh(() =>
-			qDeleteItems.run({ fields, filter, body, limit, collection })
-		);
+																			qDeleteItems.run({ fields, filter, body, limit, collection })
+																		 );
+	},
+	// proactive auth tokens
+	parseJwtPayload(token) {
+		if (!token) return null;
+
+		try {
+			const payloadPart = token.split(".")[1];
+			if (!payloadPart) return null;
+
+			const normalized = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+			const padded = normalized + "=".repeat((4 - normalized.length % 4) % 4);
+
+			return JSON.parse(atob(padded));
+		} catch (error) {
+			console.warn("Failed to parse JWT payload:", error);
+			return null;
+		}
+	},
+
+	getTokenExpMsFromToken(token) {
+		const exp = Number(items.parseJwtPayload(token)?.exp);
+		return Number.isFinite(exp) ? exp * 1000 : 0;
+	},
+
+	getStoredTokenExpMs() {
+		const stored = Number(appsmith.store?.user?.token_exp_ms);
+		if (Number.isFinite(stored) && stored > 0) return stored;
+
+		return items.getTokenExpMsFromToken(appsmith.store?.user?.token);
+	},
+
+	isTokenExpiringSoon(bufferMs = 60000) {
+		const expMs = items.getStoredTokenExpMs();
+		if (!expMs) return false;
+
+		return Date.now() + bufferMs >= expMs;
+	},
+
+	async ensureFreshToken(bufferMs = 60000) {
+		const user = appsmith.store?.user;
+		if (!user?.token || !user?.refresh_token) return;
+
+		if (!items.isTokenExpiringSoon(bufferMs)) {
+			return;
+		}
+
+		await items.refreshAccessToken();
 	}
 }
