@@ -56,7 +56,7 @@
     "Suggested",
     "Content"
   ],
-  "text": "{{`Задачи. ${utils.formatUserName(appsmith.store.user)}, ${appsmith.store.user.email}`}}",
+  "text": "{{(() => {\n\tconst user = appsmith.store?.user;\n\tif (!user) return \"Задачи. Пользователь неавторизован!\";\n\tconst name = utils.formatUserName(user);\n\treturn `Задачи${name ? `. ${name}` : \"\"}${user.email ? `, ${user.email}` : \"\"}`;\n})()}}\n",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,

@@ -7,8 +7,17 @@ export default {
 	/// ============== end of test block ===============
 
 	async getTaskComments(taskId) {
-		const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled) ? sel_chooseEmployee.selectedOptionValue
-		: appsmith.store.user.id;
+		if (!taskId) {return [];}
+
+		const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled)
+		? sel_chooseEmployee.selectedOptionValue
+		: appsmith.store?.user?.id;
+
+		if (!userid) {
+			throw new Error("user id missing");
+		}
+
+
 		// Fields to fetch
 		try {
 			const params = {
@@ -22,26 +31,25 @@ export default {
 					"unread.user_id"
 				].join(","),
 				filter: {
-					task_id: { _eq: taskId || 378 }
+					task_id: { _eq: taskId}
 				},
 			};
 			const response = await items.getItems(params);
-			const taskComments = response.data;
-			console.log("111taskComments: ",taskComments);
+			const taskComments = Array.isArray(response.data) ? response.data : [];
 			// Combine comments with unread info
 			let combinedComments = taskComments.map(comment => ({
 				...comment,
 				unread: comment.unread?.some(u => u.user_id === userid) || false,
 				unreadInfo: comment.unread?.find(u => u.user_id === userid) || null
 			}));
-			console.log("222combinedComments: ", combinedComments);
 
 			combinedComments.sort((a, b) => a.id - b.id);
 			return combinedComments;
 
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error(`Error fetching comments for task ${taskId}:`, error);
-			throw error; // Re-throw to allow calling code to handle the error
+			throw error;
 		}
 	},
 
@@ -52,11 +60,13 @@ export default {
 				return;
 			}
 			const taskId = appsmith.store.selectedTask.id;
+			const authorId = appsmith.store?.user?.id;
+			if (!authorId) throw new Error("user id missing");
 
 			const body = {
 				task_id: taskId,
 				content: rte_Comment.text,
-				author_id: appsmith.store.user.id
+				author_id: authorId
 			};
 
 			const params = {
@@ -83,35 +93,40 @@ export default {
 			closeModal(mdl_addEditComment.name);
 
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("Error in adding comment", error);
 			showAlert('Ошибка при добавлении комментария', 'error');
 			throw error;
 		}
 	},
 
-	icn_AddComment_onClick() {
-		removeValue("editingComment");
+	async icn_AddComment_onClick() {
+		await removeValue("editingComment");
 		showModal(mdl_addEditComment.name);
-	},	
+	},
 
 	// editing comment
-	lst_taskCommentsonItemClick (triggeredItem) {
-		storeValue("editingComment", triggeredItem, true);
-		files.getCommentFiles(triggeredItem.id);
+	async lst_taskCommentsonItemClick (triggeredItem) {
+		await storeValue("editingComment", triggeredItem, true);
+		await files.getCommentFiles(triggeredItem.id);
 		showModal(mdl_addEditComment.name);
 	},
 
 	closeCommentModalForData() {
-		//check for added but unsaved	files
-		var unsavedData = [];
-		if (fp_filesForComment.files && fp_filesForComment.files.length> 0) {
+		const unsavedData = [];
+
+		if (fp_filesForComment.files && fp_filesForComment.files.length > 0) {
 			unsavedData.push("Прикрепленные файлы");
 		}
-		// check for unsaved test
-		if (appsmith.store?.editingComment?.id &&
-				lst_taskComments.triggeredItemView?.txt_commentText?.text !== undefined &&
-				rte_Comment.text.trim() !== lst_taskComments.triggeredItemView.txt_commentText.text.trim()
-			 ) {
+
+		const currentContent = rte_Comment.text?.trim() || "";
+		const originalContent = (appsmith.store?.editingComment?.content).trim() || "";
+
+		if (appsmith.store?.editingComment?.id) {
+			if (currentContent !== originalContent) {
+				unsavedData.push("Текст комментария");
+			}
+		} else if (currentContent) {
 			unsavedData.push("Текст комментария");
 		}
 
@@ -126,8 +141,13 @@ export default {
 
 	updateComment: async () => {
 		try {
-			const taskId = appsmith.store.selectedTask.id;
-			const commentId = lst_taskComments.triggeredItem.id;
+			const taskId = appsmith.store?.selectedTask?.id;
+			const commentId = appsmith.store?.editingComment?.id;
+
+			if (!taskId || !commentId) {
+				showAlert("Комментарий не выбран", "error");
+				return;
+			}
 
 			// Build update body dynamically
 			const data = {};
@@ -157,16 +177,6 @@ export default {
 			}
 			showAlert('Обновляем комментарий...', 'info');
 
-			// if (Object.keys(data).length === 0 && !filesAttached) {
-			// const body = {
-			// keys: [commentId],
-			// data
-			// };
-			// 
-			// const params = { collection: "comments",	body: body };
-			// await items.updateItems(params);
-			// }
-
 			// Handle file uploads if any
 			if (filesAttached) {
 				await files.uploadFiles({filepicker: fp_filesForComment, commentId: commentId});
@@ -180,6 +190,7 @@ export default {
 			closeModal(mdl_addEditComment.name);
 
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("Error updating comment", error);
 			showAlert('Ошибка при обновлении комментария', 'error');
 			throw error;

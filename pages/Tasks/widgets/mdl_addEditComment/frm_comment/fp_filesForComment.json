@@ -33,7 +33,7 @@
   "iconSVG": "/static/media/icon.b08ce7590c570fc5b7ffa528c70d35bf.svg",
   "isDefaultClickDisabled": true,
   "isDeprecated": false,
-  "isDisabled": "{{!comments.editingItem || comments.editingItem?.author_id?.id == appsmith.store.user.id ? false : true}}",
+  "isDisabled": "{{!appsmith.store.editingComment?.id || appsmith.store.editingComment?.author_id?.id == appsmith.store?.user?.id ? false : true}}",
   "isLoading": false,
   "isRequired": false,
   "isVisible": true,

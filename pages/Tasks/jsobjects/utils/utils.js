@@ -29,14 +29,24 @@ export default {
 			const response = await items.getItems(params);
 
 			// Transform the data as needed
-			const sourceData = response.data ;
-			let contacts = sourceData.map(item => ({
-				id: item.user_id.id,
-				last_name: item.user_id.last_name,
-				first_name: item.user_id.first_name,
-				initials: `${item.user_id.first_name[0]}.`,
-				title: item.position_id.title_id.title
-			}));
+			const sourceData = Array.isArray(response.data) ? response.data : [];
+			let contacts = sourceData
+			.map((item) => {
+				const user = item?.user_id;
+				const position = item?.position_id;
+
+				if (!user?.id) return null;
+
+				return {
+					id: user.id,
+					last_name: user.last_name || "",
+					first_name: user.first_name || "",
+					initials: user.first_name?.[0] ? `${user.first_name[0]}.` : "",
+					title: position?.title_id?.title ?? "—"
+				};
+			})
+			.filter(Boolean);
+
 			// ✅ Remove duplicates by user ID
 			const seen = new Set();
 			contacts = contacts.filter(contact => {

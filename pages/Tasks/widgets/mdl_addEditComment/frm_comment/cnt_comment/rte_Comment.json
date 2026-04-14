@@ -3,7 +3,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 32,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
-  "defaultText": "{{appsmith.store.editingComment?.id && lst_taskComments.triggeredItem ? lst_taskComments.triggeredItem.content : \"\"}}",
+  "defaultText": "{{appsmith.store.editingComment?.content || \"\"}}",
   "displayName": "Rich Text Editor",
   "dynamicBindingPathList": [
     {
@@ -20,9 +20,6 @@
     },
     {
       "key": "isDisabled"
-    },
-    {
-      "key": "labelTooltip"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -42,7 +39,7 @@
   "inputType": "html",
   "isDefaultClickDisabled": true,
   "isDeprecated": false,
-  "isDisabled": "{{!appsmith.store.editingComment?.id || appsmith.store.editingComment?.author_id?.id == appsmith.store.user.id ? false : true}}",
+  "isDisabled": "{{!appsmith.store.editingComment?.id || appsmith.store.editingComment?.author_id?.id == appsmith.store?.user?.id ? false : true}}",
   "isLoading": false,
   "isRequired": true,
   "isToolbarHidden": false,
@@ -51,7 +48,7 @@
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelText": "{{appsmith.store.editingComment?.id  ? `Текст комментария (${appsmith.store.editingComment.id})`  : \"Текст нового комментария\"}}",
-  "labelTooltip": "{{appsmith.store.editingComment?.author_id?.id !== appsmith.store.user.id ? 'Нельзя редактировать чужой комментарий' : ''}}",
+  "labelTooltip": "{appsmith.store.editingComment?.id && appsmith.store.editingComment?.author_id?.id !== appsmith.store?.user?.id ? 'Нельзя редактировать чужой комментарий' : ''}}",
   "labelWidth": 5,
   "leftColumn": 0,
   "maxDynamicHeight": 9000,

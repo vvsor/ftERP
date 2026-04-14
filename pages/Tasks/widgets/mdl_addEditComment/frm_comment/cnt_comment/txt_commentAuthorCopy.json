@@ -40,7 +40,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 14,
   "shouldTruncate": false,
-  "text": "Автор: <b>{{appsmith.store.editingComment?.id ? utils.formatUserName(appsmith.store.editingComment.author_id) : utils.formatUserName(appsmith.store.user)}} </b>",
+  "text": "Автор: <b>{{appsmith.store.editingComment?.id ? utils.formatUserName(appsmith.store.editingComment.author_id) : utils.formatUserName(appsmith.store?.user)}} </b>",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "textStyle": "HEADING",

@@ -1,10 +1,5 @@
 export default {
 	// Tasks' js object
-	setSelectedTask(task){
-		storeValue("selectedTask", task, true);
-		removeValue("savedTaskID");
-	},
-
 	/// ================== test block ==================
 	// async Test(){
 	// // const task = appsmith.store.selectedTask;
@@ -12,21 +7,47 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
+	async setSelectedTask(task) {
+		if (task?.id) {
+			await storeValue("selectedTask", task, true);
+		} else {
+			await removeValue("selectedTask");
+		}
+		await removeValue("savedTaskID");
+	},
+
+	getSourceTaskById(taskId, fallbackRows = []) {
+		const rowsFromAction = Array.isArray(tasks.getTasks.data) ? tasks.getTasks.data : [];
+		const rows = rowsFromAction.length ? rowsFromAction : fallbackRows;
+		return rows.find((row) => row.id === taskId) || null;
+	},
 
 	async tbl_tasks_onRowSelected(){
-		const row = tbl_tasks.selectedRow;
-		if (!row?.id) {
+		const taskId = tbl_tasks.selectedRow?.id;
+		if (!taskId) return;
+
+		const row = this.getSourceTaskById(taskId);
+		if (!row) {
+			console.warn(`Source task ${taskId} not found`);
 			return;
 		}
-		this.setSelectedTask(tbl_tasks.tableData[tbl_tasks.selectedRowIndex]);
+
+		await this.setSelectedTask(row);
 		await this.tbs_task_onTabSelected();
-		await audit.addAuditAction({action: 'task_view', taskId: row.id});
+		await audit.addAuditAction({ action: "task_view", taskId });
 	},
+
 
 	async getTasks(){
 		// Determine user ID: substitute or logged-in user
-		const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled) ? sel_chooseEmployee.selectedOptionValue
-		: appsmith.store.user.id;
+		const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled)
+		? sel_chooseEmployee.selectedOptionValue
+		: appsmith.store?.user?.id;
+
+		if (!userid) {
+			throw new Error("user id missing");
+		}
+
 		let allTasks = [];
 		try {
 			// Prepare filter for tasks (assigner, assignee, auditor, participant)
@@ -89,7 +110,7 @@ export default {
 		// если операция восстановления ещё не завершена — просто не уходить на Auth
 		// если user уже проверен и его нет — уходить
 		if (!user || !user.token) {
-			if (appsmith.store.user.email === 'vvs@osagent.ru') {
+			if (appsmith.store.user?.email === 'vvs@osagent.ru') {
 				showAlert('DEV bypass: normal user go to auth page, while vvs@osagent.ru stays here', 'warning');
 			} else {
 				showAlert('Требуется авторизация. Перенаправление на страницу входа.', 'info');
@@ -102,7 +123,7 @@ export default {
 			const tasksData = await this.getTasks();
 			// Only call tab selection if a task exists
 			if (tasksData.length > 0 ) {
-				this.setSelectedTask(tasksData[0]);
+				await this.setSelectedTask(tasksData[0]);
 				await this.tbs_task_onTabSelected();
 			}
 			await Promise.all([
@@ -118,23 +139,26 @@ export default {
 			// console.log("CUR_SELECTED_TASK before return:", tasks.selectedItem);
 			return;
 		} catch (error) {
+			if (error?.authHandled) return;
 			console.error("Error loading tasks:", error);
 		}
 	},
 
 	async addTask(){
+		const authorId = appsmith.store?.user?.id;
+		if (!authorId) throw new Error("user id missing");
 		try {
 			const body = {
 				project_id: sel_TaskProject.selectedOptionValue,
 				title: inp_TaskTitle.text,
-				deadline: dat_TaskDeadline.selectedDate,
+				deadline: dt_TaskDeadline.selectedDate,
 				task_priority_id: sel_TaskPriority.selectedOptionValue,
 				status_id: sel_TaskStatus.selectedOptionValue,
 				process_id: sel_TaskProcess.selectedOptionValue,
 				assigner: sel_TaskAssigner.selectedOptionValue,
 				assignee: sel_TaskAssignee.selectedOptionValue,
 				description: inp_TaskComment.text,
-				author_id: appsmith.store.user.id
+				author_id: authorId
 			};
 
 			const params = {
@@ -154,50 +178,23 @@ export default {
 
 			// 3. Process relations (auditors/participants)
 			const updates = [];
-			// const processRelation = (widget, collection) => {
-			// if (!widget.isDirty) return;
-			// const userIds = widget.selectedOptionValues;
-			// if (userIds.length === 0) return;
-			// updates.push(
-			// items.createItems({
-			// body: userIds.map(userId => ({ tasks_id: taskId, directus_users_id: userId })),
-			// collection
-			// })
-			// );
-			// };
-
-			// processRelation(sel_TaskAuditors, "tasks_auditors");
-			// processRelation(sel_TaskParticipants, "tasks_participants");
 			updates.push(...this.processRelationUpdate(sel_TaskAuditors, taskId, appsmith.store.curAuditorsIds || [], "tasks_auditors"));
 			updates.push(...this.processRelationUpdate(sel_TaskParticipants, taskId, appsmith.store.curParticipantsIds || [], "tasks_participants"));
 
 			if (updates.length > 0) await Promise.all(updates);
 
 			// 4. Refresh tasks (triggers table reactivity)
-			// below we use 'withNewTasks', becase tasks.getTasks() do not contain
-			// our new task... because of async ?!?
 			const withNewTasks = await this.getTasks();
 			await tbl_tasks.setData(withNewTasks);
 
 			// 5. Select the new row after data refresh
-			const index = tbl_tasks.tableData.findIndex(row => row.id === taskId);
+			const index = withNewTasks.findIndex(row => row.id === taskId);
 			await tbl_tasks.setSelectedRowIndex(index);
-			this.setSelectedTask(tbl_tasks.tableData[index]);
-			await removeValue("savedTaskID");
 
-			// Optimistic UI update - replace 4 & 5
-			// const tasksData = tbl_tasks.tableData || [];
-			// tasksData.push({ id: taskId, title: body.title, unread: true });
-			// await tbl_tasks.setData(tasksData);
-			// const index = tasksData.findIndex(r => r.id === taskId);
-			// await tbl_tasks.setSelectedRowIndex(index);
-			// this.setSelectedTask({ id: taskId });
-			// 
-			// const updatedTasks = await this.getTasks();
-			// await tbl_tasks.setData(updatedTasks);
-			// const idx = updatedTasks.findIndex(row => row.id === taskId);
-			// await tbl_tasks.setSelectedRowIndex(idx);
-			// this.setSelectedTask(updatedTasks[idx]);
+			if (index >= 0) {
+				await this.setSelectedTask(withNewTasks[index]);
+				await this.tbs_task_onTabSelected();
+			}
 
 			// 6. Finalize
 			await audit.addAuditAction({action: 'task_added', taskId: taskId});
@@ -205,8 +202,9 @@ export default {
 			showAlert('Задача создана!', 'success');
 			closeModal(mdl_addEditTask.name);
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("Error in task processing:", error);
-			showAlert('Ошибка при создании задачи', 'error');
+			showAlert("Ошибка при создании задачи", "error");
 			throw error;
 		}
 	},
@@ -246,8 +244,16 @@ export default {
 
 	async updateTask(){
 		try {
-			// tasks.selectedItem.id;
-			const taskId = appsmith.store.selectedTask.id;
+			const taskId = appsmith.store?.selectedTask?.id;
+			const editorId = appsmith.store?.user?.id;
+
+			if (!taskId) {
+				showAlert("Задача не выбрана", "error");
+				return;
+			}
+			if (!editorId) {
+				throw new Error("user id missing");
+			}
 
 			// Helper to add only dirty fields
 			const addIfDirty = (obj, key, widget, valueKey = 'text') => {
@@ -259,7 +265,7 @@ export default {
 			[
 				['project_id', sel_TaskProject, 'selectedOptionValue'],
 				['title', inp_TaskTitle],
-				['deadline', dat_TaskDeadline, 'selectedDate'],
+				['deadline', dt_TaskDeadline, 'selectedDate'],
 				['task_priority_id', sel_TaskPriority, 'selectedOptionValue'],
 				['status_id', sel_TaskStatus, 'selectedOptionValue'],
 				['process_id', sel_TaskProcess, 'selectedOptionValue'],
@@ -269,7 +275,7 @@ export default {
 			].forEach(([key, widget, valueKey]) => addIfDirty(data, key, widget, valueKey));
 
 			// Always update
-			data.editor_id = appsmith.store.user.id;
+			data.editor_id = editorId;
 
 			const body = {
 				keys: [taskId],
@@ -289,42 +295,8 @@ export default {
 			// 3. Prepare updates for auditors and participants
 			const updates = [];
 
-			// Helper for relation updates
-			// const processRelation = (widget, curIds, collection) => {
-			// if (!widget.isDirty) return;
-			// const newIds = widget.selectedOptionValues;
-			// const toAdd = newIds.filter(id => !curIds.includes(id));
-			// const toRemove = curIds.filter(id => !newIds.includes(id));
-			// if (toAdd.length) {
-			// updates.push(
-			// items.createItems({
-			// body: toAdd.map(userId => ({ tasks_id: taskId, directus_users_id: userId })),
-			// collection
-			// })
-			// );
-			// }
-			// if (toRemove.length) {
-			// updates.push(
-			// items.deleteItems({
-			// collection,
-			// body: {
-			// query: {
-			// filter: {
-			// tasks_id: { "_eq": taskId },
-			// directus_users_id: { "_in": toRemove }
-			// }
-			// }
-			// }
-			// })
-			// );
-			// }
-			// };
-
-			// processRelation(sel_TaskAuditors, appsmith.store.curAuditorsIds || [], "tasks_auditors");
-			// processRelation(sel_TaskParticipants, appsmith.store.curParticipantsIds || [], "tasks_participants");
 			updates.push(...this.processRelationUpdate(sel_TaskAuditors, taskId, appsmith.store.curAuditorsIds || [], "tasks_auditors"));
 			updates.push(...this.processRelationUpdate(sel_TaskParticipants, taskId, appsmith.store.curParticipantsIds || [], "tasks_participants"));
-
 
 			if (updates.length) await Promise.all(updates);
 
@@ -335,19 +307,23 @@ export default {
 			await tbl_tasks.setData(withNewTasks);
 
 			// Select updated row and update selection
-			const index = tbl_tasks.tableData.findIndex(row => row.id === taskId);
+			const index = withNewTasks.findIndex(row => row.id === taskId);
 			await tbl_tasks.setSelectedRowIndex(index);
-			// tasks.selectedItem = tbl_tasks.tableData[index];
-			this.setSelectedTask(tbl_tasks.tableData[index])
-			this.tbs_task_onTabSelected();
+
+			if (index >= 0) {
+				await this.setSelectedTask(withNewTasks[index]);
+				await this.tbs_task_onTabSelected();
+			}
+
 			closeModal(mdl_addEditTask.name);
 			await audit.addAuditAction({action: 'task_edit', taskId: taskId});
 			await storeValue("curAuditorsIds", undefined, true);
 			await storeValue("curParticipantsIds", undefined, true);
 			showAlert('Задача обновлена!', 'success');
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("Error in task updating:", error);
-			showAlert('Ошибка при обновлении задачи', 'error');
+			showAlert("Ошибка при обновлении задачи", "error");
 			throw error;
 		}
 	},
@@ -387,8 +363,8 @@ export default {
 		}
 
 		await tbl_tasks.setSelectedRowIndex(index);
-		this.setSelectedTask(tableData[index]);
-		await removeValue("savedTaskID");
+		await this.setSelectedTask(tableData[index]);
+		await this.tbs_task_onTabSelected();
 	},
 
 	async tbs_task_onTabSelected(){
@@ -430,30 +406,42 @@ export default {
 
 	// Mark task as read
 	async btn_markRead_onClick(){
+		const selectedTaskId = tbl_tasks.selectedRow?.id;
 		const unreadInfo = tbl_tasks.selectedRow?.unreadInfo;
-		if (!unreadInfo || !unreadInfo.id) {
+
+		if (!unreadInfo?.id) {
 			console.warn("No unreadInfo found for the selected row.");
 			return;
 		}
-		const unread_id = unreadInfo.id;
 
 		try {
 			await items.deleteItems({
 				collection: "unread",
 				body: {
 					query: {
-						filter: { id: { _eq: unread_id } }
+						filter: { id: { _eq: unreadInfo.id } }
 					}
 				}
 			});
+
 			await this.updateTaskList();
-			this.setSelectedTask(tbl_tasks.tableData[tbl_tasks.selectedRowIndex]);
-			await this.tbs_task_onTabSelected();
+
+			const rows = tbl_tasks.tableData || [];
+			const index = rows.findIndex(row => row.id === selectedTaskId);
+
+			if (index >= 0) {
+				await tbl_tasks.setSelectedRowIndex(index);
+				await this.setSelectedTask(rows[index]);
+				await this.tbs_task_onTabSelected();
+			} else {
+				await removeValue("selectedTask");
+			}
 		} catch (error) {
+			if (error?.authHandled) throw error;
 			console.error("Error deleting unread record:", error);
-			// Optionally, show an alert or handle the error further here
 		}
 	},
+
 
 	btn_openAddTask_onClick(){
 		this.saveSelectedTask();		// keeping last selectedItem for restoring last state if we cancel adding task

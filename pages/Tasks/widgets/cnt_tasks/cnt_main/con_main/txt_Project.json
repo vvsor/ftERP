@@ -52,7 +52,7 @@
     "Suggested",
     "Content"
   ],
-  "text": "Проект: {{ appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.project_id.name : \"\"\n}}",
+  "text": "Проект: {{ appsmith.store.selectedTask?.project_id?.name || \"\" }}",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,

@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "66959955819ac61979db6c71_6a82eb3c-d4c4-41d8-a4c3-6bbc01b3ee6b",
-  "id": "Tasks_files.getCommentFiles",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_e99f4717-9903-41ba-a6ac-517ea99a2b6a",
+  "id": "Tasks_files.uploadFileWithRefresh",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,8 +8,7 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": "commentId",
-          "value": "{{appsmith.store?.editingComment?.id}}"
+          "name": "file"
         }
       ],
       "paginationType": "NONE",
@@ -27,10 +26,10 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "files.getCommentFiles",
-    "name": "getCommentFiles",
+    "fullyQualifiedName": "files.uploadFileWithRefresh",
+    "name": "uploadFileWithRefresh",
     "pageId": "Tasks",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": true
+    "userSetOnLoad": false
   }
 }

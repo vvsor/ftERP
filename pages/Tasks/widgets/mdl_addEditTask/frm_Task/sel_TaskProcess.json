@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 20,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.selectedTask?.id ? appsmith.store.selectedTask.process_id.id: 1))(sel_TaskProcess.options, sel_TaskProcess.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.selectedTask?.process_id?.id ?? 1))(sel_TaskProcess.options, sel_TaskProcess.serverSideFiltering) }}",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {

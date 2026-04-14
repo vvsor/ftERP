@@ -3,6 +3,21 @@ export default {
 	// test: async () => {
 	// },
 	/// ============== end of test block ===============
+	uploadFileWithRefresh: async (file) => {
+		try {
+			return await qUploadFile.run(file);
+		} catch (error) {
+			if (!items.isTokenExpiredError(error)) throw error;
+
+			try {
+				await items.refreshAccessToken();
+			} catch (refreshError) {
+				return await items.handleRefreshFailure(refreshError);
+			}
+
+			return await qUploadFile.run(file);
+		}
+	},
 
 	uploadFiles: async ({filepicker, taskId, commentId} = {}) => {
 		if (!filepicker?.files || filepicker.files.length === 0) {
@@ -16,7 +31,8 @@ export default {
 
 			try {
 
-				const uploadResult = await qUploadFile.run(file);
+				const uploadResult = await files.uploadFileWithRefresh(file);
+
 				if (!taskId && !commentId) {
 					results.success.push(file.name || file);
 					continue;
@@ -37,6 +53,7 @@ export default {
 						await items.createItems(params);
 						results.success.push(file.name || file);
 					} catch (associationError) {
+						if (associationError?.authHandled) throw associationError;
 						console.error("Error associating file with task: ", associationError);
 						results.failed.push({ 
 							file: file.name || file, 
@@ -60,6 +77,7 @@ export default {
 						console.log(`File ${file.name || "unnamed"} successfully associated with comment`);
 						results.success.push(file.name || file);
 					} catch (associationError) {
+						if (associationError?.authHandled) throw associationError;
 						console.error("Error associating file with comment: ", associationError);
 						results.failed.push({ 
 							file: file.name || file, 
@@ -69,6 +87,7 @@ export default {
 					}
 				}
 			} catch (uploadError) {
+				if (uploadError?.authHandled) throw uploadError;
 				results.failed.push({ 
 					file: file.name || file, 
 					error: uploadError,
@@ -128,7 +147,8 @@ export default {
 		}
 	},
 
-	getCommentFiles: async (commentId = appsmith.store.editingComment.id) => {
+	getCommentFiles: async (commentId = appsmith.store?.editingComment?.id) => {
+		if (!commentId) return [];
 		try {
 			const params = {
 				collection: "comments",

@@ -105,7 +105,7 @@
   "hasMetaWidgets": true,
   "isCanvas": true,
   "isLoading": false,
-  "isVisible": "{{ \nfiles.getTaskFiles.data && files.getTaskFiles.data.length > 0 }}",
+  "isVisible": "{{\nfiles.getTaskFiles.data && files.getTaskFiles.data.length > 0 }}",
   "itemBackgroundColor": "#FFFFFF",
   "itemSpacing": "8",
   "key": "zze7r944oz",
