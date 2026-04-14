@@ -426,12 +426,13 @@ export default {
 
 			await this.updateTaskList();
 
-			const rows = tbl_tasks.tableData || [];
-			const index = rows.findIndex(row => row.id === selectedTaskId);
+			const displayRows = tbl_tasks.tableData || [];
+			const index = displayRows.findIndex(row => row.id === selectedTaskId);
+			const sourceTask = this.getSourceTaskById(selectedTaskId);
 
-			if (index >= 0) {
+			if (index >= 0 && sourceTask) {
 				await tbl_tasks.setSelectedRowIndex(index);
-				await this.setSelectedTask(rows[index]);
+				await this.setSelectedTask(sourceTask);
 				await this.tbs_task_onTabSelected();
 			} else {
 				await removeValue("selectedTask");
