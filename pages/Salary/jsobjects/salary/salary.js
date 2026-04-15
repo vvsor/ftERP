@@ -144,9 +144,9 @@ export default {
 			office_term_id: officeTermId,
 			period_month: periodMonth,
 			total_salary: previousSalary?.total_salary || 0,
-			cashless_amount: previousSalary?.cashless_amount || 0,
 			max_cash_advance_percent: previousSalary?.max_cash_advance_percent || 0
 		};
+
 
 		showAlert("Создаем запись зарплаты...", "info");
 		await items.createItems({

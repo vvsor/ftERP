@@ -162,13 +162,8 @@ export default {
 		const salaryRes = await items.getItems({
 			collection: "salary",
 			fields: [
-				"id",
-				"office_term_id.id",
-				"period_month",
-				"total_salary",
-				"cashless_amount",
-				"max_cash_advance_percent",
-				"comment"
+				"*",
+				"office_term_id.id"
 			].join(","),
 			filter: {
 				_and: [
@@ -180,15 +175,21 @@ export default {
 		});
 
 		const salaries = salaryRes.data || [];
+		const getSalaryOfficeTermId = (s) => s?.office_term_id?.id ?? s?.office_term_id;
+
 		const salaryByOfficeTermId = Object.fromEntries(
 			salaries
-			.filter((s) => s?.office_term_id?.id)
-			.map((s) => [s.office_term_id.id, s])
+			.map((s) => [getSalaryOfficeTermId(s), s])
+			.filter(([officeTermId]) => officeTermId != null)
 		);
 
 		await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
-		const salaryIds = salaries.map((s) => s.id);
-		const officeBySalary = new Map(salaries.map((s) => [s.id, s.office_term_id?.id]));
+
+		const salaryIds = salaries.map((s) => s.id).filter(Boolean);
+		const officeBySalary = new Map(
+			salaries.map((s) => [s.id, getSalaryOfficeTermId(s)])
+		);
+
 
 		if (salaryIds.length === 0) {
 			await storeValue("salaryByOfficeTermId", {}, false);
