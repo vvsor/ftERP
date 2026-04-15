@@ -155,12 +155,21 @@ export default {
 
 		const officeTermIds = contacts.map((x) => x.id);
 		if (!periodMonth || officeTermIds.length === 0) {
+			await storeValue("salaryByOfficeTermId", {}, false);
 			return contacts.map((x) => ({ ...x, accruals_sum: 0, payments_sum: 0, balance: 0 }));
 		}
 
 		const salaryRes = await items.getItems({
 			collection: "salary",
-			fields: "id,office_term_id.id",
+			fields: [
+				"id",
+				"office_term_id.id",
+				"period_month",
+				"total_salary",
+				"cashless_amount",
+				"max_cash_advance_percent",
+				"comment"
+			].join(","),
 			filter: {
 				_and: [
 					{ period_month: { _eq: periodMonth } },
@@ -171,10 +180,18 @@ export default {
 		});
 
 		const salaries = salaryRes.data || [];
+		const salaryByOfficeTermId = Object.fromEntries(
+			salaries
+			.filter((s) => s?.office_term_id?.id)
+			.map((s) => [s.office_term_id.id, s])
+		);
+
+		await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
 		const salaryIds = salaries.map((s) => s.id);
 		const officeBySalary = new Map(salaries.map((s) => [s.id, s.office_term_id?.id]));
 
 		if (salaryIds.length === 0) {
+			await storeValue("salaryByOfficeTermId", {}, false);
 			return contacts.map((c) => ({
 				...c,
 				accruals_sum: 0,
@@ -295,10 +312,12 @@ export default {
 		return `${last} ${first}.`;
 	},
 
-	async reloadSalaryContext({ refreshEmployees = false } = {}) {
-		await storeValue("salaryReady", false, true);
+	async reloadSalaryContext({ refreshEmployees = false, salaryRecord: prefetchedSalaryRecord = null } = {}) {
+		if (appsmith.store?.salaryReady !== false) {
+			await storeValue("salaryReady", false, true);
+		}
 
-		const salaryRecord = await salary.loadSalary();
+		const salaryRecord = await salary.loadSalary(prefetchedSalaryRecord);
 
 		const jobs = [
 			payments.loadSalaryPayments(salaryRecord.id),
@@ -312,7 +331,9 @@ export default {
 		await Promise.all(jobs);
 
 		// utils.advanceInRub();
-		await storeValue("salaryReady", true, true);
+		if (appsmith.store?.salaryReady !== true) {
+			await storeValue("salaryReady", true, true);
+		}
 
 		return salaryRecord;
 	},

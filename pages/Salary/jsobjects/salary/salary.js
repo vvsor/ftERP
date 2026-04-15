@@ -23,7 +23,11 @@ export default {
 		await storeValue("salaryReady", false, true);
 		await salary.setSelectedOfficeTerm(row);
 		await utils.initPeriod();
-		await utils.reloadSalaryContext();
+		const prefetchedSalaryRecord =
+					appsmith.store?.salaryByOfficeTermId?.[row.id] || null;
+
+		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
+
 	},
 
 
@@ -105,8 +109,12 @@ export default {
 			return;
 		}
 
-		await salary.setSelectedOfficeTerm(rows[0]);
-		await utils.reloadSalaryContext();
+		const selectedOfficeTerm = rows[0];
+		const prefetchedSalaryRecord =
+					appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
+
+		await salary.setSelectedOfficeTerm(selectedOfficeTerm);
+		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
 	},
 
 	async fetchSalaryByMonth(officeTermId, month) {
@@ -204,7 +212,7 @@ export default {
 		);
 	},
 
-	async loadSalary() {
+	async loadSalary(prefetchedSalaryRecord = null) {
 		try {
 			const officeTerm = appsmith.store?.SelectedOfficeTerm;
 			const periodMonth = utils.getPeriodMonth();
@@ -218,8 +226,17 @@ export default {
 				return;
 			}
 
-			const { salaryRecord, wasCreated, previousSalary } =
-						await this.ensureSalaryExists(officeTerm.id, periodMonth);
+			const prefetchedOfficeTermId =
+						prefetchedSalaryRecord?.office_term_id?.id ?? prefetchedSalaryRecord?.office_term_id;
+
+			const canUsePrefetched =
+						prefetchedSalaryRecord?.id &&
+						String(prefetchedOfficeTermId) === String(officeTerm.id) &&
+						prefetchedSalaryRecord?.period_month === periodMonth;
+
+			const { salaryRecord, wasCreated, previousSalary } = canUsePrefetched
+			? { salaryRecord: prefetchedSalaryRecord, wasCreated: false, previousSalary: null }
+			: await this.ensureSalaryExists(officeTerm.id, periodMonth);
 
 			if (wasCreated) {
 				await this.createRecurringAccrualsFromPreviousMonth(previousSalary?.id, salaryRecord.id);
@@ -268,8 +285,12 @@ export default {
 
 			// Only call tab selection if a task exists
 			if (data.length > 0) {
-				await salary.setSelectedOfficeTerm(data[0]);
-				await utils.reloadSalaryContext();
+				const selectedOfficeTerm = data[0];
+				const prefetchedSalaryRecord =
+							appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
+
+				await salary.setSelectedOfficeTerm(selectedOfficeTerm);
+				await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
 			} else {
 				await removeValue("SelectedOfficeTerm");
 				await removeValue("salaryOfPeriod");
