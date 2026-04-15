@@ -305,7 +305,7 @@ export default {
 			accruals.loadSalaryAccruals(salaryRecord.id)
 		];
 
-		if (refreshEmployees) {
+		if (refreshEmployees || salaryRecord.__wasCreated) {
 			jobs.push(utils.getOfficeTerms());
 		}
 

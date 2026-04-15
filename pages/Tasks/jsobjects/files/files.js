@@ -127,6 +127,7 @@ export default {
 	},
 
 	getTaskFiles: async (taskId) => {
+		if (!taskId) return [];
 		try {
 			const params = {
 				collection: "tasks",

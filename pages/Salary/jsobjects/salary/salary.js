@@ -88,7 +88,7 @@ export default {
 		}
 
 		await salary.setSelectedOfficeTerm(rows[0]);
-		await utils.reloadSalaryContext({ refreshEmployees: true });
+		await utils.reloadSalaryContext();
 	},
 
 	async fetchSalaryByMonth(officeTermId, month) {
@@ -209,7 +209,7 @@ export default {
 
 			await this.setSalaryOfPeriod(salaryRecord);
 
-			return salaryRecord;
+			return { ...salaryRecord, __wasCreated: wasCreated };
 		} catch (error) {
 			if (error?.authHandled) throw error;
 			console.error("loadSalary failed:", error);
@@ -243,7 +243,7 @@ export default {
 			// Only call tab selection if a task exists
 			if (data.length > 0) {
 				await salary.setSelectedOfficeTerm(data[0]);
-				await utils.reloadSalaryContext({ refreshEmployees: true });
+				await utils.reloadSalaryContext();
 			} else {
 				await removeValue("SelectedOfficeTerm");
 				await removeValue("salaryOfPeriod");
