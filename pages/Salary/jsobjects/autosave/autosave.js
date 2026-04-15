@@ -30,6 +30,10 @@ export default {
 			}
 
 			const value = utils.extractValue(widget);
+			const currentValue = salaryRec?.[fieldName] ?? "";
+			if (String(value ?? "") === String(currentValue ?? "")) {
+				return;
+			}
 
 			// Не шлём пустые значения при инициализации
 			if (value === null || value === undefined) {
@@ -52,6 +56,10 @@ export default {
 			};
 
 			await items.updateItems(params);
+			await salary.setSalaryOfPeriod({
+				...salaryRec,
+				[fieldName]: value
+			});
 
 			showAlert(`${fieldName} autosaved`, "success");
 		} catch (err) {

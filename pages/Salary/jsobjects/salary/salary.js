@@ -1,21 +1,31 @@
 export default {
 	/// ================== test block ==================
-	async test(){
-		console.log(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
-	},
+	// async test(){
+	// console.log(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
+	// },
 	/// ============== end of test block ===============
 
 	async tbl_employees_onRowSelected() {
-		await storeValue("salaryReady", false, true);
-
 		const row = tbl_employees.selectedRow;
 		if (!row?.id) {
 			return;
 		}
+
+		if (appsmith.store?.salaryReady === false) {
+			return;
+		}
+
+		const current = appsmith.store?.SelectedOfficeTerm;
+		if (current?.id === row.id && appsmith.store?.salaryOfPeriod?.id) {
+			return;
+		}
+
+		await storeValue("salaryReady", false, true);
 		await salary.setSelectedOfficeTerm(row);
 		await utils.initPeriod();
 		await utils.reloadSalaryContext();
 	},
+
 
 	accrualsSummaryTextVisibleEmployees() {
 		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
@@ -76,6 +86,14 @@ export default {
 	},
 
 	async sel_chooseBranch_OptionChanged() {
+		const branchId = sel_chooseBranch.selectedOptionValue ?? "";
+		const previousBranchId = appsmith.store?.salarySelectedBranchId ?? "";
+
+		if (previousBranchId === branchId) {
+			return;
+		}
+
+		await storeValue("salarySelectedBranchId", branchId, true);
 		await storeValue("salaryReady", false, true);
 		await utils.initPeriod();
 

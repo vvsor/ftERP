@@ -311,7 +311,7 @@ export default {
 
 		await Promise.all(jobs);
 
-		utils.advanceInRub();
+		// utils.advanceInRub();
 		await storeValue("salaryReady", true, true);
 
 		return salaryRecord;
