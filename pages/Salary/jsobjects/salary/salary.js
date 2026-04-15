@@ -257,7 +257,15 @@ export default {
 		try {
 			await items.ensureFreshToken();
 			await utils.initPeriod();
+
+			const referenceDataPromise = Promise.all([
+				utils.getAccrualTypesOptions(),
+				utils.getBranchAccountsOptions(),
+				utils.getBranches()
+			]);
+
 			const data = await utils.getOfficeTerms();
+
 			// Only call tab selection if a task exists
 			if (data.length > 0) {
 				await salary.setSelectedOfficeTerm(data[0]);
@@ -268,11 +276,7 @@ export default {
 				await storeValue("salaryReady", true, true);
 			}
 
-			await Promise.all([
-				utils.getAccrualTypesOptions(),
-				utils.getBranchAccountsOptions(),
-				utils.getBranches()
-			]);
+			await referenceDataPromise;
 			return;
 		} catch (error) {
 			if (error?.authHandled) return;
