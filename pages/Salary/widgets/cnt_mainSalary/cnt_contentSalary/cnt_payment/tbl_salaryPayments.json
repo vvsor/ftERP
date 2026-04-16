@@ -56,7 +56,7 @@
   "customIsLoadingValue": "",
   "defaultNewRow": "{{ \n  {\n    payment_date: moment().format(\"YYYY-MM-DD\")\n  }\n}}",
   "defaultPageSize": 0,
-  "defaultSelectedRowIndex": 0,
+  "defaultSelectedRowIndex": "-1",
   "defaultSelectedRowIndices": [
     0
   ],
@@ -606,7 +606,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": false,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ appsmith.store?.salaryOfPeriod?.id && Array.isArray(payments.loadSalaryPayments?.data)\n? payments.loadSalaryPayments.data\n: [] }}",
+  "tableData": "{{ Array.isArray(appsmith.store?.salaryPaymentRows) ? appsmith.store.salaryPaymentRows : [] }}",
   "textSize": "0.875rem",
   "topRow": 8,
   "totalRecordsCount": 0,

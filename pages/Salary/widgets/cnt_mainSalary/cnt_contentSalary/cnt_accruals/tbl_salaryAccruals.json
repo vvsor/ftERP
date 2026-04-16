@@ -58,7 +58,7 @@
   "customIsLoading": false,
   "customIsLoadingValue": "",
   "defaultPageSize": 0,
-  "defaultSelectedRowIndex": 0,
+  "defaultSelectedRowIndex": "-1",
   "defaultSelectedRowIndices": [
     0
   ],
@@ -730,7 +730,7 @@
   "searchKey": "",
   "serverSidePaginationEnabled": false,
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ appsmith.store?.salaryOfPeriod?.id && Array.isArray(accruals.loadSalaryAccruals?.data)\n\t? accruals.loadSalaryAccruals.data\n\t: [] }}",
+  "tableData": "{{ Array.isArray(appsmith.store?.salaryAccrualRows) ? appsmith.store.salaryAccrualRows : [] }}",
   "textSize": "0.875rem",
   "topRow": 9,
   "totalRecordsCount": 0,

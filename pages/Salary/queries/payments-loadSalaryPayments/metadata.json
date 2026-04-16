@@ -9,6 +9,9 @@
       "jsArguments": [
         {
           "name": "salaryIdParam"
+        },
+        {
+          "name": ""
         }
       ],
       "paginationType": "NONE",

@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 6,
   "boxShadow": "none",
-  "defaultOptionValue": "",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  ((options, serverSideFiltering) => ( appsmith.store?.salarySelectedBranchId ?? \"\"))(sel_chooseBranch.options, sel_chooseBranch.serverSideFiltering) ))(sel_chooseBranch.options, sel_chooseBranch.serverSideFiltering) }}",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {
@@ -15,6 +15,9 @@
     },
     {
       "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -66,7 +69,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{ Array.isArray(utils.getBranches?.data) ? utils.getBranches.data : [] }}",
+  "sourceData": "{{ Array.isArray(appsmith.store?.salaryBranchRows) ? appsmith.store.salaryBranchRows : [] }}",
   "tags": [
     "Suggested",
     "Select"

@@ -101,10 +101,13 @@ export default {
 		await storeValue("salaryReady", false, true);
 		await utils.initPeriod();
 
-		const rows = await utils.getOfficeTerms();
+		const rows = await utils.getOfficeTerms({ commitToStore: false });
 		if (!rows?.length) {
 			await removeValue("SelectedOfficeTerm");
 			await removeValue("salaryOfPeriod");
+			await storeValue("salaryEmployeeRows", [], false);
+			await storeValue("salaryPaymentRows", [], false);
+			await storeValue("salaryAccrualRows", [], false);
 			await storeValue("salaryReady", true, true);
 			return;
 		}
@@ -113,7 +116,11 @@ export default {
 		const prefetchedSalaryRecord =
 					appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
 
-		await salary.setSelectedOfficeTerm(selectedOfficeTerm);
+		await Promise.all([
+			storeValue("salaryEmployeeRows", rows, false),
+			salary.setSelectedOfficeTerm(selectedOfficeTerm)
+		]);
+
 		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
 	},
 
@@ -242,8 +249,6 @@ export default {
 				await this.createRecurringAccrualsFromPreviousMonth(previousSalary?.id, salaryRecord.id);
 			}
 
-			await this.setSalaryOfPeriod(salaryRecord);
-
 			return { ...salaryRecord, __wasCreated: wasCreated };
 		} catch (error) {
 			if (error?.authHandled) throw error;
@@ -281,7 +286,7 @@ export default {
 				utils.getBranches()
 			]);
 
-			const data = await utils.getOfficeTerms();
+			const data = await utils.getOfficeTerms({ commitToStore: false });
 
 			// Only call tab selection if a task exists
 			if (data.length > 0) {
@@ -289,11 +294,18 @@ export default {
 				const prefetchedSalaryRecord =
 							appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
 
-				await salary.setSelectedOfficeTerm(selectedOfficeTerm);
+				await Promise.all([
+					storeValue("salaryEmployeeRows", data, false),
+					salary.setSelectedOfficeTerm(selectedOfficeTerm)
+				]);
+
 				await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
 			} else {
 				await removeValue("SelectedOfficeTerm");
 				await removeValue("salaryOfPeriod");
+				await storeValue("salaryEmployeeRows", [], false);
+				await storeValue("salaryPaymentRows", [], false);
+				await storeValue("salaryAccrualRows", [], false);
 				await storeValue("salaryReady", true, true);
 			}
 

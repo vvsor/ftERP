@@ -1,7 +1,7 @@
 export default {
 	DELETE_CONFIRM_WINDOW_MS: 5000,
 
-	async loadSalaryAccruals(salaryIdParam) {
+	async loadSalaryAccruals(salaryIdParam, { commitToStore = true } = {}) {
 		try {
 			const salaryId =
 						salaryIdParam ||
@@ -43,7 +43,7 @@ export default {
 			const rows = res.data ?? [];
 
 			// Важно: возвращаем ПЛОСКИЙ объект
-			return rows.map(p => ({
+			const flatRows = rows.map(p => ({
 				id: p.id,
 				salary_id: p.salary_id,
 				amount: p.amount || 0,
@@ -60,6 +60,10 @@ export default {
 				counts_for_salary_total: !!p.accrual_type_id?.counts_for_salary_total,
 				counts_for_cashless_limit: !!p.accrual_type_id?.counts_for_cashless_limit
 			}));
+			if (commitToStore) {
+				await storeValue("salaryAccrualRows", flatRows, false);
+			}
+			return flatRows;
 		} catch (error) {
 			if (error?.authHandled) throw error;
 			console.error("loadSalaryAccruals failed:", error);

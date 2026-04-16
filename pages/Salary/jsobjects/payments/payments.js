@@ -1,7 +1,7 @@
 export default {
 	DELETE_CONFIRM_WINDOW_MS: 5000,
 
-	async loadSalaryPayments(salaryIdParam) {
+	async loadSalaryPayments(salaryIdParam, { commitToStore = true } = {}) {
 		try {
 			const salaryId =
 						salaryIdParam ||
@@ -40,7 +40,7 @@ export default {
 			const rows = res.data ?? [];
 
 			// Важно: возвращаем ПЛОСКИЙ объект
-			return rows.map(p => ({
+			const flatRows = rows.map(p => ({
 				id: p.id,
 				salary_id: p.salary_id,
 				amount: p.amount || 0,
@@ -59,6 +59,10 @@ export default {
 				// error: null
 				// }
 			}));
+			if (commitToStore) {
+				await storeValue("salaryPaymentRows", flatRows, false);
+			}
+			return flatRows;
 		} catch (error) {
 			if (error?.authHandled) throw error;
 			console.error("loadSalaryPayments failed:", error);

@@ -98,7 +98,7 @@ export default {
 		return d.toISOString().slice(0, 10);
 	},
 
-	async getOfficeTerms() {
+	async getOfficeTerms({ commitToStore = true } = {}) {
 		const branchId = sel_chooseBranch.selectedOptionValue;
 		const periodMonth = appsmith.store?.periodMonth;
 
@@ -141,7 +141,6 @@ export default {
 
 			const firstInitial = user.first_name?.[0] ? ` ${user.first_name[0]}.` : "";
 
-
 			return {
 				id: item.id,
 				user_id: user.id,
@@ -153,11 +152,21 @@ export default {
 		})
 		.filter(Boolean);
 
+		const commitRows = async (rows) => {
+			if (commitToStore) {
+				await storeValue("salaryEmployeeRows", rows, false);
+			}
+			return rows;
+		};
+
 		const officeTermIds = contacts.map((x) => x.id);
 		if (!periodMonth || officeTermIds.length === 0) {
 			await storeValue("salaryByOfficeTermId", {}, false);
-			return contacts.map((x) => ({ ...x, accruals_sum: 0, payments_sum: 0, balance: 0 }));
+			return await commitRows(
+				contacts.map((x) => ({ ...x, accruals_sum: 0, payments_sum: 0, balance: 0 }))
+			);
 		}
+
 
 		const salaryRes = await items.getItems({
 			collection: "salary",
@@ -190,15 +199,16 @@ export default {
 			salaries.map((s) => [s.id, getSalaryOfficeTermId(s)])
 		);
 
-
 		if (salaryIds.length === 0) {
 			await storeValue("salaryByOfficeTermId", {}, false);
-			return contacts.map((c) => ({
-				...c,
-				accruals_sum: 0,
-				payments_sum: 0,
-				balance: 0
-			}));
+			return await commitRows(
+				contacts.map((c) => ({
+					...c,
+					accruals_sum: 0,
+					payments_sum: 0,
+					balance: 0
+				}))
+			);
 		}
 
 		const [accrRes, payRes] = await Promise.all([
@@ -240,16 +250,18 @@ export default {
 			payByOffice[officeId] = (payByOffice[officeId] || 0) + (Number(r.amount) || 0);
 		}
 
-		return contacts.map((c) => {
-			const accruals_sum = accrByOffice[c.id] || 0;
-			const payments_sum = payByOffice[c.id] || 0;
-			return {
-				...c,
-				accruals_sum,
-				payments_sum,
-				balance: accruals_sum - payments_sum
-			};
-		});
+		return await commitRows(
+			contacts.map((c) => {
+				const accruals_sum = accrByOffice[c.id] || 0;
+				const payments_sum = payByOffice[c.id] || 0;
+				return {
+					...c,
+					accruals_sum,
+					payments_sum,
+					balance: accruals_sum - payments_sum
+				};
+			})
+		);
 	},
 
 	async getBranches() {
@@ -265,8 +277,9 @@ export default {
 			};
 			const response = await items.getItems(params);
 			const allBranches = response.data || [];
-			// Sort by name (ascending)
 			allBranches.sort((a, b) => a.name.localeCompare(b.name));
+
+			await storeValue("salaryBranchRows", allBranches, true);
 			return allBranches;
 		} catch (error) {
 			console.error("Error in all task processing:", error);
@@ -320,23 +333,35 @@ export default {
 
 		const salaryRecord = await salary.loadSalary(prefetchedSalaryRecord);
 
-		const jobs = [
-			payments.loadSalaryPayments(salaryRecord.id),
-			accruals.loadSalaryAccruals(salaryRecord.id)
-		];
+		const paymentRowsPromise = payments.loadSalaryPayments(
+			salaryRecord.id,
+			{ commitToStore: false }
+		);
+
+		const accrualRowsPromise = accruals.loadSalaryAccruals(
+			salaryRecord.id,
+			{ commitToStore: false }
+		);
+
+		const paymentRows = await paymentRowsPromise;
+		const accrualRows = await accrualRowsPromise;
 
 		if (refreshEmployees || salaryRecord.__wasCreated) {
-			jobs.push(utils.getOfficeTerms());
+			await utils.getOfficeTerms();
 		}
 
-		await Promise.all(jobs);
+		await Promise.all([
+			storeValue("salaryPaymentRows", paymentRows, false),
+			storeValue("salaryAccrualRows", accrualRows, false),
+			salary.setSalaryOfPeriod(salaryRecord)
+		]);
 
-		// utils.advanceInRub();
 		if (appsmith.store?.salaryReady !== true) {
 			await storeValue("salaryReady", true, true);
 		}
 
 		return salaryRecord;
+
 	},
 
 	async initPeriod() {
