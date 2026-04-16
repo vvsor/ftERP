@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 37,
+  "bottomRow": 39,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -45,7 +45,7 @@
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1775891235239,
+  "columnUpdatedAt": 1776353963951,
   "columnWidthMap": {
     "amount": 112,
     "branch_account_name": 202,
@@ -608,7 +608,7 @@
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(appsmith.store?.salaryPaymentRows) ? appsmith.store.salaryPaymentRows : [] }}",
   "textSize": "0.875rem",
-  "topRow": 8,
+  "topRow": 10,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,

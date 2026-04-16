@@ -4,7 +4,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 100,
+  "bottomRow": 106,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -42,7 +42,7 @@
     "payments_sum",
     "balance"
   ],
-  "columnUpdatedAt": 1775891235233,
+  "columnUpdatedAt": 1776353963940,
   "columnWidthMap": {
     "branch": 321,
     "employee": 171.24316406250003
@@ -50,7 +50,7 @@
   "customIsLoading": false,
   "customIsLoadingValue": "",
   "defaultPageSize": 0,
-  "defaultSelectedRowIndex": 0,
+  "defaultSelectedRowIndex": "{{ (() => { const rows = Array.isArray(appsmith.store?.salaryEmployeeRows) ? appsmith.store.salaryEmployeeRows : []; const selectedId = appsmith.store?.SelectedOfficeTerm?.id; if (!rows.length) return -1; const idx = rows.findIndex((row) => String(row.id) === String(selectedId)); return idx >= 0 ? idx : 0; })() }}",
   "defaultSelectedRowIndices": [
     0
   ],
@@ -94,6 +94,9 @@
     },
     {
       "key": "primaryColumns.balance.computedValue"
+    },
+    {
+      "key": "defaultSelectedRowIndex"
     }
   ],
   "dynamicPropertyPathList": [
@@ -449,9 +452,9 @@
   "responsiveBehavior": "fill",
   "rightColumn": 31,
   "searchKey": "",
-  "tableData": "{{ Array.isArray(utils.getOfficeTerms?.data) ? utils.getOfficeTerms.data : [] }}",
+  "tableData": "{{ Array.isArray(appsmith.store?.salaryEmployeeRows) ? appsmith.store.salaryEmployeeRows : [] }}",
   "textSize": "0.875rem",
-  "topRow": 6,
+  "topRow": 12,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,

@@ -69,7 +69,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{ Array.isArray(appsmith.store?.salaryBranchRows) ? appsmith.store.salaryBranchRows : [] }}",
+  "sourceData": "{{ ((options, serverSideFiltering) => ( appsmith.store?.salarySelectedBranchId ?? \"\"))(sel_chooseBranch.options, sel_chooseBranch.serverSideFiltering) }}",
   "tags": [
     "Suggested",
     "Select"

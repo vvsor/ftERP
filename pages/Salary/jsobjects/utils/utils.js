@@ -343,18 +343,29 @@ export default {
 			{ commitToStore: false }
 		);
 
-		const paymentRows = await paymentRowsPromise;
-		const accrualRows = await accrualRowsPromise;
+		const employeeRowsPromise =
+					(refreshEmployees || salaryRecord.__wasCreated)
+		? utils.getOfficeTerms({ commitToStore: false })
+		: Promise.resolve(null);
 
-		if (refreshEmployees || salaryRecord.__wasCreated) {
-			await utils.getOfficeTerms();
-		}
+		const [paymentRows, accrualRows, employeeRows] = await Promise.all([
+			paymentRowsPromise,
+			accrualRowsPromise,
+			employeeRowsPromise
+		]);
 
-		await Promise.all([
+		const storeJobs = [
 			storeValue("salaryPaymentRows", paymentRows, false),
 			storeValue("salaryAccrualRows", accrualRows, false),
 			salary.setSalaryOfPeriod(salaryRecord)
-		]);
+		];
+
+		if (employeeRows) {
+			storeJobs.push(storeValue("salaryEmployeeRows", employeeRows, false));
+		}
+
+		await Promise.all(storeJobs);
+
 
 		if (appsmith.store?.salaryReady !== true) {
 			await storeValue("salaryReady", true, true);
