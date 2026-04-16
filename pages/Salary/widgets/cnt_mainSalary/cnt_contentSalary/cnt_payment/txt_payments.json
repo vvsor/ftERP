@@ -43,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 63,
   "shouldTruncate": false,
-  "text": "Выплаты {{tbl_employees.selectedRow.employee}}",
+  "text": "Выплаты: {{tbl_employees.selectedRow.employee}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,

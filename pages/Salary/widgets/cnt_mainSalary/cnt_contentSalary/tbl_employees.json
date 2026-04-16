@@ -4,7 +4,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 106,
+  "bottomRow": 100,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -42,7 +42,7 @@
     "payments_sum",
     "balance"
   ],
-  "columnUpdatedAt": 1776353963940,
+  "columnUpdatedAt": 1776355093630,
   "columnWidthMap": {
     "branch": 321,
     "employee": 171.24316406250003
@@ -454,7 +454,7 @@
   "searchKey": "",
   "tableData": "{{ Array.isArray(appsmith.store?.salaryEmployeeRows) ? appsmith.store.salaryEmployeeRows : [] }}",
   "textSize": "0.875rem",
-  "topRow": 12,
+  "topRow": 6,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,
