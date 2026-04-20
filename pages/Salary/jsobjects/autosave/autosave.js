@@ -61,7 +61,6 @@ export default {
 				[fieldName]: value
 			});
 
-			showAlert(`${fieldName} autosaved`, "success");
 		} catch (err) {
 			console.error(`Autosave failed for ${fieldName}:`, err);
 			showAlert(`Autosave failed: ${fieldName}`, "warning");

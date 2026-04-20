@@ -59,9 +59,7 @@
   "customIsLoadingValue": "",
   "defaultPageSize": 0,
   "defaultSelectedRowIndex": "-1",
-  "defaultSelectedRowIndices": [
-    0
-  ],
+  "defaultSelectedRowIndices": "",
   "delimiter": ",",
   "dynamicBindingPathList": [
     {
@@ -210,6 +208,7 @@
   "mobileLeftColumn": 30,
   "mobileRightColumn": 64,
   "mobileTopRow": 20,
+  "multiRowSelection": false,
   "needsErrorInfo": false,
   "onAddNewRowSave": "{{\naccruals.createSalaryAccrual(tbl_salaryAccruals.newRow)\n}}\t",
   "originalBottomRow": 40,

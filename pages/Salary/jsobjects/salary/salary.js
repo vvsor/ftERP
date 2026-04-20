@@ -204,19 +204,15 @@ export default {
 		const recurring = prevRes.data || [];
 		if (recurring.length === 0) return;
 
-		await Promise.all(
-			recurring.map((a) =>
-										items.createItems({
-				collection: "salary_accruals",
-				body: {
-					salary_id: newSalaryId,
-					branch_account_id: a.branch_account_id?.id ?? null,
-					accrual_type_id: a.accrual_type_id?.id ?? null,
-					amount: Number(a.amount) || 0
-				}
-			})
-									 )
-		);
+		await items.createItems({
+			collection: "salary_accruals",
+			body: recurring.map((a) => ({
+				salary_id: newSalaryId,
+				branch_account_id: a.branch_account_id?.id ?? null,
+				accrual_type_id: a.accrual_type_id?.id ?? null,
+				amount: Number(a.amount) || 0
+			}))
+		});
 	},
 
 	async loadSalary(prefetchedSalaryRecord = null) {

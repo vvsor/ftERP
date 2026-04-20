@@ -21,7 +21,6 @@ export default {
 
 	uploadFiles: async ({filepicker, taskId, commentId} = {}) => {
 		if (!filepicker?.files || filepicker.files.length === 0) {
-			console.log("No files to process");
 			return { success: [], failed: [] };
 		}
 
@@ -74,7 +73,6 @@ export default {
 
 						// Associate file with comment
 						await items.createItems(params);
-						console.log(`File ${file.name || "unnamed"} successfully associated with comment`);
 						results.success.push(file.name || file);
 					} catch (associationError) {
 						if (associationError?.authHandled) throw associationError;

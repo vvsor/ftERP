@@ -99,8 +99,9 @@ export default {
 	},
 
 	async getOfficeTerms({ commitToStore = true } = {}) {
-		const branchId = sel_chooseBranch.selectedOptionValue;
+		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
 		const periodMonth = appsmith.store?.periodMonth;
+
 
 		const officeFilter = branchId
 		? { position_id: { branch_id: { id: { _eq: branchId } } } }
@@ -374,6 +375,45 @@ export default {
 		return salaryRecord;
 
 	},
+	
+	async refreshSelectedEmployeeSummaryFromDetails() {
+		const officeTermId = appsmith.store?.SelectedOfficeTerm?.id;
+		if (!officeTermId) return;
+
+		const accrualRows = Array.isArray(appsmith.store?.salaryAccrualRows)
+		? appsmith.store.salaryAccrualRows
+		: [];
+
+		const paymentRows = Array.isArray(appsmith.store?.salaryPaymentRows)
+		? appsmith.store.salaryPaymentRows
+		: [];
+
+		const accruals_sum = accrualRows
+		.filter((row) => !row.deleted_at)
+		.reduce((sum, row) => sum + (Number(row.amount) || 0), 0);
+
+		const payments_sum = paymentRows
+		.filter((row) => !row.deleted_at)
+		.reduce((sum, row) => sum + (Number(row.amount) || 0), 0);
+
+		const rows = Array.isArray(appsmith.store?.salaryEmployeeRows)
+		? appsmith.store.salaryEmployeeRows
+		: [];
+
+		const nextRows = rows.map((row) =>
+															String(row.id) === String(officeTermId)
+															? {
+			...row,
+			accruals_sum,
+			payments_sum,
+			balance: accruals_sum - payments_sum
+		}
+															: row
+														 );
+
+		await storeValue("salaryEmployeeRows", nextRows, false);
+	},
+
 
 	async initPeriod() {
 		if (!appsmith.store.periodMonth) {

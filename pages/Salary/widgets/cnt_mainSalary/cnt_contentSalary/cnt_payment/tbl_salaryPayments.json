@@ -57,9 +57,7 @@
   "defaultNewRow": "{{ \n  {\n    payment_date: moment().format(\"YYYY-MM-DD\")\n  }\n}}",
   "defaultPageSize": 0,
   "defaultSelectedRowIndex": "-1",
-  "defaultSelectedRowIndices": [
-    0
-  ],
+  "defaultSelectedRowIndices": "",
   "delimiter": ",",
   "dynamicBindingPathList": [
     {

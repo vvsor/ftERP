@@ -16,11 +16,22 @@ export default {
 		await removeValue("savedTaskID");
 	},
 
+	async setTaskRows(rows) {
+		const safeRows = Array.isArray(rows) ? rows : [];
+		await storeValue("taskRows", safeRows, false);
+		return safeRows;
+	},
+
+	getTaskRows() {
+		return Array.isArray(appsmith.store?.taskRows) ? appsmith.store.taskRows : [];
+	},
+
 	getSourceTaskById(taskId, fallbackRows = []) {
-		const rowsFromAction = Array.isArray(tasks.getTasks.data) ? tasks.getTasks.data : [];
-		const rows = rowsFromAction.length ? rowsFromAction : fallbackRows;
+		const storedRows = this.getTaskRows();
+		const rows = storedRows.length ? storedRows : fallbackRows;
 		return rows.find((row) => row.id === taskId) || null;
 	},
+
 
 	async tbl_tasks_onRowSelected(){
 		const taskId = tbl_tasks.selectedRow?.id;
@@ -122,10 +133,14 @@ export default {
 		try {
 			await items.ensureFreshToken();
 			const tasksData = await this.getTasks();
+			await this.setTaskRows(tasksData);
+
 			// Only call tab selection if a task exists
 			if (tasksData.length > 0 ) {
 				await this.setSelectedTask(tasksData[0]);
 				await this.tbs_task_onTabSelected();
+			} else {
+				await removeValue("selectedTask");
 			}
 			await Promise.all([
 				utils.getProcesses(),
@@ -186,7 +201,7 @@ export default {
 
 			// 4. Refresh tasks (triggers table reactivity)
 			const withNewTasks = await this.getTasks();
-			await tbl_tasks.setData(withNewTasks);
+			await this.setTaskRows(withNewTasks);
 
 			// 5. Select the new row after data refresh
 			const index = withNewTasks.findIndex(row => row.id === taskId);
@@ -305,7 +320,7 @@ export default {
 			// below we use 'withNewTasks', becase tasks.getTasks() do not contain
 			// our new task... because of async ?!?
 			const withNewTasks = await this.getTasks();
-			await tbl_tasks.setData(withNewTasks);
+			await this.setTaskRows(withNewTasks);
 
 			// Select updated row and update selection
 			const index = withNewTasks.findIndex(row => row.id === taskId);
@@ -348,22 +363,15 @@ export default {
 		const id = appsmith.store.savedTaskID;
 		if (!id) return;
 
-		let retries = 10;
-		while ((!tbl_tasks.tableData || tbl_tasks.tableData.length === 0) && retries > 0) {
-			console.log("Waiting for tbl_tasks.tableData to load...");
-			await new Promise(r => setTimeout(r, 300));
-			retries--;
-		}
-
-		const displayRows = tbl_tasks.tableData || [];
-		const index = displayRows.findIndex(row => row.id === id);
+		const displayRows = this.getTaskRows();
+		const index = displayRows.findIndex((row) => row.id === id);
 
 		if (index === -1) {
-			console.warn(`Task with ID ${id} not found in table`);
+			console.warn(`Task with ID ${id} not found in rows`);
 			return;
 		}
 
-		const sourceTask = this.getSourceTaskById(id);
+		const sourceTask = this.getSourceTaskById(id, displayRows);
 		if (!sourceTask) {
 			console.warn(`Source task ${id} not found`);
 			return;
@@ -390,7 +398,6 @@ export default {
 					break;
 					// ...we are on files tab
 				case "Файлы":
-					console.log("taskId: ", taskId);
 					await files.getTaskFiles(taskId);
 					break;
 				default:
@@ -404,11 +411,7 @@ export default {
 	async updateTaskList() {
 		// tasks.savedTask = tasks.selectedItem;		// keeping last selectedItem for restoring last state if we cancel adding task
 		const data = await this.getTasks();
-		// vvs 2do: check if we need next line
-		await tbl_tasks.setData(data);
-
-		// tasks.setSelectedTask(tasks.savedTask); // restore saved task before updating
-		// tasks.savedTask = undefined;
+		await this.setTaskRows(data);
 	},
 
 
@@ -434,7 +437,7 @@ export default {
 
 			await this.updateTaskList();
 
-			const displayRows = tbl_tasks.tableData || [];
+			const displayRows = this.getTaskRows();
 			const index = displayRows.findIndex(row => row.id === selectedTaskId);
 			const sourceTask = this.getSourceTaskById(selectedTaskId);
 

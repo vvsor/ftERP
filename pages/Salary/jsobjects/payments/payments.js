@@ -229,7 +229,7 @@ export default {
 
 			// Обновление UI
 			await payments.loadSalaryPayments();
-			await utils.getOfficeTerms();
+			await utils.refreshSelectedEmployeeSummaryFromDetails();
 
 			return paymentId;
 		} catch (err) {
@@ -346,7 +346,7 @@ export default {
 		});
 
 		await payments.loadSalaryPayments();
-		await utils.getOfficeTerms();
+		await utils.refreshSelectedEmployeeSummaryFromDetails();
 	},
 
 	async deleteSalaryPayment () {
@@ -383,7 +383,7 @@ export default {
 			throw error; // Re-throw to allow calling code to handle the error
 		}
 		await payments.loadSalaryPayments();
-		await utils.getOfficeTerms();
+		await utils.refreshSelectedEmployeeSummaryFromDetails();
 		return;
 	}
 }

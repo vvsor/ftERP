@@ -111,7 +111,7 @@ export default {
 		});
 
 		await accruals.loadSalaryAccruals();
-		await utils.getOfficeTerms();
+		await utils.refreshSelectedEmployeeSummaryFromDetails();
 
 		return result.data?.id;
 	},
@@ -252,7 +252,7 @@ export default {
 		});
 
 		await accruals.loadSalaryAccruals();
-		await utils.getOfficeTerms();
+		await utils.refreshSelectedEmployeeSummaryFromDetails();
 	},
 
 	async deleteSalaryAccrual() {
@@ -330,7 +330,7 @@ export default {
 		});
 
 		await accruals.loadSalaryAccruals();
-		await utils.getOfficeTerms();
+		await utils.refreshSelectedEmployeeSummaryFromDetails();
 	}
 
 }

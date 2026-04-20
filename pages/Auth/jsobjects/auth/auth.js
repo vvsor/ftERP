@@ -63,15 +63,16 @@ export default {
 			const tokenExpMs = Number(payload?.exp) ? Number(payload.exp) * 1000 : 0;
 
 
-			const allowedRoles = [
-				"a0258883-621a-4e27-a1f3-4a0f99ea1de6",	// "ERP users" role
-				"cbdd561a-af1b-4602-a606-74b8d824220f"	// "ERP+Salary users" role
-			];
-
-			if (!allowedRoles.includes(payload.role)) {
-				showAlert('Нет прав доступа', 'error');
-				return;
-			}
+			// const allowedRoles = [
+			// "a0258883-621a-4e27-a1f3-4a0f99ea1de6",	// "ERP users" role
+			// "cbdd561a-af1b-4602-a606-74b8d824220f",	// "ERP+Salary users" role
+			// "2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c"	// "Salary users" role
+			// ];
+			// 
+			// if (!allowedRoles.includes(payload.role)) {
+			// showAlert('Нет прав доступа', 'error');
+			// return;
+			// }
 
 			// 2. Get user data by token
 			const userData = await qGetUserDataByToken.run({ token: accessToken });
