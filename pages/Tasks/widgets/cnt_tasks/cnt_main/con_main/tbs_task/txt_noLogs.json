@@ -27,7 +27,7 @@
   "fontSize": "1rem",
   "fontStyle": "BOLD",
   "isLoading": false,
-  "isVisible": "{{\n!audit.agetTaskLog.data.length\n}}\n",
+  "isVisible": "{{ !(audit.getTaskLog.data?.length || 0) }}\n",
   "key": "bf61gkz92d",
   "leftColumn": 0,
   "maxDynamicHeight": 9000,

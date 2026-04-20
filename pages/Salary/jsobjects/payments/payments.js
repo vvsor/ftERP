@@ -368,7 +368,6 @@ export default {
 		}
 
 		await removeValue("pendingDeleteSalaryPayment");
-		console.log("paymentIdToDelete: ", paymentIdToDelete);
 		try {
 			await items.updateItems({
 				collection: "salary_payments",
