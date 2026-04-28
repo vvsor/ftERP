@@ -26,7 +26,7 @@
       "httpMethod": "POST",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
-      "path": "dir.fastrans.ru/items/{{this.params.collection}}",
+      "path": "/items/{{this.params.collection}}",
       "pluginSpecifiedTemplates": [
         {
           "value": true
