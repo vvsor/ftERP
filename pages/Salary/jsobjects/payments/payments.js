@@ -234,7 +234,8 @@ export default {
 			return paymentId;
 		} catch (err) {
 			if (err?.authHandled) throw err;
-			if (err?.userFacing) throw err;
+			if (err?.userFacing) return null;
+
 			console.error("createSalaryPayment error:", err);
 			showAlert("Ошибка при создании выплаты", "error");
 			throw err;
