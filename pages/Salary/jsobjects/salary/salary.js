@@ -35,14 +35,14 @@ export default {
 		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
 		const rows = Array.isArray(tableRows) ? tableRows : [];
 		const total = rows.reduce((s, r) => s + (Number(r.accruals_sum) || 0), 0);
-		return `Начислено: ${utils.formatMoneyRu(total)}`;
+		return `Начислено:  ${utils.formatCurrencyRu(total)}`;
 	},
 
 	paymentsSummaryTextVisibleEmployees() {
 		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
 		const rows = Array.isArray(tableRows) ? tableRows : [];
 		const total = rows.reduce((s, r) => s + (Number(r.payments_sum) || 0), 0);
-		return `Выплачено: ${utils.formatMoneyRu(total)}`;
+		return `Выплачено:  ${utils.formatCurrencyRu(total)}`;
 	},
 
 balanceSummaryTextVisibleEmployees() {
@@ -52,7 +52,7 @@ balanceSummaryTextVisibleEmployees() {
 		(s, r) => s + ((Number(r.accruals_sum) || 0) - (Number(r.payments_sum) || 0)),
 		0
 	);
-	return `Сальдо: ${utils.formatMoneyRu(total)}`;
+	return `Сальдо:  ${utils.formatCurrencyRu(total)}`;
 },
 
 	getPaymentsSummaryPerson() {
@@ -76,16 +76,16 @@ balanceSummaryTextVisibleEmployees() {
 	accrualsSummaryTextPerson() {
 		const s = this.getPaymentsSummaryPerson();
 		return (
-			`Безнал: ${utils.formatMoneyRu(s.cashlessAccrued)}. ` +
-			`Наличными: ${utils.formatMoneyRu(s.cashAccrued)}`
+			`Безнал: ${utils.formatCurrencyRu(s.cashlessAccrued)}. ` +
+			`Наличными: ${utils.formatCurrencyRu(s.cashAccrued)}`
 		);
 	},
 
 	paymentsSummaryTextPerson() {
 		const s = this.getPaymentsSummaryPerson();
 		return (
-			`Безналично: ${utils.formatMoneyRu(s.cashlessPaid)}. ` +
-			`Наличными: ${utils.formatMoneyRu(s.cashPaid)}`
+			`Безналично: ${utils.formatCurrencyRu(s.cashlessPaid)}. ` +
+			`Наличными: ${utils.formatCurrencyRu(s.cashPaid)}`
 		);
 	},
 

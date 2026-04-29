@@ -42,15 +42,31 @@ export default {
 
 		const advance = (base * pct) / 100;
 		// убираем .00, если копеек нет
-		const formatted = utils.formatMoneyRu(advance);
+		const formatted = utils.formatCurrencyRu(advance);
 
 		return `${formatted} ₽`;
 	},
 
-	formatMoneyRu(amount) {
+	// formatMoneyRu(amount) {
+		// const n = Number(amount) || 0;
+		// const rounded = Math.round(n * 100) / 100; // защита от float-noise
+		// return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+	// },
+
+	formatCurrencyRu(amount) {
 		const n = Number(amount) || 0;
-		const rounded = Math.round(n * 100) / 100; // защита от float-noise
-		return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+		const rounded = Math.round(n * 100) / 100;
+		const sign = rounded < 0 ? "-" : "";
+		const abs = Math.abs(rounded);
+		const integerPart = Math.trunc(abs);
+		const fraction = Math.round((abs - integerPart) * 100);
+		const integerText = String(integerPart).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+		if (fraction === 0) {
+			return `${sign}${integerText}`;
+		}
+
+		return `${sign}${integerText},${String(fraction).padStart(2, "0")}`;
 	},
 
 	async getAccrualTypesRaw() {
@@ -375,7 +391,7 @@ export default {
 		return salaryRecord;
 
 	},
-	
+
 	async refreshSelectedEmployeeSummaryFromDetails() {
 		const officeTermId = appsmith.store?.SelectedOfficeTerm?.id;
 		if (!officeTermId) return;

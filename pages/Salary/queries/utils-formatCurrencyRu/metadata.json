@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_540d2c04-529c-4851-bf1c-c18e1eb2f187",
-  "id": "Salary_utils.formatMoneyRu",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_4ce2a7de-9f50-4896-9c4e-43c45b3fc103",
+  "id": "Salary_utils.formatCurrencyRu",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -26,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.formatMoneyRu",
-    "name": "formatMoneyRu",
+    "fullyQualifiedName": "utils.formatCurrencyRu",
+    "name": "formatCurrencyRu",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
