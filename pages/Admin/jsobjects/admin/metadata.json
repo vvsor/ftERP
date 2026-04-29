@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_99453167-d088-4c0f-9a97-86948a7faa38",
+  "id": "Admin_admin",
+  "unpublishedCollection": {
+    "name": "admin",
+    "pageId": "Admin",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}
