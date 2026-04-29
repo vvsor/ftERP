@@ -63,6 +63,10 @@
     {
       "id": "Salary",
       "isDefault": false
+    },
+    {
+      "id": "Admin",
+      "isDefault": false
     }
   ],
   "staticUrlSettings": {

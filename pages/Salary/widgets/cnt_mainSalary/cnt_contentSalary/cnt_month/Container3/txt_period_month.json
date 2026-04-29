@@ -43,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 48,
   "shouldTruncate": false,
-  "text": "{{ \nmoment(appsmith.store.periodMonth)\n    .format(\"MMMM YYYY\")\n    .replace(/^(.)/, s => s.toUpperCase())\n}}",
+  "text": "{{\n(() => {\n\tconst months = [\n\t\t\"Январь\", \"Февраль\", \"Март\", \"Апрель\",\n\t\t\"Май\", \"Июнь\", \"Июль\", \"Август\",\n\t\t\"Сентябрь\", \"Октябрь\", \"Ноябрь\", \"Декабрь\"\n\t];\n\n\tconst date = moment(appsmith.store.periodMonth);\n\tif (!date.isValid()) return \"\";\n\n\treturn `${months[date.month()]} ${date.year()}`;\n})()\n}}",
   "textAlign": "CENTER",
   "textColor": "#231F20",
   "topRow": 0,
