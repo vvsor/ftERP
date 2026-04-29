@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_01cb4fda-670b-4b24-8771-a1ed142b362b",
+  "id": "HR_items",
+  "unpublishedCollection": {
+    "name": "items",
+    "pageId": "HR",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "refreshPromise",
+        "value": "null"
+      },
+      {
+        "name": "authFailureHandled",
+        "value": "false"
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_e24fe81e-2e0f-4f1a-b56e-fa3acd046c55",
+  "id": "HR_auth",
+  "unpublishedCollection": {
+    "name": "auth",
+    "pageId": "HR",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

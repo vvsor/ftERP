@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_1e90747c-7fd8-44ed-bd8f-2152f8c6e5ed",
+  "id": "HR_autosave",
+  "unpublishedCollection": {
+    "name": "autosave",
+    "pageId": "HR",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "DEBOUNCE_DELAY",
+        "value": "2000"
+      },
+      {
+        "name": "debouncedSaveFn",
+        "value": "null"
+      }
+    ]
+  }
+}
