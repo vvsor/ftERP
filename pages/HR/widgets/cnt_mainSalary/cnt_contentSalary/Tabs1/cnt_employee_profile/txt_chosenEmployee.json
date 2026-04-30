@@ -43,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 49,
   "shouldTruncate": false,
-  "text": "Профиль: {{\ntbl_employees.selectedRow.employee\n}}",
+  "text": "Профиль: {{ appsmith.store?.hrSelectedPosition?.employee || \"Вакансия\" }}\n",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,

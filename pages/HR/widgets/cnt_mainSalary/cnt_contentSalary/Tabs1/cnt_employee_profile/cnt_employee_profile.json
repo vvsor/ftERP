@@ -74,7 +74,7 @@
   "mobileRightColumn": 58,
   "mobileTopRow": 10,
   "needsErrorInfo": false,
-  "originalBottomRow": 40,
+  "originalBottomRow": 30,
   "originalTopRow": 0,
   "parentColumnSpace": 16.3505859375,
   "parentId": "9rjehi94s4",
@@ -87,5 +87,5 @@
   "type": "CONTAINER_WIDGET",
   "version": 1,
   "widgetId": "nh4pvdpca3",
-  "widgetName": "Container1"
+  "widgetName": "cnt_employee_profile"
 }

@@ -7,27 +7,28 @@ export default {
 
 	async tbl_positions_onRowSelected() {
 		const row = tbl_positions.selectedRow;
+
 		if (!row?.id) {
+			await storeValue("hrSelectedPosition", null, true);
+			await storeValue("hrOfficeTermHistoryRows", [], false);
 			return;
 		}
 
-		if (appsmith.store?.salaryReady === false) {
+		await storeValue("hrSelectedPosition", row, true);
+
+		if (!row.user_id) {
+			await storeValue("hrOfficeTermHistoryRows", [], false);
 			return;
 		}
 
-		const current = appsmith.store?.SelectedOfficeTerm;
-		if (current?.id === row.id && appsmith.store?.salaryOfPeriod?.id) {
-			return;
-		}
-
-		await storeValue("salaryReady", false, true);
-		await hr.setSelectedOfficeTerm(row);
+		await utils.getOfficeTermHistoryByUser(row.user_id);
 	},
+
 
 	async setSelectedOfficeTerm(officeTerm){
 		return await storeValue("SelectedOfficeTerm", officeTerm, true);
 	},
-	
+
 	async sel_chooseBranch_OptionChanged() {
 		const branchId = sel_chooseBranch.selectedOptionValue || "";
 		const previousBranchId = appsmith.store?.hrSelectedBranchId || "";
@@ -37,7 +38,17 @@ export default {
 		}
 
 		await storeValue("hrSelectedBranchId", branchId, true);
-		await utils.getPositionsByBranch();
+		const rows = await utils.getPositionsByBranch();
+		const selectedPosition = rows[0] || null;
+
+		await storeValue("hrSelectedPosition", selectedPosition, true);
+
+		if (selectedPosition?.user_id) {
+			await utils.getOfficeTermHistoryByUser(selectedPosition.user_id);
+		} else {
+			await storeValue("hrOfficeTermHistoryRows", [], false);
+		}
+
 	},
 
 	async initHR(){
@@ -65,7 +76,17 @@ export default {
 
 			if (selectedBranchId) {
 				await storeValue("hrSelectedBranchId", selectedBranchId, true);
-				await utils.getPositionsByBranch();
+				const rows = await utils.getPositionsByBranch();
+				const selectedPosition = rows[0] || null;
+
+				await storeValue("hrSelectedPosition", selectedPosition, true);
+
+				if (selectedPosition?.user_id) {
+					await utils.getOfficeTermHistoryByUser(selectedPosition.user_id);
+				} else {
+					await storeValue("hrOfficeTermHistoryRows", [], false);
+				}
+
 			} else {
 				await storeValue("hrPositionRows", [], false);
 			}

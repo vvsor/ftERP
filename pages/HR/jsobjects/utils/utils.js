@@ -154,6 +154,69 @@ export default {
 			value: x.id,
 		}));
 	},
+	async getOfficeTermHistoryByUser(userId, { commitToStore = true } = {}) {
+		if (!userId) {
+			if (commitToStore) await storeValue("hrOfficeTermHistoryRows", [], false);
+			return [];
+		}
+
+		const today = moment().format("YYYY-MM-DD");
+
+		const response = await items.getItems({
+			collection: "office_term",
+			fields: [
+				"id",
+				"date_from",
+				"date_till",
+				"user_id.id",
+				"user_id.first_name",
+				"user_id.last_name",
+				"position_id.id",
+				"position_id.title_id.title",
+				"position_id.branch_id.id",
+				"position_id.branch_id.name"
+			].join(","),
+			filter: {
+				user_id: { id: { _eq: userId } }
+			},
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.map((row) => {
+			const position = row?.position_id || {};
+			const isCurrent =
+						(!row.date_from || row.date_from <= today) &&
+						(!row.date_till || row.date_till >= today);
+
+			return {
+				id: row.id,
+				office_term_id: row.id,
+				user_id: row?.user_id?.id || userId,
+				employee: utils.formatUserName(row?.user_id),
+				position_id: position?.id || null,
+				title: position?.title_id?.title || "",
+				branch_id: position?.branch_id?.id || null,
+				branch_name: position?.branch_id?.name || "",
+				date_from: row.date_from || null,
+				date_till: row.date_till || null,
+				date_from_display: row.date_from ? moment(row.date_from).format("DD.MM.YYYY") : "",
+				date_till_display: row.date_till ? moment(row.date_till).format("DD.MM.YYYY") : "по настоящее время",
+				status: isCurrent ? "Сейчас" : "История",
+				is_current: isCurrent
+			};
+		})
+		.sort((a, b) => {
+			if (a.is_current !== b.is_current) return a.is_current ? -1 : 1;
+			return String(b.date_from || "").localeCompare(String(a.date_from || ""));
+		});
+
+		if (commitToStore) {
+			await storeValue("hrOfficeTermHistoryRows", rows, false);
+		}
+
+		return rows;
+	},
 
 	formatUserName(user) {
 		if (!user) return "";
