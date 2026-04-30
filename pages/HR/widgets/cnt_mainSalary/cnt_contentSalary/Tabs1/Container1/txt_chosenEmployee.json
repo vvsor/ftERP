@@ -37,19 +37,19 @@
   "originalTopRow": 0,
   "overflow": "NONE",
   "parentColumnSpace": 16.6630859375,
-  "parentId": "qea5e6g59l",
+  "parentId": "o4t1vkeps7",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
   "rightColumn": 49,
   "shouldTruncate": false,
-  "text": "Профиль: {{\ntbl_positions.selectedRow.employee\n}}",
+  "text": "Профиль: {{\ntbl_employees.selectedRow.employee\n}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "nb6sxsim5q",
-  "widgetName": "Text2"
+  "widgetId": "7qmc3ekm8o",
+  "widgetName": "txt_chosenEmployee"
 }

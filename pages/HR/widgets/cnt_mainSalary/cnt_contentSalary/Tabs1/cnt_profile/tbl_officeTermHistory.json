@@ -81,7 +81,7 @@
   "primaryColumns": {},
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 62,
+  "rightColumn": 64,
   "searchKey": "",
   "tableData": "",
   "textSize": "0.875rem",
@@ -91,5 +91,5 @@
   "version": 2,
   "verticalAlignment": "CENTER",
   "widgetId": "3ao9csud8f",
-  "widgetName": "tbl_p"
+  "widgetName": "tbl_officeTermHistory"
 }

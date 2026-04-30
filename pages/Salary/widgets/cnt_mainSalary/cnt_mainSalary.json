@@ -72,7 +72,7 @@
   "flexVerticalAlignment": "stretch",
   "isCanvas": true,
   "isLoading": false,
-  "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store?.user?.role)\n}}\n",
+  "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\",\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}\n",
   "key": "ckyhsyx49g",
   "leftColumn": 0,
   "maxDynamicHeight": 9000,

@@ -2,9 +2,9 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 5,
+  "bottomRow": 4,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store?.salarySelectedBranchId ?? \"\" ))(sel_chooseBranch.options, sel_chooseBranch.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedBranchId ?? \"\" ))(sel_chooseBranch.options, sel_chooseBranch.serverSideFiltering) }}",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {
@@ -59,17 +59,17 @@
   "originalBottomRow": 26,
   "originalTopRow": 19,
   "parentColumnSpace": 6.9375,
-  "parentId": "z2qwd83fgb",
+  "parentId": "bc3hzxuyyy",
   "parentRowSpace": 10,
   "placeholderText": "Выберите...",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 14,
+  "rightColumn": 26,
   "searchTags": [
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{ Array.isArray(appsmith.store?.salaryBranchRows) ? appsmith.store.salaryBranchRows : [] }}",
+  "sourceData": "{{ Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [] }}\n",
   "tags": [
     "Suggested",
     "Select"

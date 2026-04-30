@@ -5,7 +5,7 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
-	async tbl_employees_onRowSelected() {
+	async tbl_positions_onRowSelected() {
 		const row = tbl_positions.selectedRow;
 		if (!row?.id) {
 			return;
@@ -27,6 +27,18 @@ export default {
 	async setSelectedOfficeTerm(officeTerm){
 		return await storeValue("SelectedOfficeTerm", officeTerm, true);
 	},
+	
+	async sel_chooseBranch_OptionChanged() {
+		const branchId = sel_chooseBranch.selectedOptionValue || "";
+		const previousBranchId = appsmith.store?.hrSelectedBranchId || "";
+
+		if (String(branchId) === String(previousBranchId)) {
+			return;
+		}
+
+		await storeValue("hrSelectedBranchId", branchId, true);
+		await utils.getPositionsByBranch();
+	},
 
 	async initHR(){
 		const user = appsmith.store?.user;
@@ -47,24 +59,17 @@ export default {
 		try {
 			await items.ensureFreshToken();
 
-			const referenceDataPromise = Promise.all([
-				utils.getBranches()
-			]);
+			const branches = await utils.getBranches();
+			const selectedBranchId =
+						appsmith.store?.hrSelectedBranchId || branches?.[0]?.id || "";
 
-			const data = await utils.getOfficeTerms({ commitToStore: false });
-
-			if (data.length > 0) {
-				const selectedOfficeTerm = data[0];
-
-				await Promise.all([
-					hr.setSelectedOfficeTerm(selectedOfficeTerm)
-				]);
-
+			if (selectedBranchId) {
+				await storeValue("hrSelectedBranchId", selectedBranchId, true);
+				await utils.getPositionsByBranch();
 			} else {
-				await removeValue("SelectedOfficeTerm");
+				await storeValue("hrPositionRows", [], false);
 			}
 
-			await referenceDataPromise;
 			return;
 		} catch (error) {
 			if (error?.authHandled) return;

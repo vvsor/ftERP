@@ -1,10 +1,11 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 16,
+  "bottomRow": 35,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
-  "buttonVariant": "TERTIARY",
+  "buttonStyle": "PRIMARY_BUTTON",
+  "buttonVariant": "PRIMARY",
   "disabledWhenInvalid": false,
   "dynamicBindingPathList": [
     {
@@ -14,41 +15,30 @@
       "key": "borderRadius"
     }
   ],
-  "dynamicTriggerPathList": [
-    {
-      "key": "onClick"
-    }
-  ],
-  "iconAlign": "left",
-  "iconName": "people",
+  "dynamicTriggerPathList": [],
   "isDefaultClickDisabled": true,
   "isDisabled": false,
   "isLoading": false,
   "isVisible": true,
-  "key": "n35qezmzc6",
-  "leftColumn": 39,
+  "key": "envon1alty",
+  "leftColumn": 47,
   "minWidth": 120,
-  "mobileBottomRow": 11,
-  "mobileLeftColumn": 22,
-  "mobileRightColumn": 38,
-  "mobileTopRow": 7,
+  "mobileBottomRow": 22,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 18,
   "needsErrorInfo": false,
-  "onClick": "{{navigateTo('Clients', {}, 'SAME_WINDOW');}}",
-  "originalBottomRow": 26,
-  "originalTopRow": 22,
-  "parentColumnSpace": 17.5625,
-  "parentId": "1l6q7u6qeo",
-  "parentRowSpace": 10,
+  "parentId": "bsayexur5m",
   "placement": "CENTER",
   "recaptchaType": "V3",
   "renderMode": "CANVAS",
   "resetFormOnClick": false,
   "responsiveBehavior": "hug",
-  "rightColumn": 47,
-  "text": "Клиенты",
-  "topRow": 12,
+  "rightColumn": 64,
+  "text": "Добавить",
+  "topRow": 31,
   "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "0tuxionxvd",
-  "widgetName": "btn_clients"
+  "widgetId": "c7ip4jkjtj",
+  "widgetName": "Button2"
 }

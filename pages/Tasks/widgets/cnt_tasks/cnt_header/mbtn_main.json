@@ -22,11 +22,17 @@
     },
     {
       "key": "menuItems.menuItem65tkw9ll6l.isVisible"
+    },
+    {
+      "key": "menuItems.menuItemzcaizm9j1e.isVisible"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "menuItems.menuItem65tkw9ll6l.isVisible"
+    },
+    {
+      "key": "menuItems.menuItemzcaizm9j1e.isVisible"
     }
   ],
   "dynamicTriggerPathList": [
@@ -47,6 +53,9 @@
     },
     {
       "key": "menuItems.menuItemk37rpnjs3i.onClick"
+    },
+    {
+      "key": "menuItems.menuItemzcaizm9j1e.onClick"
     }
   ],
   "iconAlign": "left",
@@ -75,7 +84,7 @@
       "iconAlign": "right",
       "iconName": "log-out",
       "id": "menuItem3",
-      "index": 6,
+      "index": 7,
       "isDisabled": false,
       "isVisible": true,
       "label": "Выйти",
@@ -88,7 +97,7 @@
       "id": "menuItem65tkw9ll6l",
       "index": 3,
       "isDisabled": false,
-      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store?.user?.role)\n}}",
+      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\",\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
       "label": "Зарплата",
       "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
       "widgetId": "6fuzk32n92"
@@ -97,7 +106,7 @@
       "iconAlign": "right",
       "iconName": "globe-network",
       "id": "menuItem70uputj26a",
-      "index": 4,
+      "index": 5,
       "isDisabled": false,
       "isVisible": true,
       "label": "fastrans.ru",
@@ -106,7 +115,7 @@
     },
     "menuItemfm1y0hegwu": {
       "iconAlign": "right",
-      "iconName": "people",
+      "iconName": "cube",
       "id": "menuItemfm1y0hegwu",
       "index": 2,
       "isDisabled": false,
@@ -119,7 +128,7 @@
       "iconAlign": "right",
       "iconName": "resolve",
       "id": "menuItemk37rpnjs3i",
-      "index": 5,
+      "index": 6,
       "isDisabled": false,
       "isVisible": true,
       "label": "logix",
@@ -135,6 +144,17 @@
       "isVisible": true,
       "label": "CRM",
       "widgetId": "qd5n7frtgb"
+    },
+    "menuItemzcaizm9j1e": {
+      "iconAlign": "right",
+      "iconName": "people",
+      "id": "menuItemzcaizm9j1e",
+      "index": 4,
+      "isDisabled": false,
+      "isVisible": "{{ \n  [\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
+      "label": "HR",
+      "onClick": "{{navigateTo('HR', {}, 'SAME_WINDOW');}}",
+      "widgetId": "9a6bqhqilr"
     }
   },
   "menuItemsSource": "STATIC",

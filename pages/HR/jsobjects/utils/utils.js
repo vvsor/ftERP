@@ -4,171 +4,101 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
-	async getOfficeTerms({ commitToStore = true } = {}) {
-		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
-		const periodMonth = appsmith.store?.periodMonth;
-
-
-		const officeFilter = branchId
-		? { position_id: { branch_id: { id: { _eq: branchId } } } }
-		: {};
-
-		const officeRes = await items.getItems({
-			collection: "office_term",
-			fields: [
-				"id",
-				"user_id",
-				"user_id.id",
-				"user_id.first_name",
-				"user_id.last_name",
-				"position_id",
-				"position_id.title_id.title",
-				"position_id.branch_id.id",
-				"position_id.branch_id.name"
-			].join(","),
-			filter: officeFilter,
-			limit: -1
-		});
-
-		const contacts = (officeRes.data || [])
-		.map((item) => {
-			const rawUser = item?.user_id;
-
-			const user = typeof rawUser === "string"
-			? { id: rawUser }
-			: rawUser;
-
-			const position = item?.position_id;
-			const branch = position?.branch_id;
-
-			if (!item?.id || !user?.id) {
-				console.warn("Skipping malformed office_term", item);
-				return null;
-			}
-
-			const firstInitial = user.first_name?.[0] ? ` ${user.first_name[0]}.` : "";
-
-			return {
-				id: item.id,
-				user_id: user.id,
-				employee: `${user.last_name || ""}${firstInitial}`.trim(),
-				title: position?.title_id?.title ?? "—",
-				branch_id: branch?.id ?? null,
-				branch_name: branch?.name ?? "—"
-			};
-		})
-		.filter(Boolean);
-
-		const commitRows = async (rows) => {
-			if (commitToStore) {
-				await storeValue("salaryEmployeeRows", rows, false);
-			}
-			return rows;
-		};
-
-		const officeTermIds = contacts.map((x) => x.id);
-		if (!periodMonth || officeTermIds.length === 0) {
-			await storeValue("salaryByOfficeTermId", {}, false);
-			return await commitRows(
-				contacts.map((x) => ({ ...x, accruals_sum: 0, payments_sum: 0, balance: 0 }))
-			);
+	async getPositionsByBranch({ commitToStore = true } = {}) {
+		const branchId = appsmith.store?.hrSelectedBranchId;
+		if (!branchId) {
+			if (commitToStore) await storeValue("hrPositionRows", [], false);
+			return [];
 		}
 
+		const today = moment().format("YYYY-MM-DD");
 
-		const salaryRes = await items.getItems({
-			collection: "salary",
-			fields: [
-				"*",
-				"office_term_id.id"
-			].join(","),
-			filter: {
-				_and: [
-					{ period_month: { _eq: periodMonth } },
-					{ office_term_id: { id: { _in: officeTermIds } } }
-				]
-			},
-			limit: -1
-		});
-
-		const salaries = salaryRes.data || [];
-		const getSalaryOfficeTermId = (s) => s?.office_term_id?.id ?? s?.office_term_id;
-
-		const salaryByOfficeTermId = Object.fromEntries(
-			salaries
-			.map((s) => [getSalaryOfficeTermId(s), s])
-			.filter(([officeTermId]) => officeTermId != null)
-		);
-
-		await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
-
-		const salaryIds = salaries.map((s) => s.id).filter(Boolean);
-		const officeBySalary = new Map(
-			salaries.map((s) => [s.id, getSalaryOfficeTermId(s)])
-		);
-
-		if (salaryIds.length === 0) {
-			await storeValue("salaryByOfficeTermId", {}, false);
-			return await commitRows(
-				contacts.map((c) => ({
-					...c,
-					accruals_sum: 0,
-					payments_sum: 0,
-					balance: 0
-				}))
-			);
-		}
-
-		const [accrRes, payRes] = await Promise.all([
+		const [positionsRes, officeTermsRes] = await Promise.all([
 			items.getItems({
-				collection: "salary_accruals",
-				fields: "salary_id.id,amount",
+				collection: "positions",
+				fields: [
+					"id",
+					"title_id.title",
+					"branch_id.id",
+					"branch_id.name"
+				].join(","),
 				filter: {
-					_and: [
-						{ salary_id: { id: { _in: salaryIds } } },
-						{ deleted_at: { _null: true } }
-					]
+					branch_id: { id: { _eq: branchId } }
 				},
 				limit: -1
 			}),
 			items.getItems({
-				collection: "salary_payments",
-				fields: "salary_id.id,amount",
+				collection: "office_term",
+				fields: [
+					"id",
+					"date_from",
+					"date_till",
+					"user_id.id",
+					"user_id.first_name",
+					"user_id.last_name",
+					"position_id.id"
+				].join(","),
 				filter: {
 					_and: [
-						{ salary_id: { id: { _in: salaryIds } } },
-						{ deleted_at: { _null: true } }
+						{ position_id: { branch_id: { id: { _eq: branchId } } } },
+						{ date_from: { _lte: today } },
+						{
+							_or: [
+								{ date_till: { _null: true } },
+								{ date_till: { _gte: today } }
+							]
+						}
 					]
 				},
 				limit: -1
 			})
 		]);
 
-		const accrByOffice = {};
-		for (const r of (accrRes.data || [])) {
-			const officeId = officeBySalary.get(r.salary_id?.id);
-			if (!officeId) continue;
-			accrByOffice[officeId] = (accrByOffice[officeId] || 0) + (Number(r.amount) || 0);
-		}
+		const employeeByPositionId = {};
 
-		const payByOffice = {};
-		for (const r of (payRes.data || [])) {
-			const officeId = officeBySalary.get(r.salary_id?.id);
-			if (!officeId) continue;
-			payByOffice[officeId] = (payByOffice[officeId] || 0) + (Number(r.amount) || 0);
-		}
+		for (const row of (officeTermsRes.data || [])) {
+			const positionId = row?.position_id?.id ?? row?.position_id;
+			const user = row?.user_id;
 
-		return await commitRows(
-			contacts.map((c) => {
-				const accruals_sum = accrByOffice[c.id] || 0;
-				const payments_sum = payByOffice[c.id] || 0;
-				return {
-					...c,
-					accruals_sum,
-					payments_sum,
-					balance: accruals_sum - payments_sum
+			if (!positionId || !user?.id) continue;
+
+			const current = employeeByPositionId[positionId];
+			const currentDate = current?.date_from || "";
+			const nextDate = row.date_from || "";
+
+			if (!current || nextDate > currentDate) {
+				employeeByPositionId[positionId] = {
+					office_term_id: row.id,
+					user_id: user.id,
+					employee: utils.formatUserName(user),
+					date_from: row.date_from,
+					date_till: row.date_till
 				};
-			})
-		);
+			}
+		}
+
+		const rows = (positionsRes.data || [])
+		.map((position) => {
+			const employee = employeeByPositionId[position.id] || {};
+			return {
+				id: position.id,
+				title: position.title_id?.title || "",
+				employee: employee.employee || "",
+				user_id: employee.user_id || null,
+				office_term_id: employee.office_term_id || null,
+				date_from: employee.date_from || null,
+				date_till: employee.date_till || null,
+				branch_id: position.branch_id?.id ?? branchId,
+				branch_name: position.branch_id?.name || ""
+			};
+		})
+		.sort((a, b) => a.title.localeCompare(b.title));
+
+		if (commitToStore) {
+			await storeValue("hrPositionRows", rows, false);
+		}
+
+		return rows;
 	},
 
 	async getBranches() {
@@ -186,7 +116,7 @@ export default {
 			const allBranches = response.data || [];
 			allBranches.sort((a, b) => a.name.localeCompare(b.name));
 
-			await storeValue("salaryBranchRows", allBranches, true);
+			await storeValue("hrBranchRows", allBranches, true);
 			return allBranches;
 		} catch (error) {
 			console.error("Error in all task processing:", error);
