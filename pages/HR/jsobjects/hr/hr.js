@@ -196,9 +196,10 @@ export default {
 		closeModal(mdl_addEditEmployee.name);
 		await utils.getPositionsByBranch();
 	},
-	async savePositionTitleRow() {
-		const row = tbl_position_titles.isAddRowInProgress ? tbl_position_titles.newRow : (tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow);
-		const body = { title: row.title?.trim() || "" };
+
+	async savePositionTitleRow(rowParam = null) {
+		const row = rowParam || (tbl_position_titles.isAddRowInProgress ? tbl_position_titles.newRow : (tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow || tbl_position_titles.selectedRow));
+		const body = { title: row?.title?.trim?.() || "" };
 		if (!body.title) return showAlert("Укажите название должности", "warning");
 
 		if (tbl_position_titles.isAddRowInProgress) await items.createItems({ collection: "position_titles", body });
@@ -215,7 +216,8 @@ export default {
 					 ? tbl_cities.newRow
 					 : (tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow || tbl_cities.selectedRow));
 
-		const name = row?.name?.trim?.() || row?.city?.trim?.() || "";
+		console.log("ROW: ", row);
+		const name = row?.name?.trim?.() || "";
 		const body = { name };
 
 		if (!body.name) return showAlert("Укажите город", "warning");
@@ -252,12 +254,12 @@ export default {
 
 		const selectedPosition = appsmith.store?.hrSelectedPosition;
 		if (String(selectedPosition?.office_term_id) === String(officeTermId)) {
-			const updatedPosition = { ...selectedPosition, comment };
+			const updatedPosition = { ...selectedPosition, office_term_comment: comment };
 			await storeValue("hrSelectedPosition", updatedPosition, true);
 
 			const rows = (appsmith.store?.hrPositionRows || []).map((item) =>
 																															String(item.office_term_id) === String(officeTermId)
-																															? { ...item, comment }
+																															? { ...item, office_term_comment: comment }
 																															: item
 																														 );
 			await storeValue("hrPositionRows", rows, false);
@@ -267,11 +269,11 @@ export default {
 		showAlert("Комментарий назначения сохранен", "success");
 	},
 
-	async saveBranchRow() {
-		const row = tbl_branches.isAddRowInProgress ? tbl_branches.newRow : (tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow);
+	async saveBranchRow(rowParam = null) {
+		const row = rowParam || (tbl_branches.isAddRowInProgress ? tbl_branches.newRow : (tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow || tbl_branches.selectedRow));
 		const body = {
-			name: row.name?.trim() || "",
-			city_id: row.city_id || null
+			name: row?.name?.trim?.() || "",
+			city_id: row?.city_id || null
 		};
 		if (!body.name) return showAlert("Укажите подразделение", "warning");
 
@@ -282,7 +284,7 @@ export default {
 		await utils.getBranchDirectoryRows();
 		showAlert("Подразделение сохранено", "success");
 	},
-	
+
 	async openPositionModal(mode = "add", row = null) {
 		const isEdit = mode === "edit";
 		const sourceRow = row || (isEdit ? (tbl_positions.triggeredRow || tbl_positions.selectedRow) : null);

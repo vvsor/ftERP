@@ -48,7 +48,7 @@
   "resetFormOnClick": false,
   "responsiveBehavior": "hug",
   "rightColumn": 63,
-  "text": "{{ appsmith.store?.hrEmployeeModalMode === \"edit\" ? \"Сохранить изменения\" : \"Добавить должность\" }}",
+  "text": "{{ appsmith.store?.hrPositionModalMode === \"edit\" ? \"Сохранить изменения\" : \"Добавить должность\" }}",
   "topRow": 29,
   "type": "BUTTON_WIDGET",
   "version": 1,

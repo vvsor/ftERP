@@ -93,9 +93,6 @@
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
     },
     {
-      "key": "primaryColumns.name.onSubmit"
-    },
-    {
       "key": "primaryColumns.EditActions1.onSave"
     },
     {
@@ -134,7 +131,7 @@
   "mobileRightColumn": 37,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "onAddNewRowSave": "{{hr.saveCityRow(tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow);}}",
+  "onAddNewRowSave": "{{hr.saveCityRow(tbl_cities.newRow);}}",
   "parentColumnSpace": 3.264190673828125,
   "parentId": "ex8g7sr7rh",
   "parentRowSpace": 10,
@@ -169,7 +166,7 @@
       "isVisible": true,
       "label": "Save / Discard",
       "notation": "standard",
-      "onSave": "{{\nhr.saveCityRow()\n}}",
+      "onSave": "{{hr.saveCityRow(tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow);}}",
       "originalId": "EditActions1",
       "saveActionLabel": "Сохранить",
       "saveBorderRadius": "{{tbl_cities.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
@@ -239,7 +236,7 @@
       "isVisible": true,
       "label": "Город",
       "notation": "standard",
-      "onSubmit": "{{hr.saveCityRow();}}",
+      "onSubmit": "",
       "originalId": "name",
       "sticky": "",
       "textColor": "",
