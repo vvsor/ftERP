@@ -44,9 +44,10 @@
     "email",
     "role",
     "office_term_ids",
-    "position_ids"
+    "position_ids",
+    "branch_ids"
   ],
-  "columnUpdatedAt": 1778770557908,
+  "columnUpdatedAt": 1778785077892,
   "columnWidthMap": {
     "branch": 321,
     "branch_name": 234,
@@ -120,6 +121,9 @@
     },
     {
       "key": "primaryColumns.position_ids.computedValue"
+    },
+    {
+      "key": "primaryColumns.branch_ids.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -170,6 +174,40 @@
   "parentId": "nb5orct8am",
   "parentRowSpace": 10,
   "primaryColumns": {
+    "branch_ids": {
+      "alias": "branch_ids",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"branch_ids\"])) : branch_ids })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "branch_ids",
+      "index": 12,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "branch_ids",
+      "notation": "standard",
+      "originalId": "branch_ids",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
     "branch_name": {
       "alias": "branch_name",
       "allowCellWrapping": false,
@@ -623,7 +661,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 64,
   "searchKey": "",
-  "tableData": "{{ Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : [] }}",
+  "tableData": "{{(() => {\n  const rows = Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : [];\n  const branchId = sel_chooseBranchEmployee.selectedOptionValue || \"\";\n  if (!branchId) return rows;\n  return rows.filter((row) => (row.branch_ids || []).some((id) => String(id) === String(branchId)));\n})()}}\n",
   "textSize": "0.875rem",
   "topRow": 4,
   "totalRecordsCount": 0,

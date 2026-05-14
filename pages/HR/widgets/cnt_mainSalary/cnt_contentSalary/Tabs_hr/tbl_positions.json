@@ -48,14 +48,13 @@
     "email",
     "role",
     "comment",
-    "office_term_comment",
     "position_title_id",
     "supervisor_position_id",
     "supervisor_title",
     "supervisor_employee",
     "supervisor_display"
   ],
-  "columnUpdatedAt": 1778773170424,
+  "columnUpdatedAt": 1778785072598,
   "columnWidthMap": {
     "branch": 321,
     "customColumn1": 60,
@@ -138,9 +137,6 @@
     },
     {
       "key": "primaryColumns.comment.computedValue"
-    },
-    {
-      "key": "primaryColumns.office_term_comment.computedValue"
     },
     {
       "key": "primaryColumns.position_title_id.computedValue"
@@ -615,40 +611,6 @@
       "label": "middle_name",
       "notation": "standard",
       "originalId": "middle_name",
-      "sticky": "",
-      "textColor": "",
-      "textSize": "0.875rem",
-      "thousandSeparator": true,
-      "validation": {},
-      "verticalAlignment": "CENTER",
-      "width": 150
-    },
-    "office_term_comment": {
-      "alias": "office_term_comment",
-      "allowCellWrapping": false,
-      "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
-      "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_positions.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"office_term_comment\"])) : office_term_comment })()}}",
-      "currencyCode": "USD",
-      "decimals": 0,
-      "enableFilter": true,
-      "enableSort": true,
-      "fontStyle": "",
-      "horizontalAlignment": "LEFT",
-      "id": "office_term_comment",
-      "index": 13,
-      "isCellEditable": false,
-      "isCellVisible": true,
-      "isDerived": false,
-      "isDisabled": false,
-      "isDiscardVisible": true,
-      "isEditable": false,
-      "isSaveVisible": true,
-      "isVisible": true,
-      "label": "office_term_comment",
-      "notation": "standard",
-      "originalId": "office_term_comment",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

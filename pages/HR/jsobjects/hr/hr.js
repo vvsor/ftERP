@@ -76,7 +76,7 @@ export default {
 	},
 
 	async sel_chooseBranch_OptionChanged(branchIdParam) {
-		const branchId = branchIdParam || sel_chooseBranch.selectedOptionValue || "";
+		const branchId = branchIdParam ?? sel_chooseBranch.selectedOptionValue ?? "";
 		const previousBranchId = appsmith.store?.hrSelectedBranchId || "";
 
 		if (String(branchId) === String(previousBranchId)) return;
@@ -85,15 +85,8 @@ export default {
 	},
 
 	async refreshHrBranch(branchId, { keepSelection = true } = {}) {
-		if (!branchId) {
-			await storeValue("hrSelectedBranchId", "", true);
-			await storeValue("hrPositionRows", [], false);
-			await storeValue("hrSelectedPosition", null, true);
-			await storeValue("hrOfficeTermHistoryRows", [], false);
-			return [];
-		}
-
-		await storeValue("hrSelectedBranchId", branchId, true);
+		const branchIdValue = branchId ?? "";
+		await storeValue("hrSelectedBranchId", branchIdValue, true);
 
 		const previousPositionId = appsmith.store?.hrSelectedPosition?.id;
 		const rows = await utils.getPositionsByBranch();
@@ -122,7 +115,7 @@ export default {
 				await utils.loadDictionaries();
 				await utils.getBranches();
 
-				const branchId = sel_chooseBranch.selectedOptionValue || appsmith.store?.hrSelectedBranchId || "";
+				const branchId = sel_chooseBranch.selectedOptionValue ?? appsmith.store?.hrSelectedBranchId ?? "";
 				await this.refreshHrBranch(branchId);
 
 				if (showAlert) showAlert("Должности обновлены", "success");
@@ -173,9 +166,8 @@ export default {
 			await items.ensureFreshToken();
 			await utils.loadDictionaries();
 
-			const branches = await utils.getBranches();
-			const selectedBranchId =
-						appsmith.store?.hrSelectedBranchId || branches?.[0]?.id || "";
+			await utils.getBranches();
+			const selectedBranchId = appsmith.store?.hrSelectedBranchId ?? "";
 
 			if (selectedBranchId) {
 				await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
@@ -486,9 +478,12 @@ export default {
 				});
 			}
 
+			resetWidget("tbl_officeTermHistory", true);
+			await Promise.all([
+				this.refreshPositionsPage({ showAlert: false }),
+				this.refreshEmployeesPage({ showAlert: false })
+			]);
 			await utils.getOfficeTermHistoryByUser(body.user_id);
-			await this.refreshPositionsPage({ showAlert: false });
-			await this.refreshEmployeesPage({ showAlert: false });
 
 			showAlert("Назначение сохранено", "success");
 		} catch (error) {

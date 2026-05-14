@@ -33,6 +33,8 @@
   "mobileTopRow": 18,
   "needsErrorInfo": false,
   "onClick": "{{closeModal(mdl_Position.name);}}",
+  "originalBottomRow": 35,
+  "originalTopRow": 31,
   "parentId": "bsayexur5m",
   "placement": "CENTER",
   "recaptchaType": "V3",

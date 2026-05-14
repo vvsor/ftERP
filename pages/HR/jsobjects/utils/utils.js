@@ -5,13 +5,22 @@ export default {
 	/// ============== end of test block ===============
 
 	async getPositionsByBranch({ commitToStore = true } = {}) {
-		const branchId = appsmith.store?.hrSelectedBranchId;
-		if (!branchId) {
-			if (commitToStore) await storeValue("hrPositionRows", [], false);
-			return [];
-		}
-
+		const branchId = appsmith.store?.hrSelectedBranchId || "";
 		const today = moment().format("YYYY-MM-DD");
+
+		const positionFilter = branchId ? { branch_id: { id: { _eq: branchId } } } : {};
+		const officeTermsFilter = {
+			_and: [
+				...(branchId ? [{ position_id: { branch_id: { id: { _eq: branchId } } } }] : []),
+				{ date_from: { _lte: today } },
+				{
+					_or: [
+						{ date_till: { _null: true } },
+						{ date_till: { _gte: today } }
+					]
+				}
+			]
+		};
 
 		const [positionsRes, officeTermsRes] = await Promise.all([
 			items.getItems({
@@ -26,9 +35,7 @@ export default {
 					"supervisor_position_id.position_title_id.title",
 					"comment"
 				].join(","),
-				filter: {
-					branch_id: { id: { _eq: branchId } }
-				},
+				filter: positionFilter,
 				limit: -1
 			}),
 			items.getItems({
@@ -46,18 +53,7 @@ export default {
 					"user_id.role",
 					"position_id.id"
 				].join(","),
-				filter: {
-					_and: [
-						{ position_id: { branch_id: { id: { _eq: branchId } } } },
-						{ date_from: { _lte: today } },
-						{
-							_or: [
-								{ date_till: { _null: true } },
-								{ date_till: { _gte: today } }
-							]
-						}
-					]
-				},
+				filter: officeTermsFilter,
 				limit: -1
 			})
 		]);
@@ -85,8 +81,7 @@ export default {
 					email: user.email || "",
 					role: user.role?.id ?? user.role ?? "",
 					date_from: row.date_from,
-					date_till: row.date_till,
-					office_term_comment: row.comment || ""
+					date_till: row.date_till
 				};
 			}
 		}
@@ -113,18 +108,19 @@ export default {
 				date_from: employee.date_from || null,
 				date_till: employee.date_till || null,
 				comment: position.comment || "",
-				office_term_comment: employee.office_term_comment || "",
-				branch_id: position.branch_id?.id ?? branchId,
+				branch_id: position.branch_id?.id ?? null,
 				branch_name: position.branch_id?.name || "",
 				position_title_id: position.position_title_id?.id ?? position.position_title_id ?? null,
 				supervisor_position_id: supervisorPositionId,
 				supervisor_title: supervisorTitle,
 				supervisor_employee: supervisorEmployee.employee || "",
-				supervisor_display: [supervisorTitle, supervisorEmployee.employee].filter(Boolean).join(" - "),
-
+				supervisor_display: [supervisorTitle, supervisorEmployee.employee].filter(Boolean).join(" - ")
 			};
 		})
-		.sort((a, b) => a.title.localeCompare(b.title));
+		.sort((a, b) => {
+			const branchCompare = String(a.branch_name || "").localeCompare(String(b.branch_name || ""));
+			return branchCompare || String(a.title || "").localeCompare(String(b.title || ""));
+		});
 
 		if (commitToStore) {
 			await storeValue("hrPositionRows", rows, false);
@@ -181,6 +177,7 @@ export default {
 			const terms = termsByUserId[user.id] || [];
 			const titles = terms.map((term) => term?.position_id?.position_title_id?.title).filter(Boolean);
 			const branches = terms.map((term) => term?.position_id?.branch_id?.name).filter(Boolean);
+			const branchIds = terms.map((term) => term?.position_id?.branch_id?.id ?? term?.position_id?.branch_id).filter(Boolean);
 
 			return {
 				id: user.id,
@@ -194,7 +191,8 @@ export default {
 				title: titles.join(", "),
 				branch_name: branches.join(", "),
 				office_term_ids: terms.map((term) => term.id),
-				position_ids: terms.map((term) => term?.position_id?.id ?? term?.position_id).filter(Boolean)
+				position_ids: terms.map((term) => term?.position_id?.id ?? term?.position_id).filter(Boolean),
+				branch_ids: [...new Set(branchIds)]
 			};
 		}).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
 
@@ -273,6 +271,7 @@ export default {
 				"comment",
 				"user_id.id",
 				"user_id.first_name",
+				"user_id.middle_name",
 				"user_id.last_name",
 				"position_id.id",
 				"position_id.position_title_id.title",
@@ -324,9 +323,10 @@ export default {
 
 	formatUserName(user) {
 		if (!user) return "";
-		const last = user.last_name;
-		const first = user.first_name?.[0];
-		return `${last} ${first}.`;
+		const last = user.last_name || "";
+		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
+		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
+		return [last, [first, middle].filter(Boolean).join(" ")].filter(Boolean).join(" ").trim();
 	},
 
 	async loadDictionaries() {

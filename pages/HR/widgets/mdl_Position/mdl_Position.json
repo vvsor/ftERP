@@ -64,6 +64,7 @@
   "leftColumn": 4,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 24,
+  "minHeight": 370,
   "mobileBottomRow": 40,
   "mobileLeftColumn": 4,
   "mobileRightColumn": 28,
