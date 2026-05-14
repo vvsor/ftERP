@@ -199,7 +199,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Сальдо",
+      "label": "К выплате",
       "notation": "standard",
       "originalId": "balance",
       "sticky": "",

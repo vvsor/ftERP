@@ -226,7 +226,7 @@
       "isSaveDisabled": false,
       "isSaveVisible": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( tbl_salaryPayments.tableData.length ? tbl_salaryPayments.updatedRowIndices.includes(currentIndex) || false : false )) :  tbl_salaryPayments.tableData.length ? tbl_salaryPayments.updatedRowIndices.includes(currentIndex) || false : false  })()}}",
       "isVisible": true,
-      "label": "Save",
+      "label": "Сохранить",
       "notation": "standard",
       "onSave": "{{\npayments.updateSalaryPayment (tbl_salaryPayments.updatedRows[0])\n}}",
       "originalId": "EditActions1",
@@ -417,7 +417,7 @@
       "width": 150
     },
     "customColumn1": {
-      "alias": "Del",
+      "alias": "Удалить",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "buttonColor": "{{tbl_salaryPayments.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
@@ -442,7 +442,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Del",
+      "label": "Удалить",
       "labelColor": "#FFFFFF",
       "menuItemsSource": "STATIC",
       "notation": "standard",

@@ -24,7 +24,7 @@ export default {
 
 			const params = {
 				fields: fields,
-				collection: "office_term",
+				collection: "office_terms",
 			};
 			const response = await items.getItems(params);
 

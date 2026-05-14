@@ -28,7 +28,7 @@ export default {
 				limit: -1
 			}),
 			items.getItems({
-				collection: "office_term",
+				collection: "office_terms",
 				fields: [
 					"id",
 					"date_from",

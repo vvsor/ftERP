@@ -52,7 +52,7 @@ export default {
 			(s, r) => s + ((Number(r.accruals_sum) || 0) - (Number(r.payments_sum) || 0)),
 			0
 		);
-		return `Сальдо:  ${utils.formatCurrencyRu(total)}`;
+		return `К выплате:  ${utils.formatCurrencyRu(total)}`;
 	},
 
 	getPaymentsSummaryPerson() {

@@ -5,7 +5,8 @@
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonVariant": "PRIMARY",
-  "displayName": "Icon button",
+  "disabledWhenInvalid": false,
+  "displayName": "Button",
   "dynamicBindingPathList": [
     {
       "key": "borderRadius"
@@ -14,7 +15,6 @@
       "key": "buttonColor"
     }
   ],
-  "dynamicHeight": "FIXED",
   "dynamicPropertyPathList": [],
   "dynamicTriggerPathList": [
     {
@@ -22,28 +22,33 @@
     }
   ],
   "hideCard": false,
+  "iconAlign": "left",
   "iconName": "plus",
-  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.b08054586989b185a0801e9a34f8ad49.svg",
+  "iconSVG": "https://appcdn.appsmith.com/static/media/icon.05d209fafeb13a8569e3b4e97069d9ee.svg",
+  "isDefaultClickDisabled": true,
   "isDeprecated": false,
   "isDisabled": false,
   "isLoading": false,
   "isVisible": true,
-  "key": "9xu7j2zb10",
-  "leftColumn": 29,
-  "minWidth": 50,
-  "mobileBottomRow": 17,
-  "mobileLeftColumn": 25,
-  "mobileRightColumn": 29,
-  "mobileTopRow": 13,
-  "onClick": "{{showModal(mdl_Position.name);}}",
-  "originalBottomRow": 8,
-  "originalTopRow": 4,
+  "key": "ot5phqguaa",
+  "leftColumn": 17,
+  "minWidth": 120,
+  "mobileBottomRow": 12,
+  "mobileLeftColumn": 21,
+  "mobileRightColumn": 37,
+  "mobileTopRow": 8,
+  "onClick": "{{tasks.btn_openAddTask_onClick();}}",
+  "originalBottomRow": 14,
+  "originalTopRow": 10,
   "parentColumnSpace": 17.3447265625,
   "parentId": "bc3hzxuyyy",
   "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
   "renderMode": "CANVAS",
+  "resetFormOnClick": true,
   "responsiveBehavior": "hug",
-  "rightColumn": 32,
+  "rightColumn": 29,
   "searchTags": [
     "click",
     "submit"
@@ -51,9 +56,10 @@
   "tags": [
     "Buttons"
   ],
+  "text": "Добавить сотрудника",
   "topRow": 1,
-  "type": "ICON_BUTTON_WIDGET",
+  "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "7orvn8wsye",
-  "widgetName": "icn_addPosition"
+  "widgetId": "in9qf727sl",
+  "widgetName": "btn_openAddPosition"
 }

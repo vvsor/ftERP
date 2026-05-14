@@ -457,7 +457,7 @@
   "searchKey": "",
   "tableData": "{{ Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : [] }}",
   "textSize": "0.875rem",
-  "topRow": 0,
+  "topRow": 4,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,

@@ -62,13 +62,13 @@
   "menuItems": {
     "menuItem2": {
       "iconAlign": "right",
-      "iconName": "person",
+      "iconName": "numbered-list",
       "id": "menuItem2",
       "index": 0,
       "isDisabled": false,
       "isVisible": true,
-      "label": "ЛК",
-      "onClick": "{{navigateTo('Profile', {}, 'SAME_WINDOW');}}",
+      "label": "Tasks",
+      "onClick": "{{navigateTo('Tasks', {}, 'SAME_WINDOW');}}",
       "widgetId": ""
     },
     "menuItem3": {

@@ -246,7 +246,7 @@
       "isSaveDisabled": false,
       "isSaveVisible": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( tbl_salaryAccruals.tableData.length ? tbl_salaryAccruals.updatedRowIndices.includes(currentIndex) || false : false )) :  tbl_salaryAccruals.tableData.length ? tbl_salaryAccruals.updatedRowIndices.includes(currentIndex) || false : false  })()}}",
       "isVisible": true,
-      "label": "Save",
+      "label": "Сохранить",
       "notation": "standard",
       "onSave": "{{\naccruals.updateSalaryAccrual(tbl_salaryAccruals.updatedRows[0])\n}}",
       "originalId": "EditActions1",
@@ -581,7 +581,7 @@
       "width": 150
     },
     "customColumn1": {
-      "alias": "Del",
+      "alias": "Удалить",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "borderRadius": "{{tbl_salaryAccruals.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
@@ -608,7 +608,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Del",
+      "label": "Удалить",
       "labelColor": "#FFFFFF",
       "notation": "standard",
       "onClick": "{{accruals.deleteSalaryAccrual()}}",

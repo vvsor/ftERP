@@ -42,7 +42,7 @@ export default {
 
 		const params = {
 			fields: fields,
-			collection: "office_term"
+			collection: "office_terms"
 		};
 
 		try {

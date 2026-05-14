@@ -124,7 +124,7 @@ export default {
 		: {};
 
 		const officeRes = await items.getItems({
-			collection: "office_term",
+			collection: "office_terms",
 			fields: [
 				"id",
 				"user_id",

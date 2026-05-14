@@ -56,6 +56,9 @@
     },
     {
       "key": "menuItems.menuItemzcaizm9j1e.onClick"
+    },
+    {
+      "key": "menuItems.menuItemnrwq5tg2tx.onClick"
     }
   ],
   "iconAlign": "left",
@@ -143,6 +146,7 @@
       "isDisabled": false,
       "isVisible": true,
       "label": "CRM",
+      "onClick": "{{navigateTo('CRM', {}, 'SAME_WINDOW');}}",
       "widgetId": "qd5n7frtgb"
     },
     "menuItemzcaizm9j1e": {
