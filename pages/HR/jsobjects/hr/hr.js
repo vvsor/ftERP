@@ -1,4 +1,6 @@
 export default {
+	positionsRefreshPromise: null,
+	employeesRefreshPromise: null,
 	/// ================== test block ==================
 	// async test(){
 	// console.log(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
@@ -6,6 +8,22 @@ export default {
 	/// ============== end of test block ===============
 	normalizeTableRow(row) {
 		return { ...(row?.allFields || row || {}), ...(row?.updatedFields || {}) };
+	},
+
+	getSelectedPositionRowIndex() {
+		const rows = tbl_positions.tableData || [];
+		const selectedId = appsmith.store?.hrSelectedPosition?.id;
+		if (!selectedId) return -1;
+
+		return rows.findIndex((row) => String(row.id) === String(selectedId));
+	},
+
+	getSelectedEmployeeRowIndex() {
+		const rows = tbl_employees.tableData || [];
+		const selectedUserId = appsmith.store?.hrSelectedEmployeeRow?.user_id;
+		if (!selectedUserId) return -1;
+
+		return rows.findIndex((row) => String(row.user_id) === String(selectedUserId));
 	},
 
 	async openEmployeeModal(mode = "add", row = null) {
@@ -53,6 +71,19 @@ export default {
 		await utils.getOfficeTermHistoryByUser(row.user_id);
 	},
 
+	async tbl_employees_onRowSelected(rowParam = null) {
+		const row = rowParam || tbl_employees.selectedRow;
+
+		if (!row?.user_id) {
+			await storeValue("hrSelectedEmployeeRow", null, true);
+			await storeValue("hrOfficeTermHistoryRows", [], false);
+			return;
+		}
+
+		await storeValue("hrSelectedEmployeeRow", row, true);
+		await utils.getOfficeTermHistoryByUser(row.user_id);
+	},
+
 
 	async setSelectedOfficeTerm(officeTerm){
 		return await storeValue("SelectedOfficeTerm", officeTerm, true);
@@ -96,24 +127,44 @@ export default {
 		return rows;
 	},
 
-	async refreshPositionsPage() {
-		await utils.loadDictionaries();
-		await utils.getBranches();
+	async refreshPositionsPage({ showAlert = true } = {}) {
+		if (this.positionsRefreshPromise) return await this.positionsRefreshPromise;
 
-		const branchId = sel_chooseBranch.selectedOptionValue || appsmith.store?.hrSelectedBranchId || "";
-		await this.refreshHrBranch(branchId);
+		this.positionsRefreshPromise = (async () => {
+			await storeValue("hrPositionsRefreshing", true, false);
+			try {
+				await utils.loadDictionaries();
+				await utils.getBranches();
 
-		showAlert("Должности обновлены", "success");
+				const branchId = sel_chooseBranch.selectedOptionValue || appsmith.store?.hrSelectedBranchId || "";
+				await this.refreshHrBranch(branchId);
+
+				if (showAlert) showAlert("Должности обновлены", "success");
+			} finally {
+				await storeValue("hrPositionsRefreshing", false, false);
+				this.positionsRefreshPromise = null;
+			}
+		})();
+
+		return await this.positionsRefreshPromise;
 	},
 
-	async refreshEmployeesPage() {
-		await utils.loadDictionaries();
-		await utils.getBranches();
+	async refreshEmployeesPage({ showAlert = true } = {}) {
+		if (this.employeesRefreshPromise) return await this.employeesRefreshPromise;
 
-		const branchId = sel_chooseBranchEmpl.selectedOptionValue || appsmith.store?.hrSelectedBranchId || "";
-		await this.refreshHrBranch(branchId);
+		this.employeesRefreshPromise = (async () => {
+			await storeValue("hrEmployeesRefreshing", true, false);
+			try {
+				await utils.getEmployees();
 
-		showAlert("Сотрудники обновлены", "success");
+				if (showAlert) showAlert("Сотрудники обновлены", "success");
+			} finally {
+				await storeValue("hrEmployeesRefreshing", false, false);
+				this.employeesRefreshPromise = null;
+			}
+		})();
+
+		return await this.employeesRefreshPromise;
 	},
 
 	async initHR(){
@@ -142,6 +193,7 @@ export default {
 
 			if (selectedBranchId) {
 				await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
+				await utils.getEmployees();
 			} else {
 				await storeValue("hrPositionRows", [], false);
 			}
@@ -359,5 +411,100 @@ export default {
 		closeModal(mdl_addEditPosition.name);
 		await this.refreshPositionsPage();
 		showAlert(mode === "edit" ? "Должность обновлена" : "Должность добавлена", "success");
+	},
+	datesOverlap(startA, endA, startB, endB) {
+		const aStart = moment(startA);
+		const aEnd = endA ? moment(endA) : moment("9999-12-31");
+		const bStart = moment(startB);
+		const bEnd = endB ? moment(endB) : moment("9999-12-31");
+
+		return aStart.isSameOrBefore(bEnd, "day") && bStart.isSameOrBefore(aEnd, "day");
+	},
+
+	async validateOfficeTermPeriod({ id, user_id, position_id, date_from, date_till }) {
+		if (!user_id) throw new Error("Выберите сотрудника");
+		if (!position_id) throw new Error("Выберите должность");
+		if (!date_from) throw new Error("Укажите дату начала");
+		if (date_till && moment(date_till).isBefore(moment(date_from), "day")) {
+			throw new Error("Дата окончания не может быть раньше даты начала");
+		}
+
+		const response = await items.getItems({
+			collection: "office_terms",
+			fields: "id,user_id.id,position_id.id,date_from,date_till",
+			filter: {
+				_or: [
+					{ user_id: { id: { _eq: user_id } } },
+					{ position_id: { id: { _eq: position_id } } }
+				]
+			},
+			limit: -1
+		});
+
+		for (const term of (response.data || [])) {
+			if (String(term.id) === String(id)) continue;
+
+			const termUserId = term?.user_id?.id ?? term?.user_id;
+			const termPositionId = term?.position_id?.id ?? term?.position_id;
+			const overlaps = this.datesOverlap(date_from, date_till, term.date_from, term.date_till);
+
+			if (!overlaps) continue;
+
+			if (String(termUserId) === String(user_id) && String(termPositionId) === String(position_id)) {
+				throw new Error("У сотрудника уже есть назначение на эту должность в указанный период");
+			}
+
+			if (String(termPositionId) === String(position_id)) {
+				throw new Error("Должность уже занята другим сотрудником в указанный период");
+			}
+		}
+	},
+
+	async saveOfficeTermHistory(rowParam = null) {
+		const rawRow =
+					rowParam ||
+					(tbl_officeTermHistory.isAddRowInProgress
+					 ? tbl_officeTermHistory.newRow
+					 : (tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow || tbl_officeTermHistory.selectedRow));
+
+		const row = this.normalizeTableRow(rawRow);
+		const selectedUserId =
+					row.user_id ||
+					appsmith.store?.hrSelectedEmployeeRow?.user_id ||
+					appsmith.store?.hrSelectedPosition?.user_id;
+
+		const officeTermId = row.office_term_id || row.id || null;
+		const body = {
+			user_id: selectedUserId,
+			position_id: row.position_id || null,
+			date_from: row.date_from ? moment(row.date_from).format("YYYY-MM-DD") : null,
+			date_till: row.date_till ? moment(row.date_till).format("YYYY-MM-DD") : null,
+			comment: row.comment || ""
+		};
+
+		try {
+			await this.validateOfficeTermPeriod({ id: officeTermId, ...body });
+
+			if (officeTermId) {
+				await items.updateItems({
+					collection: "office_terms",
+					body: { keys: [officeTermId], data: body }
+				});
+			} else {
+				await items.createItems({
+					collection: "office_terms",
+					body
+				});
+			}
+
+			await utils.getOfficeTermHistoryByUser(body.user_id);
+			await this.refreshPositionsPage({ showAlert: false });
+			await this.refreshEmployeesPage({ showAlert: false });
+
+			showAlert("Назначение сохранено", "success");
+		} catch (error) {
+			showAlert(error?.message || "Ошибка сохранения назначения", "warning");
+			throw error;
+		}
 	}
 }

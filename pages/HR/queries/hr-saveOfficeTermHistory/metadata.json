@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_48982997-0cf3-4421-8e77-4db5ca93889a",
-  "id": "HR_hr.refreshPositionsPage",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_f3401b4d-3b33-444a-92fc-77947ff4fd2d",
+  "id": "HR_hr.saveOfficeTermHistory",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,7 +8,8 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": ""
+          "name": "rowParam",
+          "value": "{{null}}"
         }
       ],
       "paginationType": "NONE",
@@ -26,8 +27,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.refreshPositionsPage",
-    "name": "refreshPositionsPage",
+    "fullyQualifiedName": "hr.saveOfficeTermHistory",
+    "name": "saveOfficeTermHistory",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

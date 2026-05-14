@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 29,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedPositionDraft?.boss_id || \"\" ))(sel_supervisorPosition.options, sel_supervisorPosition.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedPositionDraft?.supervisor_position_id || \"\" ))(sel_supervisorPosition.options, sel_supervisorPosition.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"

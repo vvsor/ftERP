@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_48982997-0cf3-4421-8e77-4db5ca93889a",
-  "id": "HR_hr.refreshPositionsPage",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_4eb3dfd7-33ad-4613-b357-40bda120f685",
+  "id": "HR_hr.tbl_employees_onRowSelected",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,7 +8,8 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": ""
+          "name": "rowParam",
+          "value": "{{null}}"
         }
       ],
       "paginationType": "NONE",
@@ -26,8 +27,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.refreshPositionsPage",
-    "name": "refreshPositionsPage",
+    "fullyQualifiedName": "hr.tbl_employees_onRowSelected",
+    "name": "tbl_employees_onRowSelected",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

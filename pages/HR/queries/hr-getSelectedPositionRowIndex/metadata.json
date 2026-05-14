@@ -1,16 +1,12 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_48982997-0cf3-4421-8e77-4db5ca93889a",
-  "id": "HR_hr.refreshPositionsPage",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_b8ba7c4e-445a-454d-b7c0-976b93f9645c",
+  "id": "HR_hr.getSelectedPositionRowIndex",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [
-        {
-          "name": ""
-        }
-      ],
+      "jsArguments": [],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -26,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.refreshPositionsPage",
-    "name": "refreshPositionsPage",
+    "fullyQualifiedName": "hr.getSelectedPositionRowIndex",
+    "name": "getSelectedPositionRowIndex",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

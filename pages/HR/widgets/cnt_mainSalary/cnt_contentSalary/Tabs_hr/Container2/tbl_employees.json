@@ -52,7 +52,7 @@
     "position_title_id",
     "supervisor_position_id"
   ],
-  "columnUpdatedAt": 1778762692241,
+  "columnUpdatedAt": 1778767266633,
   "columnWidthMap": {
     "branch": 321,
     "branch_name": 234,
@@ -63,7 +63,7 @@
   "customIsLoading": false,
   "customIsLoadingValue": "",
   "defaultPageSize": 0,
-  "defaultSelectedRowIndex": "{{ Array.isArray(appsmith.store?.hrPositionRows) && appsmith.store.hrPositionRows.length ? 0 : -1 }}\n",
+  "defaultSelectedRowIndex": "{{hr.getSelectedEmployeeRowIndex()}}",
   "defaultSelectedRowIndices": "[]",
   "delimiter": ",",
   "dynamicBindingPathList": [
@@ -190,7 +190,7 @@
   "mobileTopRow": 9,
   "multiRowSelection": false,
   "needsErrorInfo": false,
-  "onRowSelected": "{{hr.tbl_positions_onRowSelected(tbl_employees.selectedRow);}}",
+  "onRowSelected": "{{hr.tbl_employees_onRowSelected(tbl_employees.selectedRow);}}",
   "originalBottomRow": 59,
   "originalTopRow": 4,
   "parentColumnSpace": 10.9384765625,
@@ -855,7 +855,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 64,
   "searchKey": "",
-  "tableData": "{{ Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : [] }}",
+  "tableData": "{{ Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : [] }}",
   "textSize": "0.875rem",
   "topRow": 4,
   "totalRecordsCount": 0,

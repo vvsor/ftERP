@@ -212,4 +212,8 @@ export default {
 		if (!body || Object.keys(body).length === 0) throw new Error("User body is empty.");
 		return await items.runWithRefresh(() => qUpdateUser.run({ id, body }));
 	},
+	getUsers: async (params = {}) => {
+		const { fields = "id,first_name,last_name,middle_name,email,role", filter = {}, limit = -1 } = params;
+		return await items.runWithRefresh(() => qGetUsers.run({ fields, filter, limit }));
+	}
 }

@@ -12,11 +12,17 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "onClick"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -25,7 +31,7 @@
     }
   ],
   "iconName": "refresh",
-  "isDisabled": false,
+  "isDisabled": "{{ !!appsmith.store?.hrPositionsRefreshing }}",
   "isLoading": false,
   "isVisible": true,
   "key": "oxultgfmlx",

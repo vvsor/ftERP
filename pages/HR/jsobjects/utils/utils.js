@@ -123,6 +123,76 @@ export default {
 		return rows;
 	},
 
+	async getEmployees({ commitToStore = true } = {}) {
+		const today = moment().format("YYYY-MM-DD");
+
+		const [usersRes, officeTermsRes] = await Promise.all([
+			items.getUsers({
+				fields: "id,first_name,last_name,middle_name,email,role",
+				limit: -1
+			}),
+			items.getItems({
+				collection: "office_terms",
+				fields: [
+					"id",
+					"date_from",
+					"date_till",
+					"comment",
+					"user_id.id",
+					"position_id.id",
+					"position_id.position_title_id.title",
+					"position_id.branch_id.id",
+					"position_id.branch_id.name"
+				].join(","),
+				filter: {
+					_and: [
+						{ date_from: { _lte: today } },
+						{
+							_or: [
+								{ date_till: { _null: true } },
+								{ date_till: { _gte: today } }
+							]
+						}
+					]
+				},
+				limit: -1
+			})
+		]);
+
+		const termsByUserId = {};
+		for (const term of (officeTermsRes.data || [])) {
+			const userId = term?.user_id?.id ?? term?.user_id;
+			if (!userId) continue;
+			if (!termsByUserId[userId]) termsByUserId[userId] = [];
+			termsByUserId[userId].push(term);
+		}
+
+		const rows = (usersRes.data || []).map((user) => {
+			const terms = termsByUserId[user.id] || [];
+			const titles = terms.map((term) => term?.position_id?.position_title_id?.title).filter(Boolean);
+			const branches = terms.map((term) => term?.position_id?.branch_id?.name).filter(Boolean);
+
+			return {
+				id: user.id,
+				user_id: user.id,
+				employee: utils.formatUserName(user),
+				first_name: user.first_name || "",
+				last_name: user.last_name || "",
+				middle_name: user.middle_name || "",
+				email: user.email || "",
+				role: user.role?.id ?? user.role ?? "",
+				title: titles.join(", "),
+				branch_name: branches.join(", "),
+				office_term_ids: terms.map((term) => term.id),
+				position_ids: terms.map((term) => term?.position_id?.id ?? term?.position_id).filter(Boolean)
+			};
+		}).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
+
+		if (commitToStore) await storeValue("hrEmployeeRows", rows, false);
+		return rows;
+	},
+
+
 	async getBranches() {
 		try {
 			// Fields to fetch
@@ -252,10 +322,28 @@ export default {
 	async loadDictionaries() {
 		await Promise.all([
 			utils.getPositionTitleRows(),
+			utils.getPositionOptions(),
 			utils.getCityRows(),
 			utils.getBranchDirectoryRows()
 		]);
 	},
+
+	async getPositionOptions() {
+		const response = await items.getItems({
+			collection: "positions",
+			fields: "id,position_title_id.title,branch_id.name",
+			limit: -1
+		});
+
+		const rows = (response.data || []).map((position) => ({
+			label: `${position?.position_title_id?.title || "Без названия"}${position?.branch_id?.name ? ` (${position.branch_id.name})` : ""}`,
+			value: position.id
+		})).sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
+
+		await storeValue("hrPositionOptions", rows, false);
+		return rows;
+	},
+
 	async getPositionTitleRows() {
 		const response = await items.getItems({
 			collection: "position_titles",

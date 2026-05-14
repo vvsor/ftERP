@@ -50,7 +50,7 @@
     "comment",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1778757772270,
+  "columnUpdatedAt": 1778767701928,
   "columnWidthMap": {},
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -145,12 +145,21 @@
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
     },
     {
-      "key": "primaryColumns.comment.onSubmit"
+      "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "primaryColumns.comment.onSubmit"
+    },
+    {
+      "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "enableClientSideSearch": true,
@@ -174,6 +183,7 @@
   "mobileRightColumn": 33,
   "mobileTopRow": 5,
   "needsErrorInfo": false,
+  "onAddNewRowSave": "{{hr.saveOfficeTermHistory(tbl_officeTermHistory.newRow);}}",
   "originalBottomRow": 47,
   "originalTopRow": 19,
   "parentColumnSpace": 8.01904296875,
@@ -210,6 +220,7 @@
       "isVisible": true,
       "label": "Save / Discard",
       "notation": "standard",
+      "onSave": "{{hr.saveOfficeTermHistory(tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow);}}\n",
       "originalId": "EditActions1",
       "saveActionLabel": "Save",
       "saveBorderRadius": "{{tbl_officeTermHistory.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
@@ -311,9 +322,9 @@
       "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Комментарий",
+      "label": "Комментарий к назначению",
       "notation": "standard",
-      "onSubmit": "{{hr.updateOfficeTermHistory(tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow);}}",
+      "onSubmit": "",
       "originalId": "comment",
       "sticky": "",
       "textColor": "",
@@ -372,12 +383,12 @@
       "horizontalAlignment": "LEFT",
       "id": "date_from_display",
       "index": 10,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Дата назачения",
@@ -474,15 +485,15 @@
       "horizontalAlignment": "LEFT",
       "id": "employee",
       "index": 3,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
-      "isVisible": false,
-      "label": "employee",
+      "isVisible": true,
+      "label": "Сотрудник",
       "notation": "standard",
       "originalId": "employee",
       "sticky": "",
