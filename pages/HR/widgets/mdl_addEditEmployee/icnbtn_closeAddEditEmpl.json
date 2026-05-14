@@ -4,7 +4,7 @@
   "bottomRow": 4,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
-  "buttonVariant": "PRIMARY",
+  "buttonVariant": "TERTIARY",
   "dynamicBindingPathList": [
     {
       "key": "buttonColor"
@@ -13,35 +13,32 @@
       "key": "borderRadius"
     }
   ],
-  "dynamicPropertyPathList": [],
   "dynamicTriggerPathList": [
     {
       "key": "onClick"
     }
   ],
-  "iconName": "refresh",
+  "iconName": "cross",
+  "iconSize": 24,
   "isDisabled": false,
   "isLoading": false,
   "isVisible": true,
-  "key": "oxultgfmlx",
-  "leftColumn": 59,
+  "key": "gqtsmnef6g",
+  "leftColumn": 58,
   "minWidth": 50,
   "mobileBottomRow": 4,
-  "mobileLeftColumn": 27,
-  "mobileRightColumn": 31,
+  "mobileLeftColumn": 58,
+  "mobileRightColumn": 64,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "onClick": "{{tasks.updateTaskList();}}",
-  "parentColumnSpace": 16.9375,
-  "parentId": "nb5orct8am",
-  "parentRowSpace": 10,
+  "onClick": "{{hr.btn_closeAddEditEmployeeModal_onClick();}}",
+  "parentId": "caki23bn46",
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",
-  "rightColumn": 63,
-  "tooltip": "Обновить список задач",
+  "rightColumn": 64,
   "topRow": 0,
   "type": "ICON_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "fkoqmjty3x",
-  "widgetName": "icnbtn_emplUpdate"
+  "widgetId": "bk79bt3dd7",
+  "widgetName": "icnbtn_closeAddEditEmpl"
 }

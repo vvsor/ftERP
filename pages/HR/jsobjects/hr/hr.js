@@ -96,5 +96,14 @@ export default {
 			if (error?.authHandled) return;
 			console.error("Error loading office terms:", error);
 		}
+	},
+	
+	async btn_closeAddEditEmployeeModal_onClick() {
+		// restore focus on last employee if editing was cancelled
+		//await this.restoreSavedTaskSelection();
+		// await storeValue("curAuditorsIds", undefined, true);
+		// await storeValue("curParticipantsIds", undefined, true);
+		closeModal(mdl_addEditEmployee.name);
 	}
+
 }

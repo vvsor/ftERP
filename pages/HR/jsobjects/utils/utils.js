@@ -18,7 +18,7 @@ export default {
 				collection: "positions",
 				fields: [
 					"id",
-					"title_id.title",
+					"position_title_id.title",
 					"branch_id.id",
 					"branch_id.name"
 				].join(","),
@@ -82,7 +82,7 @@ export default {
 			const employee = employeeByPositionId[position.id] || {};
 			return {
 				id: position.id,
-				title: position.title_id?.title || "",
+				title: position.position_title_id?.title || "",
 				employee: employee.employee || "",
 				user_id: employee.user_id || null,
 				office_term_id: employee.office_term_id || null,
@@ -163,7 +163,7 @@ export default {
 		const today = moment().format("YYYY-MM-DD");
 
 		const response = await items.getItems({
-			collection: "office_term",
+			collection: "office_terms",
 			fields: [
 				"id",
 				"date_from",

@@ -34,19 +34,21 @@
   "columnOrder": [
     "user_id",
     "id",
-    "title",
     "employee",
-    "branch_id",
     "branch_name",
+    "title",
+    "branch_id",
     "office_term_id",
     "date_from",
-    "date_till"
+    "date_till",
+    "customColumn1"
   ],
-  "columnUpdatedAt": 1777521128025,
+  "columnUpdatedAt": 1778741631921,
   "columnWidthMap": {
     "branch": 321,
+    "branch_name": 234,
     "employee": 171.24316406250003,
-    "title": 203
+    "title": 324
   },
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -96,6 +98,15 @@
     },
     {
       "key": "primaryColumns.date_till.computedValue"
+    },
+    {
+      "key": "primaryColumns.customColumn1.boxShadow"
+    },
+    {
+      "key": "primaryColumns.customColumn1.borderRadius"
+    },
+    {
+      "key": "primaryColumns.customColumn1.buttonColor"
     }
   ],
   "dynamicPropertyPathList": [
@@ -107,11 +118,17 @@
     },
     {
       "key": "primaryColumns.date_from.outputFormat"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "onRowSelected"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "enableClientSideSearch": true,
@@ -199,12 +216,51 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": false,
-      "label": "branch_name",
+      "isVisible": true,
+      "label": "Подразделение",
       "notation": "standard",
       "originalId": "branch_name",
       "sticky": "",
       "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "customColumn1": {
+      "alias": "Изменить",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "borderRadius": "{{tbl_employees.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "boxShadow": "{{tbl_employees.processedTableData.map((currentRow, currentIndex) => ( \"none\"))}}",
+      "buttonColor": "{{tbl_employees.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
+      "buttonStyle": "rgb(3, 179, 101)",
+      "columnType": "iconButton",
+      "computedValue": "",
+      "currencyCode": "USD",
+      "customAlias": "",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "horizontalAlignment": "LEFT",
+      "iconName": "edit",
+      "id": "customColumn1",
+      "index": 7,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Изменить",
+      "labelColor": "#FFFFFF",
+      "notation": "standard",
+      "onClick": "{{showModal(mdl_addEditEmployee.name)}}",
+      "originalId": "customColumn1",
+      "sticky": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {},
@@ -405,7 +461,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Должность",
+      "label": "Текущая должность",
       "notation": "standard",
       "originalId": "title",
       "sticky": "",
