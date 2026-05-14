@@ -54,17 +54,32 @@ export default {
 		return await storeValue("SelectedOfficeTerm", officeTerm, true);
 	},
 
-	async sel_chooseBranch_OptionChanged() {
-		const branchId = sel_chooseBranch.selectedOptionValue || "";
+	async sel_chooseBranch_OptionChanged(branchIdParam) {
+		const branchId = branchIdParam || sel_chooseBranch.selectedOptionValue || "";
 		const previousBranchId = appsmith.store?.hrSelectedBranchId || "";
 
-		if (String(branchId) === String(previousBranchId)) {
-			return;
+		if (String(branchId) === String(previousBranchId)) return;
+
+		await this.refreshHrBranch(branchId, { keepSelection: false });
+	},
+
+	async refreshHrBranch(branchId, { keepSelection = true } = {}) {
+		if (!branchId) {
+			await storeValue("hrSelectedBranchId", "", true);
+			await storeValue("hrPositionRows", [], false);
+			await storeValue("hrSelectedPosition", null, true);
+			await storeValue("hrOfficeTermHistoryRows", [], false);
+			return [];
 		}
 
 		await storeValue("hrSelectedBranchId", branchId, true);
+
+		const previousPositionId = appsmith.store?.hrSelectedPosition?.id;
 		const rows = await utils.getPositionsByBranch();
-		const selectedPosition = rows[0] || null;
+		const selectedPosition =
+					keepSelection && previousPositionId
+		? (rows.find((row) => String(row.id) === String(previousPositionId)) || rows[0] || null)
+		: (rows[0] || null);
 
 		await storeValue("hrSelectedPosition", selectedPosition, true);
 
@@ -74,6 +89,27 @@ export default {
 			await storeValue("hrOfficeTermHistoryRows", [], false);
 		}
 
+		return rows;
+	},
+
+	async refreshPositionsPage() {
+		await utils.loadDictionaries();
+		await utils.getBranches();
+
+		const branchId = sel_chooseBranch.selectedOptionValue || appsmith.store?.hrSelectedBranchId || "";
+		await this.refreshHrBranch(branchId);
+
+		showAlert("Должности обновлены", "success");
+	},
+
+	async refreshEmployeesPage() {
+		await utils.loadDictionaries();
+		await utils.getBranches();
+
+		const branchId = sel_chooseBranchEmpl.selectedOptionValue || appsmith.store?.hrSelectedBranchId || "";
+		await this.refreshHrBranch(branchId);
+
+		showAlert("Сотрудники обновлены", "success");
 	},
 
 	async initHR(){
@@ -101,18 +137,7 @@ export default {
 						appsmith.store?.hrSelectedBranchId || branches?.[0]?.id || "";
 
 			if (selectedBranchId) {
-				await storeValue("hrSelectedBranchId", selectedBranchId, true);
-				const rows = await utils.getPositionsByBranch();
-				const selectedPosition = rows[0] || null;
-
-				await storeValue("hrSelectedPosition", selectedPosition, true);
-
-				if (selectedPosition?.user_id) {
-					await utils.getOfficeTermHistoryByUser(selectedPosition.user_id);
-				} else {
-					await storeValue("hrOfficeTermHistoryRows", [], false);
-				}
-
+				await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
 			} else {
 				await storeValue("hrPositionRows", [], false);
 			}
@@ -153,10 +178,10 @@ export default {
 			showAlert("Заполните фамилию, имя и отчество", "warning");
 			return;
 		}
-		if (mode === "add" && !body.password) {
-			showAlert("Для нового пользователя нужен пароль", "warning");
-			return;
-		}
+		// if (mode === "add" && !body.password) {
+		// showAlert("Для нового пользователя нужен пароль", "warning");
+		// return;
+		// }
 
 		if (mode === "edit") await items.updateUser(selectedEmployee.id, body);
 		else await items.createUser(body);
@@ -179,8 +204,8 @@ export default {
 
 	async saveCityRow() {
 		const row = tbl_cities.isAddRowInProgress ? tbl_cities.newRow : (tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow);
-		const body = { city: row.city?.trim() || "" };
-		if (!body.city) return showAlert("Укажите город", "warning");
+		const body = { city: row.name?.trim() || "" };
+		if (!body.name) return showAlert("Укажите город", "warning");
 
 		if (tbl_cities.isAddRowInProgress) await items.createItems({ collection: "cities", body });
 		else await items.updateItems({ collection: "cities", body: { keys: [row.id], data: body } });

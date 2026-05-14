@@ -1,16 +1,12 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_351b440d-1719-44fe-a8e2-c2b591f7e4d7",
-  "id": "HR_hr.sel_chooseBranch_OptionChanged",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_48982997-0cf3-4421-8e77-4db5ca93889a",
+  "id": "HR_hr.refreshPositionsPage",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [
-        {
-          "name": "branchIdParam"
-        }
-      ],
+      "jsArguments": [],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -26,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.sel_chooseBranch_OptionChanged",
-    "name": "sel_chooseBranch_OptionChanged",
+    "fullyQualifiedName": "hr.refreshPositionsPage",
+    "name": "refreshPositionsPage",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

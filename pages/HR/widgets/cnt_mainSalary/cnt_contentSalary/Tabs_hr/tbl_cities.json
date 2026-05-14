@@ -238,14 +238,16 @@
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     }
   },
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 62,
+  "rightColumn": 64,
   "searchKey": "",
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : [] }}\n",

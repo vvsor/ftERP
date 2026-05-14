@@ -1,16 +1,12 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_351b440d-1719-44fe-a8e2-c2b591f7e4d7",
-  "id": "HR_hr.sel_chooseBranch_OptionChanged",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_5bebc412-e51b-4e58-82c2-7bfb491fa8d2",
+  "id": "HR_hr.refreshEmployeesPage",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [
-        {
-          "name": "branchIdParam"
-        }
-      ],
+      "jsArguments": [],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -26,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.sel_chooseBranch_OptionChanged",
-    "name": "sel_chooseBranch_OptionChanged",
+    "fullyQualifiedName": "hr.refreshEmployeesPage",
+    "name": "refreshEmployeesPage",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

@@ -3,7 +3,7 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 44,
+  "bottomRow": 14,
   "boxShadow": "none",
   "defaultText": "{{ appsmith.store?.salaryOfPeriod?.comment || \"\" }}",
   "dynamicBindingPathList": [
@@ -15,6 +15,9 @@
     },
     {
       "key": "defaultText"
+    },
+    {
+      "key": "label"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
@@ -35,7 +38,7 @@
   "isRequired": false,
   "isVisible": true,
   "key": "loz7al823a",
-  "label": "Заметка",
+  "label": "Заметка к должности\"{{appsmith.store.hrSelectedPosition.title}}\"",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
@@ -50,9 +53,9 @@
   "mobileRightColumn": 52,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "onTextChanged": "{{ autosave.autosave(txt_salary_comment, \"comment\")\n}}",
-  "originalBottomRow": 44,
-  "originalTopRow": 34,
+  "onTextChanged": "{{ autosave.autosave(txt_position_comment, \"comment\")\n}}",
+  "originalBottomRow": 14,
+  "originalTopRow": 4,
   "parentColumnSpace": 16.6630859375,
   "parentId": "qea5e6g59l",
   "parentRowSpace": 10,
@@ -62,9 +65,9 @@
   "rightColumn": 64,
   "shouldAllowAutofill": false,
   "showStepArrows": false,
-  "topRow": 34,
+  "topRow": 4,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
   "widgetId": "vq2u0ynv4z",
-  "widgetName": "txt_salary_comment"
+  "widgetName": "txt_position_comment"
 }

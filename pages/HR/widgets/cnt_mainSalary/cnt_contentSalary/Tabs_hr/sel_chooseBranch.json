@@ -24,6 +24,9 @@
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
     }
   ],
   "dynamicTriggerPathList": [
@@ -53,7 +56,7 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "onOptionChange": "{{hr.sel_chooseBranch_OptionChanged();}}",
+  "onOptionChange": "{{hr.sel_chooseBranch_OptionChanged(sel_chooseBranch.selectedOptionValue);}}",
   "optionLabel": "name",
   "optionValue": "id",
   "originalBottomRow": 26,

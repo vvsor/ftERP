@@ -14,7 +14,11 @@
       "key": "borderRadius"
     }
   ],
-  "dynamicPropertyPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "dynamicTriggerPathList": [
     {
       "key": "onClick"
@@ -23,7 +27,7 @@
   "iconName": "refresh",
   "isDisabled": false,
   "isLoading": false,
-  "isVisible": false,
+  "isVisible": true,
   "key": "oxultgfmlx",
   "leftColumn": 29,
   "minWidth": 50,
@@ -32,7 +36,7 @@
   "mobileRightColumn": 31,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "onClick": "{{tasks.updateTaskList();}}",
+  "onClick": "{{hr.refreshPositionsPage();}}",
   "originalBottomRow": 4,
   "originalTopRow": 0,
   "parentColumnSpace": 16.9375,
@@ -41,7 +45,7 @@
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",
   "rightColumn": 33,
-  "tooltip": "Обновить список задач",
+  "tooltip": "Обновить должности",
   "topRow": 0,
   "topRowBeforeCollapse": 0,
   "type": "ICON_BUTTON_WIDGET",

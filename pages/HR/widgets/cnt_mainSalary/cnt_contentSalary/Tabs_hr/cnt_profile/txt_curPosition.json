@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 18,
+  "bottomRow": 4,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -30,8 +30,8 @@
   "mobileRightColumn": 48,
   "mobileTopRow": 17,
   "needsErrorInfo": false,
-  "originalBottomRow": 18,
-  "originalTopRow": 14,
+  "originalBottomRow": 15,
+  "originalTopRow": 11,
   "overflow": "NONE",
   "parentColumnSpace": 16.6630859375,
   "parentId": "qea5e6g59l",
@@ -43,10 +43,10 @@
   "text": "История назначений",
   "textAlign": "LEFT",
   "textColor": "#231F20",
-  "topRow": 14,
+  "topRow": 0,
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "nb6sxsim5q",
-  "widgetName": "Text2"
+  "widgetId": "03dzvbrvfq",
+  "widgetName": "txt_curPosition"
 }

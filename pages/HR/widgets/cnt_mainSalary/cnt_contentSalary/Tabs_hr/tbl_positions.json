@@ -410,7 +410,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Сотрудник",
+      "label": "Текущий сотрудник",
       "notation": "standard",
       "originalId": "employee",
       "sticky": "",
