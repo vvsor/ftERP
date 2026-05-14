@@ -15,15 +15,23 @@
     },
     {
       "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
     }
   ],
   "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isRequired"
+    }
+  ],
   "dynamicTriggerPathList": [],
   "iconAlign": "left",
   "inputType": "TEXT",
   "isDisabled": false,
   "isLoading": false,
-  "isRequired": false,
+  "isRequired": "{{ appsmith.store?.hrEmployeeModalMode === \"add\" }}",
   "isVisible": true,
   "key": "22zpbcqvy8",
   "label": "Имя",

@@ -5,12 +5,12 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": 1,
-  "bottomRow": 82,
+  "bottomRow": 38,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "children": [
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 780,
+      "bottomRow": 760,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -47,7 +47,7 @@
       "rightColumn": 399.9140625,
       "shouldScrollContents": false,
       "tabId": "tab1",
-      "tabName": "Должности",
+      "tabName": "Штатное расписание",
       "topRow": 0,
       "type": "CANVAS_WIDGET",
       "version": 1,
@@ -56,7 +56,7 @@
     },
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 780,
+      "bottomRow": 610,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -99,6 +99,141 @@
       "version": 1,
       "widgetId": "9rjehi94s4",
       "widgetName": "Canvas32"
+    },
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 340,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "dynamicTriggerPathList": [],
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "cqg19qqig6",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 820,
+      "minWidth": 450,
+      "mobileBottomRow": 821,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 1066.4375,
+      "mobileTopRow": 1,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "vayzi4kqqg",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 1066.4375,
+      "tabId": "tabtccevyk34t",
+      "tabName": "Должности",
+      "topRow": 1,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "e157g637lw",
+      "widgetName": "Canvas37"
+    },
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 340,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "dynamicTriggerPathList": [],
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "cqg19qqig6",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 370,
+      "minWidth": 450,
+      "mobileBottomRow": 371,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 1066.4375,
+      "mobileTopRow": 1,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "vayzi4kqqg",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 1066.4375,
+      "tabId": "tabshgyjqg1po",
+      "tabName": "Подразделения",
+      "topRow": 1,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "bvoa10dnk4",
+      "widgetName": "Canvas39"
+    },
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 340,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "dynamicTriggerPathList": [],
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "cqg19qqig6",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 370,
+      "minWidth": 450,
+      "mobileBottomRow": 371,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 1066.4375,
+      "mobileTopRow": 1,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "vayzi4kqqg",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 1066.4375,
+      "tabId": "tabea52ao2tes",
+      "tabName": "Города",
+      "topRow": 1,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "ex8g7sr7rh",
+      "widgetName": "Canvas40"
     }
   ],
   "defaultTab": "Должности",
@@ -129,7 +264,7 @@
   "mobileRightColumn": 58,
   "mobileTopRow": 56,
   "needsErrorInfo": false,
-  "originalBottomRow": 67,
+  "originalBottomRow": 38,
   "originalTopRow": 0,
   "parentColumnSpace": 16.6630859375,
   "parentId": "z2qwd83fgb",
@@ -144,7 +279,7 @@
       "id": "tab1",
       "index": 0,
       "isVisible": true,
-      "label": "Должности",
+      "label": "Штатное расписание",
       "positioning": "vertical",
       "widgetId": "bc3hzxuyyy"
     },
@@ -155,6 +290,27 @@
       "label": "Сотрудники",
       "positioning": "vertical",
       "widgetId": "9rjehi94s4"
+    },
+    "tabea52ao2tes": {
+      "id": "tabea52ao2tes",
+      "index": 4,
+      "isVisible": true,
+      "label": "Города",
+      "widgetId": "ex8g7sr7rh"
+    },
+    "tabshgyjqg1po": {
+      "id": "tabshgyjqg1po",
+      "index": 3,
+      "isVisible": true,
+      "label": "Подразделения",
+      "widgetId": "bvoa10dnk4"
+    },
+    "tabtccevyk34t": {
+      "id": "tabtccevyk34t",
+      "index": 2,
+      "isVisible": true,
+      "label": "Должности",
+      "widgetId": "e157g637lw"
     }
   },
   "topRow": 0,

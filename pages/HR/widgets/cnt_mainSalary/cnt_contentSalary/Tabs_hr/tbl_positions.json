@@ -142,6 +142,9 @@
   "dynamicTriggerPathList": [
     {
       "key": "onRowSelected"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "enableClientSideSearch": true,
@@ -271,6 +274,7 @@
       "label": "Изменить",
       "labelColor": "#FFFFFF",
       "notation": "standard",
+      "onClick": "{{showModal(mdl_addEditPosition.name);}}",
       "originalId": "customColumn1",
       "sticky": "",
       "textSize": "0.875rem",

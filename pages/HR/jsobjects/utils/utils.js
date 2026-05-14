@@ -35,6 +35,7 @@ export default {
 					"date_till",
 					"user_id.id",
 					"user_id.first_name",
+					"user_id.middle_name",
 					"user_id.last_name",
 					"user_id.email",
 					"user_id.role",
@@ -235,6 +236,51 @@ export default {
 		const last = user.last_name;
 		const first = user.first_name?.[0];
 		return `${last} ${first}.`;
+	},
+
+	async loadDictionaries() {
+		await Promise.all([
+			utils.getPositionTitleRows(),
+			utils.getCityRows(),
+			utils.getBranchDirectoryRows()
+		]);
+	},
+	async getPositionTitleRows() {
+		const response = await items.getItems({
+			collection: "position_titles",
+			fields: "id,title",
+			limit: -1
+		});
+		const rows = (response.data || []).sort((a, b) => String(a.title || "").localeCompare(String(b.title || "")));
+		await storeValue("hrPositionTitleRows", rows, false);
+		return rows;
+	},
+
+	async getCityRows() {
+		const response = await items.getItems({
+			collection: "cities",
+			fields: "id,city",
+			limit: -1
+		});
+		const rows = (response.data || []).sort((a, b) => String(a.city || "").localeCompare(String(b.city || "")));
+		await storeValue("hrCityRows", rows, false);
+		return rows;
+	},
+
+	async getBranchDirectoryRows() {
+		const response = await items.getItems({
+			collection: "branches",
+			fields: "id,name,city_id.id,city_id.city",
+			limit: -1
+		});
+		const rows = (response.data || []).map((row) => ({
+			id: row.id,
+			name: row.name || "",
+			city_id: row.city_id?.id ?? row.city_id ?? null,
+			city: row.city_id?.city || ""
+		})).sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+		await storeValue("hrBranchDirectoryRows", rows, false);
+		return rows;
 	}
 
 }

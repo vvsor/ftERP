@@ -37,7 +37,7 @@
   "mobileLeftColumn": 21,
   "mobileRightColumn": 37,
   "mobileTopRow": 8,
-  "onClick": "{{tasks.btn_openAddTask_onClick();}}",
+  "onClick": "{{showModal(mdl_addEditPosition.name);}}",
   "originalBottomRow": 14,
   "originalTopRow": 10,
   "parentColumnSpace": 17.3447265625,

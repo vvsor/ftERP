@@ -94,6 +94,7 @@ export default {
 		// Only select positions if any exist
 		try {
 			await items.ensureFreshToken();
+			await utils.loadDictionaries();
 
 			const branches = await utils.getBranches();
 			const selectedBranchId =
@@ -129,6 +130,79 @@ export default {
 		// await storeValue("curAuditorsIds", undefined, true);
 		// await storeValue("curParticipantsIds", undefined, true);
 		closeModal(mdl_addEditEmployee.name);
-	}
+	},
+	getEmployeeFormData() {
+		const body = {
+			first_name: inp_first_name.text?.trim() || "",
+			last_name: inp_last_name.text?.trim() || "",
+			middle_name: inp_middle_name.text?.trim() || "",
+			email: inp_email.text?.trim() || "",
+			role: sel_role.selectedOptionValue || null
+		};
+		const password = inp_password.text?.trim();
+		if (password) body.password = password;
+		return body;
+	},
 
+	async saveEmployee() {
+		const mode = appsmith.store?.hrEmployeeModalMode || "add";
+		const selectedEmployee = appsmith.store?.hrSelectedEmployee;
+		const body = this.getEmployeeFormData();
+
+		if (!body.last_name || !body.first_name || !body.email) {
+			showAlert("Заполните фамилию, имя и email", "warning");
+			return;
+		}
+		if (mode === "add" && !body.password) {
+			showAlert("Для нового пользователя нужен пароль", "warning");
+			return;
+		}
+
+		if (mode === "edit") await items.updateUser(selectedEmployee.id, body);
+		else await items.createUser(body);
+
+		showAlert(mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен", "success");
+		closeModal(mdl_addEditEmployee.name);
+		await utils.getPositionsByBranch();
+	},
+	async savePositionTitleRow() {
+		const row = tbl_position_titles.isAddRowInProgress ? tbl_position_titles.newRow : (tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow);
+		const body = { title: row.title?.trim() || "" };
+		if (!body.title) return showAlert("Укажите название должности", "warning");
+
+		if (tbl_position_titles.isAddRowInProgress) await items.createItems({ collection: "position_titles", body });
+		else await items.updateItems({ collection: "position_titles", body: { keys: [row.id], data: body } });
+
+		await utils.getPositionTitleRows();
+		showAlert("Название должности сохранено", "success");
+	},
+
+	async saveCityRow() {
+		const row = tbl_cities.isAddRowInProgress ? tbl_cities.newRow : (tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow);
+		const body = { city: row.city?.trim() || "" };
+		if (!body.city) return showAlert("Укажите город", "warning");
+
+		if (tbl_cities.isAddRowInProgress) await items.createItems({ collection: "cities", body });
+		else await items.updateItems({ collection: "cities", body: { keys: [row.id], data: body } });
+
+		await utils.getCityRows();
+		await utils.getBranchDirectoryRows();
+		showAlert("Город сохранен", "success");
+	},
+
+	async saveBranchRow() {
+		const row = tbl_branches.isAddRowInProgress ? tbl_branches.newRow : (tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow);
+		const body = {
+			name: row.name?.trim() || "",
+			city_id: row.city_id || null
+		};
+		if (!body.name) return showAlert("Укажите подразделение", "warning");
+
+		if (tbl_branches.isAddRowInProgress) await items.createItems({ collection: "branches", body });
+		else await items.updateItems({ collection: "branches", body: { keys: [row.id], data: body } });
+
+		await utils.getBranches();
+		await utils.getBranchDirectoryRows();
+		showAlert("Подразделение сохранено", "success");
+	}
 }

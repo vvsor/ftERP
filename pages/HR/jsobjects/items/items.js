@@ -201,5 +201,15 @@ export default {
 		}
 
 		await items.refreshAccessToken();
-	}
+	},
+	createUser: async (body = {}) => {
+		if (!body || Object.keys(body).length === 0) throw new Error("User body is empty.");
+		return await items.runWithRefresh(() => qCreateUser.run({ body }));
+	},
+
+	updateUser: async (id, body = {}) => {
+		if (!id) throw new Error("User id is required.");
+		if (!body || Object.keys(body).length === 0) throw new Error("User body is empty.");
+		return await items.runWithRefresh(() => qUpdateUser.run({ id, body }));
+	},
 }
