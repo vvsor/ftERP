@@ -149,8 +149,8 @@ export default {
 		const selectedEmployee = appsmith.store?.hrSelectedEmployee;
 		const body = this.getEmployeeFormData();
 
-		if (!body.last_name || !body.first_name || !body.email) {
-			showAlert("Заполните фамилию, имя и email", "warning");
+		if (!body.last_name || !body.first_name || !body.middle_name) {
+			showAlert("Заполните фамилию, имя и отчество", "warning");
 			return;
 		}
 		if (mode === "add" && !body.password) {

@@ -138,7 +138,7 @@
       "responsiveBehavior": "fill",
       "rightColumn": 1066.4375,
       "tabId": "tabtccevyk34t",
-      "tabName": "Должности",
+      "tabName": "Название должностей",
       "topRow": 1,
       "type": "CANVAS_WIDGET",
       "version": 1,
@@ -264,7 +264,7 @@
   "mobileRightColumn": 58,
   "mobileTopRow": 56,
   "needsErrorInfo": false,
-  "originalBottomRow": 38,
+  "originalBottomRow": 82,
   "originalTopRow": 0,
   "parentColumnSpace": 16.6630859375,
   "parentId": "z2qwd83fgb",
@@ -309,7 +309,7 @@
       "id": "tabtccevyk34t",
       "index": 2,
       "isVisible": true,
-      "label": "Должности",
+      "label": "Название должностей",
       "widgetId": "e157g637lw"
     }
   },

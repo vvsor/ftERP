@@ -37,9 +37,9 @@
     "name",
     "city_id",
     "city",
-    "customColumn1"
+    "EditActions1"
   ],
-  "columnUpdatedAt": 1778745519870,
+  "columnUpdatedAt": 1778745849685,
   "columnWidthMap": {
     "name": 294
   },
@@ -77,13 +77,19 @@
       "key": "primaryColumns.city.computedValue"
     },
     {
-      "key": "primaryColumns.customColumn1.buttonColor"
+      "key": "primaryColumns.EditActions1.saveButtonColor"
     },
     {
-      "key": "primaryColumns.customColumn1.borderRadius"
+      "key": "primaryColumns.EditActions1.saveBorderRadius"
     },
     {
-      "key": "primaryColumns.customColumn1.boxShadow"
+      "key": "primaryColumns.EditActions1.discardBorderRadius"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveDisabled"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardDisabled"
     }
   ],
   "dynamicPropertyPathList": [
@@ -92,11 +98,23 @@
     },
     {
       "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveDisabled"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.name.onSubmit"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.name.onSubmit"
     }
   ],
   "enableClientSideSearch": true,
@@ -125,6 +143,46 @@
   "parentId": "bvoa10dnk4",
   "parentRowSpace": 10,
   "primaryColumns": {
+    "EditActions1": {
+      "alias": "EditActions1",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "buttonStyle": "rgb(3, 179, 101)",
+      "columnType": "editActions",
+      "computedValue": "",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "discardActionLabel": "Discard",
+      "discardBorderRadius": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "discardButtonColor": "#F22B2B",
+      "discardButtonVariant": "TERTIARY",
+      "discardIconAlign": "left",
+      "enableFilter": true,
+      "enableSort": true,
+      "id": "EditActions1",
+      "index": 4,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardDisabled": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( !tbl_branches.updatedRowIndices.includes(currentIndex)))}}",
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveDisabled": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( !tbl_branches.updatedRowIndices.includes(currentIndex)))}}",
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Save / Discard",
+      "notation": "standard",
+      "originalId": "EditActions1",
+      "saveActionLabel": "Save",
+      "saveBorderRadius": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "saveButtonColor": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
+      "saveIconAlign": "left",
+      "sticky": "right",
+      "thousandSeparator": true,
+      "validation": {},
+      "width": 150
+    },
     "city": {
       "alias": "city",
       "allowCellWrapping": false,
@@ -193,44 +251,6 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
-    "customColumn1": {
-      "alias": "Изменить",
-      "allowCellWrapping": false,
-      "allowSameOptionsInNewRow": true,
-      "borderRadius": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
-      "boxShadow": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( \"none\"))}}",
-      "buttonColor": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
-      "buttonStyle": "rgb(3, 179, 101)",
-      "columnType": "iconButton",
-      "computedValue": "",
-      "currencyCode": "USD",
-      "customAlias": "",
-      "decimals": 0,
-      "enableFilter": true,
-      "enableSort": true,
-      "horizontalAlignment": "LEFT",
-      "iconName": "edit",
-      "id": "customColumn1",
-      "index": 4,
-      "isCellEditable": false,
-      "isCellVisible": true,
-      "isDerived": true,
-      "isDisabled": false,
-      "isDiscardVisible": true,
-      "isEditable": false,
-      "isSaveVisible": true,
-      "isVisible": true,
-      "label": "Изменить",
-      "labelColor": "#FFFFFF",
-      "notation": "standard",
-      "originalId": "customColumn1",
-      "sticky": "",
-      "textSize": "0.875rem",
-      "thousandSeparator": true,
-      "validation": {},
-      "verticalAlignment": "CENTER",
-      "width": 150
-    },
     "id": {
       "alias": "id",
       "allowCellWrapping": false,
@@ -280,16 +300,17 @@
       "horizontalAlignment": "LEFT",
       "id": "name",
       "index": 1,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Название",
       "notation": "standard",
+      "onSubmit": "{{hr.saveBranchRow();}}",
       "originalId": "name",
       "sticky": "",
       "textColor": "",
@@ -304,6 +325,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 64,
   "searchKey": "",
+  "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(appsmith.store?.hrBranchDirectoryRows) ? appsmith.store.hrBranchDirectoryRows : [] }}",
   "textSize": "0.875rem",
   "topRow": 0,

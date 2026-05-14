@@ -1,14 +1,14 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 268,
+  "bottomRow": 378,
   "boxShadow": "none",
   "canEscapeKeyClose": true,
   "canOutsideClickClose": true,
   "children": [
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 240,
+      "bottomRow": 350,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -29,7 +29,7 @@
       "leftColumn": 0,
       "maxDynamicHeight": 9000,
       "minDynamicHeight": 4,
-      "minHeight": 240,
+      "minHeight": 370,
       "minWidth": 450,
       "mobileBottomRow": 240,
       "mobileLeftColumn": 0,
@@ -57,13 +57,14 @@
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
-  "height": 240,
+  "height": 350,
   "isCanvas": true,
   "isLoading": false,
   "key": "2fpgq5zybj",
   "leftColumn": 4,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 24,
+  "minHeight": 350,
   "mobileBottomRow": 52,
   "mobileLeftColumn": 4,
   "mobileRightColumn": 28,
@@ -80,5 +81,5 @@
   "version": 2,
   "widgetId": "gezmigaiai",
   "widgetName": "mdl_addEditPosition",
-  "width": 456
+  "width": 734
 }
