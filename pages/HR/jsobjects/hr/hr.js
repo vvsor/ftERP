@@ -250,7 +250,10 @@ export default {
 
 		showAlert(mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен", "success");
 		closeModal(mdl_addEditEmployee.name);
-		await utils.getPositionsByBranch();
+		await Promise.all([
+			this.refreshEmployeesPage({ showAlert: false }),
+			this.refreshPositionsPage({ showAlert: false })
+		]);
 	},
 
 	async savePositionTitleRow(rowParam = null) {
@@ -476,7 +479,7 @@ export default {
 		const officeTermId = row.office_term_id || row.id || null;
 		const body = {
 			user_id: selectedUserId,
-			position_id: row.position_id || null,
+			position_id: appsmith.store?.hrSelectedPosition?.id || row.position_id || null,
 			date_from: row.date_from ? moment(row.date_from).format("YYYY-MM-DD") : null,
 			date_till: row.date_till ? moment(row.date_till).format("YYYY-MM-DD") : null,
 			comment: row.comment || ""

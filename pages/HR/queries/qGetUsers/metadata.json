@@ -1,6 +1,6 @@
 {
   "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_e4323cf8-7d49-429a-a516-7dad6c728628",
-  "id": "HR_Api1",
+  "id": "HR_qGetUsers",
   "pluginId": "restapi-plugin",
   "pluginType": "API",
   "unpublishedAction": {
@@ -63,7 +63,7 @@
         "key": "queryParameters[2].value"
       }
     ],
-    "name": "Api1",
+    "name": "qGetUsers",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

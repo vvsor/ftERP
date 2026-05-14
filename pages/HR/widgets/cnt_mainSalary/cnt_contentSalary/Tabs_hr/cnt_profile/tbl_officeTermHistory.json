@@ -33,13 +33,13 @@
     }
   },
   "columnOrder": [
+    "user_id",
     "date_from_display",
     "date_till_display",
     "status",
     "is_current",
     "id",
     "office_term_id",
-    "user_id",
     "employee",
     "position_id",
     "title",
@@ -50,7 +50,7 @@
     "comment",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1778767701928,
+  "columnUpdatedAt": 1778768853404,
   "columnWidthMap": {},
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -132,6 +132,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.user_id.selectOptions"
     }
   ],
   "dynamicPropertyPathList": [
@@ -199,7 +202,7 @@
       "computedValue": "",
       "currencyCode": "USD",
       "decimals": 0,
-      "discardActionLabel": "Discard",
+      "discardActionLabel": "Отмена",
       "discardBorderRadius": "{{tbl_officeTermHistory.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "discardButtonColor": "#F22B2B",
       "discardButtonVariant": "TERTIARY",
@@ -222,7 +225,7 @@
       "notation": "standard",
       "onSave": "{{hr.saveOfficeTermHistory(tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow);}}\n",
       "originalId": "EditActions1",
-      "saveActionLabel": "Save",
+      "saveActionLabel": "Сохранить",
       "saveBorderRadius": "{{tbl_officeTermHistory.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "saveButtonColor": "{{tbl_officeTermHistory.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
       "saveIconAlign": "left",
@@ -398,7 +401,9 @@
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -492,7 +497,7 @@
       "isDiscardVisible": true,
       "isEditable": true,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "Сотрудник",
       "notation": "standard",
       "originalId": "employee",
@@ -713,8 +718,8 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_officeTermHistory.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"user_id\"])) : user_id })()}}",
+      "columnType": "select",
+      "computedValue": "{{(() => { const tableData = tbl_officeTermHistory.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"user_id\"])) : currentRow[\"user_id\"] })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -730,10 +735,11 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": false,
-      "label": "user_id",
+      "isVisible": true,
+      "label": "Сотрудник",
       "notation": "standard",
       "originalId": "user_id",
+      "selectOptions": "{{(() => { const tableData = tbl_officeTermHistory.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((appsmith.store?.hrEmployeeRows || []).map((row) => ({ label: row.employee, value: row.user_id })))) : (appsmith.store?.hrEmployeeRows || []).map((row) => ({ label: row.employee, value: row.user_id })) })()}}",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

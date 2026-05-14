@@ -22,7 +22,8 @@ export default {
 					"position_title_id.title",
 					"branch_id.id",
 					"branch_id.name",
-					"supervisor_position_id",
+					"supervisor_position_id.id",
+					"supervisor_position_id.position_title_id.title",
 					"comment"
 				].join(","),
 				filter: {
@@ -93,6 +94,11 @@ export default {
 		const rows = (positionsRes.data || [])
 		.map((position) => {
 			const employee = employeeByPositionId[position.id] || {};
+			const supervisorPosition = position.supervisor_position_id || {};
+			const supervisorPositionId = supervisorPosition?.id ?? position.supervisor_position_id ?? null;
+			const supervisorEmployee = employeeByPositionId[supervisorPositionId] || {};
+			const supervisorTitle = supervisorPosition?.position_title_id?.title || "";
+
 			return {
 				id: position.id,
 				title: position.position_title_id?.title || "",
@@ -111,7 +117,11 @@ export default {
 				branch_id: position.branch_id?.id ?? branchId,
 				branch_name: position.branch_id?.name || "",
 				position_title_id: position.position_title_id?.id ?? position.position_title_id ?? null,
-				supervisor_position_id: position.supervisor_position_id?.id ?? position.supervisor_position_id ?? null,
+				supervisor_position_id: supervisorPositionId,
+				supervisor_title: supervisorTitle,
+				supervisor_employee: supervisorEmployee.employee || "",
+				supervisor_display: [supervisorTitle, supervisorEmployee.employee].filter(Boolean).join(" - "),
+
 			};
 		})
 		.sort((a, b) => a.title.localeCompare(b.title));
