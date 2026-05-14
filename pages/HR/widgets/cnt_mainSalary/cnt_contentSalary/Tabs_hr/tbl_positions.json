@@ -54,7 +54,7 @@
     "supervisor_employee",
     "supervisor_display"
   ],
-  "columnUpdatedAt": 1778785072598,
+  "columnUpdatedAt": 1778786568261,
   "columnWidthMap": {
     "branch": 321,
     "customColumn1": 60,
@@ -261,7 +261,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": false,
+      "isVisible": true,
       "label": "branch_name",
       "notation": "standard",
       "originalId": "branch_name",
@@ -296,7 +296,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "comment",
+      "label": "Комментарий",
       "notation": "standard",
       "originalId": "comment",
       "sticky": "",

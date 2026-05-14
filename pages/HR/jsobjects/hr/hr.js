@@ -18,6 +18,13 @@ export default {
 		return rows.findIndex((row) => String(row.id) === String(selectedId));
 	},
 
+	getFilteredEmployeeRows() {
+		const rows = Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : [];
+		const branchId = sel_chooseBranchEmployee.selectedOptionValue || "";
+		if (!branchId) return rows;
+		return rows.filter((row) => (row.branch_ids || []).some((id) => String(id) === String(branchId)));
+	},
+
 	getSelectedEmployeeRowIndex() {
 		const rows = tbl_employees.tableData || [];
 		const selectedUserId = appsmith.store?.hrSelectedEmployeeRow?.user_id;
@@ -70,6 +77,20 @@ export default {
 
 		await utils.getOfficeTermHistoryByUser(row.user_id);
 	},
+
+	async tbl_employees_onRowSelected(rowParam = null) {
+		const row = rowParam || tbl_employees.selectedRow;
+
+		if (!row?.user_id) {
+			await storeValue("hrSelectedEmployeeRow", null, true);
+			await storeValue("hrOfficeTermHistoryRows", [], false);
+			return;
+		}
+
+		await storeValue("hrSelectedEmployeeRow", row, true);
+		await utils.getOfficeTermHistoryByUser(row.user_id);
+	},
+
 
 	async setSelectedOfficeTerm(officeTerm){
 		return await storeValue("SelectedOfficeTerm", officeTerm, true);
@@ -169,12 +190,8 @@ export default {
 			await utils.getBranches();
 			const selectedBranchId = appsmith.store?.hrSelectedBranchId ?? "";
 
-			if (selectedBranchId) {
-				await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
-				await utils.getEmployees();
-			} else {
-				await storeValue("hrPositionRows", [], false);
-			}
+			await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
+			await utils.getEmployees();
 
 			return;
 		} catch (error) {
@@ -291,20 +308,7 @@ export default {
 			}
 		});
 
-		const selectedPosition = appsmith.store?.hrSelectedPosition;
-		if (String(selectedPosition?.office_term_id) === String(officeTermId)) {
-			const updatedPosition = { ...selectedPosition, office_term_comment: comment };
-			await storeValue("hrSelectedPosition", updatedPosition, true);
-
-			const rows = (appsmith.store?.hrPositionRows || []).map((item) =>
-																															String(item.office_term_id) === String(officeTermId)
-																															? { ...item, office_term_comment: comment }
-																															: item
-																														 );
-			await storeValue("hrPositionRows", rows, false);
-		}
-
-		await utils.getOfficeTermHistoryByUser(row.user_id || selectedPosition?.user_id);
+		await utils.getOfficeTermHistoryByUser(row.user_id || appsmith.store?.hrSelectedPosition?.user_id);
 		showAlert("Комментарий назначения сохранен", "success");
 	},
 
