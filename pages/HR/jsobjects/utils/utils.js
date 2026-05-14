@@ -20,7 +20,8 @@ export default {
 					"id",
 					"position_title_id.title",
 					"branch_id.id",
-					"branch_id.name"
+					"branch_id.name",
+					"comment"
 				].join(","),
 				filter: {
 					branch_id: { id: { _eq: branchId } }
@@ -33,6 +34,7 @@ export default {
 					"id",
 					"date_from",
 					"date_till",
+					"comment",
 					"user_id.id",
 					"user_id.first_name",
 					"user_id.middle_name",
@@ -80,7 +82,8 @@ export default {
 					email: user.email || "",
 					role: user.role?.id ?? user.role ?? "",
 					date_from: row.date_from,
-					date_till: row.date_till
+					date_till: row.date_till,
+					comment: row.comment || ""
 				};
 			}
 		}
@@ -101,6 +104,7 @@ export default {
 				office_term_id: employee.office_term_id || null,
 				date_from: employee.date_from || null,
 				date_till: employee.date_till || null,
+				comment: employee.comment || "",
 				branch_id: position.branch_id?.id ?? branchId,
 				branch_name: position.branch_id?.name || ""
 			};
@@ -181,6 +185,7 @@ export default {
 				"id",
 				"date_from",
 				"date_till",
+				"comment",
 				"user_id.id",
 				"user_id.first_name",
 				"user_id.last_name",
@@ -213,6 +218,7 @@ export default {
 				branch_name: position?.branch_id?.name || "",
 				date_from: row.date_from || null,
 				date_till: row.date_till || null,
+				comment: row.comment || "",
 				date_from_display: row.date_from ? moment(row.date_from).format("DD.MM.YYYY") : "",
 				date_till_display: row.date_till ? moment(row.date_till).format("DD.MM.YYYY") : "по настоящее время",
 				status: isCurrent ? "Сейчас" : "История",

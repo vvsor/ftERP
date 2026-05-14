@@ -5,7 +5,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 14,
   "boxShadow": "none",
-  "defaultText": "{{ appsmith.store?.salaryOfPeriod?.comment || \"\" }}",
+  "defaultText": "{{ appsmith.store?.hrSelectedPosition?.comment || \"\" }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"

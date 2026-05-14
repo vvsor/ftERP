@@ -157,17 +157,21 @@ export default {
 		closeModal(mdl_addEditEmployee.name);
 	},
 	getEmployeeFormData() {
+		const email = inp_email.text?.trim();
+		const password = inp_password.text?.trim();
 		const body = {
 			first_name: inp_first_name.text?.trim() || "",
 			last_name: inp_last_name.text?.trim() || "",
 			middle_name: inp_middle_name.text?.trim() || "",
-			email: inp_email.text?.trim() || "",
 			role: sel_role.selectedOptionValue || null
 		};
-		const password = inp_password.text?.trim();
+
+		if (email) body.email = email;
 		if (password) body.password = password;
+
 		return body;
 	},
+
 
 	async saveEmployee() {
 		const mode = appsmith.store?.hrEmployeeModalMode || "add";
@@ -204,7 +208,7 @@ export default {
 
 	async saveCityRow() {
 		const row = tbl_cities.isAddRowInProgress ? tbl_cities.newRow : (tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow);
-		const body = { city: row.name?.trim() || "" };
+		const body = { name: row.name?.trim() || "" };
 		if (!body.name) return showAlert("Укажите город", "warning");
 
 		if (tbl_cities.isAddRowInProgress) await items.createItems({ collection: "cities", body });
@@ -213,6 +217,42 @@ export default {
 		await utils.getCityRows();
 		await utils.getBranchDirectoryRows();
 		showAlert("Город сохранен", "success");
+	},
+
+	async updateOfficeTermHistory(rowParam = null) {
+		const row = rowParam || tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow;
+		const officeTermId = row?.office_term_id || row?.id;
+
+		if (!officeTermId) {
+			showAlert("Не найден office_term_id", "warning");
+			return;
+		}
+
+		const comment = row.comment ?? "";
+
+		await items.updateItems({
+			collection: "office_terms",
+			body: {
+				keys: [officeTermId],
+				data: { comment }
+			}
+		});
+
+		const selectedPosition = appsmith.store?.hrSelectedPosition;
+		if (String(selectedPosition?.office_term_id) === String(officeTermId)) {
+			const updatedPosition = { ...selectedPosition, comment };
+			await storeValue("hrSelectedPosition", updatedPosition, true);
+
+			const rows = (appsmith.store?.hrPositionRows || []).map((item) =>
+																															String(item.office_term_id) === String(officeTermId)
+																															? { ...item, comment }
+																															: item
+																														 );
+			await storeValue("hrPositionRows", rows, false);
+		}
+
+		await utils.getOfficeTermHistoryByUser(row.user_id || selectedPosition?.user_id);
+		showAlert("Комментарий назначения сохранен", "success");
 	},
 
 	async saveBranchRow() {

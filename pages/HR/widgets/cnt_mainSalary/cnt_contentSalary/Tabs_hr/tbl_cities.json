@@ -87,9 +87,6 @@
       "key": "tableData"
     },
     {
-      "key": "onAddNewRowSave"
-    },
-    {
       "key": "primaryColumns.EditActions1.isSaveDisabled"
     },
     {
@@ -97,6 +94,9 @@
     },
     {
       "key": "primaryColumns.name.onSubmit"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "dynamicTriggerPathList": [
@@ -105,6 +105,9 @@
     },
     {
       "key": "primaryColumns.name.onSubmit"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "enableClientSideSearch": true,
@@ -128,7 +131,7 @@
   "mobileRightColumn": 37,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "onAddNewRowSave": "{{hr.saveCityRow();}}",
+  "onAddNewRowSave": "",
   "parentColumnSpace": 3.264190673828125,
   "parentId": "ex8g7sr7rh",
   "parentRowSpace": 10,
@@ -142,7 +145,7 @@
       "computedValue": "",
       "currencyCode": "USD",
       "decimals": 0,
-      "discardActionLabel": "Discard",
+      "discardActionLabel": "Отмена",
       "discardBorderRadius": "{{tbl_cities.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "discardButtonColor": "#F22B2B",
       "discardButtonVariant": "TERTIARY",
@@ -163,8 +166,9 @@
       "isVisible": true,
       "label": "Save / Discard",
       "notation": "standard",
+      "onSave": "{{\nhr.saveCityRow()\n}}",
       "originalId": "EditActions1",
-      "saveActionLabel": "Save",
+      "saveActionLabel": "Сохранить",
       "saveBorderRadius": "{{tbl_cities.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "saveButtonColor": "{{tbl_cities.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
       "saveIconAlign": "left",
@@ -250,7 +254,7 @@
   "rightColumn": 64,
   "searchKey": "",
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : [] }}\n",
+  "tableData": "{{ Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : [] }}",
   "textSize": "0.875rem",
   "topRow": 0,
   "totalRecordsCount": 0,

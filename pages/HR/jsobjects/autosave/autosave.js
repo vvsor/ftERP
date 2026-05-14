@@ -14,53 +14,48 @@ export default {
 
 	// ================== CORE SAVE ==================
 	async saveField(fieldName, widget) {
-		if (!appsmith.store?.salaryReady) {
-			console.warn("Autosave blocked: salary not ready");
+		const position = appsmith.store?.hrSelectedPosition;
+		const officeTermId = position?.office_term_id;
+
+		if (!officeTermId) {
+			console.warn("Autosave skipped: office_term_id not ready", { fieldName });
 			return;
 		}
+
 		try {
-			const salaryRec = appsmith.store?.salaryOfPeriod;
+			const value =
+						widget && "text" in widget
+			? widget.text
+			: widget && "selectedOptionValue" in widget
+			? widget.selectedOptionValue
+			: null;
 
-			if (!salaryRec || !salaryRec.id) {
-				console.warn("Autosave skipped: salaryOfPeriod not ready", {
-					fieldName,
-					widget: widget?.widgetName
-				});
-				return;
-			}
+			if (value === null || value === undefined) return;
 
-			const value = utils.extractValue(widget);
-			const currentValue = salaryRec?.[fieldName] ?? "";
-			if (String(value ?? "") === String(currentValue ?? "")) {
-				return;
-			}
+			const currentValue = position?.[fieldName] ?? "";
+			if (String(value ?? "") === String(currentValue ?? "")) return;
 
-			// Не шлём пустые значения при инициализации
-			if (value === null || value === undefined) {
-				console.warn("Autosave skipped: empty value", fieldName);
-				return;
-			}
-
-			const keys = [salaryRec.id];
-
-			const body = {
-				keys,
-				data: {
-					[fieldName]: value
+			await items.updateItems({
+				collection: "office_terms",
+				body: {
+					keys: [officeTermId],
+					data: { [fieldName]: value }
 				}
-			};
-
-			const params = {
-				collection: "salary",
-				body
-			};
-
-			await items.updateItems(params);
-			await hr.setSalaryOfPeriod({
-				...salaryRec,
-				[fieldName]: value
 			});
 
+			const updatedPosition = { ...position, [fieldName]: value };
+			await storeValue("hrSelectedPosition", updatedPosition, true);
+
+			const rows = (appsmith.store?.hrPositionRows || []).map((row) =>
+																															String(row.office_term_id) === String(officeTermId)
+																															? { ...row, [fieldName]: value }
+																															: row
+																														 );
+			await storeValue("hrPositionRows", rows, false);
+
+			if (updatedPosition.user_id) {
+				await utils.getOfficeTermHistoryByUser(updatedPosition.user_id);
+			}
 		} catch (err) {
 			console.error(`Autosave failed for ${fieldName}:`, err);
 			showAlert(`Autosave failed: ${fieldName}`, "warning");

@@ -46,9 +46,10 @@
     "last_name",
     "middle_name",
     "email",
-    "role"
+    "role",
+    "comment"
   ],
-  "columnUpdatedAt": 1778746265711,
+  "columnUpdatedAt": 1778756998445,
   "columnWidthMap": {
     "branch": 321,
     "email": 94,
@@ -127,6 +128,9 @@
     },
     {
       "key": "primaryColumns.role.computedValue"
+    },
+    {
+      "key": "primaryColumns.comment.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -237,6 +241,40 @@
       "label": "branch_name",
       "notation": "standard",
       "originalId": "branch_name",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "comment": {
+      "alias": "comment",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_positions.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"comment\"])) : comment })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "comment",
+      "index": 14,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "comment",
+      "notation": "standard",
+      "originalId": "comment",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
