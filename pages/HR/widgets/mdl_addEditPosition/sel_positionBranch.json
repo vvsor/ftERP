@@ -4,13 +4,19 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 21,
   "boxShadow": "none",
-  "defaultOptionValue": "GREEN",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedPositionDraft?.branch_id || appsmith.store?.hrSelectedBranchId || \"\" ))(sel_positionBranch.options, sel_positionBranch.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -41,7 +47,7 @@
   "mobileTopRow": 6,
   "needsErrorInfo": false,
   "optionLabel": "name",
-  "optionValue": "code",
+  "optionValue": "id",
   "originalBottomRow": 21,
   "originalTopRow": 14,
   "parentColumnSpace": 6.9375,
@@ -52,10 +58,10 @@
   "responsiveBehavior": "fill",
   "rightColumn": 38,
   "serverSideFiltering": false,
-  "sourceData": "[\n  {\n    \"name\": \"Blue\",\n    \"code\": \"BLUE\"\n  },\n  {\n    \"name\": \"Green\",\n    \"code\": \"GREEN\"\n  },\n  {\n    \"name\": \"Red\",\n    \"code\": \"RED\"\n  }\n]",
+  "sourceData": "{{ Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [] }}",
   "topRow": 14,
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "iw7whwxscp",
-  "widgetName": "sel_positionTitleCopy"
+  "widgetName": "sel_positionBranch"
 }

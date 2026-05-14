@@ -15,10 +15,10 @@ export default {
 	// ================== CORE SAVE ==================
 	async saveField(fieldName, widget) {
 		const position = appsmith.store?.hrSelectedPosition;
-		const officeTermId = position?.office_term_id;
+		const positionId = position?.id;
 
-		if (!officeTermId) {
-			console.warn("Autosave skipped: office_term_id not ready", { fieldName });
+		if (!positionId) {
+			console.warn("Autosave skipped: position id not ready", { fieldName });
 			return;
 		}
 
@@ -36,9 +36,9 @@ export default {
 			if (String(value ?? "") === String(currentValue ?? "")) return;
 
 			await items.updateItems({
-				collection: "office_terms",
+				collection: "positions",
 				body: {
-					keys: [officeTermId],
+					keys: [positionId],
 					data: { [fieldName]: value }
 				}
 			});
@@ -47,15 +47,11 @@ export default {
 			await storeValue("hrSelectedPosition", updatedPosition, true);
 
 			const rows = (appsmith.store?.hrPositionRows || []).map((row) =>
-																															String(row.office_term_id) === String(officeTermId)
+																															String(row.id) === String(positionId)
 																															? { ...row, [fieldName]: value }
 																															: row
 																														 );
 			await storeValue("hrPositionRows", rows, false);
-
-			if (updatedPosition.user_id) {
-				await utils.getOfficeTermHistoryByUser(updatedPosition.user_id);
-			}
 		} catch (err) {
 			console.error(`Autosave failed for ${fieldName}:`, err);
 			showAlert(`Autosave failed: ${fieldName}`, "warning");

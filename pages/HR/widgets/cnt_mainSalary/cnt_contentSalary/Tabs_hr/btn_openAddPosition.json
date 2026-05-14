@@ -15,7 +15,11 @@
       "key": "buttonColor"
     }
   ],
-  "dynamicPropertyPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "dynamicTriggerPathList": [
     {
       "key": "onClick"
@@ -37,7 +41,7 @@
   "mobileLeftColumn": 21,
   "mobileRightColumn": 37,
   "mobileTopRow": 8,
-  "onClick": "{{showModal(mdl_addEditPosition.name);}}",
+  "onClick": "{{hr.openPositionModal(\"add\");}}",
   "originalBottomRow": 14,
   "originalTopRow": 10,
   "parentColumnSpace": 17.3447265625,

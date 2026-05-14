@@ -32,6 +32,7 @@
     }
   },
   "columnOrder": [
+    "customColumn1",
     "user_id",
     "id",
     "title",
@@ -41,7 +42,6 @@
     "office_term_id",
     "date_from",
     "date_till",
-    "customColumn1",
     "first_name",
     "last_name",
     "middle_name",
@@ -49,9 +49,10 @@
     "role",
     "comment"
   ],
-  "columnUpdatedAt": 1778756998445,
+  "columnUpdatedAt": 1778759182591,
   "columnWidthMap": {
     "branch": 321,
+    "customColumn1": 60,
     "email": 94,
     "employee": 171.24316406250003,
     "title": 203
@@ -142,6 +143,9 @@
     },
     {
       "key": "primaryColumns.date_from.outputFormat"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -174,7 +178,7 @@
   "mobileTopRow": 9,
   "multiRowSelection": false,
   "needsErrorInfo": false,
-  "onRowSelected": "{{hr.tbl_positions_onRowSelected()}}",
+  "onRowSelected": "{{hr.tbl_positions_onRowSelected(tbl_positions.selectedRow);}}",
   "originalBottomRow": 76,
   "originalTopRow": 4,
   "parentColumnSpace": 10.9384765625,
@@ -284,7 +288,7 @@
       "width": 150
     },
     "customColumn1": {
-      "alias": "Изменить",
+      "alias": "",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "borderRadius": "{{tbl_positions.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
@@ -310,10 +314,10 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Изменить",
+      "label": "",
       "labelColor": "#FFFFFF",
       "notation": "standard",
-      "onClick": "{{showModal(mdl_addEditPosition.name);}}",
+      "onClick": "{{hr.openPositionModal(\"edit\", tbl_positions.triggeredRow);}}\n",
       "originalId": "customColumn1",
       "sticky": "",
       "textSize": "0.875rem",

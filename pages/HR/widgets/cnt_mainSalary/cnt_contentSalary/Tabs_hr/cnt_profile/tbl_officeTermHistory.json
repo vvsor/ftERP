@@ -1,10 +1,11 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "allowAddNewRow": true,
   "animateLoading": true,
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 48,
+  "bottomRow": 47,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -49,7 +50,7 @@
     "comment",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1778757154772,
+  "columnUpdatedAt": 1778757772270,
   "columnWidthMap": {},
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -142,9 +143,16 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.comment.onSubmit"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "primaryColumns.comment.onSubmit"
+    }
+  ],
   "enableClientSideSearch": true,
   "endOfData": false,
   "flexVerticalAlignment": "start",
@@ -305,6 +313,7 @@
       "isVisible": true,
       "label": "Комментарий",
       "notation": "standard",
+      "onSubmit": "{{hr.updateOfficeTermHistory(tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow);}}",
       "originalId": "comment",
       "sticky": "",
       "textColor": "",
@@ -431,12 +440,12 @@
       "horizontalAlignment": "LEFT",
       "id": "date_till_display",
       "index": 11,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Дата увольнения",
@@ -540,7 +549,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "is_current",
       "notation": "standard",
       "originalId": "is_current",
@@ -730,7 +739,7 @@
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(appsmith.store?.hrOfficeTermHistoryRows) ? appsmith.store.hrOfficeTermHistoryRows : [] }}\n",
   "textSize": "0.875rem",
-  "topRow": 20,
+  "topRow": 19,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,

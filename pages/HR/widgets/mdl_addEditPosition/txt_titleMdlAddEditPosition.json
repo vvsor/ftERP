@@ -41,7 +41,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 41,
   "shouldTruncate": false,
-  "text": "{{ appsmith.store?.hrEmployeeModalMode === \"edit\" ? `Штатная единица: ${appsmith.store?.hrSelectedEmployee?.employee || \"\"}` : \"Новая штатная единица\" }}",
+  "text": "{{ appsmith.store?.hrPositionModalMode === \"edit\" ? `Должность: ${appsmith.store?.hrSelectedPositionDraft?.title || \"\"}` : \"Новая штатная должность\" }}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 1,
@@ -49,5 +49,5 @@
   "type": "TEXT_WIDGET",
   "version": 1,
   "widgetId": "ef9xmh2er4",
-  "widgetName": "Text4"
+  "widgetName": "txt_titleMdlAddEditPosition"
 }

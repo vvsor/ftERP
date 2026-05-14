@@ -1,17 +1,12 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_e396e7db-df33-48f9-bace-4706a72f6690",
-  "id": "HR_hr.tbl_positions_onRowSelected",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_4840c455-3e43-44c3-a81b-c5c85183f097",
+  "id": "HR_hr.getPositionFormData",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [
-        {
-          "name": "rowParam",
-          "value": "{{null}}"
-        }
-      ],
+      "jsArguments": [],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -27,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.tbl_positions_onRowSelected",
-    "name": "tbl_positions_onRowSelected",
+    "fullyQualifiedName": "hr.getPositionFormData",
+    "name": "getPositionFormData",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

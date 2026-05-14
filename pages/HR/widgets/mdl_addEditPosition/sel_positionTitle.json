@@ -4,13 +4,19 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 13,
   "boxShadow": "none",
-  "defaultOptionValue": "GREEN",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedPositionDraft?.position_title_id || \"\" ))(sel_positionTitle.options, sel_positionTitle.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -40,19 +46,19 @@
   "mobileRightColumn": 22,
   "mobileTopRow": 6,
   "needsErrorInfo": false,
-  "optionLabel": "name",
-  "optionValue": "code",
+  "optionLabel": "title",
+  "optionValue": "id",
   "originalBottomRow": 13,
   "originalTopRow": 6,
   "parentColumnSpace": 6.9375,
   "parentId": "s9eb0rni56",
   "parentRowSpace": 10,
-  "placeholderText": "Select option",
+  "placeholderText": "Выберите должность",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
   "rightColumn": 38,
   "serverSideFiltering": false,
-  "sourceData": "[\n  {\n    \"name\": \"Blue\",\n    \"code\": \"BLUE\"\n  },\n  {\n    \"name\": \"Green\",\n    \"code\": \"GREEN\"\n  },\n  {\n    \"name\": \"Red\",\n    \"code\": \"RED\"\n  }\n]",
+  "sourceData": "{{ Array.isArray(appsmith.store?.hrPositionTitleRows) ? appsmith.store.hrPositionTitleRows : [] }}\n",
   "topRow": 6,
   "type": "SELECT_WIDGET",
   "version": 1,

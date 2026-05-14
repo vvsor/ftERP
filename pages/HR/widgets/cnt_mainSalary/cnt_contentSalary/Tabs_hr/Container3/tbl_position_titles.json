@@ -96,11 +96,17 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "enableClientSideSearch": true,
@@ -159,6 +165,7 @@
       "isVisible": true,
       "label": "Save / Discard",
       "notation": "standard",
+      "onSave": "{{hr.savePositionTitleRow(tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow);}}\n",
       "originalId": "EditActions1",
       "saveActionLabel": "Save",
       "saveBorderRadius": "{{tbl_position_titles.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",

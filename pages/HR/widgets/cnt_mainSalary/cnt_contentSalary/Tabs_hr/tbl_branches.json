@@ -39,7 +39,7 @@
     "city",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1778745849685,
+  "columnUpdatedAt": 1778759684420,
   "columnWidthMap": {
     "name": 294
   },
@@ -90,6 +90,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.city_id.selectOptions"
     }
   ],
   "dynamicPropertyPathList": [
@@ -107,6 +110,9 @@
     },
     {
       "key": "primaryColumns.name.onSubmit"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "dynamicTriggerPathList": [
@@ -115,6 +121,9 @@
     },
     {
       "key": "primaryColumns.name.onSubmit"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "enableClientSideSearch": true,
@@ -173,6 +182,7 @@
       "isVisible": true,
       "label": "Save / Discard",
       "notation": "standard",
+      "onSave": "{{hr.saveBranchRow(tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow);}}",
       "originalId": "EditActions1",
       "saveActionLabel": "Save",
       "saveBorderRadius": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
@@ -222,8 +232,8 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "number",
-      "computedValue": "{{(() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"city_id\"])) : city_id })()}}",
+      "columnType": "select",
+      "computedValue": "{{(() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : [] )) :  Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : []  })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -239,10 +249,11 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": false,
+      "isVisible": true,
       "label": "city_id",
       "notation": "standard",
       "originalId": "city_id",
+      "selectOptions": "{{(() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.name)) : currentRow.name })()}}",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_e396e7db-df33-48f9-bace-4706a72f6690",
-  "id": "HR_hr.tbl_positions_onRowSelected",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_2ac285c1-5fb2-453a-969b-be61370c0865",
+  "id": "HR_hr.openPositionModal",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,7 +8,11 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": "rowParam",
+          "name": "mode",
+          "value": "add"
+        },
+        {
+          "name": "row",
           "value": "{{null}}"
         }
       ],
@@ -27,8 +31,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.tbl_positions_onRowSelected",
-    "name": "tbl_positions_onRowSelected",
+    "fullyQualifiedName": "hr.openPositionModal",
+    "name": "openPositionModal",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

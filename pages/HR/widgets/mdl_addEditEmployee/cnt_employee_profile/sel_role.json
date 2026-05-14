@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 23,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedEmployee?.role || \"a0258883-621a-4e27-a1f3-4a0f99ea1de6\" ))(sel_role.options, sel_role.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrEmployeeModalMode === \"edit\" ? (appsmith.store?.hrSelectedEmployee?.role || \"\") : \"\" ))(sel_role.options, sel_role.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -33,6 +33,7 @@
   "labelPosition": "Top",
   "labelText": "Роль",
   "labelTextSize": "0.875rem",
+  "labelTooltip": "",
   "labelWidth": 5,
   "leftColumn": 1,
   "maxDynamicHeight": 9000,
@@ -50,7 +51,7 @@
   "parentColumnSpace": 7.351837158203125,
   "parentId": "3ufkw5xfin",
   "parentRowSpace": 10,
-  "placeholderText": "Select option",
+  "placeholderText": "Выберите роль пользователя",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
   "rightColumn": 42,

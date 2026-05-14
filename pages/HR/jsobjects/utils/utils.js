@@ -18,9 +18,11 @@ export default {
 				collection: "positions",
 				fields: [
 					"id",
+					"position_title_id.id",
 					"position_title_id.title",
 					"branch_id.id",
 					"branch_id.name",
+					"supervisor_position_id",
 					"comment"
 				].join(","),
 				filter: {
@@ -83,7 +85,7 @@ export default {
 					role: user.role?.id ?? user.role ?? "",
 					date_from: row.date_from,
 					date_till: row.date_till,
-					comment: row.comment || ""
+					office_term_comment: row.comment || ""
 				};
 			}
 		}
@@ -104,9 +106,12 @@ export default {
 				office_term_id: employee.office_term_id || null,
 				date_from: employee.date_from || null,
 				date_till: employee.date_till || null,
-				comment: employee.comment || "",
+				comment: position.comment || "",
+				office_term_comment: employee.office_term_comment || "",
 				branch_id: position.branch_id?.id ?? branchId,
-				branch_name: position.branch_id?.name || ""
+				branch_name: position.branch_id?.name || "",
+				position_title_id: position.position_title_id?.id ?? position.position_title_id ?? null,
+				supervisor_position_id: position.supervisor_position_id?.id ?? position.supervisor_position_id ?? null,
 			};
 		})
 		.sort((a, b) => a.title.localeCompare(b.title));

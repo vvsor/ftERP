@@ -97,6 +97,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "onAddNewRowSave"
     }
   ],
   "dynamicTriggerPathList": [
@@ -131,7 +134,7 @@
   "mobileRightColumn": 37,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "onAddNewRowSave": "",
+  "onAddNewRowSave": "{{hr.saveCityRow(tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow);}}",
   "parentColumnSpace": 3.264190673828125,
   "parentId": "ex8g7sr7rh",
   "parentRowSpace": 10,

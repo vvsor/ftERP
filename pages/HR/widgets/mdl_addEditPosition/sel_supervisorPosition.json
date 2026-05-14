@@ -4,13 +4,19 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 29,
   "boxShadow": "none",
-  "defaultOptionValue": "GREEN",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedPositionDraft?.boss_id || \"\" ))(sel_supervisorPosition.options, sel_supervisorPosition.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -40,8 +46,8 @@
   "mobileRightColumn": 22,
   "mobileTopRow": 6,
   "needsErrorInfo": false,
-  "optionLabel": "name",
-  "optionValue": "code",
+  "optionLabel": "label",
+  "optionValue": "value",
   "originalBottomRow": 29,
   "originalTopRow": 22,
   "parentColumnSpace": 6.9375,
@@ -52,10 +58,10 @@
   "responsiveBehavior": "fill",
   "rightColumn": 38,
   "serverSideFiltering": false,
-  "sourceData": "[\n  {\n    \"name\": \"Blue\",\n    \"code\": \"BLUE\"\n  },\n  {\n    \"name\": \"Green\",\n    \"code\": \"GREEN\"\n  },\n  {\n    \"name\": \"Red\",\n    \"code\": \"RED\"\n  }\n]",
+  "sourceData": "{{ (appsmith.store?.hrPositionRows || []).filter(row => row.id !== appsmith.store?.hrSelectedPositionDraft?.id).map(row => ({ label: `${row.title}${row.employee ? ` (${row.employee})` : \"\"}`, value: row.id })) }}",
   "topRow": 22,
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "2y6p7o88ba",
-  "widgetName": "sel_positionTitleCopy1"
+  "widgetName": "sel_supervisorPosition"
 }

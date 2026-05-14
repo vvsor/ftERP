@@ -30,8 +30,8 @@ export default {
 		showModal(mdl_addEditEmployee.name);
 	},
 
-	async tbl_positions_onRowSelected() {
-		const row = tbl_positions.selectedRow;
+	async tbl_positions_onRowSelected(rowParam = null) {
+		const row = rowParam || tbl_positions.selectedRow || tbl_employees.selectedRow;
 
 		if (!row?.id) {
 			await storeValue("hrSelectedPosition", null, true);
@@ -156,22 +156,24 @@ export default {
 		// await storeValue("curParticipantsIds", undefined, true);
 		closeModal(mdl_addEditEmployee.name);
 	},
+
 	getEmployeeFormData() {
 		const email = inp_email.text?.trim();
 		const password = inp_password.text?.trim();
+		const role = sel_role.selectedOptionValue;
+
 		const body = {
 			first_name: inp_first_name.text?.trim() || "",
 			last_name: inp_last_name.text?.trim() || "",
-			middle_name: inp_middle_name.text?.trim() || "",
-			role: sel_role.selectedOptionValue || null
+			middle_name: inp_middle_name.text?.trim() || ""
 		};
 
 		if (email) body.email = email;
 		if (password) body.password = password;
+		if (role) body.role = role;
 
 		return body;
 	},
-
 
 	async saveEmployee() {
 		const mode = appsmith.store?.hrEmployeeModalMode || "add";
@@ -206,13 +208,23 @@ export default {
 		showAlert("Название должности сохранено", "success");
 	},
 
-	async saveCityRow() {
-		const row = tbl_cities.isAddRowInProgress ? tbl_cities.newRow : (tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow);
-		const body = { name: row.name?.trim() || "" };
+	async saveCityRow(rowParam = null) {
+		const row =
+					rowParam ||
+					(tbl_cities.isAddRowInProgress
+					 ? tbl_cities.newRow
+					 : (tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow || tbl_cities.selectedRow));
+
+		const name = row?.name?.trim?.() || row?.city?.trim?.() || "";
+		const body = { name };
+
 		if (!body.name) return showAlert("Укажите город", "warning");
 
-		if (tbl_cities.isAddRowInProgress) await items.createItems({ collection: "cities", body });
-		else await items.updateItems({ collection: "cities", body: { keys: [row.id], data: body } });
+		if (tbl_cities.isAddRowInProgress) {
+			await items.createItems({ collection: "cities", body });
+		} else {
+			await items.updateItems({ collection: "cities", body: { keys: [row.id], data: body } });
+		}
 
 		await utils.getCityRows();
 		await utils.getBranchDirectoryRows();
@@ -269,5 +281,74 @@ export default {
 		await utils.getBranches();
 		await utils.getBranchDirectoryRows();
 		showAlert("Подразделение сохранено", "success");
+	},
+	
+	async openPositionModal(mode = "add", row = null) {
+		const isEdit = mode === "edit";
+		const sourceRow = row || (isEdit ? (tbl_positions.triggeredRow || tbl_positions.selectedRow) : null);
+
+		if (isEdit && !sourceRow?.id) {
+			showAlert("Должность не выбрана", "warning");
+			return;
+		}
+
+		const position = isEdit ? {
+			id: sourceRow.id,
+			position_title_id: sourceRow.position_title_id || null,
+			branch_id: sourceRow.branch_id || appsmith.store?.hrSelectedBranchId || null,
+			supervisor_position_id: sourceRow.supervisor_position_id || null,
+			title: sourceRow.title || "",
+			comment: sourceRow.comment || ""
+		} : {
+			branch_id: appsmith.store?.hrSelectedBranchId || null
+		};
+
+		await storeValue("hrPositionModalMode", isEdit ? "edit" : "add", true);
+		await storeValue("hrSelectedPositionDraft", position, true);
+
+		resetWidget("mdl_addEditPosition", true);
+		showModal(mdl_addEditPosition.name);
+	},
+
+	closePositionModal() {
+		closeModal(mdl_addEditPosition.name);
+	},
+
+	getPositionFormData() {
+		const body = {
+			position_title_id: sel_positionTitle.selectedOptionValue || null,
+			branch_id: sel_positionBranch.selectedOptionValue || appsmith.store?.hrSelectedBranchId || null,
+			supervisor_position_id: sel_supervisorPosition.selectedOptionValue || null
+		};
+
+		return body;
+	},
+
+	async savePosition() {
+		const mode = appsmith.store?.hrPositionModalMode || "add";
+		const selectedPosition = appsmith.store?.hrSelectedPositionDraft;
+		const body = this.getPositionFormData();
+
+		if (!body.position_title_id) {
+			showAlert("Выберите название должности", "warning");
+			return;
+		}
+		if (!body.branch_id) {
+			showAlert("Выберите подразделение", "warning");
+			return;
+		}
+
+		if (mode === "edit") {
+			await items.updateItems({
+				collection: "positions",
+				body: { keys: [selectedPosition.id], data: body }
+			});
+		} else {
+			await items.createItems({ collection: "positions", body });
+		}
+
+		closeModal(mdl_addEditPosition.name);
+		await this.refreshPositionsPage();
+		showAlert(mode === "edit" ? "Должность обновлена" : "Должность добавлена", "success");
 	}
 }
