@@ -53,7 +53,7 @@ export default {
 	},
 
 	async tbl_positions_onRowSelected(rowParam = null) {
-		const row = rowParam || tbl_positions.selectedRow || tbl_employees.selectedRow;
+		const row = rowParam || tbl_positions.selectedRow;
 
 		if (!row?.id) {
 			await storeValue("hrSelectedPosition", null, true);
@@ -70,20 +70,6 @@ export default {
 
 		await utils.getOfficeTermHistoryByUser(row.user_id);
 	},
-
-	async tbl_employees_onRowSelected(rowParam = null) {
-		const row = rowParam || tbl_employees.selectedRow;
-
-		if (!row?.user_id) {
-			await storeValue("hrSelectedEmployeeRow", null, true);
-			await storeValue("hrOfficeTermHistoryRows", [], false);
-			return;
-		}
-
-		await storeValue("hrSelectedEmployeeRow", row, true);
-		await utils.getOfficeTermHistoryByUser(row.user_id);
-	},
-
 
 	async setSelectedOfficeTerm(officeTerm){
 		return await storeValue("SelectedOfficeTerm", officeTerm, true);

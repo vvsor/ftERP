@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 4,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedBranchId ?? \"\" ))(sel_chooseBranchEmpl.options, sel_chooseBranchEmpl.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedBranchId ?? \"\" ))(sel_chooseBranchEmployee.options, sel_chooseBranchEmployee.serverSideFiltering) }}",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {
@@ -56,7 +56,7 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "onOptionChange": "{{hr.sel_chooseBranch_OptionChanged(sel_chooseBranchEmpl.selectedOptionValue);}}",
+  "onOptionChange": "{{hr.sel_chooseBranch_OptionChanged(sel_chooseBranchEmployee.selectedOptionValue);}}",
   "optionLabel": "name",
   "optionValue": "id",
   "originalBottomRow": 71,
@@ -81,5 +81,5 @@
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "pre69j1nue",
-  "widgetName": "sel_chooseBranchEmpl"
+  "widgetName": "sel_chooseBranchEmployee"
 }

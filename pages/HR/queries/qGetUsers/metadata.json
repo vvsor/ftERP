@@ -21,6 +21,7 @@
       "httpMethod": "GET",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
+      "path": "/users",
       "pluginSpecifiedTemplates": [
         {
           "value": true
@@ -52,6 +53,9 @@
     "dynamicBindingPathList": [
       {
         "key": "headers[0].value"
+      },
+      {
+        "key": "path"
       },
       {
         "key": "queryParameters[0].value"

@@ -72,7 +72,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{ Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [] }}\n",
+  "sourceData": "{{ Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [] }}",
   "tags": [
     "Suggested",
     "Select"
