@@ -185,7 +185,7 @@ export default {
 				"user_id.first_name",
 				"user_id.last_name",
 				"position_id.id",
-				"position_id.title_id.title",
+				"position_id.position_title_id.title",
 				"position_id.branch_id.id",
 				"position_id.branch_id.name"
 			].join(","),
@@ -208,7 +208,7 @@ export default {
 				user_id: row?.user_id?.id || userId,
 				employee: utils.formatUserName(row?.user_id),
 				position_id: position?.id || null,
-				title: position?.title_id?.title || "",
+				title: position?.position_title_id?.title || "",
 				branch_id: position?.branch_id?.id || null,
 				branch_name: position?.branch_id?.name || "",
 				date_from: row.date_from || null,
@@ -259,10 +259,10 @@ export default {
 	async getCityRows() {
 		const response = await items.getItems({
 			collection: "cities",
-			fields: "id,city",
+			fields: "id,name",
 			limit: -1
 		});
-		const rows = (response.data || []).sort((a, b) => String(a.city || "").localeCompare(String(b.city || "")));
+		const rows = (response.data || []).sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 		await storeValue("hrCityRows", rows, false);
 		return rows;
 	},
@@ -270,14 +270,14 @@ export default {
 	async getBranchDirectoryRows() {
 		const response = await items.getItems({
 			collection: "branches",
-			fields: "id,name,city_id.id,city_id.city",
+			fields: "id,name,city_id.id,city_id.name",
 			limit: -1
 		});
 		const rows = (response.data || []).map((row) => ({
 			id: row.id,
 			name: row.name || "",
 			city_id: row.city_id?.id ?? row.city_id ?? null,
-			city: row.city_id?.city || ""
+			city: row.city_id?.name || ""
 		})).sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 		await storeValue("hrBranchDirectoryRows", rows, false);
 		return rows;
