@@ -258,7 +258,7 @@
       "label": "Изменить",
       "labelColor": "#FFFFFF",
       "notation": "standard",
-      "onClick": "{{showModal(mdl_addEditEmployee.name)}}",
+      "onClick": "{{hr.openEmployeeModal(\"edit\");}}",
       "originalId": "customColumn1",
       "sticky": "",
       "textSize": "0.875rem",

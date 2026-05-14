@@ -4,6 +4,31 @@ export default {
 	// console.log(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
 	// },
 	/// ============== end of test block ===============
+	async openEmployeeModal(mode = "add", row = null) {
+		const isEdit = mode === "edit";
+		const sourceRow = row || (isEdit ? (tbl_employees.triggeredRow || tbl_employees.selectedRow) : null);
+
+		if (isEdit && !sourceRow?.user_id) {
+			showAlert("Сотрудник не выбран", "warning");
+			return;
+		}
+
+		const employee = isEdit ? {
+			id: sourceRow.user_id,
+			employee: sourceRow.employee || "",
+			first_name: sourceRow.first_name || "",
+			last_name: sourceRow.last_name || "",
+			middle_name: sourceRow.middle_name || "",
+			email: sourceRow.email || "",
+			role: sourceRow.role || ""
+		} : null;
+
+		await storeValue("hrEmployeeModalMode", isEdit ? "edit" : "add", true);
+		await storeValue("hrSelectedEmployee", employee, true);
+
+		resetWidget("cnt_employee_profile", true);
+		showModal(mdl_addEditEmployee.name);
+	},
 
 	async tbl_positions_onRowSelected() {
 		const row = tbl_positions.selectedRow;
@@ -97,7 +122,7 @@ export default {
 			console.error("Error loading office terms:", error);
 		}
 	},
-	
+
 	async btn_closeAddEditEmployeeModal_onClick() {
 		// restore focus on last employee if editing was cancelled
 		//await this.restoreSavedTaskSelection();

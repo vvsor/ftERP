@@ -36,6 +36,8 @@ export default {
 					"user_id.id",
 					"user_id.first_name",
 					"user_id.last_name",
+					"user_id.email",
+					"user_id.role",
 					"position_id.id"
 				].join(","),
 				filter: {
@@ -71,6 +73,11 @@ export default {
 					office_term_id: row.id,
 					user_id: user.id,
 					employee: utils.formatUserName(user),
+					first_name: user.first_name || "",
+					last_name: user.last_name || "",
+					middle_name: user.middle_name || "",
+					email: user.email || "",
+					role: user.role?.id ?? user.role ?? "",
 					date_from: row.date_from,
 					date_till: row.date_till
 				};
@@ -84,6 +91,11 @@ export default {
 				id: position.id,
 				title: position.position_title_id?.title || "",
 				employee: employee.employee || "",
+				first_name: employee.first_name || "",
+				last_name: employee.last_name || "",
+				middle_name: employee.middle_name || "",
+				email: employee.email || "",
+				role: employee.role || "",
 				user_id: employee.user_id || null,
 				office_term_id: employee.office_term_id || null,
 				date_from: employee.date_from || null,
