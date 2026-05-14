@@ -4,6 +4,10 @@ export default {
 	// console.log(tbl_employees.tableData[tbl_employees.selectedRowIndex]);
 	// },
 	/// ============== end of test block ===============
+	normalizeTableRow(row) {
+		return { ...(row?.allFields || row || {}), ...(row?.updatedFields || {}) };
+	},
+
 	async openEmployeeModal(mode = "add", row = null) {
 		const isEdit = mode === "edit";
 		const sourceRow = row || (isEdit ? (tbl_employees.triggeredRow || tbl_employees.selectedRow) : null);
@@ -198,7 +202,8 @@ export default {
 	},
 
 	async savePositionTitleRow(rowParam = null) {
-		const row = rowParam || (tbl_position_titles.isAddRowInProgress ? tbl_position_titles.newRow : (tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow || tbl_position_titles.selectedRow));
+		const rawRow = rowParam || (tbl_position_titles.isAddRowInProgress ? tbl_position_titles.newRow : (tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow || tbl_position_titles.selectedRow));
+		const row = { ...(rawRow?.allFields || rawRow || {}), ...(rawRow?.updatedFields || {}) };
 		const body = { title: row?.title?.trim?.() || "" };
 		if (!body.title) return showAlert("Укажите название должности", "warning");
 
@@ -210,13 +215,13 @@ export default {
 	},
 
 	async saveCityRow(rowParam = null) {
-		const row =
+		const rawRow =
 					rowParam ||
 					(tbl_cities.isAddRowInProgress
 					 ? tbl_cities.newRow
 					 : (tbl_cities.updatedRows?.[0] || tbl_cities.updatedRow || tbl_cities.selectedRow));
 
-		console.log("ROW: ", row);
+		const row = { ...(rawRow?.allFields || rawRow || {}), ...(rawRow?.updatedFields || {}) };
 		const name = row?.name?.trim?.() || "";
 		const body = { name };
 
@@ -234,7 +239,8 @@ export default {
 	},
 
 	async updateOfficeTermHistory(rowParam = null) {
-		const row = rowParam || tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow;
+		const rawRow = rowParam || tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow;
+		const row = { ...(rawRow?.allFields || rawRow || {}), ...(rawRow?.updatedFields || {}) };
 		const officeTermId = row?.office_term_id || row?.id;
 
 		if (!officeTermId) {
@@ -270,7 +276,8 @@ export default {
 	},
 
 	async saveBranchRow(rowParam = null) {
-		const row = rowParam || (tbl_branches.isAddRowInProgress ? tbl_branches.newRow : (tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow || tbl_branches.selectedRow));
+		const rawRow = rowParam || (tbl_branches.isAddRowInProgress ? tbl_branches.newRow : (tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow || tbl_branches.selectedRow));
+		const row = { ...(rawRow?.allFields || rawRow || {}), ...(rawRow?.updatedFields || {}) };
 		const body = {
 			name: row?.name?.trim?.() || "",
 			city_id: row?.city_id || null

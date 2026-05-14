@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 31,
+  "bottomRow": 67,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -39,7 +39,8 @@
   ],
   "columnUpdatedAt": 1778757327830,
   "columnWidthMap": {
-    "id": 146
+    "id": 146,
+    "title": 317
   },
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -144,7 +145,7 @@
       "computedValue": "",
       "currencyCode": "USD",
       "decimals": 0,
-      "discardActionLabel": "Discard",
+      "discardActionLabel": "Отмена\t",
       "discardBorderRadius": "{{tbl_position_titles.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "discardButtonColor": "#F22B2B",
       "discardButtonVariant": "TERTIARY",
@@ -167,7 +168,7 @@
       "notation": "standard",
       "onSave": "{{hr.savePositionTitleRow(tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow);}}",
       "originalId": "EditActions1",
-      "saveActionLabel": "Save",
+      "saveActionLabel": "Сохранить",
       "saveBorderRadius": "{{tbl_position_titles.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "saveButtonColor": "{{tbl_position_titles.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
       "saveIconAlign": "left",

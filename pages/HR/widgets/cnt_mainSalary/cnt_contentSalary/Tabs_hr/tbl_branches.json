@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 32,
+  "bottomRow": 70,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -109,9 +109,6 @@
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
     },
     {
-      "key": "primaryColumns.name.onSubmit"
-    },
-    {
       "key": "primaryColumns.EditActions1.onSave"
     }
   ],
@@ -161,7 +158,7 @@
       "computedValue": "",
       "currencyCode": "USD",
       "decimals": 0,
-      "discardActionLabel": "Discard",
+      "discardActionLabel": "Отмена",
       "discardBorderRadius": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "discardButtonColor": "#F22B2B",
       "discardButtonVariant": "TERTIARY",
@@ -184,7 +181,7 @@
       "notation": "standard",
       "onSave": "{{hr.saveBranchRow(tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow);}}",
       "originalId": "EditActions1",
-      "saveActionLabel": "Save",
+      "saveActionLabel": "Сохранить",
       "saveBorderRadius": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
       "saveButtonColor": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
       "saveIconAlign": "left",
@@ -233,7 +230,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "select",
-      "computedValue": "{{(() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow) => currentRow.city_id) : city_id; })())) : (() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow) => currentRow.city_id) : city_id; })() })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.city_id)) : currentRow.city_id })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -253,7 +250,7 @@
       "label": "Город",
       "notation": "standard",
       "originalId": "city_id",
-      "selectOptions": "{{(() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( (Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : []).map((city) => ({ label: city.name, value: city.id })) )) :  (Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : []).map((city) => ({ label: city.name, value: city.id }))  })()}}",
+      "selectOptions": "{{(() => { const tableData = tbl_branches.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : []).map((city) => ({ label: city.name, value: city.id })))) : (Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : []).map((city) => ({ label: city.name, value: city.id })) })()}}",
       "sortBy": "value",
       "sticky": "",
       "textColor": "",
@@ -322,7 +319,7 @@
       "isVisible": true,
       "label": "Название",
       "notation": "standard",
-      "onSubmit": "{{hr.saveBranchRow(tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow);}}",
+      "onSubmit": "",
       "originalId": "name",
       "sticky": "",
       "textColor": "",
