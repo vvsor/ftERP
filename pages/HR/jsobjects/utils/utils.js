@@ -4,25 +4,63 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
+	currentOfficeTermsPromise: null,
+
+	async getCurrentOfficeTerms({ commitToStore = true } = {}) {
+		if (utils.currentOfficeTermsPromise) return await utils.currentOfficeTermsPromise;
+
+		utils.currentOfficeTermsPromise = (async () => {
+			const today = moment().format("YYYY-MM-DD");
+
+			const response = await items.getItems({
+				collection: "office_terms",
+				fields: [
+					"id",
+					"date_from",
+					"date_till",
+					"comment",
+					"user_id.id",
+					"user_id.first_name",
+					"user_id.middle_name",
+					"user_id.last_name",
+					"user_id.email",
+					"user_id.role",
+					"position_id.id",
+					"position_id.position_title_id.title",
+					"position_id.branch_id.id",
+					"position_id.branch_id.name"
+				].join(","),
+				filter: {
+					_and: [
+						{ date_from: { _lte: today } },
+						{
+							_or: [
+								{ date_till: { _null: true } },
+								{ date_till: { _gte: today } }
+							]
+						}
+					]
+				},
+				limit: -1
+			});
+
+			const rows = response.data || [];
+			if (commitToStore) await storeValue("hrCurrentOfficeTerms", rows, false);
+			return rows;
+		})();
+
+		try {
+			return await utils.currentOfficeTermsPromise;
+		} finally {
+			utils.currentOfficeTermsPromise = null;
+		}
+	},
+
 	async getPositionsByBranch({ commitToStore = true } = {}) {
 		const branchId = appsmith.store?.hrSelectedBranchId || "";
-		const today = moment().format("YYYY-MM-DD");
-
 		const positionFilter = branchId ? { branch_id: { id: { _eq: branchId } } } : {};
-		const officeTermsFilter = {
-			_and: [
-				...(branchId ? [{ position_id: { branch_id: { id: { _eq: branchId } } } }] : []),
-				{ date_from: { _lte: today } },
-				{
-					_or: [
-						{ date_till: { _null: true } },
-						{ date_till: { _gte: today } }
-					]
-				}
-			]
-		};
 
-		const [positionsRes, officeTermsRes] = await Promise.all([
+		const [positionsRes, officeTerms] = await Promise.all([
 			items.getItems({
 				collection: "positions",
 				fields: [
@@ -38,29 +76,14 @@ export default {
 				filter: positionFilter,
 				limit: -1
 			}),
-			items.getItems({
-				collection: "office_terms",
-				fields: [
-					"id",
-					"date_from",
-					"date_till",
-					"comment",
-					"user_id.id",
-					"user_id.first_name",
-					"user_id.middle_name",
-					"user_id.last_name",
-					"user_id.email",
-					"user_id.role",
-					"position_id.id"
-				].join(","),
-				filter: officeTermsFilter,
-				limit: -1
-			})
+			Array.isArray(appsmith.store?.hrCurrentOfficeTerms)
+			? appsmith.store.hrCurrentOfficeTerms
+			: utils.getCurrentOfficeTerms()
 		]);
 
 		const employeeByPositionId = {};
 
-		for (const row of (officeTermsRes.data || [])) {
+		for (const row of officeTerms) {
 			const positionId = row?.position_id?.id ?? row?.position_id;
 			const user = row?.user_id;
 
@@ -125,51 +148,23 @@ export default {
 			return branchCompare || String(a.title || "").localeCompare(String(b.title || ""));
 		});
 
-		if (commitToStore) {
-			await storeValue("hrPositionRows", rows, false);
-		}
-
+		if (commitToStore) await storeValue("hrPositionRows", rows, false);
 		return rows;
 	},
 
 	async getEmployees({ commitToStore = true } = {}) {
-		const today = moment().format("YYYY-MM-DD");
-
-		const [usersRes, officeTermsRes] = await Promise.all([
+		const [usersRes, officeTerms] = await Promise.all([
 			items.getUsers({
 				fields: "id,first_name,last_name,middle_name,email,role",
 				limit: -1
 			}),
-			items.getItems({
-				collection: "office_terms",
-				fields: [
-					"id",
-					"date_from",
-					"date_till",
-					"comment",
-					"user_id.id",
-					"position_id.id",
-					"position_id.position_title_id.title",
-					"position_id.branch_id.id",
-					"position_id.branch_id.name"
-				].join(","),
-				filter: {
-					_and: [
-						{ date_from: { _lte: today } },
-						{
-							_or: [
-								{ date_till: { _null: true } },
-								{ date_till: { _gte: today } }
-							]
-						}
-					]
-				},
-				limit: -1
-			})
+			Array.isArray(appsmith.store?.hrCurrentOfficeTerms)
+			? appsmith.store.hrCurrentOfficeTerms
+			: utils.getCurrentOfficeTerms()
 		]);
 
 		const termsByUserId = {};
-		for (const term of (officeTermsRes.data || [])) {
+		for (const term of officeTerms) {
 			const userId = term?.user_id?.id ?? term?.user_id;
 			if (!userId) continue;
 			if (!termsByUserId[userId]) termsByUserId[userId] = [];
@@ -205,60 +200,30 @@ export default {
 		return rows;
 	},
 
+	async getBranches({ commitToStore = true } = {}) {
+		const response = await items.getItems({
+			collection: "branches",
+			fields: "id,name,city_id.id,city_id.name",
+			limit: -1
+		});
 
-	async getBranches() {
-		try {
-			// Fields to fetch
-			const fields = [
-				"*"
-			].join(",");
+		const rows = (response.data || [])
+		.map((row) => ({
+			id: row.id,
+			name: row.name || "",
+			city_id: row.city_id?.id ?? row.city_id ?? null,
+			city: row.city_id?.name || ""
+		}))
+		.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
-			const params = {
-				fields: fields,
-				collection: "branches",
-			};
-			const response = await items.getItems(params);
-			const allBranches = response.data || [];
-			allBranches.sort((a, b) => a.name.localeCompare(b.name));
-
-			await storeValue("hrBranchRows", allBranches, true);
-			return allBranches;
-		} catch (error) {
-			console.error("Error in all task processing:", error);
-			throw error;
+		if (commitToStore) {
+			await storeValue("hrBranchRows", rows, true);
+			await storeValue("hrBranchDirectoryRows", rows, false);
 		}
+
+		return rows;
 	},
 
-	async getBranchAccountsRaw() {
-		try {
-			// Fields to fetch
-			const fields = [
-				"id", "name", "type"
-			].join(",");
-
-			const params = {
-				fields: fields,
-				collection: "branch_accounts",
-			};
-			const response = await items.getItems(params);
-			const allBranches = response.data || [];
-			// Sort by name (ascending)
-			allBranches.sort((a, b) => a.name.localeCompare(b.name));
-			return allBranches;
-		} catch (error) {
-			console.error("Error in all task processing:", error);
-			throw error;
-		}
-	},
-
-	async getBranchAccountsOptions() {
-		const rows = await this.getBranchAccountsRaw();
-
-		return rows.map(x => ({
-			label: x.name,
-			value: x.id,
-		}));
-	},
 	async getOfficeTermHistoryByUser(userId, { commitToStore = true } = {}) {
 		if (!userId) {
 			if (commitToStore) await storeValue("hrOfficeTermHistoryRows", [], false);
@@ -333,7 +298,7 @@ export default {
 		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
 		return [last, [first, middle].filter(Boolean).join(" ")].filter(Boolean).join(" ").trim();
 	},
-	
+
 	async getRoles({ commitToStore = true } = {}) {
 		const response = await items.getRoles({
 			fields: "id,name",
@@ -360,44 +325,13 @@ export default {
 		return options.find((item) => String(item.value) === String(value))?.label || value || "";
 	},
 
-	getRoleOptions() {
-		return [
-			{ label: "ERP users", value: "a0258883-621a-4e27-a1f3-4a0f99ea1de6" },
-			{ label: "ERP + Salary users", value: "cbdd561a-af1b-4602-a606-74b8d824220f" },
-			{ label: "Salary users", value: "2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c" },
-			{ label: "Admin", value: "0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54" }
-		];
-	},
-
-	formatRoleName(role) {
-		const value = role?.id ?? role ?? "";
-		return utils.getRoleOptions().find((item) => String(item.value) === String(value))?.label || role?.name || role?.label || value || "";
-	},
-
 	async loadDictionaries() {
 		await Promise.all([
 			utils.getRoles(),
 			utils.getPositionTitleRows(),
-			utils.getPositionOptions(),
 			utils.getCityRows(),
-			utils.getBranchDirectoryRows()
+			utils.getBranches()
 		]);
-	},
-
-	async getPositionOptions() {
-		const response = await items.getItems({
-			collection: "positions",
-			fields: "id,position_title_id.title,branch_id.name",
-			limit: -1
-		});
-
-		const rows = (response.data || []).map((position) => ({
-			label: `${position?.position_title_id?.title || "Без названия"}${position?.branch_id?.name ? ` (${position.branch_id.name})` : ""}`,
-			value: position.id
-		})).sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
-
-		await storeValue("hrPositionOptions", rows, false);
-		return rows;
 	},
 
 	async getPositionTitleRows() {
@@ -419,22 +353,6 @@ export default {
 		});
 		const rows = (response.data || []).sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 		await storeValue("hrCityRows", rows, false);
-		return rows;
-	},
-
-	async getBranchDirectoryRows() {
-		const response = await items.getItems({
-			collection: "branches",
-			fields: "id,name,city_id.id,city_id.name",
-			limit: -1
-		});
-		const rows = (response.data || []).map((row) => ({
-			id: row.id,
-			name: row.name || "",
-			city_id: row.city_id?.id ?? row.city_id ?? null,
-			city: row.city_id?.name || ""
-		})).sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
-		await storeValue("hrBranchDirectoryRows", rows, false);
 		return rows;
 	}
 

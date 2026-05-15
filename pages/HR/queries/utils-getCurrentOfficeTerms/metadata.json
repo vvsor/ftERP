@@ -1,12 +1,16 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_6d91dac8-468f-4af6-9bca-5dcd69b111b2",
-  "id": "HR_utils.getRoleOptions",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_a2b976ce-8765-4049-887d-3cecf761f928",
+  "id": "HR_utils.getCurrentOfficeTerms",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [],
+      "jsArguments": [
+        {
+          "name": ""
+        }
+      ],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -22,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.getRoleOptions",
-    "name": "getRoleOptions",
+    "fullyQualifiedName": "utils.getCurrentOfficeTerms",
+    "name": "getCurrentOfficeTerms",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

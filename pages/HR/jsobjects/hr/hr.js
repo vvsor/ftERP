@@ -91,11 +91,6 @@ export default {
 		await utils.getOfficeTermHistoryByUser(row.user_id);
 	},
 
-
-	async setSelectedOfficeTerm(officeTerm){
-		return await storeValue("SelectedOfficeTerm", officeTerm, true);
-	},
-
 	async sel_chooseBranch_OptionChanged(branchIdParam) {
 		const branchId = branchIdParam ?? sel_chooseBranch.selectedOptionValue ?? "";
 		const previousBranchId = appsmith.store?.hrSelectedBranchId || "";
@@ -134,7 +129,7 @@ export default {
 			await storeValue("hrPositionsRefreshing", true, false);
 			try {
 				await utils.loadDictionaries();
-				await utils.getBranches();
+				await utils.getCurrentOfficeTerms();
 
 				const branchId = sel_chooseBranch.selectedOptionValue ?? appsmith.store?.hrSelectedBranchId ?? "";
 				await this.refreshHrBranch(branchId);
@@ -155,6 +150,7 @@ export default {
 		this.employeesRefreshPromise = (async () => {
 			await storeValue("hrEmployeesRefreshing", true, false);
 			try {
+				await utils.getCurrentOfficeTerms();
 				await utils.getEmployees();
 
 				if (showAlert) showAlert("Сотрудники обновлены", "success");
@@ -187,7 +183,7 @@ export default {
 			await items.ensureFreshToken();
 			await utils.loadDictionaries();
 
-			await utils.getBranches();
+			await utils.getCurrentOfficeTerms();
 			const selectedBranchId = appsmith.store?.hrSelectedBranchId ?? "";
 
 			await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
@@ -283,33 +279,11 @@ export default {
 			await items.updateItems({ collection: "cities", body: { keys: [row.id], data: body } });
 		}
 
-		await utils.getCityRows();
-		await utils.getBranchDirectoryRows();
+		await Promise.all([
+			utils.getCityRows(),
+			utils.getBranches()
+		]);
 		showAlert("Город сохранен", "success");
-	},
-
-	async updateOfficeTermHistory(rowParam = null) {
-		const rawRow = rowParam || tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow;
-		const row = { ...(rawRow?.allFields || rawRow || {}), ...(rawRow?.updatedFields || {}) };
-		const officeTermId = row?.office_term_id || row?.id;
-
-		if (!officeTermId) {
-			showAlert("Не найден office_term_id", "warning");
-			return;
-		}
-
-		const comment = row.comment ?? "";
-
-		await items.updateItems({
-			collection: "office_terms",
-			body: {
-				keys: [officeTermId],
-				data: { comment }
-			}
-		});
-
-		await utils.getOfficeTermHistoryByUser(row.user_id || appsmith.store?.hrSelectedPosition?.user_id);
-		showAlert("Комментарий назначения сохранен", "success");
 	},
 
 	async saveBranchRow(rowParam = null) {
@@ -325,7 +299,6 @@ export default {
 		else await items.updateItems({ collection: "branches", body: { keys: [row.id], data: body } });
 
 		await utils.getBranches();
-		await utils.getBranchDirectoryRows();
 		showAlert("Подразделение сохранено", "success");
 	},
 
