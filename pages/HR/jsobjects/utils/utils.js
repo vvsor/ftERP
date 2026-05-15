@@ -218,7 +218,6 @@ export default {
 
 		if (commitToStore) {
 			await storeValue("hrBranchRows", rows, true);
-			await storeValue("hrBranchDirectoryRows", rows, false);
 		}
 
 		return rows;
