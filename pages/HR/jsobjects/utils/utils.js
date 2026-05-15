@@ -69,6 +69,7 @@ export default {
 			const current = employeeByPositionId[positionId];
 			const currentDate = current?.date_from || "";
 			const nextDate = row.date_from || "";
+			const roleId = user.role?.id ?? user.role ?? "";
 
 			if (!current || nextDate > currentDate) {
 				employeeByPositionId[positionId] = {
@@ -79,7 +80,8 @@ export default {
 					last_name: user.last_name || "",
 					middle_name: user.middle_name || "",
 					email: user.email || "",
-					role: user.role?.id ?? user.role ?? "",
+					role: roleId,
+					role_label: utils.formatRoleName(user.role),
 					date_from: row.date_from,
 					date_till: row.date_till
 				};
@@ -103,6 +105,7 @@ export default {
 				middle_name: employee.middle_name || "",
 				email: employee.email || "",
 				role: employee.role || "",
+				role_label: employee.role_label || "",
 				user_id: employee.user_id || null,
 				office_term_id: employee.office_term_id || null,
 				date_from: employee.date_from || null,
@@ -178,6 +181,7 @@ export default {
 			const titles = terms.map((term) => term?.position_id?.position_title_id?.title).filter(Boolean);
 			const branches = terms.map((term) => term?.position_id?.branch_id?.name).filter(Boolean);
 			const branchIds = terms.map((term) => term?.position_id?.branch_id?.id ?? term?.position_id?.branch_id).filter(Boolean);
+			const roleId = user.role?.id ?? user.role ?? "";
 
 			return {
 				id: user.id,
@@ -187,7 +191,8 @@ export default {
 				last_name: user.last_name || "",
 				middle_name: user.middle_name || "",
 				email: user.email || "",
-				role: user.role?.id ?? user.role ?? "",
+				role: roleId,
+				role_label: utils.formatRoleName(user.role),
 				title: titles.join(", "),
 				branch_name: branches.join(", "),
 				office_term_ids: terms.map((term) => term.id),
@@ -328,9 +333,50 @@ export default {
 		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
 		return [last, [first, middle].filter(Boolean).join(" ")].filter(Boolean).join(" ").trim();
 	},
+	
+	async getRoles({ commitToStore = true } = {}) {
+		const response = await items.getRoles({
+			fields: "id,name",
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.map((role) => ({
+			label: role.name || role.id,
+			value: role.id
+		}))
+		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
+
+		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
+		return rows;
+	},
+
+	formatRoleName(role) {
+		const value = role?.id ?? role ?? "";
+		const name = role?.name || role?.label || "";
+		if (name) return name;
+
+		const options = Array.isArray(appsmith.store?.hrRoleOptions) ? appsmith.store.hrRoleOptions : [];
+		return options.find((item) => String(item.value) === String(value))?.label || value || "";
+	},
+
+	getRoleOptions() {
+		return [
+			{ label: "ERP users", value: "a0258883-621a-4e27-a1f3-4a0f99ea1de6" },
+			{ label: "ERP + Salary users", value: "cbdd561a-af1b-4602-a606-74b8d824220f" },
+			{ label: "Salary users", value: "2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c" },
+			{ label: "Admin", value: "0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54" }
+		];
+	},
+
+	formatRoleName(role) {
+		const value = role?.id ?? role ?? "";
+		return utils.getRoleOptions().find((item) => String(item.value) === String(value))?.label || role?.name || role?.label || value || "";
+	},
 
 	async loadDictionaries() {
 		await Promise.all([
+			utils.getRoles(),
 			utils.getPositionTitleRows(),
 			utils.getPositionOptions(),
 			utils.getCityRows(),

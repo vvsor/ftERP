@@ -45,14 +45,16 @@
     "role",
     "office_term_ids",
     "position_ids",
-    "branch_ids"
+    "branch_ids",
+    "role_label"
   ],
-  "columnUpdatedAt": 1778786838563,
+  "columnUpdatedAt": 1778846321760,
   "columnWidthMap": {
     "branch": 321,
     "branch_name": 234,
     "customColumn1": 60,
     "employee": 171.24316406250003,
+    "role_label": 308.7568359375,
     "title": 324
   },
   "customIsLoading": false,
@@ -124,6 +126,9 @@
     },
     {
       "key": "primaryColumns.branch_ids.computedValue"
+    },
+    {
+      "key": "primaryColumns.role_label.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -560,7 +565,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"role\"])) : role })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow) => utils.formatRoleName(currentRow[\"role\"])) : utils.formatRoleName(role); })())) : (() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow) => utils.formatRoleName(currentRow[\"role\"])) : utils.formatRoleName(role); })() })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -576,10 +581,44 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "role",
       "notation": "standard",
       "originalId": "role",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "role_label": {
+      "alias": "role_label",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"role_label\"] + '/')) : currentRow[\"role_label\"] + '/' })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "role_label",
+      "index": 8,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Роль",
+      "notation": "standard",
+      "originalId": "role_label",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
