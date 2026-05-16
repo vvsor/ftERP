@@ -113,6 +113,74 @@ export default {
 		d.setDate(1);
 		return d.toISOString().slice(0, 10);
 	},
+	async getSalaryByOfficeTermId(officeTerms = [], periodMonth) {
+		const officeTermIds = officeTerms.map((term) => term.id).filter(Boolean);
+		if (!periodMonth || officeTermIds.length === 0) return {};
+
+		const response = await items.getItems({
+			collection: "salary",
+			fields: "*,office_term_id.id",
+			filter: {
+				_and: [
+					{ period_month: { _eq: periodMonth } },
+					{ office_term_id: { id: { _in: officeTermIds } } }
+				]
+			},
+			limit: -1
+		});
+
+		return (response.data || []).reduce((acc, row) => {
+			const officeTermId = row.office_term_id?.id ?? row.office_term_id;
+			if (officeTermId) acc[officeTermId] = row;
+			return acc;
+		}, {});
+	},
+
+	async getAccrualsBySalaryId(salaryIds = []) {
+		if (!salaryIds.length) return {};
+
+		const response = await items.getItems({
+			collection: "salary_accruals",
+			fields: "salary_id.id,amount",
+			filter: {
+				_and: [
+					{ salary_id: { id: { _in: salaryIds } } },
+					{ deleted_at: { _null: true } }
+				]
+			},
+			limit: -1
+		});
+
+		return (response.data || []).reduce((acc, row) => {
+			const salaryId = row.salary_id?.id ?? row.salary_id;
+			if (!salaryId) return acc;
+			acc[salaryId] = (acc[salaryId] || 0) + (Number(row.amount) || 0);
+			return acc;
+		}, {});
+	},
+
+	async getPaymentsBySalaryId(salaryIds = []) {
+		if (!salaryIds.length) return {};
+
+		const response = await items.getItems({
+			collection: "salary_payments",
+			fields: "salary_id.id,amount",
+			filter: {
+				_and: [
+					{ salary_id: { id: { _in: salaryIds } } },
+					{ deleted_at: { _null: true } }
+				]
+			},
+			limit: -1
+		});
+
+		return (response.data || []).reduce((acc, row) => {
+			const salaryId = row.salary_id?.id ?? row.salary_id;
+			if (!salaryId) return acc;
+			acc[salaryId] = (acc[salaryId] || 0) + (Number(row.amount) || 0);
+			return acc;
+		}, {});
+	},
 
 	async getOfficeTerms({ commitToStore = true } = {}) {
 		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
@@ -177,12 +245,13 @@ export default {
 			};
 		});
 
+		await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
+
 		if (commitToStore) {
 			await storeValue("salaryEmployeeRows", rows, false);
-			await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
 		}
 
-		return { rows, salaryByOfficeTermId };
+		return rows;
 	},
 
 	async getBranches() {
