@@ -23,30 +23,6 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
-	// advanceInRub() {
-	// const salary = appsmith.store?.salaryOfPeriod;
-	// const pct = Number(salary?.max_cash_advance_percent);
-	// 
-	// if (!Number.isFinite(pct) || pct <= 0) return "—";
-	// 
-	// const rows = tbl_salaryAccruals?.tableData || [];
-	// 
-	// const base = rows.reduce((sum, r) => {
-	// const ok =
-	// r.branch_account_type === "CASH" &&
-	// r.counts_for_salary_total === true &&
-	// r.counts_for_cashless_limit === false;
-	// 
-	// return sum + (ok ? (Number(r.amount) || 0) : 0);
-	// }, 0);
-	// 
-	// const advance = (base * pct) / 100;
-	// // убираем .00, если копеек нет
-	// const formatted = utils.formatCurrencyRu(advance);
-	// 
-	// return `${formatted} ₽`;
-	// },
-
 	formatCurrencyRu(amount) {
 		const n = Number(amount) || 0;
 		const rounded = Math.round(n * 100) / 100;
@@ -63,52 +39,34 @@ export default {
 		return `${sign}${integerText},${String(fraction).padStart(2, "0")}`;
 	},
 
-	async getAccrualTypesRaw() {
-		try {
-			// Fields to fetch
-			const fields = [
-				"*"
-			].join(",");
+	toLocalYMD(date) {
+		const d = new Date(date);
+		const y = d.getFullYear();
+		const m = String(d.getMonth() + 1).padStart(2, "0");
+		return `${y}-${m}-01`;
+	},
 
-			const params = {
-				fields: fields,
-				collection: "salary_accrual_types",
-			};
-			const response = await items.getItems(params);
-			const allBranches = response.data || [];
-			// Sort by name (ascending)
-			allBranches.sort((a, b) => a.name.localeCompare(b.name));
-			return allBranches;
-		} catch (error) {
-			console.error("Error in all task processing:", error);
-			throw error;
-		}
+	YM_01day(date) {
+		const d = new Date(date);
+		d.setDate(1);
+		return d.toISOString().slice(0, 10);
 	},
 
 	async getAccrualTypesRaw() {
-		try {
-			const fields = [
-				"*"
-			].join(",");
+		const response = await items.getItems({
+			collection: "salary_accrual_types",
+			fields: "id,name",
+			limit: -1
+		});
 
-			const params = {
-				fields: fields,
-				collection: "salary_accrual_types",
-			};
-			const response = await items.getItems(params);
-			const allBranches = response.data || [];
-			allBranches.sort((a, b) => a.name.localeCompare(b.name));
-			return allBranches;
-		} catch (error) {
-			console.error("Error in getAccrualTypesRaw:", error);
-			throw error;
-		}
+		return (response.data || [])
+			.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 	},
 
 	async getAccrualTypesOptions() {
 		const rows = await this.getAccrualTypesRaw();
 
-		return rows.map(x => ({
+		return rows.map((x) => ({
 			label: x.name,
 			value: x.id,
 		}));
@@ -261,29 +219,6 @@ export default {
 		return rows;
 	},
 
-	async getBranches() {
-		try {
-			// Fields to fetch
-			const fields = [
-				"*"
-			].join(",");
-
-			const params = {
-				fields: fields,
-				collection: "branches",
-			};
-			const response = await items.getItems(params);
-			const allBranches = response.data || [];
-			allBranches.sort((a, b) => a.name.localeCompare(b.name));
-
-			await storeValue("salaryBranchRows", allBranches, true);
-			return allBranches;
-		} catch (error) {
-			console.error("Error in all task processing:", error);
-			throw error;
-		}
-	},
-
 	async getBranches({ commitToStore = true } = {}) {
 		const response = await items.getItems({
 			collection: "branches",
@@ -303,6 +238,17 @@ export default {
 		}
 
 		return rows;
+	},
+
+	async getBranchAccountsRaw() {
+		const response = await items.getItems({
+			collection: "branch_accounts",
+			fields: "id,name,type",
+			limit: -1
+		});
+
+		return (response.data || [])
+			.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 	},
 
 	async getBranchAccountsOptions() {

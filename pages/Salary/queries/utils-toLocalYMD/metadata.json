@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_07bd8239-0bc1-460b-a7c9-7a9226621bec",
-  "id": "Salary_utils.getBranches",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_09cf0cd0-0112-4c94-ad68-2b682fe1e88a",
+  "id": "Salary_utils.toLocalYMD",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,7 +8,7 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": ""
+          "name": "date"
         }
       ],
       "paginationType": "NONE",
@@ -26,10 +26,10 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.getBranches",
-    "name": "getBranches",
+    "fullyQualifiedName": "utils.toLocalYMD",
+    "name": "toLocalYMD",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": true
+    "userSetOnLoad": false
   }
 }

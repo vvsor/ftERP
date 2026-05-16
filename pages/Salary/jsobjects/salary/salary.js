@@ -30,7 +30,6 @@ export default {
 
 	},
 
-
 	accrualsSummaryTextVisibleEmployees() {
 		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
 		const rows = Array.isArray(tableRows) ? tableRows : [];
