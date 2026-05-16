@@ -11,7 +11,11 @@ export default {
 			return;
 		}
 
-		if (appsmith.store?.salaryReady === false) {
+		if (
+			appsmith.store?.salaryCreateInProgress === true ||
+			appsmith.store?.salaryReady === false
+		) {
+			resetWidget("tbl_employees", true);
 			return;
 		}
 
@@ -152,6 +156,8 @@ export default {
 			return { salaryRecord: existing, wasCreated: false, previousSalary: null };
 		}
 
+		await storeValue("salaryCreateInProgress", true, false);
+
 		const prevMonth = moment(periodMonth).subtract(1, "month").format("YYYY-MM-01");
 		const previousSalary = await this.fetchSalaryByMonth(officeTermId, prevMonth);
 
@@ -259,6 +265,10 @@ export default {
 			console.error("loadSalary failed:", error);
 			showAlert("Ошибка загрузки/создания зарплаты", "error");
 			throw error;
+		} finally {
+			if (appsmith.store?.salaryCreateInProgress === true) {
+				await storeValue("salaryCreateInProgress", false, false);
+			}
 		}
 	},
 

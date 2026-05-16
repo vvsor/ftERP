@@ -1,6 +1,6 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
-  "animateLoading": true,
+  "animateLoading": "{{appsmith.store?.salaryCreateInProgress === true}}",
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
@@ -99,6 +99,9 @@
     },
     {
       "key": "primaryColumns.salary_id.computedValue"
+    },
+    {
+      "key": "animateLoading"
     }
   ],
   "dynamicPropertyPathList": [
@@ -110,6 +113,9 @@
     },
     {
       "key": "primaryColumns.accruals_sum.currencyCode"
+    },
+    {
+      "key": "animateLoading"
     }
   ],
   "dynamicTriggerPathList": [
