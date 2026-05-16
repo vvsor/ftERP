@@ -11,11 +11,12 @@ export default {
 			return;
 		}
 
-		if (
-			appsmith.store?.salaryCreateInProgress === true ||
-			appsmith.store?.salaryReady === false
-		) {
+		if (appsmith.store?.salaryCreateInProgress === true) {
 			resetWidget("tbl_employees", true);
+			return;
+		}
+
+		if (appsmith.store?.salaryReady === false) {
 			return;
 		}
 
