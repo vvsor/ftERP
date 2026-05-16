@@ -64,12 +64,12 @@
   "placeholderText": "Выберите...",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 14,
+  "rightColumn": 17,
   "searchTags": [
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{ Array.isArray(appsmith.store?.salaryBranchRows) ? appsmith.store.salaryBranchRows : [] }}",
+  "sourceData": "{{[{ id: \"\", name: \"Все подразделения\" }, ...(Array.isArray(appsmith.store?.salaryBranchRows) ? appsmith.store.salaryBranchRows : [])]}}",
   "tags": [
     "Suggested",
     "Select"

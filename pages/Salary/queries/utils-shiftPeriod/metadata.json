@@ -31,6 +31,6 @@
     "name": "shiftPeriod",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": false
+    "userSetOnLoad": true
   }
 }

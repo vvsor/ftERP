@@ -30,6 +30,6 @@
     "name": "YM_01day",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": false
+    "userSetOnLoad": true
   }
 }

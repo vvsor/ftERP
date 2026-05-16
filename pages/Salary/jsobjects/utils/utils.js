@@ -48,9 +48,9 @@ export default {
 	},
 
 	// formatMoneyRu(amount) {
-		// const n = Number(amount) || 0;
-		// const rounded = Math.round(n * 100) / 100; // защита от float-noise
-		// return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+	// const n = Number(amount) || 0;
+	// const rounded = Math.round(n * 100) / 100; // защита от float-noise
+	// return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
 	// },
 
 	formatCurrencyRu(amount) {
@@ -117,168 +117,72 @@ export default {
 	async getOfficeTerms({ commitToStore = true } = {}) {
 		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
 		const periodMonth = appsmith.store?.periodMonth;
+		const today = moment().format("YYYY-MM-DD");
 
+		const officeFilter = {
+			_and: [
+				...(branchId ? [{ position_id: { branch_id: { id: { _eq: branchId } } } }] : []),
+				{ date_from: { _lte: today } },
+				{ _or: [{ date_till: { _null: true } }, { date_till: { _gte: today } }] }
+			]
+		};
 
-		const officeFilter = branchId
-		? { position_id: { branch_id: { id: { _eq: branchId } } } }
-		: {};
+		const fields = [
+			"id",
+			"user_id",
+			"user_id.id",
+			"user_id.first_name",
+			"user_id.middle_name",
+			"user_id.last_name",
+			"position_id",
+			"position_id.position_title_id.title",
+			"position_id.branch_id.id",
+			"position_id.branch_id.name"
+		].join(",");
 
-		const officeRes = await items.getItems({
+		const response = await items.getItems({
 			collection: "office_terms",
-			fields: [
-				"id",
-				"user_id",
-				"user_id.id",
-				"user_id.first_name",
-				"user_id.last_name",
-				"position_id",
-				"position_id.title_id.title",
-				"position_id.branch_id.id",
-				"position_id.branch_id.name"
-			].join(","),
+			fields,
 			filter: officeFilter,
 			limit: -1
 		});
 
-		const contacts = (officeRes.data || [])
-		.map((item) => {
-			const rawUser = item?.user_id;
-
-			const user = typeof rawUser === "string"
-			? { id: rawUser }
-			: rawUser;
-
-			const position = item?.position_id;
-			const branch = position?.branch_id;
-
-			if (!item?.id || !user?.id) {
-				console.warn("Skipping malformed office_term", item);
-				return null;
-			}
-
-			const firstInitial = user.first_name?.[0] ? ` ${user.first_name[0]}.` : "";
-
-			return {
-				id: item.id,
-				user_id: user.id,
-				employee: `${user.last_name || ""}${firstInitial}`.trim(),
-				title: position?.title_id?.title ?? "—",
-				branch_id: branch?.id ?? null,
-				branch_name: branch?.name ?? "—"
-			};
-		})
-		.filter(Boolean);
-
-		const commitRows = async (rows) => {
-			if (commitToStore) {
-				await storeValue("salaryEmployeeRows", rows, false);
-			}
-			return rows;
-		};
-
-		const officeTermIds = contacts.map((x) => x.id);
-		if (!periodMonth || officeTermIds.length === 0) {
-			await storeValue("salaryByOfficeTermId", {}, false);
-			return await commitRows(
-				contacts.map((x) => ({ ...x, accruals_sum: 0, payments_sum: 0, balance: 0 }))
-			);
-		}
-
-
-		const salaryRes = await items.getItems({
-			collection: "salary",
-			fields: [
-				"*",
-				"office_term_id.id"
-			].join(","),
-			filter: {
-				_and: [
-					{ period_month: { _eq: periodMonth } },
-					{ office_term_id: { id: { _in: officeTermIds } } }
-				]
-			},
-			limit: -1
-		});
-
-		const salaries = salaryRes.data || [];
-		const getSalaryOfficeTermId = (s) => s?.office_term_id?.id ?? s?.office_term_id;
-
-		const salaryByOfficeTermId = Object.fromEntries(
-			salaries
-			.map((s) => [getSalaryOfficeTermId(s), s])
-			.filter(([officeTermId]) => officeTermId != null)
-		);
-
-		await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
-
-		const salaryIds = salaries.map((s) => s.id).filter(Boolean);
-		const officeBySalary = new Map(
-			salaries.map((s) => [s.id, getSalaryOfficeTermId(s)])
-		);
-
-		if (salaryIds.length === 0) {
-			await storeValue("salaryByOfficeTermId", {}, false);
-			return await commitRows(
-				contacts.map((c) => ({
-					...c,
-					accruals_sum: 0,
-					payments_sum: 0,
-					balance: 0
-				}))
-			);
-		}
-
-		const [accrRes, payRes] = await Promise.all([
-			items.getItems({
-				collection: "salary_accruals",
-				fields: "salary_id.id,amount",
-				filter: {
-					_and: [
-						{ salary_id: { id: { _in: salaryIds } } },
-						{ deleted_at: { _null: true } }
-					]
-				},
-				limit: -1
-			}),
-			items.getItems({
-				collection: "salary_payments",
-				fields: "salary_id.id,amount",
-				filter: {
-					_and: [
-						{ salary_id: { id: { _in: salaryIds } } },
-						{ deleted_at: { _null: true } }
-					]
-				},
-				limit: -1
-			})
+		const officeTerms = response.data || [];
+		const salaryByOfficeTermId = await utils.getSalaryByOfficeTermId(officeTerms, periodMonth);
+		const salaryIds = Object.values(salaryByOfficeTermId).map((salary) => salary.id).filter(Boolean);
+		const [accrualsBySalaryId, paymentsBySalaryId] = await Promise.all([
+			utils.getAccrualsBySalaryId(salaryIds),
+			utils.getPaymentsBySalaryId(salaryIds)
 		]);
 
-		const accrByOffice = {};
-		for (const r of (accrRes.data || [])) {
-			const officeId = officeBySalary.get(r.salary_id?.id);
-			if (!officeId) continue;
-			accrByOffice[officeId] = (accrByOffice[officeId] || 0) + (Number(r.amount) || 0);
+		const rows = officeTerms.map((term) => {
+			const user = term.user_id || {};
+			const position = term.position_id || {};
+			const salaryRow = salaryByOfficeTermId[term.id] || null;
+			const salaryId = salaryRow?.id ?? null;
+			const accrualsSum = salaryId ? (accrualsBySalaryId[salaryId] || 0) : 0;
+			const paymentsSum = salaryId ? (paymentsBySalaryId[salaryId] || 0) : 0;
+
+			return {
+				id: term.id,
+				user_id: user.id ?? term.user_id ?? null,
+				employee: utils.formatUserName(user),
+				title: position?.position_title_id?.title ?? "—",
+				branch_id: position?.branch_id?.id ?? null,
+				branch_name: position?.branch_id?.name ?? "",
+				salary_id: salaryId,
+				accruals_sum: accrualsSum,
+				payments_sum: paymentsSum,
+				balance: accrualsSum - paymentsSum
+			};
+		});
+
+		if (commitToStore) {
+			await storeValue("salaryEmployeeRows", rows, false);
+			await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
 		}
 
-		const payByOffice = {};
-		for (const r of (payRes.data || [])) {
-			const officeId = officeBySalary.get(r.salary_id?.id);
-			if (!officeId) continue;
-			payByOffice[officeId] = (payByOffice[officeId] || 0) + (Number(r.amount) || 0);
-		}
-
-		return await commitRows(
-			contacts.map((c) => {
-				const accruals_sum = accrByOffice[c.id] || 0;
-				const payments_sum = payByOffice[c.id] || 0;
-				return {
-					...c,
-					accruals_sum,
-					payments_sum,
-					balance: accruals_sum - payments_sum
-				};
-			})
-		);
+		return { rows, salaryByOfficeTermId };
 	},
 
 	async getBranches() {
@@ -338,9 +242,10 @@ export default {
 
 	formatUserName(user) {
 		if (!user) return "";
-		const last = user.last_name;
-		const first = user.first_name?.[0];
-		return `${last} ${first}.`;
+		const last = user.last_name || "";
+		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
+		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
+		return [last, [first, middle].filter(Boolean).join(" ")].filter(Boolean).join(" ").trim();
 	},
 
 	async reloadSalaryContext({ refreshEmployees = false, salaryRecord: prefetchedSalaryRecord = null } = {}) {

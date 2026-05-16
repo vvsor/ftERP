@@ -26,6 +26,6 @@
     "name": "test",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": false
+    "userSetOnLoad": true
   }
 }

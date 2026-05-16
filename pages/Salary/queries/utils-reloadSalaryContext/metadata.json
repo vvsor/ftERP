@@ -30,6 +30,6 @@
     "name": "reloadSalaryContext",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": false
+    "userSetOnLoad": true
   }
 }

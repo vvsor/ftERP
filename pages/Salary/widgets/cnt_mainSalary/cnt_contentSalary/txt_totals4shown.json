@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 6,
+  "bottomRow": 4,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -43,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 31,
   "shouldTruncate": false,
-  "text": "{{\n[\n\tsalary.accrualsSummaryTextVisibleEmployees(),\n\tsalary.paymentsSummaryTextVisibleEmployees(),\n\tsalary.balanceSummaryTextVisibleEmployees()\n].join(\"\\n\")\n}}\n",
+  "text": "{{\n[\nsalary.accrualsSummaryTextVisibleEmployees(),\n\tsalary.paymentsSummaryTextVisibleEmployees(),\n\tsalary.balanceSummaryTextVisibleEmployees()\n].join(\"\\n\")\n}}\n",
   "textAlign": "RIGHT",
   "textColor": "#231F20",
   "topRow": 0,
