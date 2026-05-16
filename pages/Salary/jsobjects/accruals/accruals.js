@@ -52,11 +52,11 @@ export default {
 
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
-				branch_account_name: p.branch_account_id?.name ?? "",
+				branch_account_name: p.branch_account_id?.id ?? null,
 				branch_account_type: p.branch_account_id?.type ?? null,
 
 				accrual_type_id: p.accrual_type_id?.id ?? null,
-				accrual_name: p.accrual_type_id?.name ?? "",
+				accrual_name: p.accrual_type_id?.id ?? null,
 				counts_for_salary_total: !!p.accrual_type_id?.counts_for_salary_total,
 				counts_for_cashless_limit: !!p.accrual_type_id?.counts_for_cashless_limit
 			}));

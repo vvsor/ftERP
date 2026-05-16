@@ -50,7 +50,7 @@ export default {
 
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
-				branch_account_name: p.branch_account_id?.name ?? "",
+				branch_account_name: p.branch_account_id?.id ?? null,
 				branch_account_type: p.branch_account_id?.type ?? null,
 				// // служебное (необязательно)
 				// __rowState: {
@@ -80,16 +80,7 @@ export default {
 		};
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
-			if (!salaryId) fail("Зарплата периода не выбрана");
-			// const salaryRec = appsmith.store?.salaryOfPeriod;
-
-
-			// const amountNum = Number(newRow.amount);
-			// 
-			// if (!Number.isFinite(amountNum) || amountNum <= 0) {
-			// showAlert("Ошибочная сумма выплаты", "error");
-			// throw new Error("Invalid payment amount");
-			// }
+			if (!salaryId) fail("Зарплата периода не выбрана"
 
 			const toCents = (v) => Math.round(Number(v) * 100);
 			const amountCents = toCents(newRow.amount);
@@ -117,8 +108,6 @@ export default {
 			const branchAcc = baRes.data?.[0];
 			if (!branchAcc) fail("Счет филиала не найден");
 
-			// const isCashAccount = String(branchAcc.type || "").toUpperCase() === "CASH";
-
 			// ====== 1) Начисления по этому счету (с флагами типа начисления)
 			const accrRes = await items.getItems({
 				collection: "salary_accruals",
@@ -141,15 +130,6 @@ export default {
 			const accruals = accrRes.data ?? [];
 
 			const accrualSum = accruals.reduce((s, a) => s + (Number(a.amount) || 0), 0);
-
-			// База для лимита аванса по наличному счету
-			// const advanceBaseSum = accruals.reduce((s, a) => {
-			// const t = a.accrual_type_id;
-			// const ok =
-			// t?.counts_for_salary_total === true &&
-			// t?.counts_for_cashless_limit === false;
-			// return s + (ok ? (Number(a.amount) || 0) : 0);
-			// }, 0);
 
 			// ====== 2) Уже выплачено по этому счету
 			const payRes = await items.getItems({
@@ -178,35 +158,6 @@ export default {
 				);
 			}
 
-			// ====== (2) Лимит аванса по наличному счету
-			// "Аванс" = выплата меньше остатка (т.е. не закрывает счет полностью)
-			// const isAdvancePayment = amountNum < (remaining - EPS);
-			// 
-			// if (isCashAccount && isAdvancePayment) {
-			// const maxPctRaw = salaryRec.max_cash_advance_percent;
-			// const maxPct = Number(maxPctRaw);
-			// 
-			// // (C) если процент не задан / не число / 0 => аванс запрещён
-			// if (!Number.isFinite(maxPct) || maxPct <= 0) {
-			// return showAlert(
-			// "Аванс по наличному счету запрещён: не задан salary.max_cash_advance_percent (или он равен 0).",
-			// "error"
-			// );
-			// }
-			// 
-			// const maxAdvance = (advanceBaseSum * maxPct) / 100;
-			// 
-			// if (paidSum + amountNum > maxAdvance + EPS) {
-			// return showAlert(
-			// `Превышен лимит аванса по наличному счету.\n` +
-			// `База (counts_for_salary_total=true и counts_for_cashless_limit=false): ${advanceBaseSum}\n` +
-			// `Лимит (${maxPct}%): ${maxAdvance}\n` +
-			// `Уже выплачено по счету: ${paidSum}\n` +
-			// `Пытаетесь выплатить: ${amountNum}`,
-			// "error"
-			// );
-			// }
-			// }
 			// ====== Создание записи выплаты
 			const body = {
 				salary_id: salaryId,

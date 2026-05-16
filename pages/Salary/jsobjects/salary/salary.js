@@ -136,7 +136,7 @@ export default {
 	async fetchSalaryByMonth(officeTermId, month) {
 		const params = {
 			collection: "salary",
-			fields: "*",
+			fields: "id,office_term_id.id,period_month,total_salary,max_cash_advance_percent,comment",
 			filter: {
 				office_term_id: { id: { _eq: officeTermId } },
 				period_month: { _eq: month },
@@ -295,7 +295,9 @@ export default {
 
 			// Only call tab selection if a task exists
 			if (data.length > 0) {
-				const selectedOfficeTerm = data[0];
+				const currentId = appsmith.store?.SelectedOfficeTerm?.id;
+				const selectedOfficeTerm =
+							data.find((row) => String(row.id) === String(currentId)) || data[0];
 				const prefetchedSalaryRecord =
 							appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
 
@@ -319,6 +321,8 @@ export default {
 		} catch (error) {
 			if (error?.authHandled) return;
 			console.error("Error loading office terms:", error);
+			showAlert("Ошибка загрузки страницы зарплаты", "error");
+			await storeValue("salaryReady", true, true);
 		}
 	}
 }

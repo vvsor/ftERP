@@ -1,56 +1,50 @@
 export default {
 	/// ================== test block ==================
-	test: async () => {
-		removeValue("periodMonth");
-		// const now = new Date();
-		// 
-		// console.log("initPeriod(): now: ", now.toISOString());
-		// const firstDay = new Date(
-		// now.getFullYear(),
-		// now.getMonth(),
-		// 1
-		// );
-		// console.log("initPeriod(): firstDay: ", firstDay.toISOString());
-		const now = new Date();
-
-		const y = now.getFullYear();
-		const m = String(now.getMonth() + 1).padStart(2, "0");
-
-		const iso = `${y}-${m}-01`;   // БЕЗ UTC СДВИГА
-		await storeValue("periodMonth", iso, true);
-
-		return iso;
-	},
+	// test: async () => {
+	// removeValue("periodMonth");
+	// // const now = new Date();
+	// // 
+	// // console.log("initPeriod(): now: ", now.toISOString());
+	// // const firstDay = new Date(
+	// // now.getFullYear(),
+	// // now.getMonth(),
+	// // 1
+	// // );
+	// // console.log("initPeriod(): firstDay: ", firstDay.toISOString());
+	// const now = new Date();
+	// 
+	// const y = now.getFullYear();
+	// const m = String(now.getMonth() + 1).padStart(2, "0");
+	// 
+	// const iso = `${y}-${m}-01`;   // БЕЗ UTC СДВИГА
+	// await storeValue("periodMonth", iso, true);
+	// 
+	// return iso;
+	// },
 	/// ============== end of test block ===============
 
-	advanceInRub() {
-		const salary = appsmith.store?.salaryOfPeriod;
-		const pct = Number(salary?.max_cash_advance_percent);
-
-		if (!Number.isFinite(pct) || pct <= 0) return "—";
-
-		const rows = tbl_salaryAccruals?.tableData || [];
-
-		const base = rows.reduce((sum, r) => {
-			const ok =
-						r.branch_account_type === "CASH" &&
-						r.counts_for_salary_total === true &&
-						r.counts_for_cashless_limit === false;
-
-			return sum + (ok ? (Number(r.amount) || 0) : 0);
-		}, 0);
-
-		const advance = (base * pct) / 100;
-		// убираем .00, если копеек нет
-		const formatted = utils.formatCurrencyRu(advance);
-
-		return `${formatted} ₽`;
-	},
-
-	// formatMoneyRu(amount) {
-	// const n = Number(amount) || 0;
-	// const rounded = Math.round(n * 100) / 100; // защита от float-noise
-	// return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+	// advanceInRub() {
+	// const salary = appsmith.store?.salaryOfPeriod;
+	// const pct = Number(salary?.max_cash_advance_percent);
+	// 
+	// if (!Number.isFinite(pct) || pct <= 0) return "—";
+	// 
+	// const rows = tbl_salaryAccruals?.tableData || [];
+	// 
+	// const base = rows.reduce((sum, r) => {
+	// const ok =
+	// r.branch_account_type === "CASH" &&
+	// r.counts_for_salary_total === true &&
+	// r.counts_for_cashless_limit === false;
+	// 
+	// return sum + (ok ? (Number(r.amount) || 0) : 0);
+	// }, 0);
+	// 
+	// const advance = (base * pct) / 100;
+	// // убираем .00, если копеек нет
+	// const formatted = utils.formatCurrencyRu(advance);
+	// 
+	// return `${formatted} ₽`;
 	// },
 
 	formatCurrencyRu(amount) {
@@ -91,6 +85,26 @@ export default {
 		}
 	},
 
+	async getAccrualTypesRaw() {
+		try {
+			const fields = [
+				"*"
+			].join(",");
+
+			const params = {
+				fields: fields,
+				collection: "salary_accrual_types",
+			};
+			const response = await items.getItems(params);
+			const allBranches = response.data || [];
+			allBranches.sort((a, b) => a.name.localeCompare(b.name));
+			return allBranches;
+		} catch (error) {
+			console.error("Error in getAccrualTypesRaw:", error);
+			throw error;
+		}
+	},
+
 	async getAccrualTypesOptions() {
 		const rows = await this.getAccrualTypesRaw();
 
@@ -100,26 +114,13 @@ export default {
 		}));
 	},
 
-	toLocalYMD(date) {
-		const d = new Date(date);
-		const y = d.getFullYear();
-		const m = String(d.getMonth() + 1).padStart(2, "0");
-		const day = "01";
-		return `${y}-${m}-${day}`;
-	},
-
-	YM_01day(date) {
-		const d = new Date(date);
-		d.setDate(1);
-		return d.toISOString().slice(0, 10);
-	},
 	async getSalaryByOfficeTermId(officeTerms = [], periodMonth) {
 		const officeTermIds = officeTerms.map((term) => term.id).filter(Boolean);
 		if (!periodMonth || officeTermIds.length === 0) return {};
 
 		const response = await items.getItems({
 			collection: "salary",
-			fields: "*,office_term_id.id",
+			fields: "id,office_term_id.id,period_month,total_salary,max_cash_advance_percent,comment",
 			filter: {
 				_and: [
 					{ period_month: { _eq: periodMonth } },
@@ -185,13 +186,19 @@ export default {
 	async getOfficeTerms({ commitToStore = true } = {}) {
 		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
 		const periodMonth = appsmith.store?.periodMonth;
-		const today = moment().format("YYYY-MM-DD");
+		const period = moment(periodMonth || undefined);
+		const periodStart = period.isValid()
+		? period.clone().startOf("month").format("YYYY-MM-DD")
+		: moment().startOf("month").format("YYYY-MM-DD");
+		const periodEnd = period.isValid()
+		? period.clone().endOf("month").format("YYYY-MM-DD")
+		: moment().endOf("month").format("YYYY-MM-DD");
 
 		const officeFilter = {
 			_and: [
 				...(branchId ? [{ position_id: { branch_id: { id: { _eq: branchId } } } }] : []),
-				{ date_from: { _lte: today } },
-				{ _or: [{ date_till: { _null: true } }, { date_till: { _gte: today } }] }
+				{ date_from: { _lte: periodEnd } },
+				{ _or: [{ date_till: { _null: true } }, { date_till: { _gte: periodStart } }] }
 			]
 		};
 
@@ -277,27 +284,25 @@ export default {
 		}
 	},
 
+	async getBranches({ commitToStore = true } = {}) {
+		const response = await items.getItems({
+			collection: "branches",
+			fields: "id,name",
+			limit: -1
+		});
 
-	async getBranchAccountsRaw() {
-		try {
-			// Fields to fetch
-			const fields = [
-				"id", "name", "type"
-			].join(",");
+		const rows = (response.data || [])
+		.map((row) => ({
+			id: row.id,
+			name: row.name || ""
+		}))
+		.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 
-			const params = {
-				fields: fields,
-				collection: "branch_accounts",
-			};
-			const response = await items.getItems(params);
-			const allBranches = response.data || [];
-			// Sort by name (ascending)
-			allBranches.sort((a, b) => a.name.localeCompare(b.name));
-			return allBranches;
-		} catch (error) {
-			console.error("Error in all task processing:", error);
-			throw error;
+		if (commitToStore) {
+			await storeValue("salaryBranchRows", rows, true);
 		}
+
+		return rows;
 	},
 
 	async getBranchAccountsOptions() {
@@ -421,26 +426,40 @@ export default {
 	},
 
 	async shiftPeriod(monthOffset = 0) {
-		const base = new Date(appsmith.store.periodMonth);
-		const firstDay = new Date(
-			base.getFullYear(),
-			base.getMonth() + monthOffset,
-			1
-		);
+		const base = moment(appsmith.store.periodMonth || undefined);
+		const nextPeriod = (base.isValid() ? base : moment())
+		.clone()
+		.add(monthOffset, "month")
+		.startOf("month")
+		.format("YYYY-MM-DD");
 
-		const y = firstDay.getFullYear();
-		const m = String(firstDay.getMonth() + 1).padStart(2, "0");
-		const iso = `${y}-${m}-01`;
+		await storeValue("periodMonth", nextPeriod, true);
+		await storeValue("salaryReady", false, true);
 
-		await storeValue("periodMonth", iso, true);
-
-		if (appsmith.store?.SelectedOfficeTerm?.id) {
-			await utils.reloadSalaryContext({ refreshEmployees: true });
-		} else {
-			await utils.getOfficeTerms();
+		const rows = await utils.getOfficeTerms({ commitToStore: false });
+		if (!rows.length) {
+			await removeValue("SelectedOfficeTerm");
+			await removeValue("salaryOfPeriod");
+			await storeValue("salaryEmployeeRows", [], false);
+			await storeValue("salaryPaymentRows", [], false);
+			await storeValue("salaryAccrualRows", [], false);
+			await storeValue("salaryReady", true, true);
+			return nextPeriod;
 		}
 
-		return iso;
+		const currentId = appsmith.store?.SelectedOfficeTerm?.id;
+		const selectedOfficeTerm =
+					rows.find((row) => String(row.id) === String(currentId)) || rows[0];
+		const prefetchedSalaryRecord =
+					appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
+
+		await Promise.all([
+			storeValue("salaryEmployeeRows", rows, false),
+			salary.setSelectedOfficeTerm(selectedOfficeTerm)
+		]);
+
+		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
+		return nextPeriod;
 	},
 
 	getPeriodMonth() {
