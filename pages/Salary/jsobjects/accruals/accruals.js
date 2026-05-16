@@ -94,7 +94,7 @@ export default {
 			throw new Error("Accrual type is required");
 		}
 
-		if (!Number.isFinite(amount) || amount < 0) {
+		if (!Number.isFinite(amount) || amount <= 0) {
 			showAlert("Ошибочная сумма начисления", "error");
 			throw new Error("Invalid accrual amount");
 		}
@@ -169,7 +169,7 @@ export default {
 		}
 
 
-		if (!Number.isFinite(newAmount) || newAmount < 0) {
+		if (!Number.isFinite(newAmount) || newAmount <= 0) {
 			showAlert("Accrual amount is invalid", "error");
 			throw new Error("Ошибочная сумма начисления");
 		}

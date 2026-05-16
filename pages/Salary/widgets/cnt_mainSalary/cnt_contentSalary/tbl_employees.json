@@ -43,7 +43,7 @@
     "balance",
     "salary_id"
   ],
-  "columnUpdatedAt": 1778909548039,
+  "columnUpdatedAt": 1778912369020,
   "columnWidthMap": {
     "branch": 321,
     "employee": 171.24316406250003
@@ -406,7 +406,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "salary_id",
       "notation": "standard",
       "originalId": "salary_id",

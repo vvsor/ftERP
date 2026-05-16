@@ -32,11 +32,11 @@ export default {
 		const fraction = Math.round((abs - integerPart) * 100);
 		const integerText = String(integerPart).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-		if (fraction === 0) {
-			return `${sign}${integerText}`;
-		}
+		const valueText = fraction === 0
+			? `${sign}${integerText}`
+			: `${sign}${integerText},${String(fraction).padStart(2, "0")}`;
 
-		return `${sign}${integerText},${String(fraction).padStart(2, "0")}`;
+		return `${valueText} ₽`;
 	},
 
 	toLocalYMD(date) {
