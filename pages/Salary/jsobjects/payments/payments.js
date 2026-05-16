@@ -80,7 +80,7 @@ export default {
 		};
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
-			if (!salaryId) fail("Зарплата периода не выбрана"
+			if (!salaryId) fail("Зарплата периода не выбрана");
 
 			const toCents = (v) => Math.round(Number(v) * 100);
 			const amountCents = toCents(newRow.amount);
