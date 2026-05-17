@@ -152,6 +152,15 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "primaryColumns.date_from_display.outputFormat"
+    },
+    {
+      "key": "primaryColumns.date_from.outputFormat"
+    },
+    {
+      "key": "primaryColumns.date_till_display.outputFormat"
     }
   ],
   "dynamicTriggerPathList": [
@@ -363,6 +372,7 @@
       "label": "Дата назначения",
       "notation": "standard",
       "originalId": "date_from",
+      "outputFormat": "DD.MM.YYYY",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
@@ -376,7 +386,7 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
+      "columnType": "date",
       "computedValue": "{{(() => { const tableData = tbl_officeTermHistory.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"date_from_display\"])) : date_from_display })()}}",
       "currencyCode": "USD",
       "decimals": 0,
@@ -397,6 +407,7 @@
       "label": "Дата назачения",
       "notation": "standard",
       "originalId": "date_from_display",
+      "outputFormat": "MM.DD.YYYY",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
@@ -446,8 +457,8 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_officeTermHistory.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"date_till_display\"])) : date_till_display })()}}",
+      "columnType": "date",
+      "computedValue": "{{(() => { const tableData = tbl_officeTermHistory.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"date_till_display\"])) : currentRow[\"date_till_display\"] })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -467,6 +478,7 @@
       "label": "Дата увольнения",
       "notation": "standard",
       "originalId": "date_till_display",
+      "outputFormat": "DD.MM.YYYY",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

@@ -1,5 +1,5 @@
 {
-  "animateLoading": true,
+  "animateLoading": "{{appsmith.store?.salaryPeriodShiftInProgress === true}}",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 4,
   "boxShadow": "none",
@@ -11,11 +11,23 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "animateLoading"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "onClick"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "animateLoading"
     }
   ],
   "dynamicTriggerPathList": [
@@ -24,7 +36,7 @@
     }
   ],
   "iconName": "double-chevron-left",
-  "isDisabled": false,
+  "isDisabled": "{{appsmith.store?.salaryPeriodShiftInProgress === true || appsmith.store?.salaryReady === false}}",
   "isLoading": false,
   "isVisible": true,
   "key": "mz1gyuwe0d",

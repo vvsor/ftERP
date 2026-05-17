@@ -23,6 +23,8 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
+	shiftPeriodPromise: null,
+
 	formatCurrencyRu(amount) {
 		const n = Number(amount) || 0;
 		const rounded = Math.round(n * 100) / 100;
@@ -395,42 +397,66 @@ export default {
 	},
 
 	async shiftPeriod(monthOffset = 0) {
-		const base = moment(appsmith.store.periodMonth || undefined);
-		const nextPeriod = (base.isValid() ? base : moment())
-		.clone()
-		.add(monthOffset, "month")
-		.startOf("month")
-		.format("YYYY-MM-DD");
-
-		await storeValue("periodMonth", nextPeriod, true);
-		await storeValue("salaryReady", false, true);
-
-		const rows = await utils.getOfficeTerms({ commitToStore: false });
-		if (!rows.length) {
-			await removeValue("SelectedOfficeTerm");
-			await removeValue("salaryOfPeriod");
-			await storeValue("salaryEmployeeRows", [], false);
-			await storeValue("salaryPaymentRows", [], false);
-			await storeValue("salaryAccrualRows", [], false);
-			await storeValue("salaryReady", true, true);
-			return nextPeriod;
+		if (utils.shiftPeriodPromise) {
+			return await utils.shiftPeriodPromise;
 		}
 
-		const currentId = appsmith.store?.SelectedOfficeTerm?.id;
-		const selectedOfficeTerm =
-					rows.find((row) => String(row.id) === String(currentId)) || rows[0];
-		const prefetchedSalaryRecord =
-					appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
+		utils.shiftPeriodPromise = (async () => {
+			await storeValue("salaryPeriodShiftInProgress", true, false);
+			await storeValue("salaryReady", false, true);
 
-		await Promise.all([
-			storeValue("salaryEmployeeRows", rows, false),
-			salary.setSelectedOfficeTerm(selectedOfficeTerm)
-		]);
+			try {
+				const base = moment(appsmith.store.periodMonth || undefined);
+				const nextPeriod = (base.isValid() ? base : moment())
+				.clone()
+				.add(monthOffset, "month")
+				.startOf("month")
+				.format("YYYY-MM-DD");
 
-		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
-		return nextPeriod;
-	},
+				await storeValue("periodMonth", nextPeriod, true);
 
+				const rows = await utils.getOfficeTerms({ commitToStore: false });
+				if (!rows.length) {
+					await removeValue("SelectedOfficeTerm");
+					await removeValue("salaryOfPeriod");
+					await storeValue("salaryEmployeeRows", [], false);
+					await storeValue("salaryPaymentRows", [], false);
+					await storeValue("salaryAccrualRows", [], false);
+					await storeValue("salaryReady", true, true);
+					return nextPeriod;
+				}
+
+				const currentId = appsmith.store?.SelectedOfficeTerm?.id;
+				const selectedOfficeTerm =
+							rows.find((row) => String(row.id) === String(currentId)) || rows[0];
+				const prefetchedSalaryRecord =
+							appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
+
+				await Promise.all([
+					storeValue("salaryEmployeeRows", rows, false),
+					salary.setSelectedOfficeTerm(selectedOfficeTerm)
+				]);
+
+				await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
+				return nextPeriod;
+			} catch (error) {
+				if (error?.authHandled) throw error;
+				console.error("shiftPeriod failed:", error);
+				showAlert("Ошибка переключения периода", "error");
+				throw error;
+			} finally {
+				await storeValue("salaryPeriodShiftInProgress", false, false);
+
+				if (appsmith.store?.salaryReady !== true) {
+					await storeValue("salaryReady", true, true);
+				}
+
+				utils.shiftPeriodPromise = null;
+			}
+		})();
+
+		return await utils.shiftPeriodPromise;
+	},	
 	getPeriodMonth() {
 		return appsmith.store.periodMonth || null;
 	},
