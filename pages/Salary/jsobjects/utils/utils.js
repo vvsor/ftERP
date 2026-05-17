@@ -445,13 +445,15 @@ export default {
 				showAlert("Ошибка переключения периода", "error");
 				throw error;
 			} finally {
-				await storeValue("salaryPeriodShiftInProgress", false, false);
+				try {
+					await storeValue("salaryPeriodShiftInProgress", false, false);
 
-				if (appsmith.store?.salaryReady !== true) {
-					await storeValue("salaryReady", true, true);
+					if (appsmith.store?.salaryReady !== true) {
+						await storeValue("salaryReady", true, true);
+					}
+				} finally {
+					utils.shiftPeriodPromise = null;
 				}
-
-				utils.shiftPeriodPromise = null;
 			}
 		})();
 

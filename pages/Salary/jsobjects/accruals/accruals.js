@@ -76,19 +76,10 @@ export default {
 	},
 
 	async createSalaryAccrual(newRow) {
-		const salaryRecord = appsmith.store?.salaryOfPeriod?.id
-		? appsmith.store.salaryOfPeriod
-		: await salary.getOrCreateSalaryForCurrentSelection();
-		const salaryId = salaryRecord?.id;
 		const branchAccountId = newRow.branch_account_name;
 		const accrualTypeId = newRow.accrual_name;
 		const amount = Number(newRow.amount);
 		const comment = newRow.comment;
-
-		if (!salaryId) {
-			showAlert("Не удалось создать запись зарплаты", "error");
-			throw new Error("salaryId missing");
-		}
 
 		if (!branchAccountId) {
 			showAlert("Выберите счет филиала", "error");
@@ -103,6 +94,16 @@ export default {
 		if (!Number.isFinite(amount) || amount <= 0) {
 			showAlert("Ошибочная сумма начисления", "error");
 			throw new Error("Invalid accrual amount");
+		}
+
+		const salaryRecord = appsmith.store?.salaryOfPeriod?.id
+		? appsmith.store.salaryOfPeriod
+		: await salary.getOrCreateSalaryForCurrentSelection();
+		const salaryId = salaryRecord?.id;
+
+		if (!salaryId) {
+			showAlert("Не удалось создать запись зарплаты", "error");
+			throw new Error("salaryId missing");
 		}
 
 		const result = await items.createItems({
@@ -121,7 +122,6 @@ export default {
 
 		return result.data?.id;
 	},
-
 	async updateSalaryAccrual(changed) {
 		const { allFields, updatedFields } = changed;
 		const salaryId = appsmith.store?.salaryOfPeriod?.id;
