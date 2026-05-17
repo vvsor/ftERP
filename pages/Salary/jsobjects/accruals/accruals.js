@@ -8,7 +8,10 @@ export default {
 						appsmith.store?.salaryOfPeriod?.id;
 
 			if (!salaryId) {
-				throw new Error("salaryId missing in store and params");
+				if (commitToStore) {
+					await storeValue("salaryAccrualRows", [], false);
+				}
+				return [];
 			}
 
 			// Fields to fetch
@@ -73,14 +76,17 @@ export default {
 	},
 
 	async createSalaryAccrual(newRow) {
-		const salaryId = appsmith.store?.salaryOfPeriod?.id;
+		const salaryRecord = appsmith.store?.salaryOfPeriod?.id
+		? appsmith.store.salaryOfPeriod
+		: await salary.getOrCreateSalaryForCurrentSelection();
+		const salaryId = salaryRecord?.id;
 		const branchAccountId = newRow.branch_account_name;
 		const accrualTypeId = newRow.accrual_name;
 		const amount = Number(newRow.amount);
 		const comment = newRow.comment;
 
 		if (!salaryId) {
-			showAlert("Зарплата периода не выбрана", "error");
+			showAlert("Не удалось создать запись зарплаты", "error");
 			throw new Error("salaryId missing");
 		}
 

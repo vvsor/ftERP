@@ -185,6 +185,36 @@ export default {
 		return { salaryRecord: created, wasCreated: true, previousSalary };
 	},
 
+	async getOrCreateSalaryForCurrentSelection() {
+		const officeTerm = appsmith.store?.SelectedOfficeTerm;
+		const periodMonth = utils.getPeriodMonth();
+
+		if (!officeTerm?.id) {
+			throw new Error("officeTerm missing");
+		}
+
+		if (!periodMonth) {
+			throw new Error("periodMonth missing");
+		}
+
+		const { salaryRecord, wasCreated, previousSalary } =
+					await this.ensureSalaryExists(officeTerm.id, periodMonth);
+
+		if (wasCreated) {
+			await this.createRecurringAccrualsFromPreviousMonth(previousSalary?.id, salaryRecord.id);
+		}
+
+		const nextSalaryRecord = { ...salaryRecord, __wasCreated: wasCreated };
+		await this.setSalaryOfPeriod(nextSalaryRecord);
+
+		if (wasCreated) {
+			const rows = await utils.getOfficeTerms({ commitToStore: false });
+			await storeValue("salaryEmployeeRows", rows, false);
+		}
+
+		return nextSalaryRecord;
+	},
+
 	async createRecurringAccrualsFromPreviousMonth(previousSalaryId, newSalaryId) {
 		if (!previousSalaryId || !newSalaryId) return;
 
@@ -230,7 +260,7 @@ export default {
 		});
 	},
 
-	async loadSalary(prefetchedSalaryRecord = null) {
+	async loadSalary(prefetchedSalaryRecord = null, { createIfMissing = false } = {}) {
 		try {
 			const officeTerm = appsmith.store?.SelectedOfficeTerm;
 			const periodMonth = utils.getPeriodMonth();
@@ -241,7 +271,7 @@ export default {
 
 			if (!periodMonth) {
 				showAlert("Период не инициализирован", "warning");
-				return;
+				return null;
 			}
 
 			const prefetchedOfficeTermId =
@@ -252,19 +282,20 @@ export default {
 						String(prefetchedOfficeTermId) === String(officeTerm.id) &&
 						prefetchedSalaryRecord?.period_month === periodMonth;
 
-			const { salaryRecord, wasCreated, previousSalary } = canUsePrefetched
-			? { salaryRecord: prefetchedSalaryRecord, wasCreated: false, previousSalary: null }
-			: await this.ensureSalaryExists(officeTerm.id, periodMonth);
-
-			if (wasCreated) {
-				await this.createRecurringAccrualsFromPreviousMonth(previousSalary?.id, salaryRecord.id);
+			if (canUsePrefetched) {
+				return { ...prefetchedSalaryRecord, __wasCreated: false };
 			}
 
-			return { ...salaryRecord, __wasCreated: wasCreated };
+			if (!createIfMissing) {
+				const existing = await this.fetchSalaryByMonth(officeTerm.id, periodMonth);
+				return existing ? { ...existing, __wasCreated: false } : null;
+			}
+
+			return await this.getOrCreateSalaryForCurrentSelection();
 		} catch (error) {
 			if (error?.authHandled) throw error;
 			console.error("loadSalary failed:", error);
-			showAlert("Ошибка загрузки/создания зарплаты", "error");
+			showAlert("Ошибка загрузки зарплаты", "error");
 			throw error;
 		} finally {
 			if (appsmith.store?.salaryCreateInProgress === true) {
@@ -272,7 +303,6 @@ export default {
 			}
 		}
 	},
-
 	async initSalary(){
 		await storeValue("salaryReady", false, true);
 

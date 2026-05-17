@@ -275,7 +275,31 @@ export default {
 			await storeValue("salaryReady", false, true);
 		}
 
-		const salaryRecord = await salary.loadSalary(prefetchedSalaryRecord);
+		const salaryRecord = await salary.loadSalary(prefetchedSalaryRecord, { createIfMissing: false });
+
+		if (!salaryRecord?.id) {
+			const employeeRows = refreshEmployees
+			? await utils.getOfficeTerms({ commitToStore: false })
+			: null;
+
+			const storeJobs = [
+				storeValue("salaryPaymentRows", [], false),
+				storeValue("salaryAccrualRows", [], false),
+				removeValue("salaryOfPeriod")
+			];
+
+			if (employeeRows) {
+				storeJobs.push(storeValue("salaryEmployeeRows", employeeRows, false));
+			}
+
+			await Promise.all(storeJobs);
+
+			if (appsmith.store?.salaryReady !== true) {
+				await storeValue("salaryReady", true, true);
+			}
+
+			return null;
+		}
 
 		const paymentRowsPromise = payments.loadSalaryPayments(
 			salaryRecord.id,
@@ -310,15 +334,12 @@ export default {
 
 		await Promise.all(storeJobs);
 
-
 		if (appsmith.store?.salaryReady !== true) {
 			await storeValue("salaryReady", true, true);
 		}
 
 		return salaryRecord;
-
 	},
-
 	async refreshSelectedEmployeeSummaryFromDetails() {
 		const officeTermId = appsmith.store?.SelectedOfficeTerm?.id;
 		if (!officeTermId) return;

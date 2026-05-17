@@ -8,7 +8,10 @@ export default {
 						appsmith.store?.salaryOfPeriod?.id;
 
 			if (!salaryId) {
-				throw new Error("salaryId missing in store and params");
+				if (commitToStore) {
+					await storeValue("salaryPaymentRows", [], false);
+				}
+				return [];
 			}
 
 			// Fields to fetch
@@ -80,7 +83,7 @@ export default {
 		};
 		try {
 			const salaryId = appsmith.store?.salaryOfPeriod?.id;
-			if (!salaryId) fail("Зарплата периода не выбрана");
+			if (!salaryId) fail("Сначала создайте начисление за выбранный период");
 
 			const toCents = (v) => Math.round(Number(v) * 100);
 			const amountCents = toCents(newRow.amount);

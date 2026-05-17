@@ -19,25 +19,25 @@ export default {
 			return;
 		}
 		try {
-			const salaryRec = appsmith.store?.salaryOfPeriod;
-
-			if (!salaryRec || !salaryRec.id) {
-				console.warn("Autosave skipped: salaryOfPeriod not ready", {
-					fieldName,
-					widget: widget?.widgetName
-				});
-				return;
-			}
-
+			let salaryRec = appsmith.store?.salaryOfPeriod;
 			const value = utils.extractValue(widget);
-			const currentValue = salaryRec?.[fieldName] ?? "";
-			if (String(value ?? "") === String(currentValue ?? "")) {
-				return;
-			}
 
-			// Не шлём пустые значения при инициализации
 			if (value === null || value === undefined) {
 				console.warn("Autosave skipped: empty value", fieldName);
+				return;
+			}
+
+			if (!salaryRec?.id) {
+				if (String(value ?? "").trim() === "") {
+					console.warn("Autosave skipped: empty value without salary", fieldName);
+					return;
+				}
+
+				salaryRec = await salary.getOrCreateSalaryForCurrentSelection();
+			}
+
+			const currentValue = salaryRec?.[fieldName] ?? "";
+			if (String(value ?? "") === String(currentValue ?? "")) {
 				return;
 			}
 
