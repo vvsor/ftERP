@@ -41,9 +41,10 @@
     "accruals_sum",
     "payments_sum",
     "balance",
-    "salary_id"
+    "salary_id",
+    "position_id"
   ],
-  "columnUpdatedAt": 1778912369020,
+  "columnUpdatedAt": 1779041492200,
   "columnWidthMap": {
     "branch": 321,
     "employee": 171.24316406250003
@@ -102,6 +103,9 @@
     },
     {
       "key": "animateLoading"
+    },
+    {
+      "key": "primaryColumns.position_id.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -382,6 +386,40 @@
       "label": "Выплачно",
       "notation": "standard",
       "originalId": "payments_sum",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "position_id": {
+      "alias": "position_id",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "number",
+      "computedValue": "{{(() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"position_id\"])) : position_id })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "position_id",
+      "index": 3,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "position_id",
+      "notation": "standard",
+      "originalId": "position_id",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

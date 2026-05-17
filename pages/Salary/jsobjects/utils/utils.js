@@ -33,8 +33,8 @@ export default {
 		const integerText = String(integerPart).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
 		const valueText = fraction === 0
-			? `${sign}${integerText}`
-			: `${sign}${integerText},${String(fraction).padStart(2, "0")}`;
+		? `${sign}${integerText}`
+		: `${sign}${integerText},${String(fraction).padStart(2, "0")}`;
 
 		return `${valueText} ₽`;
 	},
@@ -167,7 +167,8 @@ export default {
 			"user_id.first_name",
 			"user_id.middle_name",
 			"user_id.last_name",
-			"position_id",
+			"position_id.id",
+			"position_id.position_title_id.id",
 			"position_id.position_title_id.title",
 			"position_id.branch_id.id",
 			"position_id.branch_id.name"
@@ -200,7 +201,8 @@ export default {
 				id: term.id,
 				user_id: user.id ?? term.user_id ?? null,
 				employee: utils.formatUserName(user),
-				title: position?.position_title_id?.title ?? "—",
+				position_id: position?.id ?? term.position_id ?? null,
+				title: position?.position_title_id?.title || "—",
 				branch_id: position?.branch_id?.id ?? null,
 				branch_name: position?.branch_id?.name ?? "",
 				salary_id: salaryId,
@@ -265,7 +267,7 @@ export default {
 		const last = user.last_name || "";
 		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
 		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
-		return [last, [first, middle].filter(Boolean).join(" ")].filter(Boolean).join(" ").trim();
+		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
 	},
 
 	async reloadSalaryContext({ refreshEmployees = false, salaryRecord: prefetchedSalaryRecord = null } = {}) {

@@ -734,6 +734,7 @@
       "isDisabled": false,
       "isDiscardVisible": true,
       "isEditable": true,
+      "isFilterable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Сотрудник",

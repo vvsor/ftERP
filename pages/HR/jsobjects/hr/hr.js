@@ -120,7 +120,7 @@ export default {
 		return rows;
 	},
 
-	async refreshPositionsPage({ showAlert = true } = {}) {
+	async refreshPositionsPage({ notify = true } = {}) {
 		if (this.positionsRefreshPromise) return await this.positionsRefreshPromise;
 
 		this.positionsRefreshPromise = (async () => {
@@ -132,7 +132,7 @@ export default {
 				const branchId = sel_chooseBranch.selectedOptionValue ?? appsmith.store?.hrSelectedBranchId ?? "";
 				await this.refreshHrBranch(branchId);
 
-				if (showAlert) showAlert("Должности обновлены", "success");
+				if (notify) showAlert("Должности обновлены", "success");
 			} finally {
 				await storeValue("hrPositionsRefreshing", false, false);
 				this.positionsRefreshPromise = null;
@@ -142,7 +142,7 @@ export default {
 		return await this.positionsRefreshPromise;
 	},
 
-	async refreshEmployeesPage({ showAlert = true } = {}) {
+	async refreshEmployeesPage({ notify = true } = {}) {
 		if (this.employeesRefreshPromise) return await this.employeesRefreshPromise;
 
 		this.employeesRefreshPromise = (async () => {
@@ -151,7 +151,7 @@ export default {
 				await utils.getCurrentOfficeTerms();
 				await utils.getEmployees();
 
-				if (showAlert) showAlert("Сотрудники обновлены", "success");
+				if (notify) showAlert("Сотрудники обновлены", "success");
 			} finally {
 				await storeValue("hrEmployeesRefreshing", false, false);
 				this.employeesRefreshPromise = null;
@@ -240,8 +240,8 @@ export default {
 		showAlert(mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен", "success");
 		closeModal(mdl_addEditEmployee.name);
 		await Promise.all([
-			this.refreshEmployeesPage({ showAlert: false }),
-			this.refreshPositionsPage({ showAlert: false })
+			this.refreshEmployeesPage({ notify: false }),
+			this.refreshPositionsPage({ notify: false })
 		]);
 	},
 
@@ -320,6 +320,7 @@ export default {
 			branch_id: appsmith.store?.hrSelectedBranchId || null
 		};
 
+		await utils.getSupervisorPositionOptions();
 		await storeValue("hrPositionModalMode", isEdit ? "edit" : "add", true);
 		await storeValue("hrSelectedPositionDraft", position, true);
 
@@ -341,6 +342,47 @@ export default {
 		return body;
 	},
 
+	async validatePositionSupervisor(positionId, supervisorPositionId) {
+		if (!supervisorPositionId) return;
+
+		if (positionId && String(positionId) === String(supervisorPositionId)) {
+			throw new Error("Должность не может быть руководителем самой себя");
+		}
+
+		const response = await items.getItems({
+			collection: "positions",
+			fields: "id,supervisor_position_id.id",
+			limit: -1
+		});
+
+		const supervisorByPositionId = {};
+		for (const row of response.data || []) {
+			supervisorByPositionId[row.id] = row.supervisor_position_id?.id ?? row.supervisor_position_id ?? null;
+		}
+
+		if (positionId) {
+			supervisorByPositionId[positionId] = supervisorPositionId;
+		}
+
+		const seen = new Set();
+		let currentId = supervisorPositionId;
+
+		while (currentId) {
+			const key = String(currentId);
+
+			if (positionId && key === String(positionId)) {
+				throw new Error("Нельзя сохранить: возникает цикличность руководства");
+			}
+
+			if (seen.has(key)) {
+				throw new Error("В цепочке руководства уже есть цикл");
+			}
+
+			seen.add(key);
+			currentId = supervisorByPositionId[currentId];
+		}
+	},
+
 	async savePosition() {
 		const mode = appsmith.store?.hrPositionModalMode || "add";
 		const selectedPosition = appsmith.store?.hrSelectedPositionDraft;
@@ -352,6 +394,16 @@ export default {
 		}
 		if (!body.branch_id) {
 			showAlert("Выберите подразделение", "warning");
+			return;
+		}
+
+		try {
+			await this.validatePositionSupervisor(
+				mode === "edit" ? selectedPosition?.id : null,
+				body.supervisor_position_id
+			);
+		} catch (error) {
+			showAlert(error?.message || "Ошибка проверки руководителя", "warning");
 			return;
 		}
 
@@ -461,8 +513,8 @@ export default {
 
 			resetWidget("tbl_officeTermHistory", true);
 			await Promise.all([
-				this.refreshPositionsPage({ showAlert: false }),
-				this.refreshEmployeesPage({ showAlert: false })
+				this.refreshPositionsPage({ notify: false }),
+				this.refreshEmployeesPage({ notify: false })
 			]);
 
 			if (historyMode === "employee") {
