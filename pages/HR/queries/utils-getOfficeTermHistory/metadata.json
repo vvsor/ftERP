@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_a0460c0f-a657-4894-9354-b98d5d133c0a",
-  "id": "HR_utils.getOfficeTermHistoryByUser",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_b202c68d-9685-40a8-a3a7-8c6cf836745e",
+  "id": "HR_utils.getOfficeTermHistory",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,11 +8,7 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": "userId"
-        },
-        {
-          "name": "options",
-          "value": "{{{}}}"
+          "name": ""
         }
       ],
       "paginationType": "NONE",
@@ -30,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.getOfficeTermHistoryByUser",
-    "name": "getOfficeTermHistoryByUser",
+    "fullyQualifiedName": "utils.getOfficeTermHistory",
+    "name": "getOfficeTermHistory",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

@@ -64,18 +64,14 @@ export default {
 
 		if (!row?.id) {
 			await storeValue("hrSelectedPosition", null, true);
+			await storeValue("hrOfficeTermHistoryMode", "position", true);
 			await storeValue("hrOfficeTermHistoryRows", [], false);
 			return;
 		}
 
 		await storeValue("hrSelectedPosition", row, true);
-
-		if (!row.user_id) {
-			await storeValue("hrOfficeTermHistoryRows", [], false);
-			return;
-		}
-
-		await utils.getOfficeTermHistoryByUser(row.user_id);
+		await storeValue("hrOfficeTermHistoryMode", "position", true);
+		await utils.getOfficeTermHistory({ positionId: row.id });
 	},
 
 	async tbl_employees_onRowSelected(rowParam = null) {
@@ -88,7 +84,8 @@ export default {
 		}
 
 		await storeValue("hrSelectedEmployeeRow", row, true);
-		await utils.getOfficeTermHistoryByUser(row.user_id);
+		await storeValue("hrOfficeTermHistoryMode", "employee", true);
+		await utils.getOfficeTermHistory({ userId: row.user_id });
 	},
 
 	async sel_chooseBranch_OptionChanged(branchIdParam) {
@@ -113,8 +110,9 @@ export default {
 
 		await storeValue("hrSelectedPosition", selectedPosition, true);
 
-		if (selectedPosition?.user_id) {
-			await utils.getOfficeTermHistoryByUser(selectedPosition.user_id);
+		if (selectedPosition?.id) {
+			await storeValue("hrOfficeTermHistoryMode", "position", true);
+			await utils.getOfficeTermHistory({ positionId: selectedPosition.id });
 		} else {
 			await storeValue("hrOfficeTermHistoryRows", [], false);
 		}
@@ -426,15 +424,21 @@ export default {
 					 : (tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow || tbl_officeTermHistory.selectedRow));
 
 		const row = this.normalizeTableRow(rawRow);
+		const historyMode = appsmith.store?.hrOfficeTermHistoryMode || "position";
 		const selectedUserId =
 					row.user_id ||
-					appsmith.store?.hrSelectedEmployeeRow?.user_id ||
+					(historyMode === "employee" ? appsmith.store?.hrSelectedEmployeeRow?.user_id : null) ||
 					appsmith.store?.hrSelectedPosition?.user_id;
+
+		const selectedPositionId =
+					historyMode === "position"
+		? appsmith.store?.hrSelectedPosition?.id
+		: null;
 
 		const officeTermId = row.office_term_id || row.id || null;
 		const body = {
 			user_id: selectedUserId,
-			position_id: appsmith.store?.hrSelectedPosition?.id || row.position_id || null,
+			position_id: selectedPositionId || row.position_id || null,
 			date_from: row.date_from ? moment(row.date_from).format("YYYY-MM-DD") : null,
 			date_till: row.date_till ? moment(row.date_till).format("YYYY-MM-DD") : null,
 			comment: row.comment || ""
@@ -460,8 +464,12 @@ export default {
 				this.refreshPositionsPage({ showAlert: false }),
 				this.refreshEmployeesPage({ showAlert: false })
 			]);
-			await utils.getOfficeTermHistoryByUser(body.user_id);
 
+			if (historyMode === "employee") {
+				await utils.getOfficeTermHistory({ userId: body.user_id });
+			} else {
+				await utils.getOfficeTermHistory({ positionId: body.position_id });
+			}
 			showAlert("Назначение сохранено", "success");
 		} catch (error) {
 			showAlert(error?.message || "Ошибка сохранения назначения", "warning");

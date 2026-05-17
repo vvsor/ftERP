@@ -223,13 +223,21 @@ export default {
 		return rows;
 	},
 
-	async getOfficeTermHistoryByUser(userId, { commitToStore = true } = {}) {
-		if (!userId) {
+	async getOfficeTermHistoryByUser(userId, options = {}) {
+		return await this.getOfficeTermHistory({ userId, ...options });
+	},
+
+	async getOfficeTermHistory({ userId = null, positionId = null, commitToStore = true } = {}) {
+		if (!userId && !positionId) {
 			if (commitToStore) await storeValue("hrOfficeTermHistoryRows", [], false);
 			return [];
 		}
 
 		const today = moment().format("YYYY-MM-DD");
+		const filterParts = [
+			...(userId ? [{ user_id: { id: { _eq: userId } } }] : []),
+			...(positionId ? [{ position_id: { id: { _eq: positionId } } }] : [])
+		];
 
 		const response = await items.getItems({
 			collection: "office_terms",
@@ -247,9 +255,7 @@ export default {
 				"position_id.branch_id.id",
 				"position_id.branch_id.name"
 			].join(","),
-			filter: {
-				user_id: { id: { _eq: userId } }
-			},
+			filter: filterParts.length === 1 ? filterParts[0] : { _and: filterParts },
 			limit: -1
 		});
 
@@ -263,9 +269,9 @@ export default {
 			return {
 				id: row.id,
 				office_term_id: row.id,
-				user_id: row?.user_id?.id || userId,
+				user_id: row?.user_id?.id || userId || null,
 				employee: utils.formatUserName(row?.user_id),
-				position_id: position?.id || null,
+				position_id: position?.id || positionId || null,
 				title: position?.position_title_id?.title || "",
 				branch_id: position?.branch_id?.id || null,
 				branch_name: position?.branch_id?.name || "",
@@ -289,7 +295,6 @@ export default {
 
 		return rows;
 	},
-
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name || "";
