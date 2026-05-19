@@ -194,7 +194,7 @@
   "placement": "CENTER",
   "renderMode": "CANVAS",
   "rightColumn": 63,
-  "sourceData": "{{nav.menuItems(\"profile\")}}",
+  "sourceData": "{{nav.menuItems(\"calculator\")}}",
   "topRow": 1,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,
