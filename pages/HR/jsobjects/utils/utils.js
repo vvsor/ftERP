@@ -155,7 +155,7 @@ export default {
 	async getEmployees({ commitToStore = true } = {}) {
 		const [usersRes, officeTerms] = await Promise.all([
 			items.getUsers({
-				fields: "id,first_name,last_name,middle_name,email,role",
+				fields: "id,first_name,last_name,middle_name,email,status,role,policies.policy.id,policies.policy.name",
 				limit: -1
 			}),
 			Array.isArray(appsmith.store?.hrCurrentOfficeTerms)
@@ -177,6 +177,9 @@ export default {
 			const branches = terms.map((term) => term?.position_id?.branch_id?.name).filter(Boolean);
 			const branchIds = terms.map((term) => term?.position_id?.branch_id?.id ?? term?.position_id?.branch_id).filter(Boolean);
 			const roleId = user.role?.id ?? user.role ?? "";
+			const policyIds = (user.policies || [])
+			.map((item) => item?.policy?.id ?? item?.policy ?? item?.id ?? item)
+			.filter(Boolean);
 
 			return {
 				id: user.id,
@@ -192,7 +195,13 @@ export default {
 				branch_name: branches.join(", "),
 				office_term_ids: terms.map((term) => term.id),
 				position_ids: terms.map((term) => term?.position_id?.id ?? term?.position_id).filter(Boolean),
-				branch_ids: [...new Set(branchIds)]
+				branch_ids: [...new Set(branchIds)],
+				status: user.status || "",
+				policies: policyIds,
+				policy_labels: (user.policies || [])
+				.map((item) => item?.policy?.name)
+				.filter(Boolean)
+				.join(", "),
 			};
 		}).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
 
@@ -304,6 +313,24 @@ export default {
 		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
 	},
 
+	async getPolicies({ commitToStore = true } = {}) {
+		const response = await items.getPolicies({
+			fields: "id,name",
+			filter: { name: { _ends_with: " Users" } },
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.map((policy) => ({
+			label: policy.name || policy.id,
+			value: policy.id
+		}))
+		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
+
+		if (commitToStore) await storeValue("hrPolicyOptions", rows, false);
+		return rows;
+	},
+
 	async getRoles({ commitToStore = true } = {}) {
 		const allowedRoleNames = ["Employee", "Employee with access to ERP", "Admin"];
 
@@ -341,7 +368,8 @@ export default {
 			utils.getRoles(),
 			utils.getPositionTitleRows(),
 			utils.getCityRows(),
-			utils.getBranches()
+			utils.getBranches(),
+			utils.getPolicies()
 		]);
 	},
 

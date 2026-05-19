@@ -211,17 +211,22 @@ export default {
 		closeModal(mdl_addEditEmployee.name);
 	},
 
-	getEmployeeFormData() {
+	getEmployeeFormData({ isNew = false } = {}) {
 		const email = inp_email.text?.trim();
 		const password = inp_password.text?.trim();
 		const role = sel_role.selectedOptionValue;
+		const policyIds = Array.isArray(msel_policies.selectedOptionValues)
+		? msel_policies.selectedOptionValues.filter(Boolean)
+		: [];
 
 		const body = {
 			first_name: inp_first_name.text?.trim() || "",
 			last_name: inp_last_name.text?.trim() || "",
-			middle_name: inp_middle_name.text?.trim() || ""
+			middle_name: inp_middle_name.text?.trim() || "",
+			policies: policyIds
 		};
 
+		if (isNew) body.status = "active";
 		if (email) body.email = email;
 		if (password) body.password = password;
 		if (role) body.role = role;
@@ -232,7 +237,7 @@ export default {
 	async saveEmployee() {
 		const mode = appsmith.store?.hrEmployeeModalMode || "add";
 		const selectedEmployee = appsmith.store?.hrSelectedEmployee;
-		const body = this.getEmployeeFormData();
+		const body = this.getEmployeeFormData({ isNew: mode === "add" });
 
 		if (!body.last_name || !body.first_name || !body.middle_name) {
 			showAlert("Заполните фамилию, имя и отчество", "warning");

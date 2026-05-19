@@ -214,14 +214,18 @@ export default {
 	},
 
 	getUsers: async (params = {}) => {
-		const { fields = "id,first_name,last_name,middle_name,email,role", filter = {}, limit = -1 } = params;
+		const { fields = "id,first_name,last_name,middle_name,email,status,role,policies.policy.id,policies.policy.name", filter = {}, limit = -1 } = params;
 		return await items.runWithRefresh(() => qGetUsers.run({ fields, filter, limit }));
 	},
 
 	getRoles: async (params = {}) => {
 		const { fields = "id,name", filter = {}, limit = -1 } = params;
 		return await items.runWithRefresh(() => qGetRoles.run({ fields, filter, limit }));
-	}
+	},
 
+	getPolicies: async (params = {}) => {
+		const { fields = "id,name", filter = {}, limit = -1 } = params;
+		return await items.runWithRefresh(() => qGetPolicies.run({ fields, filter, limit }));
+	}
 
 }
