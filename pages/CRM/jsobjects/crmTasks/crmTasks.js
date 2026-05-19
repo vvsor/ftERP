@@ -29,20 +29,42 @@ export default {
 		}
 	},
 
-	initCRMTasks: () => {
-		return this.getCRMTasks()
-			.then(tasksData => {
-			this.selectedTask = tasksData.length > 0 ? tasksData[0] : null;
-			return this.tbs_task_onTabSelected();
-		})
-			.catch(error => {
-			console.error("Error loading tasks:", error);
-		});
-	},
+	initCRMTasks: async () => {
+		const user = appsmith.store?.user;
+		const isEditMode = appsmith.mode === "EDIT";
+		const hasCrmAccess = (appsmith.store?.appPageCodes || []).includes("crm");
 
+		if (!user?.token) {
+			if (isEditMode) {
+				showAlert("EDIT: нет токена пользователя, остаёмся на странице CRM без загрузки данных.", "warning");
+			} else {
+				showAlert("Требуется авторизация. Перенаправление на страницу входа.", "info");
+				navigateTo("Auth");
+			}
+			return;
+		}
+
+		if (!hasCrmAccess) {
+			showAlert("Нет доступа к странице CRM.", "warning");
+
+			if (!isEditMode) {
+				navigateTo("Auth");
+				return;
+			}
+		}
+
+		try {
+			const tasksData = await crmTasks.getCRMTasks();
+			crmTasks.selectedTask = tasksData.length > 0 ? tasksData[0] : null;
+
+			return crmTasks.tbs_task_onTabSelected();
+		} catch (error) {
+			console.error("Error loading tasks:", error);
+		}
+	},
 	getClientTasks: async () => {
 	},
-	
+
 	getCRMTasks: async () => {
 		let userid;
 		// if Substitute user is selected and not disabled
@@ -91,7 +113,7 @@ export default {
     `;
 
 			// Get user tasks
-			const allTasks = await qGetCRMTasks.run({ 
+			const allTasks = await _qGetCRMTasks.run({ 
 				filter: Filter,
 				fields: Fields
 			});
@@ -121,7 +143,7 @@ export default {
 			const unreadFilter = JSON.stringify(unreadFilterObj);
 
 			// Get unread tasks with error handling
-			const unreadTasks = await qGetCRMUnread.run({ 
+			const unreadTasks = await _qGetCRMUnread.run({ 
 				filter: unreadFilter,
 				fields: unreadFields
 			}).catch(error => {

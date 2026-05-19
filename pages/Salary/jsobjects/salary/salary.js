@@ -307,17 +307,29 @@ export default {
 		await storeValue("salaryReady", false, true);
 
 		const user = appsmith.store?.user;
+		const isEditMode = appsmith.mode === "EDIT";
+		const hasSalaryAccess = (appsmith.store?.appPageCodes || []).includes("salary");
 
-		// если операция восстановления ещё не завершена — просто не уходить на Auth
-		// если user уже проверен и его нет — уходить
-		if (!user || !user.token) {
-			if (user?.email === 'vvs@osagent.ru') {
-				showAlert('DEV bypass: normal user go to auth page, while vvs@osagent.ru stays here', 'warning');
+		if (!user?.token) {
+			if (isEditMode) {
+				showAlert("EDIT: нет токена пользователя, остаёмся на странице Salary без загрузки данных.", "warning");
 			} else {
-				showAlert('Требуется авторизация. Перенаправление на страницу входа.', 'info');
+				showAlert("Требуется авторизация. Перенаправление на страницу входа.", "info");
 				navigateTo("Auth");
-			};
+			}
+
+			await storeValue("salaryReady", true, true);
 			return;
+		}
+
+		if (!hasSalaryAccess) {
+			showAlert("Нет доступа к странице Salary.", "warning");
+
+			if (!isEditMode) {
+				await storeValue("salaryReady", true, true);
+				navigateTo("Auth");
+				return;
+			}
 		}
 
 		// Only select salary if any employee exist

@@ -51,7 +51,7 @@ export default {
 				position_id.title_id.title
 			`;
 
-		return qGetUsersOfficeTerms.run({ 
+		return _qGetUsersOfficeTerms.run({ 
 			filter: Filter,
 			fields: Fields
 		})
@@ -107,7 +107,7 @@ export default {
 	},
 
 	logout: async () => {
-		qAuth_logout.run();
+		_qAuth_logout.run();
 		showAlert('Успешный выход', 'success');
 		clearStore();
 		navigateTo('Auth');

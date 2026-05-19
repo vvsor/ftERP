@@ -78,7 +78,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{qGetUsersOfficeTerms.data}}",
+  "sourceData": "{{_qGetUsersOfficeTerms.data}}",
   "tags": [
     "Suggested",
     "Select"

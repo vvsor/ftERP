@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "66959955819ac61979db6c71_41f98ba7-6fca-42ee-8d75-3d32f0b6e954",
-  "id": "Tasks_qUploadFile",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_94fdf0cb-dc25-418b-8bb4-59d2b551d7c9",
+  "id": "CRM_qUploadFile",
   "pluginId": "restapi-plugin",
   "pluginType": "API",
   "unpublishedAction": {
@@ -11,7 +11,7 @@
           "value": "multipart/form-data"
         }
       ],
-      "body": "{\n\t// \"file\": {{this.params.file}};\n\t\"file\": {{fp_filesForComment.files[0].data}}\n}",
+      "body": "",
       "bodyFormData": [
         {
           "key": "file",
@@ -19,7 +19,7 @@
           "value": "{{this.params.file}}"
         }
       ],
-      "encodeParamsToggle": false,
+      "encodeParamsToggle": true,
       "formData": {
         "apiContentType": "multipart/form-data"
       },
@@ -39,7 +39,7 @@
         }
       ],
       "queryParameters": [],
-      "timeoutInMillisecond": 60000
+      "timeoutInMillisecond": 10000
     },
     "confirmBeforeExecute": false,
     "datasource": {
@@ -57,7 +57,7 @@
       }
     ],
     "name": "qUploadFile",
-    "pageId": "Tasks",
+    "pageId": "CRM",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }

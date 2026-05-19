@@ -117,18 +117,28 @@ export default {
 
 	async initTasks(){
 		const user = appsmith.store?.user;
+		const isEditMode = appsmith.mode === "EDIT";
+		const hasTasksAccess = (appsmith.store?.appPageCodes || []).includes("tasks");
 
-		// если операция восстановления ещё не завершена — просто не уходить на Auth
-		// если user уже проверен и его нет — уходить
-		if (!user || !user.token) {
-			if (appsmith.store.user?.email === 'vvs@osagent.ru') {
-				showAlert('DEV bypass: normal user go to auth page, while vvs@osagent.ru stays here', 'warning');
+		if (!user?.token) {
+			if (isEditMode) {
+				showAlert("EDIT: нет токена пользователя, остаёмся на странице Tasks без загрузки данных.", "warning");
 			} else {
-				showAlert('Требуется авторизация. Перенаправление на страницу входа.', 'info');
+				showAlert("Требуется авторизация. Перенаправление на страницу входа.", "info");
 				navigateTo("Auth");
 			}
 			return;
 		}
+
+		if (!hasTasksAccess) {
+			showAlert("Нет доступа к странице Tasks.", "warning");
+
+			if (!isEditMode) {
+				navigateTo("Auth");
+				return;
+			}
+		}
+
 
 		try {
 			await items.ensureFreshToken();

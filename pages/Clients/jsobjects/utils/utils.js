@@ -25,7 +25,7 @@ export default {
 	},
 
 	getSurnameInitials: async (user_id) => {
-		const userdata = await qGetUserDataByID.run({id: user_id});
+		const userdata = await _qGetUserDataByID.run({id: user_id});
 		let lastname = userdata.data.last_name;
 		let firstname = userdata.data.first_name;
 		let SurnameInitials = lastname + ' ' + firstname.slice(0,1) + '.';
@@ -115,7 +115,7 @@ export default {
 	},
 
 	logout: async () => {
-		qAuth_logout.run();
+		_qAuth_logout.run();
 		showAlert('Успешный выход', 'success');
 		clearStore();
 		navigateTo('Auth');

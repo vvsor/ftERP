@@ -66,7 +66,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{qGetFunctionals.data.data}}",
+  "sourceData": "{{_qGetFunctionals.data.data}}",
   "tags": [
     "Suggested",
     "Select"

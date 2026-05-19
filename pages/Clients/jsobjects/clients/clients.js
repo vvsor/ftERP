@@ -29,25 +29,41 @@ export default {
 		this.savedClientId = undefined;
 	},
 
-	initClientsPage: async () => {
-		if (appsmith.store?.user?.token == undefined){
-			if (appsmith.user.email !== 'vvs@osagent.ru') {
-				// this check needs for developer, otherwise we can not get into this page
-				showAlert('Обычный пользователь отправляется на страницу авторизации, а не должен, т.к.:', 'success');
-				navigateTo('Auth');
+	initClients: async () => {
+		const user = appsmith.store?.user;
+		const isEditMode = appsmith.mode === "EDIT";
+		const hasClientsAccess = (appsmith.store?.appPageCodes || []).includes("clients");
+
+		if (!user?.token) {
+			if (isEditMode) {
+				showAlert("EDIT: нет токена пользователя, остаёмся на странице Clients без загрузки данных.", "warning");
 			} else {
-				showAlert('Обычный пользователь отправляется на страницу авторизации', 'success');
+				showAlert("Требуется авторизация. Перенаправление на страницу входа.", "info");
+				navigateTo("Auth");
 			}
 			return;
 		}
 
-		channels.getChannelsTypes();
-		autosave.initAutosave();
-		clients.updateClientsList();
+		if (!hasClientsAccess) {
+			showAlert("Нет доступа к странице Clients.", "warning");
 
-		return;
+			if (!isEditMode) {
+				navigateTo("Auth");
+				return;
+			}
+		}
+
+		try {
+			await channels.getChannelsTypes();
+			autosave.initAutosave();
+			await clients.updateClientsList();
+
+			return;
+		} catch (error) {
+			console.error("Error loading clients:", error);
+			showAlert("Ошибка загрузки страницы клиентов", "error");
+		}
 	},
-
 	updateClientsList: async () => {
 		if (clients.selectedClient) {
 			// keeping last selectedItem's ID for restoring last state

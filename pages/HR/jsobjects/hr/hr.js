@@ -163,17 +163,26 @@ export default {
 
 	async initHR(){
 		const user = appsmith.store?.user;
+		const isEditMode = appsmith.mode === "EDIT";
+		const hasHrAccess = (appsmith.store?.appPageCodes || []).includes("hr");
 
-		// если операция восстановления ещё не завершена — просто не уходить на Auth
-		// если user уже проверен и его нет — уходить
-		if (!user || !user.token) {
-			if (user?.email === 'vvs@osagent.ru') {
-				showAlert('DEV bypass: normal user go to auth page, while vvs@osagent.ru stays here', 'warning');
+		if (!user?.token) {
+			if (isEditMode) {
+				showAlert("EDIT: нет токена пользователя, остаёмся на странице HR без загрузки данных.", "warning");
 			} else {
-				showAlert('Требуется авторизация. Перенаправление на страницу входа.', 'info');
+				showAlert("Требуется авторизация. Перенаправление на страницу входа.", "info");
 				navigateTo("Auth");
-			};
+			}
 			return;
+		}
+
+		if (!hasHrAccess) {
+			showAlert("Нет доступа к странице HR.", "warning");
+
+			if (!isEditMode) {
+				navigateTo("Auth");
+				return;
+			}
 		}
 
 		// Only select positions if any exist

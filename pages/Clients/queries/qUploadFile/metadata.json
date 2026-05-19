@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "66959955819ac61979db6c71_41f98ba7-6fca-42ee-8d75-3d32f0b6e954",
-  "id": "Tasks_qUploadFile",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_c3680c41-e4b6-41d2-8e9c-e45618fd151c",
+  "id": "Clients_qUploadFile",
   "pluginId": "restapi-plugin",
   "pluginType": "API",
   "unpublishedAction": {
@@ -11,7 +11,7 @@
           "value": "multipart/form-data"
         }
       ],
-      "body": "{\n\t// \"file\": {{this.params.file}};\n\t\"file\": {{fp_filesForComment.files[0].data}}\n}",
+      "body": "",
       "bodyFormData": [
         {
           "key": "file",
@@ -19,16 +19,11 @@
           "value": "{{this.params.file}}"
         }
       ],
-      "encodeParamsToggle": false,
+      "encodeParamsToggle": true,
       "formData": {
         "apiContentType": "multipart/form-data"
       },
-      "headers": [
-        {
-          "key": "Authorization",
-          "value": "Bearer {{ appsmith.store.user.token }}"
-        }
-      ],
+      "headers": [],
       "httpMethod": "POST",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
@@ -39,7 +34,7 @@
         }
       ],
       "queryParameters": [],
-      "timeoutInMillisecond": 60000
+      "timeoutInMillisecond": 10000
     },
     "confirmBeforeExecute": false,
     "datasource": {
@@ -50,14 +45,11 @@
     },
     "dynamicBindingPathList": [
       {
-        "key": "headers[0].value"
-      },
-      {
         "key": "bodyFormData[0].value"
       }
     ],
     "name": "qUploadFile",
-    "pageId": "Tasks",
+    "pageId": "Clients",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
   }
