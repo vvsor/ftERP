@@ -32,7 +32,7 @@
   "isDefaultClickDisabled": true,
   "isDisabled": false,
   "isLoading": false,
-  "isVisible": "{{ \n  [\n    \"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n].includes(appsmith.store?.user?.role)\n}}",
+  "isVisible": "{{(appsmith.store?.appPageCodes || []).includes(\"hr\")}}",
   "key": "n35qezmzc6",
   "leftColumn": 47,
   "minWidth": 120,

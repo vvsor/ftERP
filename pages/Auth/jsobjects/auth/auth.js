@@ -35,12 +35,14 @@ export default {
 		const ok = await auth.ensureValidSession();
 
 		if (ok && appsmith.store?.user?.token) {
+			await auth.loadAppPages();
 			auth.setDefaultTab("Logged In");
 		} else {
 			auth.setDefaultTab("Sign In");
 		}
 	},
 
+	
 	signIn: async function() {
 		try {
 			const body = {
@@ -62,18 +64,6 @@ export default {
 			const payload = jwt_decode(accessToken);
 			const tokenExpMs = Number(payload?.exp) ? Number(payload.exp) * 1000 : 0;
 
-
-			// const allowedRoles = [
-			// "a0258883-621a-4e27-a1f3-4a0f99ea1de6",	// "ERP users" role
-			// "cbdd561a-af1b-4602-a606-74b8d824220f",	// "ERP+Salary users" role
-			// "2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c"	// "Salary users" role
-			// ];
-			// 
-			// if (!allowedRoles.includes(payload.role)) {
-			// showAlert('Нет прав доступа', 'error');
-			// return;
-			// }
-
 			// 2. Get user data by token
 			const userData = await qGetUserDataByToken.run({ token: accessToken });
 			if (!userData?.data?.id) throw new Error("No user details");
@@ -92,6 +82,8 @@ export default {
 				token_exp_ms: tokenExpMs || null
 			}, true);
 
+			await auth.loadAppPages(accessToken);
+
 			showAlert('Успешный вход', 'success');
 			// await audit.addAuditAction({action: 'logged_in'});
 
@@ -102,7 +94,6 @@ export default {
 			} else {
 				showAlert('Недействительная комбинация логина/пароля', 'error');
 			}
-			// Optionally rethrow or handle further
 		}
 	},
 
@@ -192,7 +183,7 @@ export default {
 			refresh_token: nextRefreshToken,
 			token_exp_ms: tokenExpMs || null
 		}, true);
-
+		await auth.loadAppPages(accessToken);
 		return accessToken;
 	},
 
@@ -224,6 +215,30 @@ export default {
 			auth.setDefaultTab("Sign In");
 			return false;
 		}
-	}
+	},
 
+	async loadAppPages(token = null) {
+		const res = await qGetAppPages.run({ token });
+
+		const pages = (res?.data || [])
+		.map((p) => ({
+			code: String(p.code || "").trim().toLowerCase(),
+			title: p.title,
+			appsmith_page: p.appsmith_page,
+			sort: p.sort || 0,
+		}))
+		.filter((p) => p.code)
+		.sort((a, b) => a.sort - b.sort);
+
+		await storeValue("appPages", pages, true);
+		await storeValue("appPageCodes", pages.map((p) => p.code), true);
+
+		return pages;
+	},
+
+	hasPage(code) {
+		return (appsmith.store?.appPageCodes || []).includes(
+			String(code || "").trim().toLowerCase()
+		);
+	}
 }

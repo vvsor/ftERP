@@ -305,8 +305,11 @@ export default {
 	},
 
 	async getRoles({ commitToStore = true } = {}) {
+		const allowedRoleNames = ["Employee", "Employee with access to ERP", "Admin"];
+
 		const response = await items.getRoles({
 			fields: "id,name",
+			filter: { name: { _in: allowedRoleNames } },
 			limit: -1
 		});
 
@@ -315,12 +318,15 @@ export default {
 			label: role.name || role.id,
 			value: role.id
 		}))
-		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
+		.sort((a, b) => {
+			const aIndex = allowedRoleNames.indexOf(a.label);
+			const bIndex = allowedRoleNames.indexOf(b.label);
+			return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+		});
 
 		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
 		return rows;
 	},
-
 	formatRoleName(role) {
 		const value = role?.id ?? role ?? "";
 		const name = role?.name || role?.label || "";

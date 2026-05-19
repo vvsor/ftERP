@@ -12,6 +12,14 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "isVisible"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicTriggerPathList": [
@@ -24,7 +32,7 @@
   "isDefaultClickDisabled": true,
   "isDisabled": false,
   "isLoading": false,
-  "isVisible": true,
+  "isVisible": "{{(appsmith.store?.appPageCodes || []).includes(\"tasks\")}}",
   "key": "n35qezmzc6",
   "leftColumn": 26,
   "minWidth": 120,

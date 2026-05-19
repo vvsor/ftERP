@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_1d1f5051-0e60-4afd-aaf3-278aae132448",
-  "id": "Auth_qGetUserDataByToken",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_3768c0a5-ca30-40b5-b9b2-3754f98be7ec",
+  "id": "Auth_qGetAppPages",
   "pluginId": "restapi-plugin",
   "pluginType": "API",
   "unpublishedAction": {
@@ -15,19 +15,28 @@
       "headers": [
         {
           "key": "Authorization",
-          "value": "Bearer {{ this.params.token }}"
+          "value": "Bearer {{ this.params?.token || appsmith.store?.user?.token }}"
         }
       ],
       "httpMethod": "GET",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
-      "path": "/users/me",
+      "path": "/items/app_pages",
       "pluginSpecifiedTemplates": [
         {
           "value": true
         }
       ],
-      "queryParameters": [],
+      "queryParameters": [
+        {
+          "key": "fields[]",
+          "value": " code,title,appsmith_page,sort"
+        },
+        {
+          "key": "limit",
+          "value": "-1"
+        }
+      ],
       "timeoutInMillisecond": 10000
     },
     "confirmBeforeExecute": false,
@@ -39,13 +48,10 @@
     },
     "dynamicBindingPathList": [
       {
-        "key": "queryParameters[0].value"
-      },
-      {
         "key": "headers[0].value"
       }
     ],
-    "name": "qGetUserDataByToken",
+    "name": "qGetAppPages",
     "pageId": "Auth",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
