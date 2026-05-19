@@ -5,11 +5,11 @@
   "boxShadow": "none",
   "configureMenuItems": {
     "config": {
-      "iconName": "{{mbtn_mainold.sourceData.map((currentItem, currentIndex) => ( currentItem.iconName))}}",
+      "iconName": "{{mbtn_main.sourceData.map((currentItem, currentIndex) => ( currentItem.iconName))}}",
       "id": "config",
       "isDisabled": false,
       "isVisible": true,
-      "label": "{{mbtn_mainold.sourceData.map((currentItem, currentIndex) => ( currentItem.text))}}",
+      "label": "{{mbtn_main.sourceData.map((currentItem, currentIndex) => ( currentItem.text))}}",
       "onClick": "{{nav.open(currentItem)}}"
     },
     "id": "config",

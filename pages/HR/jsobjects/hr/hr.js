@@ -164,7 +164,7 @@ export default {
 	async initHR(){
 		const user = appsmith.store?.user;
 		const isEditMode = appsmith.mode === "EDIT";
-		const hasHrAccess = (appsmith.store?.appPageCodes || []).includes("hr");
+		const hasHrAccess = await nav.hasPage("hr");
 
 		if (!user?.token) {
 			if (isEditMode) {

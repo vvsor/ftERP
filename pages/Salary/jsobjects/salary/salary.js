@@ -308,7 +308,7 @@ export default {
 
 		const user = appsmith.store?.user;
 		const isEditMode = appsmith.mode === "EDIT";
-		const hasSalaryAccess = (appsmith.store?.appPageCodes || []).includes("salary");
+		const hasSalaryAccess = await nav.hasPage("salary");
 
 		if (!user?.token) {
 			if (isEditMode) {
