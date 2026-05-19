@@ -17,7 +17,12 @@
       "formData": {
         "apiContentType": "application/json"
       },
-      "headers": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{ appsmith.store.user.token }}"
+        }
+      ],
       "httpMethod": "GET",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
@@ -51,6 +56,9 @@
       },
       {
         "key": "queryParameters[1].value"
+      },
+      {
+        "key": "headers[0].value"
       }
     ],
     "name": "qGetUsersOfficeTerms",

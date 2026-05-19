@@ -23,7 +23,12 @@
       "formData": {
         "apiContentType": "multipart/form-data"
       },
-      "headers": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{ appsmith.store.user.token }}"
+        }
+      ],
       "httpMethod": "POST",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
@@ -49,6 +54,9 @@
       },
       {
         "key": "bodyFormData[0].value"
+      },
+      {
+        "key": "headers[0].value"
       }
     ],
     "name": "qUploadFile_mp",

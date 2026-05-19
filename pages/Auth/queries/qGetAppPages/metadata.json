@@ -30,7 +30,7 @@
       "queryParameters": [
         {
           "key": "fields[]",
-          "value": " code,title,appsmith_page,sort"
+          "value": "code,title,appsmith_page,sort"
         },
         {
           "key": "limit",
