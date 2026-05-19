@@ -1,6 +1,6 @@
 {
   "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_3768c0a5-ca30-40b5-b9b2-3754f98be7ec",
-  "id": "Auth_qGetAppPages",
+  "id": "Auth_qGetItems",
   "pluginId": "restapi-plugin",
   "pluginType": "API",
   "unpublishedAction": {
@@ -21,7 +21,7 @@
       "httpMethod": "GET",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
-      "path": "/items/app_pages",
+      "path": "/items/{{this.params.collection}}/",
       "pluginSpecifiedTemplates": [
         {
           "value": true
@@ -29,12 +29,16 @@
       ],
       "queryParameters": [
         {
+          "key": "filter",
+          "value": "{{this.params.filter}}"
+        },
+        {
           "key": "fields[]",
-          "value": "code,title,appsmith_page,sort"
+          "value": "{{this.params.fields}}"
         },
         {
           "key": "limit",
-          "value": "-1"
+          "value": "{{this.params.limit}}"
         }
       ],
       "timeoutInMillisecond": 10000
@@ -49,9 +53,21 @@
     "dynamicBindingPathList": [
       {
         "key": "headers[0].value"
+      },
+      {
+        "key": "path"
+      },
+      {
+        "key": "queryParameters[0].value"
+      },
+      {
+        "key": "queryParameters[1].value"
+      },
+      {
+        "key": "queryParameters[2].value"
       }
     ],
-    "name": "qGetAppPages",
+    "name": "qGetItems",
     "pageId": "Auth",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

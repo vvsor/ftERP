@@ -5,12 +5,10 @@
   "boxShadow": "none",
   "configureMenuItems": {
     "config": {
-      "iconName": "{{mbtn_main.sourceData.map((currentItem, currentIndex) => ( currentItem.iconName))}}",
       "id": "config",
       "isDisabled": false,
       "isVisible": true,
-      "label": "{{mbtn_main.sourceData.map((currentItem, currentIndex) => ( currentItem.text))}}",
-      "onClick": "{{nav.open(currentItem)}}"
+      "label": "Menu Item"
     },
     "id": "config",
     "label": "Configure menu items"
@@ -27,15 +25,6 @@
     },
     {
       "key": "menuItems.menuItemzcaizm9j1e.isVisible"
-    },
-    {
-      "key": "sourceData"
-    },
-    {
-      "key": "configureMenuItems.config.label"
-    },
-    {
-      "key": "configureMenuItems.config.iconName"
     }
   ],
   "dynamicPropertyPathList": [
@@ -44,12 +33,6 @@
     },
     {
       "key": "menuItems.menuItemzcaizm9j1e.isVisible"
-    },
-    {
-      "key": "configureMenuItems.config.iconName"
-    },
-    {
-      "key": "configureMenuItems.config.onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -76,9 +59,6 @@
     },
     {
       "key": "menuItems.menuItemnrwq5tg2tx.onClick"
-    },
-    {
-      "key": "configureMenuItems.config.onClick"
     }
   ],
   "iconAlign": "left",
@@ -89,7 +69,7 @@
   "isVisible": true,
   "key": "o2kna0hd2j",
   "label": "Меню",
-  "leftColumn": 58,
+  "leftColumn": 50,
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {
     "menuItem2": {
@@ -181,7 +161,7 @@
       "widgetId": "9a6bqhqilr"
     }
   },
-  "menuItemsSource": "DYNAMIC",
+  "menuItemsSource": "STATIC",
   "menuVariant": "TERTIARY",
   "mobileBottomRow": 8,
   "mobileLeftColumn": 44,
@@ -193,11 +173,11 @@
   "parentRowSpace": 10,
   "placement": "CENTER",
   "renderMode": "CANVAS",
-  "rightColumn": 64,
-  "sourceData": "{{nav.menuItems()}}",
+  "rightColumn": 56,
+  "sourceData": "[]",
   "topRow": 0,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "rkq7bafpr0",
-  "widgetName": "mbtn_main"
+  "widgetId": "bl04ki3ba2",
+  "widgetName": "mbtn_mainCopy"
 }

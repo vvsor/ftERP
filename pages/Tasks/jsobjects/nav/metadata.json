@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_3bedf4bf-d205-4681-ac86-fe8d590220e2",
+  "id": "Tasks_nav",
+  "unpublishedCollection": {
+    "name": "nav",
+    "pageId": "Tasks",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

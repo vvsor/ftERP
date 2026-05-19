@@ -42,7 +42,7 @@ export default {
 		}
 	},
 
-	
+
 	signIn: async function() {
 		try {
 			const body = {
@@ -218,24 +218,58 @@ export default {
 	},
 
 	async loadAppPages(token = null) {
-		const res = await qGetAppPages.run({ token });
+		const res = await items.getItems({
+			token,
+			collection: "app_pages",
+			fields: [
+				"code",
+				"title",
+				"appsmith_page",
+				"url",
+				"target",
+				"menu_icon",
+				"show_in_menu",
+				"sort"
+			].join(","),
+			limit: -1
+		});
 
 		const pages = (res?.data || [])
-		.map((p) => ({
-			code: String(p.code || "").trim().toLowerCase(),
-			title: p.title,
-			appsmith_page: p.appsmith_page,
-			sort: p.sort || 0,
-		}))
+		.map((p) => {
+			const code = String(p.code || "").trim().toLowerCase();
+			const title = String(p.title || code).trim();
+			const appsmithPage = String(p.appsmith_page || "").trim();
+			const url = String(p.url || "").trim();
+			const navigationTarget = url || appsmithPage;
+
+			return {
+				code,
+				title,
+				appsmith_page: appsmithPage || null,
+				url: url || null,
+				target: p.target || "SAME_WINDOW",
+				menu_icon: p.menu_icon || "",
+				show_in_menu: p.show_in_menu !== false,
+				sort: Number(p.sort) || 0,
+
+				label: title,
+				text: title,
+				value: code,
+				iconName: p.menu_icon || "",
+				navigationTarget
+			};
+		})
 		.filter((p) => p.code)
 		.sort((a, b) => a.sort - b.sort);
 
+		const menuItems = pages.filter((p) => p.show_in_menu && p.navigationTarget);
+
 		await storeValue("appPages", pages, true);
 		await storeValue("appPageCodes", pages.map((p) => p.code), true);
+		await storeValue("appMenuItems", menuItems, true);
 
 		return pages;
 	},
-
 	hasPage(code) {
 		return (appsmith.store?.appPageCodes || []).includes(
 			String(code || "").trim().toLowerCase()
