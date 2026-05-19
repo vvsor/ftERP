@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 33,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrEmployeeModalMode === \"edit\" ? (appsmith.store?.hrSelectedEmployee?.policies || []) : [] ))(MultiSelect1.options, MultiSelect1.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrEmployeeModalMode === \\\"edit\\\" ? (appsmith.store?.hrSelectedEmployee?.policies || []) : [] ))(msel_policies.options, msel_policies.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"

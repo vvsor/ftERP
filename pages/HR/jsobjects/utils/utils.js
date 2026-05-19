@@ -332,7 +332,7 @@ export default {
 	},
 
 	async getRoles({ commitToStore = true } = {}) {
-		const allowedRoleNames = ["Employee", "Employee with access to ERP", "Admin"];
+		const allowedRoleNames = ["Employees", "AppSmith Users"];
 
 		const response = await items.getRoles({
 			fields: "id,name",
