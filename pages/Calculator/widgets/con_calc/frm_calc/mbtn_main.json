@@ -5,10 +5,12 @@
   "boxShadow": "none",
   "configureMenuItems": {
     "config": {
+      "iconName": "{{mbtn_main.sourceData.map((currentItem, currentIndex) => ( currentItem.iconName))}}",
       "id": "config",
       "isDisabled": false,
       "isVisible": true,
-      "label": "Menu Item"
+      "label": "{{mbtn_main.sourceData.map((currentItem, currentIndex) => ( currentItem.text))}}",
+      "onClick": "{{nav.open(currentItem)}}"
     },
     "id": "config",
     "label": "Configure menu items"
@@ -22,11 +24,32 @@
     },
     {
       "key": "menuItems.menuItem65tkw9ll6l.isVisible"
+    },
+    {
+      "key": "menuItems.menuItemzcaizm9j1e.isVisible"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "configureMenuItems.config.label"
+    },
+    {
+      "key": "configureMenuItems.config.iconName"
     }
   ],
   "dynamicPropertyPathList": [
     {
       "key": "menuItems.menuItem65tkw9ll6l.isVisible"
+    },
+    {
+      "key": "menuItems.menuItemzcaizm9j1e.isVisible"
+    },
+    {
+      "key": "configureMenuItems.config.iconName"
+    },
+    {
+      "key": "configureMenuItems.config.onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -49,13 +72,13 @@
       "key": "menuItems.menuItemk37rpnjs3i.onClick"
     },
     {
+      "key": "menuItems.menuItemzcaizm9j1e.onClick"
+    },
+    {
       "key": "menuItems.menuItemnrwq5tg2tx.onClick"
     },
     {
-      "key": "menuItems.menuItemi5rrevnk6a.onClick"
-    },
-    {
-      "key": "menuItems.menuItemucrwp9adb7.onClick"
+      "key": "configureMenuItems.config.onClick"
     }
   ],
   "iconAlign": "left",
@@ -84,7 +107,7 @@
       "iconAlign": "right",
       "iconName": "log-out",
       "id": "menuItem3",
-      "index": 8,
+      "index": 7,
       "isDisabled": false,
       "isVisible": true,
       "label": "Выйти",
@@ -95,9 +118,9 @@
       "iconAlign": "right",
       "iconName": "variable",
       "id": "menuItem65tkw9ll6l",
-      "index": 4,
+      "index": 3,
       "isDisabled": false,
-      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\"\n  ].includes(appsmith.store.user.role)\n}}",
+      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\",\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
       "label": "Зарплата",
       "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
       "widgetId": "6fuzk32n92"
@@ -106,7 +129,7 @@
       "iconAlign": "right",
       "iconName": "globe-network",
       "id": "menuItem70uputj26a",
-      "index": 6,
+      "index": 5,
       "isDisabled": false,
       "isVisible": true,
       "label": "fastrans.ru",
@@ -115,31 +138,20 @@
     },
     "menuItemfm1y0hegwu": {
       "iconAlign": "right",
-      "iconName": "people",
+      "iconName": "cube",
       "id": "menuItemfm1y0hegwu",
-      "index": 3,
+      "index": 2,
       "isDisabled": false,
       "isVisible": true,
       "label": "Клиенты",
       "onClick": "{{navigateTo('Clients', {}, 'SAME_WINDOW');}}",
       "widgetId": "0tybw7in3u"
     },
-    "menuItemi5rrevnk6a": {
-      "iconAlign": "right",
-      "iconName": "array-timestamp",
-      "id": "menuItemi5rrevnk6a",
-      "index": 1,
-      "isDisabled": false,
-      "isVisible": true,
-      "label": "Задачи",
-      "onClick": "{{navigateTo('Tasks', {}, 'SAME_WINDOW');}}",
-      "widgetId": "askecys7qf"
-    },
     "menuItemk37rpnjs3i": {
       "iconAlign": "right",
       "iconName": "resolve",
       "id": "menuItemk37rpnjs3i",
-      "index": 7,
+      "index": 6,
       "isDisabled": false,
       "isVisible": true,
       "label": "logix",
@@ -150,26 +162,26 @@
       "iconAlign": "right",
       "iconName": "inbox",
       "id": "menuItemnrwq5tg2tx",
-      "index": 2,
+      "index": 1,
       "isDisabled": false,
       "isVisible": true,
       "label": "CRM",
       "onClick": "{{navigateTo('CRM', {}, 'SAME_WINDOW');}}",
       "widgetId": "qd5n7frtgb"
     },
-    "menuItemucrwp9adb7": {
+    "menuItemzcaizm9j1e": {
       "iconAlign": "right",
       "iconName": "people",
-      "id": "menuItemucrwp9adb7",
-      "index": 5,
+      "id": "menuItemzcaizm9j1e",
+      "index": 4,
       "isDisabled": false,
-      "isVisible": true,
+      "isVisible": "{{ \n  [\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
       "label": "HR",
       "onClick": "{{navigateTo('HR', {}, 'SAME_WINDOW');}}",
-      "widgetId": "wxjh2w11v2"
+      "widgetId": "9a6bqhqilr"
     }
   },
-  "menuItemsSource": "STATIC",
+  "menuItemsSource": "DYNAMIC",
   "menuVariant": "TERTIARY",
   "mobileBottomRow": 8,
   "mobileLeftColumn": 44,
@@ -182,10 +194,10 @@
   "placement": "CENTER",
   "renderMode": "CANVAS",
   "rightColumn": 63,
-  "sourceData": "[]",
+  "sourceData": "{{nav.menuItems(\"profile\")}}",
   "topRow": 1,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "jpuo8hzupi",
+  "widgetId": "f2bjcffh5w",
   "widgetName": "mbtn_main"
 }

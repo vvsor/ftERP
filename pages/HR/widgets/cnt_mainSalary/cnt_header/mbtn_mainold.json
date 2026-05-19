@@ -21,18 +21,12 @@
       "key": "borderRadius"
     },
     {
-      "key": "menuItems.menuItem65tkw9ll6l.isVisible"
-    },
-    {
-      "key": "isVisible"
+      "key": "menuItems.menuItemvvvvwvxinm.isVisible"
     }
   ],
   "dynamicPropertyPathList": [
     {
-      "key": "menuItems.menuItem65tkw9ll6l.isVisible"
-    },
-    {
-      "key": "isVisible"
+      "key": "menuItems.menuItemvvvvwvxinm.isVisible"
     }
   ],
   "dynamicTriggerPathList": [
@@ -58,7 +52,7 @@
       "key": "menuItems.menuItemnrwq5tg2tx.onClick"
     },
     {
-      "key": "menuItems.menuItemkopqid9cz0.onClick"
+      "key": "menuItems.menuItemvvvvwvxinm.onClick"
     }
   ],
   "iconAlign": "left",
@@ -66,10 +60,10 @@
   "isCompact": false,
   "isDisabled": false,
   "isLoading": false,
-  "isVisible": "{{ \n  [\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
+  "isVisible": true,
   "key": "o2kna0hd2j",
   "label": "Меню",
-  "leftColumn": 58,
+  "leftColumn": 44,
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {
     "menuItem2": {
@@ -96,13 +90,13 @@
     },
     "menuItem65tkw9ll6l": {
       "iconAlign": "right",
-      "iconName": "variable",
+      "iconName": "numbered-list",
       "id": "menuItem65tkw9ll6l",
-      "index": 3,
+      "index": 1,
       "isDisabled": false,
-      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\",\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
-      "label": "Зарплата",
-      "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
+      "isVisible": true,
+      "label": "Задачи",
+      "onClick": "{{navigateTo('Tasks', {}, 'SAME_WINDOW');}}",
       "widgetId": "6fuzk32n92"
     },
     "menuItem70uputj26a": {
@@ -118,13 +112,13 @@
     },
     "menuItemfm1y0hegwu": {
       "iconAlign": "right",
-      "iconName": "people",
+      "iconName": "cube",
       "id": "menuItemfm1y0hegwu",
       "index": 2,
       "isDisabled": false,
       "isVisible": true,
       "label": "Клиенты",
-      "onClick": "{{navigateTo('Clients', {}, 'SAME_WINDOW');}}",
+      "onClick": "{{navigateTo('https://app.fastrans.ru/app/erp/clients', {}, 'SAME_WINDOW');}}",
       "widgetId": "0tybw7in3u"
     },
     "menuItemk37rpnjs3i": {
@@ -138,27 +132,27 @@
       "onClick": "{{navigateTo('https://work.fastrans.ru', {}, 'SAME_WINDOW');}}",
       "widgetId": "mxkig1ojbv"
     },
-    "menuItemkopqid9cz0": {
-      "iconAlign": "right",
-      "iconName": "people",
-      "id": "menuItemkopqid9cz0",
-      "index": 4,
-      "isDisabled": false,
-      "isVisible": true,
-      "label": "HR",
-      "onClick": "{{navigateTo('HR', {}, 'SAME_WINDOW');}}",
-      "widgetId": "t2n3fueka4"
-    },
     "menuItemnrwq5tg2tx": {
       "iconAlign": "right",
-      "iconName": "numbered-list",
+      "iconName": "inbox",
       "id": "menuItemnrwq5tg2tx",
-      "index": 1,
+      "index": 3,
       "isDisabled": false,
       "isVisible": true,
-      "label": "Задачи",
-      "onClick": "{{navigateTo('Tasks', {}, 'SAME_WINDOW');}}",
+      "label": "CRM",
+      "onClick": "{{navigateTo('https://app.fastrans.ru/app/erp/crm', {}, 'SAME_WINDOW');}}",
       "widgetId": "qd5n7frtgb"
+    },
+    "menuItemvvvvwvxinm": {
+      "iconAlign": "right",
+      "iconName": "variable",
+      "id": "menuItemvvvvwvxinm",
+      "index": 4,
+      "isDisabled": false,
+      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\",\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
+      "label": "Зарплата",
+      "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
+      "widgetId": "ho8lldrk7v"
     }
   },
   "menuItemsSource": "STATIC",
@@ -169,15 +163,15 @@
   "mobileTopRow": 4,
   "needsErrorInfo": false,
   "parentColumnSpace": 17.25,
-  "parentId": "ygr9f46ar1",
+  "parentId": "53yppeplv7",
   "parentRowSpace": 10,
   "placement": "CENTER",
   "renderMode": "CANVAS",
-  "rightColumn": 64,
+  "rightColumn": 50,
   "sourceData": "[]",
   "topRow": 0,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "ny6irce6rj",
-  "widgetName": "mbtn_mainCopy2"
+  "widgetId": "4fwg1q0tu3",
+  "widgetName": "mbtn_mainold"
 }

@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_46dcf96d-dd36-4abc-9a6d-508cf9f113c4",
+  "id": "Calculator_auth",
+  "unpublishedCollection": {
+    "name": "auth",
+    "pageId": "Calculator",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_a676045f-5730-4a07-8415-0ad945d7c6e2",
+  "id": "CRM_auth",
+  "unpublishedCollection": {
+    "name": "auth",
+    "pageId": "CRM",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

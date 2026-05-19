@@ -194,7 +194,7 @@
   "placement": "CENTER",
   "renderMode": "CANVAS",
   "rightColumn": 64,
-  "sourceData": "{{nav.menuItems()}}",
+  "sourceData": "{{nav.menuItems(\"tasks\")}}",
   "topRow": 0,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,

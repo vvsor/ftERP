@@ -5,10 +5,12 @@
   "boxShadow": "none",
   "configureMenuItems": {
     "config": {
+      "iconName": "{{mbtn_mainold.sourceData.map((currentItem, currentIndex) => ( currentItem.iconName))}}",
       "id": "config",
       "isDisabled": false,
       "isVisible": true,
-      "label": "Menu Item"
+      "label": "{{mbtn_mainold.sourceData.map((currentItem, currentIndex) => ( currentItem.text))}}",
+      "onClick": "{{nav.open(currentItem)}}"
     },
     "id": "config",
     "label": "Configure menu items"
@@ -21,12 +23,33 @@
       "key": "borderRadius"
     },
     {
-      "key": "menuItems.menuItemvvvvwvxinm.isVisible"
+      "key": "menuItems.menuItem65tkw9ll6l.isVisible"
+    },
+    {
+      "key": "menuItems.menuItemzcaizm9j1e.isVisible"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "configureMenuItems.config.label"
+    },
+    {
+      "key": "configureMenuItems.config.iconName"
     }
   ],
   "dynamicPropertyPathList": [
     {
-      "key": "menuItems.menuItemvvvvwvxinm.isVisible"
+      "key": "menuItems.menuItem65tkw9ll6l.isVisible"
+    },
+    {
+      "key": "menuItems.menuItemzcaizm9j1e.isVisible"
+    },
+    {
+      "key": "configureMenuItems.config.iconName"
+    },
+    {
+      "key": "configureMenuItems.config.onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -49,10 +72,13 @@
       "key": "menuItems.menuItemk37rpnjs3i.onClick"
     },
     {
+      "key": "menuItems.menuItemzcaizm9j1e.onClick"
+    },
+    {
       "key": "menuItems.menuItemnrwq5tg2tx.onClick"
     },
     {
-      "key": "menuItems.menuItemvvvvwvxinm.onClick"
+      "key": "configureMenuItems.config.onClick"
     }
   ],
   "iconAlign": "left",
@@ -90,13 +116,13 @@
     },
     "menuItem65tkw9ll6l": {
       "iconAlign": "right",
-      "iconName": "numbered-list",
+      "iconName": "variable",
       "id": "menuItem65tkw9ll6l",
-      "index": 1,
+      "index": 3,
       "isDisabled": false,
-      "isVisible": true,
-      "label": "Задачи",
-      "onClick": "{{navigateTo('Tasks', {}, 'SAME_WINDOW');}}",
+      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\",\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
+      "label": "Зарплата",
+      "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
       "widgetId": "6fuzk32n92"
     },
     "menuItem70uputj26a": {
@@ -118,7 +144,7 @@
       "isDisabled": false,
       "isVisible": true,
       "label": "Клиенты",
-      "onClick": "{{navigateTo('https://app.fastrans.ru/app/erp/clients', {}, 'SAME_WINDOW');}}",
+      "onClick": "{{navigateTo('Clients', {}, 'SAME_WINDOW');}}",
       "widgetId": "0tybw7in3u"
     },
     "menuItemk37rpnjs3i": {
@@ -136,26 +162,26 @@
       "iconAlign": "right",
       "iconName": "inbox",
       "id": "menuItemnrwq5tg2tx",
-      "index": 3,
+      "index": 1,
       "isDisabled": false,
       "isVisible": true,
       "label": "CRM",
-      "onClick": "{{navigateTo('https://app.fastrans.ru/app/erp/crm', {}, 'SAME_WINDOW');}}",
+      "onClick": "{{navigateTo('CRM', {}, 'SAME_WINDOW');}}",
       "widgetId": "qd5n7frtgb"
     },
-    "menuItemvvvvwvxinm": {
+    "menuItemzcaizm9j1e": {
       "iconAlign": "right",
-      "iconName": "variable",
-      "id": "menuItemvvvvwvxinm",
+      "iconName": "people",
+      "id": "menuItemzcaizm9j1e",
       "index": 4,
       "isDisabled": false,
-      "isVisible": "{{ \n  [\n    \"cbdd561a-af1b-4602-a606-74b8d824220f\",\n    \"2c31d9c3-0dcf-435a-8328-ab5b1e8aa89c\",\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
-      "label": "Зарплата",
-      "onClick": "{{navigateTo('Salary', {}, 'SAME_WINDOW');}}",
-      "widgetId": "ho8lldrk7v"
+      "isVisible": "{{ \n  [\n\t\t\"0ad7e18c-82a5-4a4f-aab8-d7a0ee196e54\"\n  ].includes(appsmith.store?.user?.role)\n}}",
+      "label": "HR",
+      "onClick": "{{navigateTo('HR', {}, 'SAME_WINDOW');}}",
+      "widgetId": "9a6bqhqilr"
     }
   },
-  "menuItemsSource": "STATIC",
+  "menuItemsSource": "DYNAMIC",
   "menuVariant": "TERTIARY",
   "mobileBottomRow": 8,
   "mobileLeftColumn": 44,
@@ -168,10 +194,10 @@
   "placement": "CENTER",
   "renderMode": "CANVAS",
   "rightColumn": 64,
-  "sourceData": "[]",
+  "sourceData": "{{nav.menuItems(\"hr\")}}",
   "topRow": 0,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "4fwg1q0tu3",
+  "widgetId": "zginmyfxvb",
   "widgetName": "mbtn_main"
 }
