@@ -99,9 +99,6 @@
       "key": "defaultSelectedRowIndex"
     },
     {
-      "key": "primaryColumns.customColumn1.boxShadow"
-    },
-    {
       "key": "primaryColumns.customColumn1.borderRadius"
     },
     {
@@ -268,10 +265,10 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "borderRadius": "{{tbl_employees.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
-      "boxShadow": "{{tbl_employees.processedTableData.map((currentRow, currentIndex) => ( \"none\"))}}",
+      "boxShadow": "none",
       "buttonColor": "{{tbl_employees.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
       "buttonStyle": "rgb(3, 179, 101)",
-      "buttonVariant": "PRIMARY",
+      "buttonVariant": "TERTIARY",
       "columnType": "iconButton",
       "computedValue": "",
       "currencyCode": "USD",

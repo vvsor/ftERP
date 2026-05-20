@@ -3,7 +3,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 4,
   "boxShadow": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-  "buttonColor": "#3f3f46",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonVariant": "SECONDARY",
   "disabledWhenInvalid": false,
   "dynamicBindingPathList": [
@@ -11,7 +11,21 @@
       "key": "borderRadius"
     },
     {
+      "key": "isDisabled"
+    },
+    {
+      "key": "buttonColor"
+    },
+    {
       "key": "text"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -22,7 +36,7 @@
   "iconAlign": "right",
   "iconName": "edit",
   "isDefaultClickDisabled": true,
-  "isDisabled": false,
+  "isDisabled": "{{!appsmith.store?.hrSelectedEmployeeRow?.user_id}}",
   "isLoading": false,
   "isVisible": true,
   "key": "co1c5y7hh9",
@@ -33,7 +47,7 @@
   "mobileRightColumn": 56,
   "mobileTopRow": 4,
   "needsErrorInfo": false,
-  "onClick": "{{tasks.btn_openEditTask_onClick();}}",
+  "onClick": "{{hr.openEmployeeModal(\"edit\", appsmith.store?.hrSelectedEmployeeRow);}}",
   "originalBottomRow": 9,
   "originalTopRow": 5,
   "parentColumnSpace": 8.15625,
@@ -45,7 +59,7 @@
   "resetFormOnClick": false,
   "responsiveBehavior": "hug",
   "rightColumn": 63,
-  "text": "Сотрудник \"{{}}\"",
+  "text": "{{appsmith.store?.hrSelectedEmployeeRow?.employee ? `Сотрудник: ${appsmith.store.hrSelectedEmployeeRow.employee}` : 'Выберите сотрудника'}}",
   "topRow": 0,
   "type": "BUTTON_WIDGET",
   "version": 1,

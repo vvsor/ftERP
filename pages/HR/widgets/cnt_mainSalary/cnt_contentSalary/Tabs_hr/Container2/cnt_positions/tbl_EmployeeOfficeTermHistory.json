@@ -1,6 +1,6 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
-  "allowAddNewRow": true,
+  "allowAddNewRow": false,
   "animateLoading": true,
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
@@ -69,9 +69,6 @@
     },
     {
       "key": "boxShadow"
-    },
-    {
-      "key": "tableData"
     },
     {
       "key": "primaryColumns.id.computedValue"
@@ -182,10 +179,10 @@
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
-  "isVisibleDownload": true,
+  "isVisibleDownload": false,
   "isVisibleFilters": false,
-  "isVisiblePagination": true,
-  "isVisibleSearch": true,
+  "isVisiblePagination": false,
+  "isVisibleSearch": false,
   "key": "vdyjy2f2u2",
   "label": "Data",
   "leftColumn": 0,
@@ -764,10 +761,10 @@
   },
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 62,
+  "rightColumn": 64,
   "searchKey": "",
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{ Array.isArray(appsmith.store?.hrOfficeTermHistoryRows) ? appsmith.store.hrOfficeTermHistoryRows : [] }}",
+  "tableData": "",
   "textSize": "0.875rem",
   "topRow": 19,
   "totalRecordsCount": 0,
