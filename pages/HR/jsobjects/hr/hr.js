@@ -290,6 +290,18 @@ export default {
 			return;
 		}
 
+		if (mode === "add" && positionId) {
+			try {
+				await this.validatePositionAvailableForAssignment({
+					position_id: positionId,
+					date_from: assignmentStartDate
+				});
+			} catch (error) {
+				showAlert(error?.message || "Ошибка проверки должности", "warning");
+				return;
+			}
+		}
+
 		let assignmentCreated = false;
 
 		if (mode === "edit") {
@@ -425,6 +437,24 @@ export default {
 
 		await this.validateOfficeTermPeriod({ id: null, ...body });
 		return await items.createItems({ collection: "office_terms", body });
+	},
+
+	async validatePositionAvailableForAssignment({ position_id, date_from, date_till = null } = {}) {
+		if (!position_id) throw new Error("Выберите должность");
+		if (!date_from) throw new Error("Укажите дату начала");
+
+		const response = await items.getItems({
+			collection: "office_terms",
+			fields: "id,position_id.id,date_from,date_till",
+			filter: { position_id: { id: { _eq: position_id } } },
+			limit: -1
+		});
+
+		for (const term of (response.data || [])) {
+			if (this.datesOverlap(date_from, date_till, term.date_from, term.date_till)) {
+				throw new Error("Должность уже занята другим сотрудником в указанный период");
+			}
+		}
 	},
 
 	getPositionFormData() {

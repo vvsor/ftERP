@@ -7,32 +7,42 @@
   "closeOnSelection": true,
   "dateFormat": "DD.MM.YYYY",
   "datePickerType": "DATE_PICKER",
-  "defaultDate": "2026-05-20T07:53:31.673Z",
+  "defaultDate": "",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "isRequired"
     }
   ],
   "dynamicHeight": "FIXED",
   "dynamicPropertyPathList": [
     {
       "key": "dateFormat"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
     }
   ],
   "dynamicTriggerPathList": [],
   "firstDayOfWeek": 0,
   "isDisabled": false,
   "isLoading": false,
-  "isRequired": false,
+  "isRequired": "{{!!sel_position4empl.selectedOptionValue}}",
   "isVisible": true,
   "key": "z6quq7tjay",
   "label": "Дата назначения",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelTextSize": "0.875rem",
+  "labelTooltip": "",
   "labelWidth": 5,
   "leftColumn": 49,
   "maxDate": "2121-12-31T18:29:00.000Z",
