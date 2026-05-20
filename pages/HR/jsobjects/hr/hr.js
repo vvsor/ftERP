@@ -54,6 +54,7 @@ export default {
 			policy_links: sourceRow.policy_links || []
 		} : null;
 
+		await utils.getSupervisorPositionOptions();
 		await storeValue("hrEmployeeModalMode", isEdit ? "edit" : "add", true);
 		await storeValue("hrSelectedEmployee", employee, true);
 
@@ -276,26 +277,41 @@ export default {
 		const mode = appsmith.store?.hrEmployeeModalMode || "add";
 		const selectedEmployee = appsmith.store?.hrSelectedEmployee;
 		const { body, policyIds } = this.getEmployeeFormData({ isNew: mode === "add" });
+		const positionId = sel_position4empl.selectedOptionValue || null;
+		const assignmentStartDate = this.formatDateValue(dp_startDatePos2Empl.selectedDate);
 
 		if (!body.last_name || !body.first_name) {
 			showAlert("Заполните фамилию и имя", "warning");
 			return;
 		}
 
+		if (mode === "add" && positionId && !assignmentStartDate) {
+			showAlert("Укажите дату назначения на должность", "warning");
+			return;
+		}
+
+		let assignmentCreated = false;
+
 		if (mode === "edit") {
 			await items.updateUser(selectedEmployee.id, body);
 		} else {
 			const createdUser = await items.createUser(body);
-			const createdUserId = createdUser?.data?.id || createdUser?.id;
+			const createdUserId = this.getCreatedRecordId(createdUser);
 
-			if (createdUserId && policyIds.length) {
-				await items.updateUser(createdUserId, {
-					policies: this.buildPoliciesPayload(createdUserId, policyIds, [])
+			if (positionId) {
+				await this.createOfficeTermAssignment({
+					user_id: createdUserId,
+					position_id: positionId,
+					date_from: assignmentStartDate
 				});
+				assignmentCreated = true;
 			}
 		}
 
-		showAlert(mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен", "success");
+		showAlert(
+			assignmentCreated ? "Сотрудник добавлен и назначен на должность" : (mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен"),
+			"success"
+		);
 		closeModal(mdl_addEditEmployee.name);
 		await Promise.all([
 			this.refreshEmployeesPage({ notify: false }),
@@ -390,6 +406,27 @@ export default {
 		closeModal(mdl_addEditPosition.name);
 	},
 
+	getCreatedRecordId(response) {
+		return response?.data?.id || response?.id || null;
+	},
+
+	formatDateValue(value) {
+		return value ? moment(value).format("YYYY-MM-DD") : null;
+	},
+
+	async createOfficeTermAssignment({ user_id, position_id, date_from, comment = "" } = {}) {
+		const body = {
+			user_id,
+			position_id,
+			date_from: this.formatDateValue(date_from),
+			date_till: null,
+			comment
+		};
+
+		await this.validateOfficeTermPeriod({ id: null, ...body });
+		return await items.createItems({ collection: "office_terms", body });
+	},
+
 	getPositionFormData() {
 		const body = {
 			position_title_id: sel_positionTitle.selectedOptionValue || null,
@@ -445,6 +482,8 @@ export default {
 		const mode = appsmith.store?.hrPositionModalMode || "add";
 		const selectedPosition = appsmith.store?.hrSelectedPositionDraft;
 		const body = this.getPositionFormData();
+		const employeeId = sel_empl2position.selectedOptionValue || null;
+		const assignmentStartDate = this.formatDateValue(dp_startDateEmpl2Pos.selectedDate);
 
 		if (!body.position_title_id) {
 			showAlert("Выберите название должности", "warning");
@@ -455,6 +494,10 @@ export default {
 			return;
 		}
 
+		if (mode === "add" && employeeId && !assignmentStartDate) {
+			showAlert("Укажите дату назначения сотрудника", "warning");
+			return;
+		}
 		try {
 			await this.validatePositionSupervisor(
 				mode === "edit" ? selectedPosition?.id : null,
@@ -465,19 +508,39 @@ export default {
 			return;
 		}
 
+		let savedPositionId = selectedPosition?.id || null;
+		let assignmentCreated = false;
+
 		if (mode === "edit") {
 			await items.updateItems({
 				collection: "positions",
 				body: { keys: [selectedPosition.id], data: body }
 			});
 		} else {
-			await items.createItems({ collection: "positions", body });
+			const createdPosition = await items.createItems({ collection: "positions", body });
+			savedPositionId = this.getCreatedRecordId(createdPosition);
+
+			if (employeeId) {
+				await this.createOfficeTermAssignment({
+					user_id: employeeId,
+					position_id: savedPositionId,
+					date_from: assignmentStartDate
+				});
+				assignmentCreated = true;
+			}
 		}
 
 		closeModal(mdl_addEditPosition.name);
-		await this.refreshPositionsPage();
-		showAlert(mode === "edit" ? "Должность обновлена" : "Должность добавлена", "success");
+		await Promise.all([
+			this.refreshPositionsPage({ notify: false }),
+			assignmentCreated ? this.refreshEmployeesPage({ notify: false }) : Promise.resolve()
+		]);
+		showAlert(
+			assignmentCreated ? "Должность добавлена, сотрудник назначен" : (mode === "edit" ? "Должность обновлена" : "Должность добавлена"),
+			"success"
+		);
 	},
+
 	datesOverlap(startA, endA, startB, endB) {
 		const aStart = moment(startA);
 		const aEnd = endA ? moment(endA) : moment("9999-12-31");
