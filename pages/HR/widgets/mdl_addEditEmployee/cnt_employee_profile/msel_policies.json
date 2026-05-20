@@ -2,7 +2,7 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 33,
+  "bottomRow": 31,
   "boxShadow": "none",
   "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrEmployeeModalMode === \"edit\" ? (appsmith.store?.hrSelectedEmployee?.policies || []).map(String) : [] ))(msel_policies.options, msel_policies.serverSideFiltering) }}",
   "dynamicBindingPathList": [
@@ -63,7 +63,7 @@
   "rightColumn": 42,
   "serverSideFiltering": false,
   "sourceData": "{{Array.isArray(appsmith.store?.hrPolicyOptions) ? appsmith.store.hrPolicyOptions : []}}",
-  "topRow": 26,
+  "topRow": 24,
   "type": "MULTI_SELECT_WIDGET_V2",
   "version": 1,
   "widgetId": "zds9rs5uoe",
