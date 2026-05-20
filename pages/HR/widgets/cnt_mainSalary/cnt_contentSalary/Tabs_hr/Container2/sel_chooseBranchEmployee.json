@@ -66,7 +66,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{[{ id: \"\", name: \"Все сотрудники\" }, ...(Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [])]}}",
+  "sourceData": "{{[{ id: \"\", name: \"Все\" }, ...(Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [])]}}",
   "tags": [
     "Suggested",
     "Select"

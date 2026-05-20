@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 33,
+  "bottomRow": 43,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonStyle": "PRIMARY_BUTTON",
@@ -49,7 +49,7 @@
   "responsiveBehavior": "hug",
   "rightColumn": 63,
   "text": "{{ appsmith.store?.hrPositionModalMode === \"edit\" ? \"Сохранить изменения\" : \"Добавить должность\" }}",
-  "topRow": 29,
+  "topRow": 39,
   "type": "BUTTON_WIDGET",
   "version": 1,
   "widgetId": "d3o6ng9xqf",

@@ -155,7 +155,8 @@ export default {
 	async getEmployees({ commitToStore = true } = {}) {
 		const [usersRes, officeTerms] = await Promise.all([
 			items.getUsers({
-				fields: "id,first_name,last_name,middle_name,email,status,role,policies.policy.id,policies.policy.name",
+				fields: "id,first_name,last_name,middle_name,email,status,role.id,role.name,policies.id,policies.policy.id,policies.policy.name",
+				filter: { role: { name: { _in: ["Employees", "Employee with AppSmith"] } } },
 				limit: -1
 			}),
 			Array.isArray(appsmith.store?.hrCurrentOfficeTerms)
@@ -177,9 +178,15 @@ export default {
 			const branches = terms.map((term) => term?.position_id?.branch_id?.name).filter(Boolean);
 			const branchIds = terms.map((term) => term?.position_id?.branch_id?.id ?? term?.position_id?.branch_id).filter(Boolean);
 			const roleId = user.role?.id ?? user.role ?? "";
-			const policyIds = (user.policies || [])
-			.map((item) => item?.policy?.id ?? item?.policy ?? item?.id ?? item)
-			.filter(Boolean);
+			const policyLinks = (user.policies || [])
+			.map((item) => ({
+				id: item?.id || null,
+				policy_id: item?.policy?.id ?? item?.policy ?? null,
+				policy_name: item?.policy?.name || ""
+			}))
+			.filter((item) => item.policy_id);
+
+			const policyIds = policyLinks.map((item) => item.policy_id);
 
 			return {
 				id: user.id,
@@ -198,6 +205,7 @@ export default {
 				branch_ids: [...new Set(branchIds)],
 				status: user.status || "",
 				policies: policyIds,
+				policy_links: policyLinks,
 				policy_labels: (user.policies || [])
 				.map((item) => item?.policy?.name)
 				.filter(Boolean)
@@ -332,7 +340,7 @@ export default {
 	},
 
 	async getRoles({ commitToStore = true } = {}) {
-		const allowedRoleNames = ["Employees", "AppSmith Users"];
+		const allowedRoleNames = ["Employees", "Employee with AppSmith"];
 
 		const response = await items.getRoles({
 			fields: "id,name",
@@ -354,6 +362,7 @@ export default {
 		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
 		return rows;
 	},
+
 	formatRoleName(role) {
 		const value = role?.id ?? role ?? "";
 		const name = role?.name || role?.label || "";

@@ -49,9 +49,10 @@
     "role_label",
     "status",
     "policies",
-    "policy_labels"
+    "policy_labels",
+    "policy_links"
   ],
-  "columnUpdatedAt": 1779199159783,
+  "columnUpdatedAt": 1779274411200,
   "columnWidthMap": {
     "branch": 321,
     "branch_name": 234,
@@ -141,6 +142,9 @@
     },
     {
       "key": "primaryColumns.policy_labels.computedValue"
+    },
+    {
+      "key": "primaryColumns.policy_links.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -597,6 +601,40 @@
       "label": "policy_labels",
       "notation": "standard",
       "originalId": "policy_labels",
+      "sticky": "",
+      "textColor": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
+      "width": 150
+    },
+    "policy_links": {
+      "alias": "policy_links",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "cellBackground": "",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_employees.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"policy_links\"])) : policy_links })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "fontStyle": "",
+      "horizontalAlignment": "LEFT",
+      "id": "policy_links",
+      "index": 16,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": false,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "policy_links",
+      "notation": "standard",
+      "originalId": "policy_links",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

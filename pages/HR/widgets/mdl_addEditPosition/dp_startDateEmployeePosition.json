@@ -1,60 +1,61 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
-  "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 7,
+  "bottomRow": 37,
   "boxShadow": "none",
-  "defaultText": "{{ appsmith.store?.hrSelectedEmployee?.middle_name || \"\" }}",
+  "closeOnSelection": true,
+  "dateFormat": "DD.MM.YYYY",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "2026-05-20T07:53:31.673Z",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
-    },
-    {
-      "key": "defaultText"
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicPropertyPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "dateFormat"
+    }
+  ],
   "dynamicTriggerPathList": [],
-  "iconAlign": "left",
-  "inputType": "TEXT",
+  "firstDayOfWeek": 0,
   "isDisabled": false,
   "isLoading": false,
   "isRequired": false,
   "isVisible": true,
-  "key": "22zpbcqvy8",
-  "label": "Отчество",
+  "key": "z6quq7tjay",
+  "label": "Дата назначения",
   "labelAlignment": "left",
   "labelPosition": "Top",
-  "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 42,
+  "leftColumn": 49,
+  "maxDate": "2121-12-31T18:29:00.000Z",
   "maxDynamicHeight": 9000,
+  "minDate": "1920-12-31T18:30:00.000Z",
   "minDynamicHeight": 4,
   "minWidth": 450,
-  "mobileBottomRow": 12,
-  "mobileLeftColumn": 0,
-  "mobileRightColumn": 20,
-  "mobileTopRow": 5,
+  "mobileBottomRow": 37,
+  "mobileLeftColumn": 23,
+  "mobileRightColumn": 43,
+  "mobileTopRow": 30,
   "needsErrorInfo": false,
-  "originalBottomRow": 13,
-  "originalTopRow": 6,
-  "parentColumnSpace": 7.351837158203125,
-  "parentId": "3ufkw5xfin",
+  "parentColumnSpace": 11.28125,
+  "parentId": "s9eb0rni56",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
-  "resetOnSubmit": true,
   "responsiveBehavior": "fill",
   "rightColumn": 62,
-  "showStepArrows": false,
-  "topRow": 0,
-  "type": "INPUT_WIDGET_V2",
+  "shortcuts": false,
+  "timePrecision": "None",
+  "topRow": 30,
+  "type": "DATE_PICKER_WIDGET2",
   "version": 2,
-  "widgetId": "5oeity650q",
-  "widgetName": "inp_middle_name"
+  "widgetId": "kivybk5lno",
+  "widgetName": "dp_startDateEmployeePosition"
 }

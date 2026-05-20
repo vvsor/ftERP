@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 33,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrEmployeeModalMode === \"edit\" ? (appsmith.store?.hrSelectedEmployee?.policies || []) : [] ))(msel_policies.options, msel_policies.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrEmployeeModalMode === \"edit\" ? (appsmith.store?.hrSelectedEmployee?.policies || []).map(String) : [] ))(msel_policies.options, msel_policies.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -40,7 +40,7 @@
   "key": "t03w60d9tg",
   "labelAlignment": "left",
   "labelPosition": "Top",
-  "labelText": "Доступы (политики)",
+  "labelText": "Доступы",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
   "leftColumn": 1,
@@ -57,7 +57,7 @@
   "parentColumnSpace": 11.130859375,
   "parentId": "3ufkw5xfin",
   "parentRowSpace": 10,
-  "placeholderText": "Выберите доступные с",
+  "placeholderText": "Выберите доступные политики",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
   "rightColumn": 42,

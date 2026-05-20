@@ -49,7 +49,9 @@ export default {
 			last_name: sourceRow.last_name || "",
 			middle_name: sourceRow.middle_name || "",
 			email: sourceRow.email || "",
-			role: sourceRow.role || ""
+			role: sourceRow.role || "",
+			policies: sourceRow.policies || [],
+			policy_links: sourceRow.policy_links || []
 		} : null;
 
 		await storeValue("hrEmployeeModalMode", isEdit ? "edit" : "add", true);
@@ -211,45 +213,87 @@ export default {
 		closeModal(mdl_addEditEmployee.name);
 	},
 
+	normalizeSelectedIds(values = []) {
+		return [...new Set((Array.isArray(values) ? values : [])
+											 .map((value) => String(value || "").trim())
+											 .filter(Boolean))];
+	},
+
+	buildPoliciesPayload(userId, selectedPolicyIds = [], existingPolicyLinks = []) {
+		const selectedIds = this.normalizeSelectedIds(selectedPolicyIds);
+		const existingLinks = (Array.isArray(existingPolicyLinks) ? existingPolicyLinks : [])
+		.map((item) => ({
+			id: item?.id || null,
+			policy_id: String(item?.policy_id || "").trim()
+		}))
+		.filter((item) => item.policy_id);
+
+		const existingIds = existingLinks.map((item) => item.policy_id);
+
+		return {
+			create: selectedIds
+			.filter((policyId) => !existingIds.includes(policyId))
+			.map((policyId) => ({
+				user: userId,
+				policy: { id: policyId }
+			})),
+			update: [],
+			delete: existingLinks
+			.filter((item) => !selectedIds.includes(item.policy_id) && item.id)
+			.map((item) => item.id)
+		};
+	},
+
 	getEmployeeFormData({ isNew = false } = {}) {
 		const email = inp_email.text?.trim();
 		const password = inp_password.text?.trim();
 		const role = sel_role.selectedOptionValue;
-		const policyIds = Array.isArray(msel_policies.selectedOptionValues)
-		? msel_policies.selectedOptionValues.filter(Boolean)
-		: [];
+		const policyIds = this.normalizeSelectedIds(msel_policies.selectedOptionValues);
 
 		const body = {
 			first_name: inp_first_name.text?.trim() || "",
 			last_name: inp_last_name.text?.trim() || "",
-			middle_name: inp_middle_name.text?.trim() || "",
-			policies: policyIds
+			middle_name: inp_middle_name.text?.trim() || ""
 		};
 
 		if (isNew) body.status = "active";
+		if (!isNew) {
+			const selectedEmployee = appsmith.store?.hrSelectedEmployee;
+			body.policies = this.buildPoliciesPayload(
+				selectedEmployee?.id,
+				policyIds,
+				selectedEmployee?.policy_links || []
+			);
+		}
 		if (email) body.email = email;
 		if (password) body.password = password;
 		if (role) body.role = role;
 
-		return body;
+		return { body, policyIds };
 	},
 
 	async saveEmployee() {
 		const mode = appsmith.store?.hrEmployeeModalMode || "add";
 		const selectedEmployee = appsmith.store?.hrSelectedEmployee;
-		const body = this.getEmployeeFormData({ isNew: mode === "add" });
+		const { body, policyIds } = this.getEmployeeFormData({ isNew: mode === "add" });
 
-		if (!body.last_name || !body.first_name || !body.middle_name) {
-			showAlert("Заполните фамилию, имя и отчество", "warning");
+		if (!body.last_name || !body.first_name) {
+			showAlert("Заполните фамилию и имя", "warning");
 			return;
 		}
-		// if (mode === "add" && !body.password) {
-		// showAlert("Для нового пользователя нужен пароль", "warning");
-		// return;
-		// }
 
-		if (mode === "edit") await items.updateUser(selectedEmployee.id, body);
-		else await items.createUser(body);
+		if (mode === "edit") {
+			await items.updateUser(selectedEmployee.id, body);
+		} else {
+			const createdUser = await items.createUser(body);
+			const createdUserId = createdUser?.data?.id || createdUser?.id;
+
+			if (createdUserId && policyIds.length) {
+				await items.updateUser(createdUserId, {
+					policies: this.buildPoliciesPayload(createdUserId, policyIds, [])
+				});
+			}
+		}
 
 		showAlert(mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен", "success");
 		closeModal(mdl_addEditEmployee.name);

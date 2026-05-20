@@ -234,6 +234,51 @@
       "version": 1,
       "widgetId": "ex8g7sr7rh",
       "widgetName": "Canvas40"
+    },
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 630,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "dynamicTriggerPathList": [],
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "1fi79f1017",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 670,
+      "minWidth": 450,
+      "mobileBottomRow": 671,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 1066.4375,
+      "mobileTopRow": 1,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "vayzi4kqqg",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 1066.4375,
+      "tabId": "tabk28gzqzkp3",
+      "tabName": "Счета",
+      "topRow": 1,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "f4raalf5jo",
+      "widgetName": "Canvas41"
     }
   ],
   "defaultTab": "",
@@ -264,7 +309,7 @@
   "mobileRightColumn": 58,
   "mobileTopRow": 56,
   "needsErrorInfo": false,
-  "originalBottomRow": 67,
+  "originalBottomRow": 82,
   "originalTopRow": 0,
   "parentColumnSpace": 16.6630859375,
   "parentId": "z2qwd83fgb",
@@ -297,6 +342,13 @@
       "isVisible": true,
       "label": "Города",
       "widgetId": "ex8g7sr7rh"
+    },
+    "tabk28gzqzkp3": {
+      "id": "tabk28gzqzkp3",
+      "index": 5,
+      "isVisible": true,
+      "label": "Счета",
+      "widgetId": "f4raalf5jo"
     },
     "tabshgyjqg1po": {
       "id": "tabshgyjqg1po",
