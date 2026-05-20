@@ -16,12 +16,6 @@
       "key": "sourceData"
     },
     {
-      "key": "optionLabel"
-    },
-    {
-      "key": "optionValue"
-    },
-    {
       "key": "defaultOptionValue"
     }
   ],
@@ -58,15 +52,15 @@
   "mobileRightColumn": 21,
   "mobileTopRow": 26,
   "needsErrorInfo": false,
-  "optionLabel": "{{msel_policies.sourceData.map((item) => (msel_policies.sourceData.map((item) => item.label)))}}",
-  "optionValue": "{{msel_policies.sourceData.map((item) => (msel_policies.sourceData.map((item) => item.value)))}}",
+  "optionLabel": "label",
+  "optionValue": "value",
   "parentColumnSpace": 11.130859375,
   "parentId": "3ufkw5xfin",
   "parentRowSpace": 10,
-  "placeholderText": "Select option(s)",
+  "placeholderText": "Выберите доступные с",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 21,
+  "rightColumn": 42,
   "serverSideFiltering": false,
   "sourceData": "{{Array.isArray(appsmith.store?.hrPolicyOptions) ? appsmith.store.hrPolicyOptions : []}}",
   "topRow": 26,
