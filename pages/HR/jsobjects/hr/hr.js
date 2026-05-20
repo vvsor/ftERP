@@ -310,6 +310,14 @@ export default {
 			const createdUser = await items.createUser(body);
 			const createdUserId = this.getCreatedRecordId(createdUser);
 
+			if (!createdUserId) throw new Error("Не удалось получить ID созданного пользователя");
+
+			if (policyIds.length) {
+				await items.updateUser(createdUserId, {
+					policies: this.buildPoliciesPayload(createdUserId, policyIds, [])
+				});
+			}
+
 			if (positionId) {
 				await this.createOfficeTermAssignment({
 					user_id: createdUserId,
@@ -406,7 +414,10 @@ export default {
 			branch_id: appsmith.store?.hrSelectedBranchId || null
 		};
 
-		await utils.getSupervisorPositionOptions();
+		await Promise.all([
+			utils.getSupervisorPositionOptions(),
+			utils.getEmployees()
+		]);
 		await storeValue("hrPositionModalMode", isEdit ? "edit" : "add", true);
 		await storeValue("hrSelectedPositionDraft", position, true);
 
