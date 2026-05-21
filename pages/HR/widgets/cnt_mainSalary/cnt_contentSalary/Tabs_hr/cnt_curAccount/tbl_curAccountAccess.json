@@ -93,7 +93,7 @@
   "searchKey": "",
   "tableData": "{{Array.isArray(appsmith.store?.hrAccountAccessRows) ? appsmith.store.hrAccountAccessRows : []}}",
   "textSize": "0.875rem",
-  "topRow": 19,
+  "topRow": 4,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,

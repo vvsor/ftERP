@@ -45,10 +45,9 @@
     "comment",
     "date_from_display",
     "date_till_display",
-    "status",
     "is_current"
   ],
-  "columnUpdatedAt": 1779336093487,
+  "columnUpdatedAt": 1779345911882,
   "columnWidthMap": {},
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -109,9 +108,6 @@
     },
     {
       "key": "primaryColumns.date_till_display.computedValue"
-    },
-    {
-      "key": "primaryColumns.status.computedValue"
     },
     {
       "key": "primaryColumns.is_current.computedValue"
@@ -202,7 +198,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "branch_name",
+      "label": "Подразделение",
       "notation": "standard",
       "originalId": "branch_name",
       "sticky": "",
@@ -233,7 +229,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "comment",
+      "label": "Комментарий",
       "notation": "standard",
       "originalId": "comment",
       "sticky": "",
@@ -525,37 +521,6 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
-    "status": {
-      "alias": "status",
-      "allowCellWrapping": false,
-      "allowSameOptionsInNewRow": true,
-      "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_EmployeeOfficeTermHistory.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"status\"])) : status })()}}",
-      "currencyCode": "USD",
-      "decimals": 0,
-      "enableFilter": true,
-      "enableSort": true,
-      "horizontalAlignment": "LEFT",
-      "id": "status",
-      "index": 13,
-      "isCellEditable": false,
-      "isCellVisible": true,
-      "isDerived": false,
-      "isDisabled": false,
-      "isDiscardVisible": true,
-      "isEditable": false,
-      "isSaveVisible": true,
-      "isVisible": false,
-      "label": "status",
-      "notation": "standard",
-      "originalId": "status",
-      "sticky": "",
-      "textSize": "0.875rem",
-      "thousandSeparator": true,
-      "validation": {},
-      "verticalAlignment": "CENTER",
-      "width": 150
-    },
     "title": {
       "alias": "title",
       "allowCellWrapping": false,
@@ -577,7 +542,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "title",
+      "label": "Должность",
       "notation": "standard",
       "originalId": "title",
       "sticky": "",

@@ -301,7 +301,6 @@ export default {
 				comment: row.comment || "",
 				date_from_display: row.date_from ? moment(row.date_from).format("DD.MM.YYYY") : "",
 				date_till_display: row.date_till ? moment(row.date_till).format("DD.MM.YYYY") : "по настоящее время",
-				status: isCurrent ? "Сейчас" : "История",
 				is_current: isCurrent
 			};
 		})
