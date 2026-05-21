@@ -151,6 +151,7 @@
   "parentColumnSpace": 16.625,
   "parentId": "f4raalf5jo",
   "parentRowSpace": 10,
+  "primaryColumnId": "id",
   "primaryColumns": {
     "EditActions1": {
       "alias": "EditActions1",
@@ -369,7 +370,7 @@
   "rightColumn": 36,
   "searchKey": "",
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{accounts.getFilteredAccountRows()}}\n",
+  "tableData": "{{accounts.getFilteredAccountRows()}}",
   "textSize": "0.875rem",
   "topRow": 7,
   "totalRecordsCount": 0,
