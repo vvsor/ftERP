@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 6,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedPositionDraft?.branch_id || appsmith.store?.hrSelectedBranchId || \"\" ))(sel_accountsBranch.options, sel_accountsBranch.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( '\"defaultOptionValue\": \"' + appsmith.store?.hrSelectedAccountBranchId || \"\" + '\"'))(sel_accountsBranch.options, sel_accountsBranch.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"

@@ -100,7 +100,7 @@ export default {
 		const row = this.normalizeTableRow(rawRow);
 		const body = {
 			name: row?.name?.trim?.() || "",
-			branch_id: row.branch_id || null,
+			branch_id: row.branch_id || sel_accountsBranch.selectedOptionValue || null,
 			type: row.type || null
 		};
 

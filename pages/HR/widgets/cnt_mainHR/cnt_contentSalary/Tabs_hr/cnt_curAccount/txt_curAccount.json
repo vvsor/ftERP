@@ -11,6 +11,9 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "text"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
@@ -40,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 59,
   "shouldTruncate": false,
-  "text": "Доступы счета: ",
+  "text": "{{`Доступы счета: ${appsmith.store?.hrSelectedAccount?.name || \"\"}`}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,
