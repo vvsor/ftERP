@@ -132,6 +132,9 @@
     },
     {
       "key": "primaryColumns.user_id.selectOptions"
+    },
+    {
+      "key": "tableData"
     }
   ],
   "dynamicPropertyPathList": [
@@ -764,7 +767,7 @@
   "rightColumn": 64,
   "searchKey": "",
   "showInlineEditingOptionDropdown": true,
-  "tableData": "",
+  "tableData": "{{ Array.isArray(appsmith.store?.hrEmployeeOfficeTermHistoryRows) ? appsmith.store.hrEmployeeOfficeTermHistoryRows : [] }}\"",
   "textSize": "0.875rem",
   "topRow": 19,
   "totalRecordsCount": 0,

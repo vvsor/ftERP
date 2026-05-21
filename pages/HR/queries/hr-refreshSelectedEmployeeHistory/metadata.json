@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_f3401b4d-3b33-444a-92fc-77947ff4fd2d",
-  "id": "HR_hr.saveOfficeTermHistory",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_fc17b9ab-8d76-4c7c-829c-b9095112dcd2",
+  "id": "HR_hr.refreshSelectedEmployeeHistory",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -12,7 +12,7 @@
           "value": "{{null}}"
         },
         {
-          "name": "historyModeParam",
+          "name": "employeeRowsParam",
           "value": "{{null}}"
         }
       ],
@@ -31,8 +31,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "hr.saveOfficeTermHistory",
-    "name": "saveOfficeTermHistory",
+    "fullyQualifiedName": "hr.refreshSelectedEmployeeHistory",
+    "name": "refreshSelectedEmployeeHistory",
     "pageId": "HR",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

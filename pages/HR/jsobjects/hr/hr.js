@@ -25,6 +25,32 @@ export default {
 		return rows.filter((row) => (row.branch_ids || []).some((id) => String(id) === String(branchId)));
 	},
 
+	async refreshSelectedEmployeeHistory(rowParam = null, employeeRowsParam = null) {
+		const employeeRows = Array.isArray(employeeRowsParam)
+		? employeeRowsParam
+		: (Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : []);
+		const selectedUserId =
+					rowParam?.user_id ||
+					appsmith.store?.hrSelectedEmployeeRow?.user_id ||
+					tbl_employees.selectedRow?.user_id ||
+					null;
+		const selectedRow =
+					rowParam?.user_id
+		? rowParam
+		: (selectedUserId
+			 ? employeeRows.find((row) => String(row.user_id) === String(selectedUserId))
+			 : null);
+
+		if (!selectedRow?.user_id) {
+			await storeValue("hrSelectedEmployeeRow", null, true);
+			await storeValue("hrEmployeeOfficeTermHistoryRows", [], false);
+			return [];
+		}
+
+		await storeValue("hrSelectedEmployeeRow", selectedRow, true);
+		return await utils.getOfficeTermHistoryByUser(selectedRow.user_id);
+	},
+
 	getSelectedEmployeeRowIndex() {
 		const rows = tbl_employees.tableData || [];
 		const selectedUserId = appsmith.store?.hrSelectedEmployeeRow?.user_id;
@@ -78,17 +104,8 @@ export default {
 	},
 
 	async tbl_employees_onRowSelected(rowParam = null) {
-		const row = rowParam || tbl_employees.selectedRow;
-
-		if (!row?.user_id) {
-			await storeValue("hrSelectedEmployeeRow", null, true);
-			await storeValue("hrOfficeTermHistoryRows", [], false);
-			return;
-		}
-
-		await storeValue("hrSelectedEmployeeRow", row, true);
 		await storeValue("hrOfficeTermHistoryMode", "employee", true);
-		await utils.getOfficeTermHistory({ userId: row.user_id });
+		return await this.refreshSelectedEmployeeHistory(rowParam || tbl_employees.selectedRow);
 	},
 
 	async sel_chooseBranch_OptionChanged(branchIdParam) {
@@ -152,7 +169,8 @@ export default {
 			await storeValue("hrEmployeesRefreshing", true, false);
 			try {
 				await utils.getCurrentOfficeTerms();
-				await utils.getEmployees();
+				const employeeRows = await utils.getEmployees();
+				await this.refreshSelectedEmployeeHistory(null, employeeRows);
 
 				if (notify) showAlert("Сотрудники обновлены", "success");
 			} finally {
@@ -197,7 +215,8 @@ export default {
 			const selectedBranchId = appsmith.store?.hrSelectedBranchId ?? "";
 
 			await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
-			await utils.getEmployees();
+			const employeeRows = await utils.getEmployees();
+			await this.refreshSelectedEmployeeHistory(null, employeeRows);
 
 			return;
 		} catch (error) {
@@ -630,15 +649,17 @@ export default {
 		}
 	},
 
-	async saveOfficeTermHistory(rowParam = null) {
+	async saveOfficeTermHistory(rowParam = null, historyModeParam = null) {
+		const historyMode = historyModeParam || appsmith.store?.hrOfficeTermHistoryMode || "position";
+		await storeValue("hrOfficeTermHistoryMode", historyMode, true);
+		const historyTable = historyMode === "employee" ? tbl_EmployeeOfficeTermHistory : tbl_officeTermHistory;
 		const rawRow =
 					rowParam ||
-					(tbl_officeTermHistory.isAddRowInProgress
-					 ? tbl_officeTermHistory.newRow
-					 : (tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow || tbl_officeTermHistory.selectedRow));
+					(historyTable.isAddRowInProgress
+					 ? historyTable.newRow
+					 : (historyTable.updatedRows?.[0] || historyTable.updatedRow || historyTable.selectedRow));
 
 		const row = this.normalizeTableRow(rawRow);
-		const historyMode = appsmith.store?.hrOfficeTermHistoryMode || "position";
 		const selectedUserId =
 					row.user_id ||
 					(historyMode === "employee" ? appsmith.store?.hrSelectedEmployeeRow?.user_id : null) ||
@@ -673,14 +694,14 @@ export default {
 				});
 			}
 
-			resetWidget("tbl_officeTermHistory", true);
+			resetWidget(historyMode === "employee" ? "tbl_EmployeeOfficeTermHistory" : "tbl_officeTermHistory", true);
 			await Promise.all([
 				this.refreshPositionsPage({ notify: false }),
 				this.refreshEmployeesPage({ notify: false })
 			]);
 
 			if (historyMode === "employee") {
-				await utils.getOfficeTermHistory({ userId: body.user_id });
+				await utils.getOfficeTermHistoryByUser(body.user_id);
 			} else {
 				await utils.getOfficeTermHistory({ positionId: body.position_id });
 			}

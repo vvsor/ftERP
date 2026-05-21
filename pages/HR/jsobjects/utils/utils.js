@@ -241,12 +241,16 @@ export default {
 	},
 
 	async getOfficeTermHistoryByUser(userId, options = {}) {
-		return await this.getOfficeTermHistory({ userId, ...options });
+		return await this.getOfficeTermHistory({
+			userId,
+			storeKey: "hrEmployeeOfficeTermHistoryRows",
+			...options
+		});
 	},
 
-	async getOfficeTermHistory({ userId = null, positionId = null, commitToStore = true } = {}) {
+	async getOfficeTermHistory({ userId = null, positionId = null, commitToStore = true, storeKey = "hrOfficeTermHistoryRows" } = {}) {
 		if (!userId && !positionId) {
-			if (commitToStore) await storeValue("hrOfficeTermHistoryRows", [], false);
+			if (commitToStore) await storeValue(storeKey, [], false);
 			return [];
 		}
 
@@ -307,7 +311,7 @@ export default {
 		});
 
 		if (commitToStore) {
-			await storeValue("hrOfficeTermHistoryRows", rows, false);
+			await storeValue(storeKey, rows, false);
 		}
 
 		return rows;
