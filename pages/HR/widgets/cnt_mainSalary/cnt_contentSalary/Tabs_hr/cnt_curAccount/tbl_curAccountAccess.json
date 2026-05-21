@@ -4,7 +4,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 58,
+  "bottomRow": 48,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -51,9 +51,17 @@
     },
     {
       "key": "boxShadow"
+    },
+    {
+      "key": "tableData"
     }
   ],
-  "dynamicPropertyPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "tableData"
+    }
+  ],
+  "dynamicTriggerPathList": [],
   "enableClientSideSearch": true,
   "endOfData": false,
   "flexVerticalAlignment": "start",
@@ -76,20 +84,20 @@
   "mobileTopRow": 1,
   "needsErrorInfo": false,
   "parentColumnSpace": 16.625,
-  "parentId": "f4raalf5jo",
+  "parentId": "29oho5zkft",
   "parentRowSpace": 10,
   "primaryColumns": {},
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 36,
+  "rightColumn": 64,
   "searchKey": "",
-  "tableData": "",
+  "tableData": "{{Array.isArray(appsmith.store?.hrAccountAccessRows) ? appsmith.store.hrAccountAccessRows : []}}",
   "textSize": "0.875rem",
-  "topRow": 30,
+  "topRow": 19,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",
   "widgetId": "f6o7pr1uur",
-  "widgetName": "tbl_account_access"
+  "widgetName": "tbl_curAccountAccess"
 }

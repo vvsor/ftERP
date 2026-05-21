@@ -217,6 +217,7 @@ export default {
 			await this.refreshHrBranch(selectedBranchId, { keepSelection: false });
 			const employeeRows = await utils.getEmployees();
 			await this.refreshSelectedEmployeeHistory(null, employeeRows);
+			await accounts.refreshAccountsPage({ notify: false, keepSelection: false });
 
 			return;
 		} catch (error) {

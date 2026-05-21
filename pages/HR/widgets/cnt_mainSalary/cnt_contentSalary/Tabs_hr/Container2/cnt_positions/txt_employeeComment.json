@@ -5,16 +5,13 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 15,
   "boxShadow": "none",
-  "defaultText": "{{ appsmith.store?.hrSelectedPosition?.comment || \"\" }}",
+  "defaultText": "",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
-    },
-    {
-      "key": "defaultText"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
@@ -35,7 +32,7 @@
   "isRequired": false,
   "isVisible": true,
   "key": "loz7al823a",
-  "label": "Комментарий к сотруднику",
+  "label": "Комментарий к сотруднику (нужно ли?)",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
