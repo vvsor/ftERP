@@ -1,5 +1,6 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "allowAddNewRow": true,
   "animateLoading": true,
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
@@ -59,6 +60,9 @@
   "dynamicPropertyPathList": [
     {
       "key": "tableData"
+    },
+    {
+      "key": "onAddNewRowSave"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -83,6 +87,7 @@
   "mobileRightColumn": 13,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
+  "onAddNewRowSave": "{{}}",
   "parentColumnSpace": 16.625,
   "parentId": "29oho5zkft",
   "parentRowSpace": 10,
