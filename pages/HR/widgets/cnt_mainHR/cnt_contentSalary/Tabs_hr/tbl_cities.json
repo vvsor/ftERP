@@ -1,7 +1,7 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "allowAddNewRow": true,
-  "animateLoading": true,
+  "animateLoading": false,
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
@@ -94,9 +94,6 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
-    },
-    {
-      "key": "onAddNewRowSave"
     }
   ],
   "dynamicTriggerPathList": [
@@ -131,7 +128,7 @@
   "mobileRightColumn": 37,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "onAddNewRowSave": "{{hr.saveCityRow(tbl_cities.newRow);}}",
+  "onAddNewRowSave": "{{}}",
   "parentColumnSpace": 3.264190673828125,
   "parentId": "ex8g7sr7rh",
   "parentRowSpace": 10,

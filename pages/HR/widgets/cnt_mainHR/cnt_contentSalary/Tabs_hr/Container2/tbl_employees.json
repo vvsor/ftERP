@@ -595,7 +595,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "policy_labels",
+      "label": "Доступы",
       "notation": "standard",
       "originalId": "policy_labels",
       "sticky": "",
