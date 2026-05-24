@@ -141,27 +141,43 @@ export default {
 		]);
 
 		const accessByUserId = {};
+		const employeeByUserId = {};
+
+		for (const employee of employeeRows || []) {
+			const userId = employee.user_id || employee.id || null;
+			if (userId) employeeByUserId[String(userId)] = employee;
+		}
+
 		for (const row of accessResponse.data || []) {
 			const userId = row.user_id?.id ?? row.user_id;
 			if (userId) accessByUserId[String(userId)] = row;
 		}
 
-		const rows = (employeeRows || []).map((employee) => {
-			const userId = employee.user_id || employee.id || null;
+		const rows = (accessResponse.data || []).map((access) => {
+			const userId = access.user_id?.id ?? access.user_id ?? null;
 			if (!userId) return null;
-			const access = accessByUserId[String(userId)] || null;
+			const employee = employeeByUserId[String(userId)] || {};
+
 			return {
-				id: access?.id || `${accountId}:${userId}`,
-				access_id: access?.id || null,
+				id: access.id,
+				access_id: access.id,
 				branch_account_id: accountId,
 				user_id: userId,
 				employee: employee.employee || employee.email || userId,
-				active: access ? access.active !== false : true,
-				account_access: access?.account_access || "none",
-				payments_access: access?.payments_access || "none",
-				accruals_access: access?.accruals_access || "none"
+				active: access.active !== false,
+				account_access: access.account_access || "none",
+				payments_access: access.payments_access || "none",
+				accruals_access: access.accruals_access || "none"
 			};
-		}).filter(Boolean).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
+		}).filter((row) =>
+							row &&
+							row.active &&
+							(
+			row.account_access !== "none" ||
+			row.payments_access !== "none" ||
+			row.accruals_access !== "none"
+		)
+						 ).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
 
 		if (commitToStore) await storeValue("hrAccountAccessRows", rows, false);
 		return rows;
