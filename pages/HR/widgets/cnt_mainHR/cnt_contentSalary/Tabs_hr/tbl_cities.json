@@ -94,6 +94,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "onAddNewRowSave"
     }
   ],
   "dynamicTriggerPathList": [
@@ -111,12 +114,13 @@
   "endOfData": false,
   "flexVerticalAlignment": "start",
   "horizontalAlignment": "LEFT",
+  "infiniteScrollEnabled": false,
   "inlineEditingSaveOption": "ROW_LEVEL",
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
   "isVisibleDownload": true,
-  "isVisibleFilters": false,
+  "isVisibleFilters": true,
   "isVisiblePagination": false,
   "isVisibleSearch": true,
   "key": "kb8ez9pn6z",
@@ -128,7 +132,7 @@
   "mobileRightColumn": 37,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "onAddNewRowSave": "{{}}",
+  "onAddNewRowSave": "{{hr.saveCityRow(tbl_cities.newRow);}}",
   "parentColumnSpace": 3.264190673828125,
   "parentId": "ex8g7sr7rh",
   "parentRowSpace": 10,
@@ -234,7 +238,7 @@
       "isVisible": true,
       "label": "Город",
       "notation": "standard",
-      "onSubmit": "",
+      "onSubmit": "{{}}",
       "originalId": "name",
       "sticky": "",
       "textColor": "",
@@ -256,7 +260,7 @@
   "tableData": "{{ Array.isArray(appsmith.store?.hrCityRows) ? appsmith.store.hrCityRows : [] }}",
   "textSize": "0.875rem",
   "topRow": 0,
-  "totalRecordsCount": 0,
+  "totalRecordsCount": "0",
   "type": "TABLE_WIDGET_V2",
   "version": 2,
   "verticalAlignment": "CENTER",

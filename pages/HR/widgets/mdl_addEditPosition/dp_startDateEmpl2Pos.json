@@ -2,7 +2,7 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 37,
+  "bottomRow": 46,
   "boxShadow": "none",
   "closeOnSelection": true,
   "dateFormat": "DD.MM.YYYY",
@@ -17,6 +17,9 @@
     },
     {
       "key": "isRequired"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -29,6 +32,9 @@
     },
     {
       "key": "isRequired"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -36,7 +42,7 @@
   "isDisabled": false,
   "isLoading": false,
   "isRequired": "{{!!sel_empl2position.selectedOptionValue}}",
-  "isVisible": true,
+  "isVisible": "{{!!sel_empl2position.selectedOptionValue}}",
   "key": "z6quq7tjay",
   "label": "Дата назначения",
   "labelAlignment": "left",
@@ -54,6 +60,8 @@
   "mobileRightColumn": 43,
   "mobileTopRow": 30,
   "needsErrorInfo": false,
+  "originalBottomRow": 47,
+  "originalTopRow": 40,
   "parentColumnSpace": 11.28125,
   "parentId": "s9eb0rni56",
   "parentRowSpace": 10,
@@ -62,7 +70,7 @@
   "rightColumn": 62,
   "shortcuts": false,
   "timePrecision": "None",
-  "topRow": 30,
+  "topRow": 39,
   "type": "DATE_PICKER_WIDGET2",
   "version": 2,
   "widgetId": "kivybk5lno",

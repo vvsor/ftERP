@@ -2,7 +2,8 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 40,
+  "bottomRow": 46,
+  "bottomRowBeforeCollapse": 46,
   "boxShadow": "none",
   "closeOnSelection": true,
   "dateFormat": "DD.MM.YYYY",
@@ -17,6 +18,9 @@
     },
     {
       "key": "isRequired"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -29,6 +33,9 @@
     },
     {
       "key": "isRequired"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -36,7 +43,7 @@
   "isDisabled": false,
   "isLoading": false,
   "isRequired": "{{!!sel_position4empl.selectedOptionValue}}",
-  "isVisible": true,
+  "isVisible": "{{!!sel_position4empl.selectedOptionValue}}",
   "key": "z6quq7tjay",
   "label": "Дата назначения",
   "labelAlignment": "left",
@@ -44,7 +51,7 @@
   "labelTextSize": "0.875rem",
   "labelTooltip": "",
   "labelWidth": 5,
-  "leftColumn": 49,
+  "leftColumn": 50,
   "maxDate": "2121-12-31T18:29:00.000Z",
   "maxDynamicHeight": 9000,
   "minDate": "1920-12-31T18:30:00.000Z",
@@ -55,15 +62,18 @@
   "mobileRightColumn": 43,
   "mobileTopRow": 30,
   "needsErrorInfo": false,
+  "originalBottomRow": 46,
+  "originalTopRow": 39,
   "parentColumnSpace": 11.28125,
   "parentId": "3ufkw5xfin",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 62,
+  "rightColumn": 63,
   "shortcuts": false,
   "timePrecision": "None",
-  "topRow": 33,
+  "topRow": 39,
+  "topRowBeforeCollapse": 39,
   "type": "DATE_PICKER_WIDGET2",
   "version": 2,
   "widgetId": "neyy58shto",

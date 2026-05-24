@@ -182,7 +182,28 @@ export default {
 		return await this.employeesRefreshPromise;
 	},
 
+	async initHrStores() {
+		const defaults = {
+			hrAccountRows: [],
+			hrAccountAccessRows: [],
+			hrCityRows: [],
+			hrBranchRows: [],
+			hrPositionRows: [],
+			hrEmployeeRows: [],
+			hrPositionTitleRows: [],
+			hrOfficeTermHistoryRows: [],
+			hrEmployeeOfficeTermHistoryRows: []
+		};
+
+		await Promise.all(
+			Object.entries(defaults)
+			.filter(([key]) => !Array.isArray(appsmith.store?.[key]))
+			.map(([key, value]) => storeValue(key, value, false))
+		);
+	},
+
 	async initHR(){
+		await this.initHrStores();
 		const user = appsmith.store?.user;
 		const isEditMode = appsmith.mode === "EDIT";
 		const hasHrAccess = await nav.hasPage("hr");
@@ -555,7 +576,7 @@ export default {
 			return;
 		}
 
-		if (mode === "add" && employeeId && !assignmentStartDate) {
+		if (employeeId && !assignmentStartDate) {
 			showAlert("Укажите дату назначения сотрудника", "warning");
 			return;
 		}
@@ -577,6 +598,14 @@ export default {
 				collection: "positions",
 				body: { keys: [selectedPosition.id], data: body }
 			});
+			if (employeeId) {
+				await this.createOfficeTermAssignment({
+					user_id: employeeId,
+					position_id: savedPositionId,
+					date_from: assignmentStartDate
+				});
+				assignmentCreated = true;
+			}
 		} else {
 			const createdPosition = await items.createItems({ collection: "positions", body });
 			savedPositionId = this.getCreatedRecordId(createdPosition);
