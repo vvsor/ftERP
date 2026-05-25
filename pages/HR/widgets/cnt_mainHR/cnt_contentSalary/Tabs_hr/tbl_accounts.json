@@ -92,6 +92,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.type.selectOptions"
     }
   ],
   "dynamicPropertyPathList": [
@@ -335,7 +338,7 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "text",
+      "columnType": "select",
       "computedValue": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"type\"])) : type })()}}",
       "currencyCode": "USD",
       "decimals": 0,
@@ -356,6 +359,7 @@
       "label": "Тип",
       "notation": "standard",
       "originalId": "type",
+      "selectOptions": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( accounts.getAccountTypeOptions() )) :  accounts.getAccountTypeOptions()  })()}}",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",

@@ -245,9 +245,11 @@ export default {
 	},
 
 	async getBranchAccountsRaw() {
+		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
 		const response = await items.getItems({
 			collection: "branch_accounts",
-			fields: "id,name,type",
+			fields: "id,name,type,branch_id.id",
+			filter: branchId ? { branch_id: { id: { _eq: branchId } } } : {},
 			limit: -1
 		});
 
@@ -475,6 +477,12 @@ export default {
 		}
 
 		throw new Error("Unsupported widget type");
+	},
+	
+	accountTypeLabel(value) {
+		return {
+			CASH: "Наличный",
+			CASHLESS: "Безналичный"
+		}[value] || "";
 	}
-
 }

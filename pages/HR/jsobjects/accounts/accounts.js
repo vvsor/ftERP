@@ -140,17 +140,11 @@ export default {
 			Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : utils.getEmployees()
 		]);
 
-		const accessByUserId = {};
 		const employeeByUserId = {};
 
 		for (const employee of employeeRows || []) {
 			const userId = employee.user_id || employee.id || null;
 			if (userId) employeeByUserId[String(userId)] = employee;
-		}
-
-		for (const row of accessResponse.data || []) {
-			const userId = row.user_id?.id ?? row.user_id;
-			if (userId) accessByUserId[String(userId)] = row;
 		}
 
 		const rows = (accessResponse.data || []).map((access) => {
