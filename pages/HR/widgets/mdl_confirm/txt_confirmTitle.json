@@ -11,9 +11,13 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "text"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicTriggerPathList": [],
   "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
   "fontSize": "1.25rem",
   "fontStyle": "BOLD",
@@ -35,7 +39,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 41,
   "shouldTruncate": false,
-  "text": "Modal Title",
+  "text": "{{appsmith.store?.hrConfirm?.title || \"Подтвердите действие\"}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 1,
@@ -43,5 +47,5 @@
   "type": "TEXT_WIDGET",
   "version": 1,
   "widgetId": "mefww4yl6r",
-  "widgetName": "Text6"
+  "widgetName": "txt_confirmTitle"
 }

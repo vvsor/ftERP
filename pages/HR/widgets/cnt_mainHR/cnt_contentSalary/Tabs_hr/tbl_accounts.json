@@ -41,8 +41,9 @@
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1779705524575,
+  "columnUpdatedAt": 1779783493235,
   "columnWidthMap": {
+    "branch_id": 210,
     "customColumn1": 76
   },
   "customIsLoading": false,
@@ -107,6 +108,9 @@
     },
     {
       "key": "primaryColumns.customColumn1.buttonColor"
+    },
+    {
+      "key": "primaryColumns.branch_id.selectOptions"
     }
   ],
   "dynamicPropertyPathList": [
@@ -127,6 +131,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -138,6 +145,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "enableClientSideSearch": true,
@@ -214,8 +224,8 @@
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "number",
-      "computedValue": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"branch_id\"])) : branch_id })()}}",
+      "columnType": "select",
+      "computedValue": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.branch_id)) : currentRow.branch_id })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -224,17 +234,18 @@
       "horizontalAlignment": "LEFT",
       "id": "branch_id",
       "index": 3,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
-      "isVisible": false,
-      "label": "branch_id",
+      "isVisible": true,
+      "label": "Подразделение",
       "notation": "standard",
       "originalId": "branch_id",
+      "selectOptions": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((appsmith.store?.hrBranchRows || []).map((row) => ({ label: row.name, value: row.id })))) : (appsmith.store?.hrBranchRows || []).map((row) => ({ label: row.name, value: row.id })) })()}}",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
@@ -259,14 +270,14 @@
       "id": "branch_name",
       "index": 4,
       "isCellEditable": false,
-      "isCellVisible": true,
+      "isCellVisible": false,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Подразделение",
+      "label": "branch_name",
       "notation": "standard",
       "originalId": "branch_name",
       "sticky": "",
@@ -308,6 +319,7 @@
       "label": "",
       "labelColor": "#FFFFFF",
       "notation": "standard",
+      "onClick": "{{accounts.requestDeleteAccount(tbl_accounts.triggeredRow);}}",
       "originalId": "customColumn1",
       "sticky": "",
       "textSize": "0.875rem",

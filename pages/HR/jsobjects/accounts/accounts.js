@@ -45,7 +45,8 @@ export default {
 	async getAccountRows({ commitToStore = true } = {}) {
 		const response = await items.getItems({
 			collection: "branch_accounts",
-			fields: "id,name,type,branch_id.id,branch_id.name",
+			fields: "id,name,type,branch_id.id,branch_id.name,date_deleted",
+			filter: { date_deleted: { _null: true } },
 			limit: -1
 		});
 
@@ -205,5 +206,80 @@ export default {
 
 		await this.getAccountAccessRows(accountId);
 		showAlert("Доступ сохранен", "success");
+	},
+
+	getCurrentUserId() {
+		return appsmith.store?.user?.id || null;
+	},
+
+	async openConfirm({ title, action, payload = {} }) {
+		await storeValue("hrConfirm", { title, action, payload }, true);
+		showModal(mdl_confirm.name);
+	},
+
+	async confirmAction() {
+		const confirm = appsmith.store?.hrConfirm || {};
+		closeModal(mdl_confirm.name);
+
+		if (confirm.action === "deleteAccount") {
+			return await this.deleteAccountSoft(confirm.payload?.id);
+		}
+
+		if (confirm.action === "deleteAccountAccess") {
+			return await this.deleteAccountAccess(confirm.payload?.id);
+		}
+	},
+
+	async requestDeleteAccount(rowParam = null) {
+		const row = this.normalizeTableRow(rowParam || tbl_accounts.triggeredRow || tbl_accounts.selectedRow);
+		if (!row?.id) return showAlert("Выберите счет для удаления", "warning");
+
+		await this.openConfirm({
+			title: `Удалить счет "${row.name || row.id}"?`,
+			action: "deleteAccount",
+			payload: { id: row.id }
+		});
+	},
+
+	async deleteAccountSoft(accountId) {
+		if (!accountId) return showAlert("Не найден ID счета", "warning");
+
+		await items.updateItems({
+			collection: "branch_accounts",
+			body: {
+				keys: [accountId],
+				data: {
+					user_deleted: this.getCurrentUserId(),
+					date_deleted: new Date().toISOString()
+				}
+			}
+		});
+
+		await this.refreshAccountsPage({ keepSelection: false });
+		showAlert("Счет удален", "success");
+	},
+
+	async requestDeleteAccountAccess(rowParam = null) {
+		const row = this.normalizeTableRow(rowParam || tbl_curAccountAccess.triggeredRow || tbl_curAccountAccess.selectedRow);
+		const accessId = row?.access_id || row?.id;
+		if (!accessId) return showAlert("Выберите запись доступа для удаления", "warning");
+
+		await this.openConfirm({
+			title: `Удалить доступ "${row.employee || accessId}"?`,
+			action: "deleteAccountAccess",
+			payload: { id: accessId }
+		});
+	},
+
+	async deleteAccountAccess(accessId) {
+		if (!accessId) return showAlert("Не найден ID доступа", "warning");
+
+		await items.deleteItems({
+			collection: "branch_account_access",
+			body: { keys: [accessId] }
+		});
+
+		await this.getAccountAccessRows(appsmith.store?.hrSelectedAccount?.id || null);
+		showAlert("Доступ удален", "success");
 	}
 }

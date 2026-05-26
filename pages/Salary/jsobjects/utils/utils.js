@@ -246,10 +246,17 @@ export default {
 
 	async getBranchAccountsRaw() {
 		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
+		const filter = {
+			_and: [
+				{ date_deleted: { _null: true } },
+				...(branchId ? [{ branch_id: { id: { _eq: branchId } } }] : [])
+			]
+		};
+
 		const response = await items.getItems({
 			collection: "branch_accounts",
-			fields: "id,name,type,branch_id.id",
-			filter: branchId ? { branch_id: { id: { _eq: branchId } } } : {},
+			fields: "id,name,type,branch_id.id,date_deleted",
+			filter,
 			limit: -1
 		});
 
@@ -478,7 +485,7 @@ export default {
 
 		throw new Error("Unsupported widget type");
 	},
-	
+
 	accountTypeLabel(value) {
 		return {
 			CASH: "Наличный",

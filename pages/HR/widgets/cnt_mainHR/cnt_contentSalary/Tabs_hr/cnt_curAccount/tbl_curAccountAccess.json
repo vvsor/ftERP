@@ -147,11 +147,23 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
+    },
+    {
+      "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "enableClientSideSearch": true,
@@ -211,6 +223,7 @@
       "isVisible": true,
       "label": "Save / Discard",
       "notation": "standard",
+      "onSave": "{{accounts.saveAccessRow(tbl_curAccountAccess.updatedRows?.[0] || tbl_curAccountAccess.updatedRow);}}",
       "originalId": "EditActions1",
       "saveActionLabel": "Save",
       "saveBorderRadius": "{{tbl_curAccountAccess.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
@@ -424,6 +437,7 @@
       "label": "",
       "labelColor": "#FFFFFF",
       "notation": "standard",
+      "onClick": "{{accounts.requestDeleteAccountAccess(tbl_curAccountAccess.triggeredRow);}}",
       "originalId": "customColumn1",
       "sticky": "",
       "textSize": "0.875rem",
