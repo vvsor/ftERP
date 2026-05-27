@@ -336,7 +336,7 @@
       "notation": "standard",
       "originalId": "branch_account_name",
       "placeholderText": "Выберите счёт",
-      "selectOptions": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (utils.getBranchAccountsOptions.data || [])) : utils.getBranchAccountsOptions.data || [] })()}}",
+      "selectOptions": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (appsmith.store?.salaryPaymentBranchAccountOptions || [])) : appsmith.store?.salaryPaymentBranchAccountOptions || [] })()}}",
       "sortBy": "label",
       "sticky": "",
       "textColor": "",

@@ -14,7 +14,17 @@ export default {
 				return [];
 			}
 
-			// Fields to fetch
+			const accountRows = await utils.getBranchAccountsRaw({
+				accessField: "accruals_access",
+				allowed: ["read", "write"]
+			});
+			const accountIds = accountRows.map((row) => row.id).filter(Boolean);
+
+			if (!accountIds.length) {
+				if (commitToStore) await storeValue("salaryAccrualRows", [], false);
+				return [];
+			}
+
 			const Fields = [
 				"id",
 				"salary_id",
@@ -24,6 +34,7 @@ export default {
 				"branch_account_id.id",
 				"branch_account_id.name",
 				"branch_account_id.type",
+				"branch_account_id.date_deleted",
 				"accrual_type_id.id",
 				"accrual_type_id.name",
 				"accrual_type_id.counts_for_salary_total",
@@ -34,11 +45,12 @@ export default {
 				collection: "salary_accruals",
 				fields: Fields,
 				filter: {
-					salary_id:
-					{
-						id: { _eq: salaryId }
-					},
-					...(sw_deletedAccruals.isSwitchedOn ? {} : { deleted_at: { _null: true } } )
+					_and: [
+						{ salary_id: { id: { _eq: salaryId } } },
+						{ branch_account_id: { id: { _in: accountIds } } },
+						{ branch_account_id: { date_deleted: { _null: true } } },
+						...(sw_deletedAccruals.isSwitchedOn ? [] : [{ deleted_at: { _null: true } }])
+					]
 				}
 			};
 
@@ -84,6 +96,11 @@ export default {
 		if (!branchAccountId) {
 			showAlert("Выберите счет филиала", "error");
 			throw new Error("Branch account is required");
+		}
+
+		if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
+			showAlert("Нет права записи по выбранному счету начислений", "error");
+			throw new Error("No write access to accrual account");
 		}
 
 		if (!accrualTypeId) {
@@ -167,6 +184,11 @@ export default {
 		if (!newAccountId) {
 			showAlert("Выберите счет филиала", "error");
 			throw new Error("Branch account is required");
+		}
+
+		if (!utils.hasBranchAccountWriteAccess(newAccountId, "salaryAccrualWriteBranchAccountIds")) {
+			showAlert("Нет права записи по выбранному счету начислений", "error");
+			throw new Error("No write access to accrual account");
 		}
 
 		if (!nextAccrualTypeId) {

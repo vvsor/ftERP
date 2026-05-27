@@ -1,17 +1,12 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_76184e5c-bbab-4136-ba3a-eacf2f76bcc2",
-  "id": "Salary_utils.getBranchAccountsOptions",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_310f0081-c1f3-424f-b5bf-aa1c0c8f4719",
+  "id": "Salary_utils.getCurrentUserId",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [
-        {
-          "name": "params",
-          "value": "{{{}}}"
-        }
-      ],
+      "jsArguments": [],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -27,10 +22,10 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "utils.getBranchAccountsOptions",
-    "name": "getBranchAccountsOptions",
+    "fullyQualifiedName": "utils.getCurrentUserId",
+    "name": "getCurrentUserId",
     "pageId": "Salary",
     "runBehaviour": "MANUAL",
-    "userSetOnLoad": true
+    "userSetOnLoad": false
   }
 }

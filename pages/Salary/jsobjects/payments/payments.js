@@ -14,7 +14,18 @@ export default {
 				return [];
 			}
 
-			// Fields to fetch
+
+			const accountRows = await utils.getBranchAccountsRaw({
+				accessField: "payments_access",
+				allowed: ["read", "write"]
+			});
+			const accountIds = accountRows.map((row) => row.id).filter(Boolean);
+
+			if (!accountIds.length) {
+				if (commitToStore) await storeValue("salaryPaymentRows", [], false);
+				return [];
+			}
+
 			const Fields = [
 				"id",
 				"salary_id",
@@ -25,16 +36,19 @@ export default {
 				"branch_account_id.id",
 				"branch_account_id.name",
 				"branch_account_id.type",
+				"branch_account_id.date_deleted",
 			].join(",");
 
 			const params = {
 				collection: "salary_payments",
 				fields: Fields,
 				filter: {
-					salary_id: {
-						id: { _eq: salaryId }
-					},
-					...(sw_deletedPayments.isSwitchedOn ? {} : { deleted_at: { _null: true } })
+					_and: [
+						{ salary_id: { id: { _eq: salaryId } } },
+						{ branch_account_id: { id: { _in: accountIds } } },
+						{ branch_account_id: { date_deleted: { _null: true } } },
+						...(sw_deletedPayments.isSwitchedOn ? [] : [{ deleted_at: { _null: true } }])
+					]
 				}
 			};
 
@@ -54,13 +68,7 @@ export default {
 				// для селектов (editable)
 				branch_account_id: p.branch_account_id?.id ?? null,
 				branch_account_name: p.branch_account_id?.id ?? null,
-				branch_account_type: p.branch_account_id?.type ?? null,
-				// // служебное (необязательно)
-				// __rowState: {
-				// isNew: false,
-				// isDirty: false,
-				// error: null
-				// }
+				branch_account_type: p.branch_account_id?.type ?? null
 			}));
 			if (commitToStore) {
 				await storeValue("salaryPaymentRows", flatRows, false);
@@ -97,14 +105,19 @@ export default {
 			const comment = newRow.comment;
 
 			if (!branchAccountId) fail("Выберите счет филиала");
+			if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
+				fail("Нет права записи по выбранному счету выплат");
+			}
 			if (!paymentDate) fail("Укажите дату выплаты");
-			//const paymentDate = dp_paymentDate ? moment(dp_paymentDate).format("YYYY-MM-DD") : null;
 
-			// ====== 0) Получаем тип счета (CASH / CASHLESS / ...)
+			//  Get account type (CASH / CASHLESS / ...)
 			const baRes = await items.getItems({
 				collection: "branch_accounts",
-				fields: ["id", "name", "type"].join(","),
-				filter: { id: { _eq: branchAccountId } },
+				fields: ["id", "name", "type", "date_deleted"].join(","),
+				filter: {
+					id: { _eq: branchAccountId },
+					date_deleted: { _null: true }
+				},
 				limit: 1,
 			});
 
@@ -238,6 +251,11 @@ export default {
 		if (!nextBranchAccountId) {
 			showAlert("Выберите счет филиала", "error");
 			throw new Error("Branch account is required");
+		}
+
+		if (!utils.hasBranchAccountWriteAccess(nextBranchAccountId, "salaryPaymentWriteBranchAccountIds")) {
+			showAlert("Нет права записи по выбранному счету выплат", "error");
+			throw new Error("No write access to payment account");
 		}
 
 		if (!nextPaymentDate) {
