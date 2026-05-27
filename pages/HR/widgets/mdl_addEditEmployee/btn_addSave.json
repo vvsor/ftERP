@@ -40,7 +40,7 @@
   "mobileRightColumn": 63,
   "mobileTopRow": 18,
   "needsErrorInfo": false,
-  "onClick": "{{\nhr.saveEmployee()\n}}",
+  "onClick": "{{hrEmployees.saveEmployee();}}",
   "originalBottomRow": 59,
   "originalTopRow": 55,
   "parentId": "caki23bn46",

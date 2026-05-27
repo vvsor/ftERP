@@ -13,6 +13,11 @@
       "key": "borderRadius"
     }
   ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "dynamicTriggerPathList": [
     {
       "key": "onClick"
@@ -31,7 +36,7 @@
   "mobileRightColumn": 64,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "onClick": "{{hr.btn_closeAddEditEmployeeModal_onClick();}}",
+  "onClick": "{{hrEmployees.closeEmployeeModal();}}",
   "parentId": "caki23bn46",
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",

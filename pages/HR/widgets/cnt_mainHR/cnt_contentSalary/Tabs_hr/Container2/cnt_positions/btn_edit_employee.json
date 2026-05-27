@@ -47,7 +47,7 @@
   "mobileRightColumn": 56,
   "mobileTopRow": 4,
   "needsErrorInfo": false,
-  "onClick": "{{hr.openEmployeeModal(\"edit\", appsmith.store?.hrSelectedEmployeeRow);}}",
+  "onClick": "{{hrEmployees.openEmployeeModal(\"edit\", appsmith.store?.hrSelectedEmployeeRow);}}",
   "originalBottomRow": 9,
   "originalTopRow": 5,
   "parentColumnSpace": 8.15625,

@@ -37,7 +37,7 @@
   "mobileRightColumn": 47,
   "mobileTopRow": 18,
   "needsErrorInfo": false,
-  "onClick": "{{hr.closePositionModal();}}",
+  "onClick": "{{hrPositions.closePositionModal();}}",
   "originalBottomRow": 51,
   "originalTopRow": 47,
   "parentId": "s9eb0rni56",

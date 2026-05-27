@@ -41,7 +41,7 @@
   "mobileLeftColumn": 21,
   "mobileRightColumn": 37,
   "mobileTopRow": 8,
-  "onClick": "{{hr.openPositionModal(\"add\");}}",
+  "onClick": "{{hrPositions.openPositionModal(\"add\");}}",
   "originalBottomRow": 14,
   "originalTopRow": 10,
   "parentColumnSpace": 17.3447265625,

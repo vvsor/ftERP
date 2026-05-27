@@ -37,7 +37,7 @@
   "mobileRightColumn": 47,
   "mobileTopRow": 18,
   "needsErrorInfo": false,
-  "onClick": "{{hr.btn_closeAddEditEmployeeModal_onClick();}}",
+  "onClick": "{{hrEmployees.closeEmployeeModal();}}",
   "originalBottomRow": 59,
   "originalTopRow": 55,
   "parentId": "caki23bn46",

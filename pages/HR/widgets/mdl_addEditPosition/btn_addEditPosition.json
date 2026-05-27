@@ -40,7 +40,7 @@
   "mobileRightColumn": 63,
   "mobileTopRow": 18,
   "needsErrorInfo": false,
-  "onClick": "{{hr.savePosition();}}",
+  "onClick": "{{hrPositions.savePosition();}}",
   "originalBottomRow": 51,
   "originalTopRow": 47,
   "parentId": "s9eb0rni56",

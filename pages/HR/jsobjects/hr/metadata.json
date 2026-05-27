@@ -6,15 +6,6 @@
     "pageId": "HR",
     "pluginId": "js-plugin",
     "pluginType": "JS",
-    "variables": [
-      {
-        "name": "positionsRefreshPromise",
-        "value": "null"
-      },
-      {
-        "name": "employeesRefreshPromise",
-        "value": "null"
-      }
-    ]
+    "variables": []
   }
 }

@@ -56,7 +56,7 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "onOptionChange": "{{hr.sel_chooseBranch_OptionChanged(sel_chooseBranch.selectedOptionValue);}}",
+  "onOptionChange": "{{hrPositions.sel_chooseBranch_OptionChanged(sel_chooseBranch.selectedOptionValue);}}",
   "optionLabel": "name",
   "optionValue": "id",
   "originalBottomRow": 26,
@@ -72,7 +72,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{[{ id: \"\", name: \"Все\" }, ...(Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [])]}}\n",
+  "sourceData": "{{[{ id: \"\", name: \"Все\" }, ...(Array.isArray(appsmith.store?.hrBranchRows) ? appsmith.store.hrBranchRows : [])]}}",
   "tags": [
     "Suggested",
     "Select"
