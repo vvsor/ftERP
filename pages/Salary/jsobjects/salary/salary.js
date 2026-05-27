@@ -5,94 +5,6 @@ export default {
 	// },
 	/// ============== end of test block ===============
 
-	async tbl_employees_onRowSelected() {
-		const row = tbl_employees.selectedRow;
-		if (!row?.id) {
-			return;
-		}
-
-		if (appsmith.store?.salaryCreateInProgress === true) {
-			resetWidget("tbl_employees", true);
-			return;
-		}
-
-		if (appsmith.store?.salaryReady === false) {
-			return;
-		}
-
-		const current = appsmith.store?.SelectedOfficeTerm;
-		if (current?.id === row.id && appsmith.store?.salaryOfPeriod?.id) {
-			return;
-		}
-
-		await storeValue("salaryReady", false, true);
-		await salary.setSelectedOfficeTerm(row);
-		await utils.initPeriod();
-		const prefetchedSalaryRecord =
-					appsmith.store?.salaryByOfficeTermId?.[row.id] || null;
-
-		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
-
-	},
-
-	accrualsSummaryTextVisibleEmployees() {
-		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
-		const rows = Array.isArray(tableRows) ? tableRows : [];
-		const total = rows.reduce((s, r) => s + (Number(r.accruals_sum) || 0), 0);
-		return `Начислено:  ${utils.formatCurrencyRu(total)}`;
-	},
-
-	paymentsSummaryTextVisibleEmployees() {
-		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
-		const rows = Array.isArray(tableRows) ? tableRows : [];
-		const total = rows.reduce((s, r) => s + (Number(r.payments_sum) || 0), 0);
-		return `Выплачено:  ${utils.formatCurrencyRu(total)}`;
-	},
-
-	balanceSummaryTextVisibleEmployees() {
-		const tableRows = tbl_employees?.processedTableData ?? tbl_employees?.tableData;
-		const rows = Array.isArray(tableRows) ? tableRows : [];
-		const total = rows.reduce(
-			(s, r) => s + ((Number(r.accruals_sum) || 0) - (Number(r.payments_sum) || 0)),
-			0
-		);
-		return `К выплате:  ${utils.formatCurrencyRu(total)}`;
-	},
-
-	getPaymentsSummaryPerson() {
-		const accruals = tbl_salaryAccruals?.tableData || [];
-		const payments = tbl_salaryPayments?.tableData || [];
-
-		const sumByType = (rows, type) =>
-		rows.reduce((s, r) =>
-								s + (String(r.branch_account_type || "").toUpperCase() === type
-										 ? (Number(r.amount) || 0)
-										 : 0), 0);
-
-		return {
-			cashAccrued: sumByType(accruals, "CASH"),
-			cashPaid: sumByType(payments, "CASH"),
-			cashlessAccrued: sumByType(accruals, "CASHLESS"),
-			cashlessPaid: sumByType(payments, "CASHLESS"),
-		};
-	},
-
-	accrualsSummaryTextPerson() {
-		const s = this.getPaymentsSummaryPerson();
-		return (
-			`Безнал: ${utils.formatCurrencyRu(s.cashlessAccrued)}. ` +
-			`Наличными: ${utils.formatCurrencyRu(s.cashAccrued)}`
-		);
-	},
-
-	paymentsSummaryTextPerson() {
-		const s = this.getPaymentsSummaryPerson();
-		return (
-			`Безналично: ${utils.formatCurrencyRu(s.cashlessPaid)}. ` +
-			`Наличными: ${utils.formatCurrencyRu(s.cashPaid)}`
-		);
-	},
-
 
 	async setSelectedOfficeTerm(officeTerm){
 		return await storeValue("SelectedOfficeTerm", officeTerm, true);
@@ -100,42 +12,6 @@ export default {
 
 	async setSalaryOfPeriod(salaryRecord){
 		return await storeValue("salaryOfPeriod", salaryRecord, true);
-	},
-
-	async sel_chooseBranch_OptionChanged() {
-		const branchId = sel_chooseBranch.selectedOptionValue ?? "";
-		const previousBranchId = appsmith.store?.salarySelectedBranchId ?? "";
-
-		if (previousBranchId === branchId) {
-			return;
-		}
-
-		await storeValue("salarySelectedBranchId", branchId, true);
-		await storeValue("salaryReady", false, true);
-		await utils.initPeriod();
-		await utils.refreshBranchAccountAccessOptions();
-
-		const rows = await utils.getOfficeTerms({ commitToStore: false });
-		if (!rows?.length) {
-			await removeValue("SelectedOfficeTerm");
-			await removeValue("salaryOfPeriod");
-			await storeValue("salaryEmployeeRows", [], false);
-			await storeValue("salaryPaymentRows", [], false);
-			await storeValue("salaryAccrualRows", [], false);
-			await storeValue("salaryReady", true, true);
-			return;
-		}
-
-		const selectedOfficeTerm = rows[0];
-		const prefetchedSalaryRecord =
-					appsmith.store?.salaryByOfficeTermId?.[selectedOfficeTerm.id] || null;
-
-		await Promise.all([
-			storeValue("salaryEmployeeRows", rows, false),
-			salary.setSelectedOfficeTerm(selectedOfficeTerm)
-		]);
-
-		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
 	},
 
 	async fetchSalaryByMonth(officeTermId, month) {
@@ -188,7 +64,7 @@ export default {
 
 	async getOrCreateSalaryForCurrentSelection() {
 		const officeTerm = appsmith.store?.SelectedOfficeTerm;
-		const periodMonth = utils.getPeriodMonth();
+		const periodMonth = salaryPeriod.getPeriodMonth();
 
 		if (!officeTerm?.id) {
 			throw new Error("officeTerm missing");
@@ -264,7 +140,7 @@ export default {
 	async loadSalary(prefetchedSalaryRecord = null, { createIfMissing = false } = {}) {
 		try {
 			const officeTerm = appsmith.store?.SelectedOfficeTerm;
-			const periodMonth = utils.getPeriodMonth();
+			const periodMonth = salaryPeriod.getPeriodMonth();
 
 			if (!officeTerm) {
 				throw new Error("officeTerm missing");
@@ -336,7 +212,7 @@ export default {
 		// Only select salary if any employee exist
 		try {
 			await items.ensureFreshToken();
-			await utils.initPeriod();
+			await salaryPeriod.initPeriod();
 
 			const referenceDataPromise = Promise.all([
 				utils.getAccrualTypesOptions(),

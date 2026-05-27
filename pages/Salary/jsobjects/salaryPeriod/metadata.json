@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_28a5e22c-05ac-4a53-814a-049bc4ce2047",
+  "id": "Salary_salaryPeriod",
+  "unpublishedCollection": {
+    "name": "salaryPeriod",
+    "pageId": "Salary",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "shiftPeriodPromise",
+        "value": "null"
+      }
+    ]
+  }
+}

@@ -47,7 +47,7 @@
   "mobileRightColumn": 22,
   "mobileTopRow": 2,
   "needsErrorInfo": false,
-  "onClick": "{{ utils.shiftPeriod(1) }}",
+  "onClick": "{{salaryPeriod.shiftPeriod(1)}}",
   "parentColumnSpace": 16.6630859375,
   "parentId": "y3sb0idcs9",
   "parentRowSpace": 10,

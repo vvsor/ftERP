@@ -24,6 +24,9 @@
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
     }
   ],
   "dynamicTriggerPathList": [
@@ -53,7 +56,7 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "onOptionChange": "{{salary.sel_chooseBranch_OptionChanged();}}",
+  "onOptionChange": "{{salaryEmployees.sel_chooseBranch_OptionChanged()}}",
   "optionLabel": "name",
   "optionValue": "id",
   "originalBottomRow": 26,

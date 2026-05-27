@@ -149,7 +149,7 @@
   "mobileTopRow": 9,
   "multiRowSelection": false,
   "needsErrorInfo": false,
-  "onRowSelected": "{{salary.tbl_employees_onRowSelected()}}",
+  "onRowSelected": "{{salaryEmployees.tbl_employees_onRowSelected()}}",
   "originalBottomRow": 100,
   "originalTopRow": 6,
   "parentColumnSpace": 10.9384765625,
