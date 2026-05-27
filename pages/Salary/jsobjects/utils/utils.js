@@ -242,44 +242,6 @@ export default {
 		return rows;
 	},
 
-	getCurrentUserId() {
-		return appsmith.store?.user?.id || null;
-	},
-
-	async getBranchAccountAccessRows() {
-		const userId = this.getCurrentUserId();
-		if (!userId) return [];
-
-		const response = await items.getItems({
-			collection: "branch_account_access",
-			fields: "id,branch_account_id.id,active,account_access,payments_access,accruals_access",
-			filter: {
-				user_id: { id: { _eq: userId } },
-				active: { _eq: true }
-			},
-			limit: -1
-		});
-
-		return response.data || [];
-	},
-
-	filterBranchAccountsByAccess(rows = [], accessRows = [], accessField, allowed = ["read", "write"]) {
-		if (!accessField) return rows;
-
-		const allowedIds = new Set(
-			this.getAllowedBranchAccountIds(accessRows, accessField, allowed).map(String)
-		);
-
-		return rows.filter((row) => allowedIds.has(String(row.id)));
-	},
-
-	getAllowedBranchAccountIds(accessRows = [], accessField, allowed = ["read", "write"]) {
-		return accessRows
-			.filter((row) => allowed.includes(row?.[accessField]))
-			.map((row) => row.branch_account_id?.id ?? row.branch_account_id)
-			.filter(Boolean);
-	},
-
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name || "";
