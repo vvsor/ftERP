@@ -228,7 +228,7 @@
       "isVisible": true,
       "label": "Save / Discard",
       "notation": "standard",
-      "onSave": "{{hrOfficeTerms.saveOfficeTermHistory(tbl_officeTermHistory.newRow, \"position\");}}",
+      "onSave": "{{hrOfficeTerms.saveOfficeTermHistory(tbl_officeTermHistory.updatedRows?.[0] || tbl_officeTermHistory.updatedRow, \"position\");}}",
       "originalId": "EditActions1",
       "saveActionLabel": "Сохранить",
       "saveBorderRadius": "{{tbl_officeTermHistory.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",

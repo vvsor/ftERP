@@ -56,7 +56,7 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "onOptionChange": "{{hrPositions.sel_chooseBranch_OptionChanged();}}",
+  "onOptionChange": "{{hrPositions.sel_chooseBranch_OptionChanged(sel_chooseBranch4AddPosition.selectedOptionValue);}}",
   "optionLabel": "name",
   "optionValue": "id",
   "originalBottomRow": 12,

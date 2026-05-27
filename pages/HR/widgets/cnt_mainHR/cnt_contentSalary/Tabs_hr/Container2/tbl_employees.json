@@ -185,7 +185,7 @@
   "mobileTopRow": 9,
   "multiRowSelection": false,
   "needsErrorInfo": false,
-  "onRowSelected": "{{hr.tbl_employees_onRowSelected(tbl_employees.selectedRow);}}",
+  "onRowSelected": "{{hrEmployees.tbl_employees_onRowSelected(tbl_employees.selectedRow);}}",
   "originalBottomRow": 59,
   "originalTopRow": 4,
   "parentColumnSpace": 10.9384765625,
