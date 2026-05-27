@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": 1,
-  "bottomRow": 57,
+  "bottomRow": 71,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "children": [
     {
@@ -56,7 +56,7 @@
     },
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 650,
+      "bottomRow": 670,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -237,7 +237,7 @@
     },
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 530,
+      "bottomRow": 670,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": false,
       "containerStyle": "none",
@@ -279,6 +279,51 @@
       "version": 1,
       "widgetId": "f4raalf5jo",
       "widgetName": "Canvas41"
+    },
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 670,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "dynamicTriggerPathList": [],
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "nm4x6jxk8n",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 750,
+      "minWidth": 450,
+      "mobileBottomRow": 751,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 1066.4375,
+      "mobileTopRow": 1,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "vayzi4kqqg",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 1066.4375,
+      "tabId": "tab3xqi2hvkmk",
+      "tabName": "Должностные обязанности",
+      "topRow": 1,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "ni9rirubfv",
+      "widgetName": "Canvas44"
     }
   ],
   "defaultTab": "",
@@ -309,7 +354,7 @@
   "mobileRightColumn": 58,
   "mobileTopRow": 56,
   "needsErrorInfo": false,
-  "originalBottomRow": 57,
+  "originalBottomRow": 71,
   "originalTopRow": 0,
   "parentColumnSpace": 16.6630859375,
   "parentId": "z2qwd83fgb",
@@ -323,6 +368,7 @@
     "tab1": {
       "id": "tab1",
       "index": 0,
+      "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Штатное расписание",
       "positioning": "vertical",
@@ -331,28 +377,40 @@
     "tab2": {
       "id": "tab2",
       "index": 1,
+      "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Сотрудники",
       "positioning": "vertical",
       "widgetId": "9rjehi94s4"
     },
+    "tab3xqi2hvkmk": {
+      "id": "tab3xqi2hvkmk",
+      "index": 3,
+      "isDuplicateLabel": false,
+      "isVisible": true,
+      "label": "Должностные обязанности",
+      "widgetId": "ni9rirubfv"
+    },
     "tabea52ao2tes": {
       "id": "tabea52ao2tes",
-      "index": 4,
+      "index": 5,
+      "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Города",
       "widgetId": "ex8g7sr7rh"
     },
     "tabk28gzqzkp3": {
       "id": "tabk28gzqzkp3",
-      "index": 5,
+      "index": 6,
+      "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Счета",
       "widgetId": "f4raalf5jo"
     },
     "tabshgyjqg1po": {
       "id": "tabshgyjqg1po",
-      "index": 3,
+      "index": 4,
+      "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Подразделения",
       "widgetId": "bvoa10dnk4"
@@ -360,6 +418,7 @@
     "tabtccevyk34t": {
       "id": "tabtccevyk34t",
       "index": 2,
+      "isDuplicateLabel": false,
       "isVisible": true,
       "label": "Название должностей",
       "widgetId": "e157g637lw"
