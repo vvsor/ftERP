@@ -5,18 +5,30 @@ export default {
 			hrAccountAccessRows: [],
 			hrCityRows: [],
 			hrBranchRows: [],
+			hrActivityAreaRows: [],
+			hrFunctionGroupRows: [],
+			hrFunctionGroupDutyRows: [],
 			hrPositionRows: [],
 			hrEmployeeRows: [],
 			hrPositionTitleRows: [],
 			hrOfficeTermHistoryRows: [],
-			hrEmployeeOfficeTermHistoryRows: []
+			hrEmployeeOfficeTermHistoryRows: [],
+			hrSelectedFunctionGroupPositionIds: []
 		};
 
 		await Promise.all(
 			Object.entries(defaults)
-				.filter(([key]) => !Array.isArray(appsmith.store?.[key]))
-				.map(([key, value]) => storeValue(key, value, false))
+			.filter(([key]) => !Array.isArray(appsmith.store?.[key]))
+			.map(([key, value]) => storeValue(key, value, false))
 		);
+
+		if (appsmith.store?.hrSelectedActivityAreaId === undefined) {
+			await storeValue("hrSelectedActivityAreaId", "", true);
+		}
+
+		if (appsmith.store?.hrSelectedFunctionGroup === undefined) {
+			await storeValue("hrSelectedFunctionGroup", null, true);
+		}
 	},
 
 	async initHR() {
@@ -47,6 +59,7 @@ export default {
 		try {
 			await items.ensureFreshToken();
 			await utils.loadDictionaries();
+			await hrDictionaries.ensureFunctionGroupSelection({ keepSelection: true });
 			await utils.getCurrentOfficeTerms();
 
 			const selectedBranchId = appsmith.store?.hrSelectedBranchId ?? "";

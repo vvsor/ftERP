@@ -2,22 +2,37 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 63,
+  "bottomRow": 62,
   "boxShadow": "none",
-  "defaultOptionValue": [
-    "GREEN",
-    "RED"
-  ],
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedFunctionGroupPositionIds || [] ))(ms_positionsOfFunctional.options, ms_positionsOfFunctional.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
   "isDisabled": false,
   "isFilterable": true,
   "isLoading": false,
@@ -38,33 +53,21 @@
   "mobileRightColumn": 50,
   "mobileTopRow": 55,
   "needsErrorInfo": false,
-  "optionLabel": "name",
-  "optionValue": "code",
-  "originalBottomRow": 62,
-  "originalTopRow": 55,
+  "onOptionChange": "{{hrDictionaries.syncFunctionGroupPositions(ms_positionsOfFunctional.selectedOptionValues);}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 63,
+  "originalTopRow": 56,
   "parentColumnSpace": 16.3125,
   "parentId": "eq26kv17xr",
   "parentRowSpace": 10,
-  "placeholderText": "Select option(s)",
+  "placeholderText": "Выберите должности",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
   "rightColumn": 64,
   "serverSideFiltering": false,
-  "sourceData": [
-    {
-      "code": "BLUE",
-      "name": "Blue"
-    },
-    {
-      "code": "GREEN",
-      "name": "Green"
-    },
-    {
-      "code": "RED",
-      "name": "Red"
-    }
-  ],
-  "topRow": 56,
+  "sourceData": "{{ utils.getPositionTitleOptions() }}",
+  "topRow": 55,
   "type": "MULTI_SELECT_WIDGET_V2",
   "version": 1,
   "widgetId": "3etoavip0v",

@@ -4,22 +4,35 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 7,
   "boxShadow": "none",
-  "defaultOptionValue": "",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store?.hrSelectedActivityAreaId || \"\" ))(sel_activityArea.options, sel_activityArea.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
   "isDisabled": false,
   "isFilterable": true,
   "isLoading": false,
@@ -40,8 +53,9 @@
   "mobileRightColumn": 20,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "optionLabel": "name",
-  "optionValue": "code",
+  "onOptionChange": "{{hrDictionaries.onActivityAreaChanged();}}",
+  "optionLabel": "label",
+  "optionValue": "value",
   "parentColumnSpace": 16.3125,
   "parentId": "eq26kv17xr",
   "parentRowSpace": 10,
@@ -50,7 +64,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 29,
   "serverSideFiltering": false,
-  "sourceData": "[\n  {\n    \"name\": \"Blue\",\n    \"code\": \"BLUE\"\n  },\n  {\n    \"name\": \"Green\",\n    \"code\": \"GREEN\"\n  },\n  {\n    \"name\": \"Red\",\n    \"code\": \"RED\"\n  }\n]",
+  "sourceData": "{{ [{ label: \"Все направления\", value: \"\" }, ...(appsmith.store?.hrActivityAreaRows || []).map((row) => ({ label: row.name, value: row.id }))] }}",
   "topRow": 0,
   "type": "SELECT_WIDGET",
   "version": 1,

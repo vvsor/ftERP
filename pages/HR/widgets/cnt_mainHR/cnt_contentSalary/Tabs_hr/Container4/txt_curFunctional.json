@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 5,
+  "bottomRow": 4,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -33,7 +33,7 @@
   "mobileRightColumn": 46,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "originalBottomRow": 4,
+  "originalBottomRow": 5,
   "originalTopRow": 0,
   "overflow": "NONE",
   "parentColumnSpace": 16.3125,
@@ -41,9 +41,9 @@
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 46,
+  "rightColumn": 63,
   "shouldTruncate": false,
-  "text": "Выбранный фунцкионал {{appsmith.user.name || appsmith.user.email}}",
+  "text": "{{ appsmith.store?.hrSelectedFunctionGroup?.name || \"Функционал не выбран\" }}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,

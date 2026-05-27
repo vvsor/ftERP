@@ -1,0 +1,47 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 74,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "7g3dwpynk6",
+  "leftColumn": 46,
+  "minWidth": 120,
+  "mobileBottomRow": 74,
+  "mobileLeftColumn": 46,
+  "mobileRightColumn": 62,
+  "mobileTopRow": 70,
+  "needsErrorInfo": false,
+  "originalBottomRow": 74,
+  "originalTopRow": 70,
+  "parentColumnSpace": 16.625,
+  "parentId": "bc3hzxuyyy",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 62,
+  "text": "Напечатать",
+  "topRow": 70,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "a51r1j2dsc",
+  "widgetName": "btn_printFunctional"
+}
