@@ -113,6 +113,7 @@ export default {
 		await storeValue("salarySelectedBranchId", branchId, true);
 		await storeValue("salaryReady", false, true);
 		await utils.initPeriod();
+		await utils.refreshBranchAccountAccessOptions();
 
 		const rows = await utils.getOfficeTerms({ commitToStore: false });
 		if (!rows?.length) {

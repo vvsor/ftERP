@@ -323,7 +323,15 @@ export default {
 	},
 
 	async deleteSalaryPayment () {
-		const paymentIdToDelete = tbl_salaryPayments.triggeredRow.id;
+		const row = tbl_salaryPayments.triggeredRow;
+		const paymentIdToDelete = row.id;
+		const branchAccountId = row.branch_account_id || row.branch_account_name;
+
+		if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
+			showAlert("Нет права записи по выбранному счету выплат", "error");
+			throw new Error("No write access to payment account");
+		}
+
 		const now = Date.now();
 		const pending = appsmith.store?.pendingDeleteSalaryPayment;
 

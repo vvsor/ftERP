@@ -287,6 +287,12 @@ export default {
 		const row = tbl_salaryAccruals.triggeredRow;
 		const accrualIdToDelete = row.id;
 
+		const branchAccountId = row.branch_account_id || row.branch_account_name;
+
+		if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
+			showAlert("Нет права записи по выбранному счету начислений", "error");
+			throw new Error("No write access to accrual account");
+		}
 
 		const now = Date.now();
 		const pending = appsmith.store?.pendingDeleteSalaryAccrual;
@@ -308,7 +314,6 @@ export default {
 
 
 		const salaryId = appsmith.store?.salaryOfPeriod?.id;
-		const branchAccountId = row.branch_account_id || row.branch_account_name;
 		const amountToDelete = Number(row.amount) || 0;
 		const EPS = 0.0001;
 

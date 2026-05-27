@@ -265,6 +265,16 @@ export default {
 		return response.data || [];
 	},
 
+	filterBranchAccountsByAccess(rows = [], accessRows = [], accessField, allowed = ["read", "write"]) {
+		if (!accessField) return rows;
+
+		const allowedIds = new Set(
+			this.getAllowedBranchAccountIds(accessRows, accessField, allowed).map(String)
+		);
+
+		return rows.filter((row) => allowedIds.has(String(row.id)));
+	},
+
 	getAllowedBranchAccountIds(accessRows = [], accessField, allowed = ["read", "write"]) {
 		return accessRows
 			.filter((row) => allowed.includes(row?.[accessField]))
@@ -272,7 +282,7 @@ export default {
 			.filter(Boolean);
 	},
 
-	async getBranchAccountsRaw({ accessField = null, allowed = ["read", "write"] } = {}) {
+	async getBranchAccountsRaw({ accessField = null, allowed = ["read", "write"], accessRows = null } = {}) {
 		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
 		const filter = {
 			_and: [
@@ -291,9 +301,8 @@ export default {
 		let rows = response.data || [];
 
 		if (accessField) {
-			const accessRows = await this.getBranchAccountAccessRows();
-			const allowedIds = new Set(this.getAllowedBranchAccountIds(accessRows, accessField, allowed).map(String));
-			rows = rows.filter((row) => allowedIds.has(String(row.id)));
+			const rowsAccess = accessRows || await this.getBranchAccountAccessRows();
+			rows = this.filterBranchAccountsByAccess(rows, rowsAccess, accessField, allowed);
 		}
 
 		return rows
@@ -310,17 +319,16 @@ export default {
 	},
 
 	async refreshBranchAccountAccessOptions() {
-		const [
-			paymentOptions,
-			accrualOptions,
-			paymentWriteRows,
-			accrualWriteRows
-		] = await Promise.all([
-			this.getBranchAccountsOptions({ accessField: "payments_access", allowed: ["read", "write"] }),
-			this.getBranchAccountsOptions({ accessField: "accruals_access", allowed: ["read", "write"] }),
-			this.getBranchAccountsRaw({ accessField: "payments_access", allowed: ["write"] }),
-			this.getBranchAccountsRaw({ accessField: "accruals_access", allowed: ["write"] })
-		]);
+		const accessRows = await this.getBranchAccountAccessRows();
+		const accountRows = await this.getBranchAccountsRaw();
+
+		const paymentRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "payments_access", ["read", "write"]);
+		const accrualRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "accruals_access", ["read", "write"]);
+		const paymentWriteRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "payments_access", ["write"]);
+		const accrualWriteRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "accruals_access", ["write"]);
+
+		const paymentOptions = paymentRows.map((row) => ({ label: row.name, value: row.id }));
+		const accrualOptions = accrualRows.map((row) => ({ label: row.name, value: row.id }));
 
 		await Promise.all([
 			storeValue("salaryPaymentBranchAccountOptions", paymentOptions, false),
