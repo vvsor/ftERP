@@ -3,8 +3,9 @@
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 46,
+  "bottomRowBeforeCollapse": 46,
   "boxShadow": "none",
-  "defaultOptionValue": "",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store?.hrPositionModalMode === \"edit\" ? \"\" : \"\"))(sel_empl2position.options, sel_empl2position.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -14,12 +15,21 @@
     },
     {
       "key": "sourceData"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
+    },
+    {
+      "key": "isVisible"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -27,7 +37,7 @@
   "isFilterable": true,
   "isLoading": false,
   "isRequired": false,
-  "isVisible": true,
+  "isVisible": "{{appsmith.store?.hrPositionModalMode !== \"edit\"}}",
   "key": "s0rcrbaz7o",
   "labelAlignment": "left",
   "labelPosition": "Top",
@@ -45,8 +55,8 @@
   "needsErrorInfo": false,
   "optionLabel": "employee",
   "optionValue": "user_id",
-  "originalBottomRow": 47,
-  "originalTopRow": 40,
+  "originalBottomRow": 46,
+  "originalTopRow": 39,
   "parentColumnSpace": 11.28125,
   "parentId": "s9eb0rni56",
   "parentRowSpace": 10,
@@ -57,6 +67,7 @@
   "serverSideFiltering": false,
   "sourceData": "{{Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : []}}",
   "topRow": 39,
+  "topRowBeforeCollapse": 39,
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "ntr1hgbg82",

@@ -40,9 +40,9 @@ export default {
 		const previousPositionId = appsmith.store?.hrSelectedPosition?.id;
 		const rows = await utils.getPositionsByBranch();
 		const selectedPosition =
-			keepSelection && previousPositionId
-				? (rows.find((row) => String(row.id) === String(previousPositionId)) || rows[0] || null)
-				: (rows[0] || null);
+					keepSelection && previousPositionId
+		? (rows.find((row) => String(row.id) === String(previousPositionId)) || rows[0] || null)
+		: (rows[0] || null);
 
 		await storeValue("hrSelectedPosition", selectedPosition, true);
 
@@ -93,6 +93,7 @@ export default {
 			branch_id: sourceRow.branch_id || appsmith.store?.hrSelectedBranchId || null,
 			supervisor_position_id: sourceRow.supervisor_position_id || null,
 			title: sourceRow.title || "",
+			employee: sourceRow.employee || "",
 			comment: sourceRow.comment || ""
 		} : {
 			branch_id: appsmith.store?.hrSelectedBranchId || null
@@ -166,8 +167,8 @@ export default {
 		const mode = appsmith.store?.hrPositionModalMode || "add";
 		const selectedPosition = appsmith.store?.hrSelectedPositionDraft;
 		const body = this.getPositionFormData();
-		const employeeId = sel_empl2position.selectedOptionValue || null;
-		const assignmentStartDate = hrOfficeTerms.formatDateValue(dp_startDateEmpl2Pos.selectedDate);
+		const employeeId = mode === "add" ? (sel_empl2position.selectedOptionValue || null) : null;
+		const assignmentStartDate = mode === "add" ? hrOfficeTerms.formatDateValue(dp_startDateEmpl2Pos.selectedDate) : null;
 
 		if (!body.position_title_id) return showAlert("Выберите название должности", "warning");
 		if (!body.branch_id) return showAlert("Выберите подразделение", "warning");

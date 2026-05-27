@@ -11,6 +11,9 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "text"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
@@ -40,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 62,
   "shouldTruncate": false,
-  "text": "Можно ниже выбрать сотрудника, чтобы сразу назначить на данную должность",
+  "text": "{{appsmith.store?.hrPositionModalMode === \"edit\" ? `Текущий сотрудник: ${appsmith.store?.hrSelectedPositionDraft?.employee || \"не назначен\"}` : \"Можно ниже выбрать сотрудника, чтобы сразу назначить на данную должность\"}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 35,
@@ -48,5 +51,5 @@
   "type": "TEXT_WIDGET",
   "version": 1,
   "widgetId": "deu15by8x0",
-  "widgetName": "Text5"
+  "widgetName": "txt_addEmplToPos"
 }
