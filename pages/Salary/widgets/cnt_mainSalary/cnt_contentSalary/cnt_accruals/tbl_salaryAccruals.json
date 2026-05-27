@@ -142,6 +142,9 @@
     },
     {
       "key": "primaryColumns.branch_account_name.selectOptions"
+    },
+    {
+      "key": "primaryColumns.customColumn1.isDisabled"
     }
   ],
   "dynamicPropertyPathList": [
@@ -168,6 +171,9 @@
     },
     {
       "key": "primaryColumns.amount.textColor"
+    },
+    {
+      "key": "primaryColumns.customColumn1.isDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -581,7 +587,7 @@
       "width": 150
     },
     "customColumn1": {
-      "alias": "Удалить",
+      "alias": "",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "borderRadius": "{{tbl_salaryAccruals.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
@@ -603,12 +609,12 @@
       "isCellEditable": false,
       "isCellVisible": true,
       "isDerived": true,
-      "isDisabled": false,
+      "isDisabled": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (!utils.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryAccrualWriteBranchAccountIds\"))) : !utils.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryAccrualWriteBranchAccountIds\") })()}}",
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Удалить",
+      "label": "",
       "labelColor": "#FFFFFF",
       "notation": "standard",
       "onClick": "{{accruals.deleteSalaryAccrual()}}",
