@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_ae2282f2-3f84-45a4-8f2a-2f23b5b8a748",
+  "id": "Salary_salaryAccounts",
+  "unpublishedCollection": {
+    "name": "salaryAccounts",
+    "pageId": "Salary",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

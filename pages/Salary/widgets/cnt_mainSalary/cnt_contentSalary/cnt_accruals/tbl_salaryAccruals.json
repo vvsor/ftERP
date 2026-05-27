@@ -609,7 +609,7 @@
       "isCellEditable": false,
       "isCellVisible": true,
       "isDerived": true,
-      "isDisabled": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (!utils.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryAccrualWriteBranchAccountIds\"))) : !utils.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryAccrualWriteBranchAccountIds\") })()}}",
+      "isDisabled": "{{(() => { const tableData = tbl_salaryAccruals.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (!salaryAccounts.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryAccrualWriteBranchAccountIds\"))) : !salaryAccounts.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryAccrualWriteBranchAccountIds\") })()}}",
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,

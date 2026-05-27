@@ -1,4 +1,15 @@
 export default {
+	getSelectedEmployeeRowIndex() {
+		const rows = Array.isArray(appsmith.store?.salaryEmployeeRows) ? appsmith.store.salaryEmployeeRows : [];
+		const selectedId = appsmith.store?.SelectedOfficeTerm?.id;
+
+		if (!rows.length) return -1;
+		if (!selectedId) return 0;
+
+		const index = rows.findIndex((row) => String(row.id) === String(selectedId));
+		return index >= 0 ? index : 0;
+	},
+	
 	async tbl_employees_onRowSelected() {
 		const row = tbl_employees.selectedRow;
 		if (!row?.id) return;

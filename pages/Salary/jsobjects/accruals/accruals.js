@@ -14,7 +14,7 @@ export default {
 				return [];
 			}
 
-			const accountRows = await utils.getBranchAccountsRaw({
+			const accountRows = await salaryAccounts.getBranchAccountsRaw({
 				accessField: "accruals_access",
 				allowed: ["read", "write"]
 			});
@@ -98,7 +98,7 @@ export default {
 			throw new Error("Branch account is required");
 		}
 
-		if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
+		if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету начислений", "error");
 			throw new Error("No write access to accrual account");
 		}
@@ -186,7 +186,7 @@ export default {
 			throw new Error("Branch account is required");
 		}
 
-		if (!utils.hasBranchAccountWriteAccess(newAccountId, "salaryAccrualWriteBranchAccountIds")) {
+		if (!salaryAccounts.hasBranchAccountWriteAccess(newAccountId, "salaryAccrualWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету начислений", "error");
 			throw new Error("No write access to accrual account");
 		}
@@ -289,7 +289,7 @@ export default {
 
 		const branchAccountId = row.branch_account_id || row.branch_account_name;
 
-		if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
+		if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету начислений", "error");
 			throw new Error("No write access to accrual account");
 		}

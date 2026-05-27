@@ -443,7 +443,7 @@
       "isCellEditable": false,
       "isCellVisible": true,
       "isDerived": true,
-      "isDisabled": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (!utils.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryPaymentWriteBranchAccountIds\"))) : !utils.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryPaymentWriteBranchAccountIds\") })()}}",
+      "isDisabled": "{{(() => { const tableData = tbl_salaryPayments.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (!salaryAccounts.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryPaymentWriteBranchAccountIds\"))) : !salaryAccounts.hasBranchAccountWriteAccess(currentRow.branch_account_id || currentRow.branch_account_name, \"salaryPaymentWriteBranchAccountIds\") })()}}",
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,

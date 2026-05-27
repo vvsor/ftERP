@@ -216,7 +216,7 @@ export default {
 
 			const referenceDataPromise = Promise.all([
 				utils.getAccrualTypesOptions(),
-				utils.refreshBranchAccountAccessOptions(),
+				salaryAccounts.refreshBranchAccountAccessOptions(),
 				utils.getBranches()
 			]);
 

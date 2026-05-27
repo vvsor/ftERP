@@ -15,7 +15,7 @@ export default {
 			}
 
 
-			const accountRows = await utils.getBranchAccountsRaw({
+			const accountRows = await salaryAccounts.getBranchAccountsRaw({
 				accessField: "payments_access",
 				allowed: ["read", "write"]
 			});
@@ -105,7 +105,7 @@ export default {
 			const comment = newRow.comment;
 
 			if (!branchAccountId) fail("Выберите счет филиала");
-			if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
+			if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
 				fail("Нет права записи по выбранному счету выплат");
 			}
 			if (!paymentDate) fail("Укажите дату выплаты");
@@ -253,7 +253,7 @@ export default {
 			throw new Error("Branch account is required");
 		}
 
-		if (!utils.hasBranchAccountWriteAccess(nextBranchAccountId, "salaryPaymentWriteBranchAccountIds")) {
+		if (!salaryAccounts.hasBranchAccountWriteAccess(nextBranchAccountId, "salaryPaymentWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету выплат", "error");
 			throw new Error("No write access to payment account");
 		}
@@ -327,7 +327,7 @@ export default {
 		const paymentIdToDelete = row.id;
 		const branchAccountId = row.branch_account_id || row.branch_account_name;
 
-		if (!utils.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
+		if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету выплат", "error");
 			throw new Error("No write access to payment account");
 		}

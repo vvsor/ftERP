@@ -280,69 +280,6 @@ export default {
 			.filter(Boolean);
 	},
 
-	async getBranchAccountsRaw({ accessField = null, allowed = ["read", "write"], accessRows = null } = {}) {
-		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
-		const filter = {
-			_and: [
-				{ date_deleted: { _null: true } },
-				...(branchId ? [{ branch_id: { id: { _eq: branchId } } }] : [])
-			]
-		};
-
-		const response = await items.getItems({
-			collection: "branch_accounts",
-			fields: "id,name,type,branch_id.id,date_deleted",
-			filter,
-			limit: -1
-		});
-
-		let rows = response.data || [];
-
-		if (accessField) {
-			const rowsAccess = accessRows || await this.getBranchAccountAccessRows();
-			rows = this.filterBranchAccountsByAccess(rows, rowsAccess, accessField, allowed);
-		}
-
-		return rows
-			.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
-	},
-
-	async getBranchAccountsOptions(params = {}) {
-		const rows = await this.getBranchAccountsRaw(params);
-
-		return rows.map(x => ({
-			label: x.name,
-			value: x.id,
-		}));
-	},
-
-	async refreshBranchAccountAccessOptions() {
-		const accessRows = await this.getBranchAccountAccessRows();
-		const accountRows = await this.getBranchAccountsRaw();
-
-		const paymentRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "payments_access", ["read", "write"]);
-		const accrualRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "accruals_access", ["read", "write"]);
-		const paymentWriteRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "payments_access", ["write"]);
-		const accrualWriteRows = this.filterBranchAccountsByAccess(accountRows, accessRows, "accruals_access", ["write"]);
-
-		const paymentOptions = paymentRows.map((row) => ({ label: row.name, value: row.id }));
-		const accrualOptions = accrualRows.map((row) => ({ label: row.name, value: row.id }));
-
-		await Promise.all([
-			storeValue("salaryPaymentBranchAccountOptions", paymentOptions, false),
-			storeValue("salaryAccrualBranchAccountOptions", accrualOptions, false),
-			storeValue("salaryPaymentWriteBranchAccountIds", paymentWriteRows.map((row) => row.id), false),
-			storeValue("salaryAccrualWriteBranchAccountIds", accrualWriteRows.map((row) => row.id), false)
-		]);
-
-		return { paymentOptions, accrualOptions };
-	},
-
-	hasBranchAccountWriteAccess(accountId, storeKey) {
-		const ids = Array.isArray(appsmith.store?.[storeKey]) ? appsmith.store[storeKey] : [];
-		return ids.map(String).includes(String(accountId));
-	},
-
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name || "";
