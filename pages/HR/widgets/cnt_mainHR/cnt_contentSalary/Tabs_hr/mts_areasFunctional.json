@@ -21,8 +21,17 @@
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicTriggerPathList": [],
-  "expandAll": false,
+  "dynamicPropertyPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "expandAll": true,
   "isDisabled": false,
   "isLoading": false,
   "isRequired": false,
@@ -43,6 +52,7 @@
   "mobileTopRow": 59,
   "mode": "SHOW_ALL",
   "needsErrorInfo": false,
+  "onOptionChange": "{{hrDictionaries.syncFunctionGroupPositions(mts_areasFunctional.selectedOptionValues, \"positionTitle\");}}",
   "options": "{{ utils.getFunctionGroupTreeOptions() }}",
   "originalBottomRow": 66,
   "originalTopRow": 59,

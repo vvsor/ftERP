@@ -221,12 +221,14 @@
       "label": "Направление",
       "notation": "standard",
       "originalId": "activity_area_id",
-      "selectOptions": "{{(() => { const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => { const options = (Array.isArray(appsmith.store?.hrActivityAreaRows) ? appsmith.store.hrActivityAreaRows : []).map((area) => ({ label: area.name, value: area.id })); const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map(() => options) : options; })())) : (() => { const options = (Array.isArray(appsmith.store?.hrActivityAreaRows) ? appsmith.store.hrActivityAreaRows : []).map((area) => ({ label: area.name, value: area.id })); const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map(() => options) : options; })() })()}}",
+      "selectOptions": "{{(() => { const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( (appsmith.store?.hrActivityAreaRows || []).map((area) => ({ label: area.name, value: area.id })) )) :  (appsmith.store?.hrActivityAreaRows || []).map((area) => ({ label: area.name, value: area.id }))  })()}}",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellRequired": true
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     },
@@ -397,6 +399,7 @@
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {
+        "isColumnEditableCellRequired": true,
         "isColumnEditableCellValid": ""
       },
       "verticalAlignment": "CENTER",

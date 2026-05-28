@@ -13,12 +13,13 @@ export default {
 	},
 
 	// ================== CORE SAVE ==================
-	async saveField(fieldName, widget) {
-		const position = appsmith.store?.hrSelectedPosition;
-		const positionId = position?.id;
+	async saveField(fieldName, widget, target = "position") {
+		const isFunctionGroup = target === "functionGroup";
+		const record = isFunctionGroup ? appsmith.store?.hrSelectedFunctionGroup : appsmith.store?.hrSelectedPosition;
+		const recordId = record?.id;
 
-		if (!positionId) {
-			console.warn("Autosave skipped: position id not ready", { fieldName });
+		if (!recordId) {
+			console.warn("Autosave skipped: record id not ready", { fieldName, target });
 			return;
 		}
 
@@ -32,32 +33,35 @@ export default {
 
 			if (value === null || value === undefined) return;
 
-			const currentValue = position?.[fieldName] ?? "";
+			const currentValue = record?.[fieldName] ?? "";
 			if (String(value ?? "") === String(currentValue ?? "")) return;
 
+			const collection = isFunctionGroup ? "function_groups" : "positions";
+			const storeKey = isFunctionGroup ? "hrSelectedFunctionGroup" : "hrSelectedPosition";
+			const rowsKey = isFunctionGroup ? "hrFunctionGroupRows" : "hrPositionRows";
+
 			await items.updateItems({
-				collection: "positions",
+				collection,
 				body: {
-					keys: [positionId],
+					keys: [recordId],
 					data: { [fieldName]: value }
 				}
 			});
 
-			const updatedPosition = { ...position, [fieldName]: value };
-			await storeValue("hrSelectedPosition", updatedPosition, true);
+			const updatedRecord = { ...record, [fieldName]: value };
+			await storeValue(storeKey, updatedRecord, true);
 
-			const rows = (appsmith.store?.hrPositionRows || []).map((row) =>
-																															String(row.id) === String(positionId)
-																															? { ...row, [fieldName]: value }
-																															: row
-																														 );
-			await storeValue("hrPositionRows", rows, false);
+			const rows = (appsmith.store?.[rowsKey] || []).map((row) =>
+																												 String(row.id) === String(recordId)
+																												 ? { ...row, [fieldName]: value }
+																												 : row
+																												);
+			await storeValue(rowsKey, rows, false);
 		} catch (err) {
-			console.error(`Autosave failed for ${fieldName}:`, err);
+			console.error(`Autosave failed for ${target}.${fieldName}:`, err);
 			showAlert(`Autosave failed: ${fieldName}`, "warning");
 		}
 	},
-
 	// ================== PUBLIC API ==================
 	initAutosave() {
 		if (!this.debouncedSaveFn) {
@@ -68,11 +72,11 @@ export default {
 		}
 	},
 
-	autosave(widget, fieldName) {
+	autosave(widget, fieldName, target = "position") {
 		if (!this.debouncedSaveFn) {
 			this.initAutosave();
 		}
 
-		this.debouncedSaveFn(fieldName, widget);
+		this.debouncedSaveFn(fieldName, widget, target);
 	}
 }

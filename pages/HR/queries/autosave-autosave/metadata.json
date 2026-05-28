@@ -12,6 +12,10 @@
         },
         {
           "name": "fieldName"
+        },
+        {
+          "name": "target",
+          "value": "position"
         }
       ],
       "paginationType": "NONE",

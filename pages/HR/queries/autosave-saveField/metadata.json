@@ -12,6 +12,10 @@
         },
         {
           "name": "widget"
+        },
+        {
+          "name": "target",
+          "value": "position"
         }
       ],
       "paginationType": "NONE",

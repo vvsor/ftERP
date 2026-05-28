@@ -16,7 +16,16 @@
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onTextChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChange"
+    }
+  ],
   "flexVerticalAlignment": "start",
   "inputType": "html",
   "isDefaultClickDisabled": true,
@@ -38,6 +47,7 @@
   "mobileRightColumn": 57,
   "mobileTopRow": 15,
   "needsErrorInfo": false,
+  "onTextChange": "{{ autosave.autosave(rte_curFunctional, \"description\", \"functionGroup\") }}",
   "originalBottomRow": 55,
   "originalTopRow": 8,
   "parentColumnSpace": 16.3125,

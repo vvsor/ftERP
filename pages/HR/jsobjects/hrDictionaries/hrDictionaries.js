@@ -95,22 +95,79 @@ export default {
 		showAlert("Функционал сохранен", "success");
 	},
 
-	syncFunctionGroupPositions: async (selectedValuesParam = null) => {
-		const functionGroupId = appsmith.store?.hrSelectedFunctionGroup?.id || null;
-		if (!functionGroupId) return showAlert("Выберите функционал", "warning");
+	syncFunctionGroupPositions: async (selectedValuesParam = null, mode = "functionGroup") => {
+		const selectedValues =
+					selectedValuesParam ??
+					(mode === "positionTitle" ? mts_areasFunctional.selectedOptionValues : ms_positionsOfFunctional.selectedOptionValues) ??
+					[];
 
-		const selectedValues = selectedValuesParam ?? ms_positionsOfFunctional.selectedOptionValues ?? [];
 		const selectedIds = [];
 		const selectedKeys = new Set();
 
 		for (const value of selectedValues || []) {
 			if (value === null || value === undefined || value === "") continue;
+			if (String(value).startsWith("area:")) continue;
+
 			const normalized = Number.isFinite(Number(value)) ? Number(value) : value;
 			const key = String(normalized);
 			if (selectedKeys.has(key)) continue;
 			selectedKeys.add(key);
 			selectedIds.push(normalized);
 		}
+
+		if (mode === "positionTitle") {
+			const positionTitleId = appsmith.store?.hrSelectedPosition?.position_title_id || null;
+			if (!positionTitleId) return showAlert("Выберите должность", "warning");
+
+			const currentRows = await utils.getDutyRows({ commitToStore: false });
+			const currentPositionRows = currentRows.filter((row) => String(row.position_title_id || "") === String(positionTitleId));
+			const currentByFunctionGroupId = {};
+			const duplicateIds = [];
+
+			for (const row of currentPositionRows) {
+				const key = String(row.function_group_id || "");
+				if (!key) continue;
+				if (currentByFunctionGroupId[key]) duplicateIds.push(row.id);
+				else currentByFunctionGroupId[key] = row;
+			}
+
+			const toCreate = selectedIds.filter((functionGroupId) => !currentByFunctionGroupId[String(functionGroupId)]);
+			const toDeleteIds = [...new Set([
+				...currentPositionRows.filter((row) => !selectedKeys.has(String(row.function_group_id))).map((row) => row.id),
+				...duplicateIds
+			].filter(Boolean))];
+
+			if (!toCreate.length && !toDeleteIds.length) {
+				await utils.refreshSelectedPositionFunctionals(positionTitleId);
+				return;
+			}
+
+			await Promise.all([
+				...toCreate.map((functionGroupId) =>
+												items.createItems({
+					collection: "duties",
+					body: {
+						function_group_id: functionGroupId,
+						position_title_id: positionTitleId
+					}
+				})
+											 ),
+				toDeleteIds.length
+				? items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } })
+				: Promise.resolve()
+			]);
+
+			await utils.getDutyRows();
+			await utils.refreshSelectedPositionFunctionals(positionTitleId);
+			if (appsmith.store?.hrSelectedFunctionGroup?.id) {
+				await utils.getFunctionGroupDutyRows(appsmith.store.hrSelectedFunctionGroup.id);
+			}
+			showAlert("Функционалы должности обновлены", "success");
+			return;
+		}
+
+		const functionGroupId = appsmith.store?.hrSelectedFunctionGroup?.id || null;
+		if (!functionGroupId) return showAlert("Выберите функционал", "warning");
 
 		const currentRows = await utils.getFunctionGroupDutyRows(functionGroupId, { commitToStore: false });
 		const currentByPositionId = {};
@@ -154,7 +211,6 @@ export default {
 		await utils.refreshSelectedPositionFunctionals();
 		showAlert("Привязка должностей обновлена", "success");
 	},
-
 	savePositionTitleRow: async (rowParam = null) => {
 		const rawRow = rowParam || (tbl_position_titles.isAddRowInProgress ? tbl_position_titles.newRow : (tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow || tbl_position_titles.selectedRow));
 		const row = { ...(rawRow?.allFields || rawRow || {}), ...(rawRow?.updatedFields || {}) };
