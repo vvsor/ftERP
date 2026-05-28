@@ -174,13 +174,13 @@ export default {
 				return;
 			}
 
-			for (const functionGroupId of toCreate) {
+			if (toCreate.length) {
 				await items.createItems({
 					collection: "duties",
-					body: {
+					body: toCreate.map((functionGroupId) => ({
 						function_group_id: functionGroupId,
 						position_title_id: positionTitleId
-					}
+					}))
 				});
 			}
 
@@ -222,13 +222,13 @@ export default {
 			return;
 		}
 
-		for (const positionTitleId of toCreate) {
+		if (toCreate.length) {
 			await items.createItems({
 				collection: "duties",
-				body: {
+				body: toCreate.map((positionTitleId) => ({
 					function_group_id: functionGroupId,
 					position_title_id: positionTitleId
-				}
+				}))
 			});
 		}
 

@@ -23,12 +23,15 @@
   "dynamicHeight": "FIXED",
   "dynamicPropertyPathList": [
     {
-      "key": "onOptionChange"
+      "key": "onDropdownClose"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "onOptionChange"
+    },
+    {
+      "key": "onDropdownClose"
     }
   ],
   "expandAll": true,
@@ -39,7 +42,7 @@
   "key": "2z9ww17ihu",
   "labelAlignment": "left",
   "labelPosition": "Top",
-  "labelText": "Функционалы должности",
+  "labelText": "Функционал должности",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
   "leftColumn": 35,
@@ -52,7 +55,8 @@
   "mobileTopRow": 59,
   "mode": "SHOW_CHILD",
   "needsErrorInfo": false,
-  "onOptionChange": "{{hrDictionaries.syncFunctionGroupPositions(mts_areasFunctional.selectedOptionValues, \"positionTitle\");}}",
+  "onDropdownClose": "{{hrDictionaries.syncFunctionGroupPositions(mts_areasFunctional.selectedOptionValues, \"positionTitle\");}}",
+  "onOptionChange": "",
   "options": "{{ utils.getFunctionGroupTreeOptions() }}",
   "originalBottomRow": 66,
   "originalTopRow": 59,
