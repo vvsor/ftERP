@@ -95,8 +95,13 @@ export default {
 		}, {});
 	},
 
-	async getAccrualsBySalaryId(salaryIds = []) {
+	async getAccrualsBySalaryId(salaryIds = [], accountIds = null) {
 		if (!salaryIds.length) return {};
+		if (Array.isArray(accountIds) && accountIds.length === 0) return {};
+
+		const accountFilter = Array.isArray(accountIds)
+		? [{ branch_account_id: { id: { _in: accountIds } } }]
+		: [];
 
 		const response = await items.getItems({
 			collection: "salary_accruals",
@@ -104,6 +109,8 @@ export default {
 			filter: {
 				_and: [
 					{ salary_id: { id: { _in: salaryIds } } },
+					...accountFilter,
+					{ branch_account_id: { date_deleted: { _null: true } } },
 					{ deleted_at: { _null: true } }
 				]
 			},
@@ -118,8 +125,13 @@ export default {
 		}, {});
 	},
 
-	async getPaymentsBySalaryId(salaryIds = []) {
+	async getPaymentsBySalaryId(salaryIds = [], accountIds = null) {
 		if (!salaryIds.length) return {};
+		if (Array.isArray(accountIds) && accountIds.length === 0) return {};
+
+		const accountFilter = Array.isArray(accountIds)
+		? [{ branch_account_id: { id: { _in: accountIds } } }]
+		: [];
 
 		const response = await items.getItems({
 			collection: "salary_payments",
@@ -127,6 +139,8 @@ export default {
 			filter: {
 				_and: [
 					{ salary_id: { id: { _in: salaryIds } } },
+					...accountFilter,
+					{ branch_account_id: { date_deleted: { _null: true } } },
 					{ deleted_at: { _null: true } }
 				]
 			},
@@ -182,11 +196,17 @@ export default {
 		});
 
 		const officeTerms = response.data || [];
-		const salaryByOfficeTermId = await utils.getSalaryByOfficeTermId(officeTerms, periodMonth);
+		const [salaryByOfficeTermId, accountAccessRows] = await Promise.all([
+			utils.getSalaryByOfficeTermId(officeTerms, periodMonth),
+			salaryAccounts.getBranchAccountAccessRows()
+		]);
 		const salaryIds = Object.values(salaryByOfficeTermId).map((salary) => salary.id).filter(Boolean);
+		const accrualAccountIds = salaryAccounts.getAllowedBranchAccountIds(accountAccessRows, "accruals_access", ["read", "write"]);
+		const paymentAccountIds = salaryAccounts.getAllowedBranchAccountIds(accountAccessRows, "payments_access", ["read", "write"]);
+
 		const [accrualsBySalaryId, paymentsBySalaryId] = await Promise.all([
-			utils.getAccrualsBySalaryId(salaryIds),
-			utils.getPaymentsBySalaryId(salaryIds)
+			чutils.getAccrualsBySalaryId(salaryIds, accrualAccountIds),
+			utils.getPaymentsBySalaryId(salaryIds, paymentAccountIds)
 		]);
 
 		const rows = officeTerms.map((term) => {

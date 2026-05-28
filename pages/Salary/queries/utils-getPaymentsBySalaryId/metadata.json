@@ -10,6 +10,10 @@
         {
           "name": "salaryIds",
           "value": "{{[]}}"
+        },
+        {
+          "name": "accountIds",
+          "value": "{{null}}"
         }
       ],
       "paginationType": "NONE",

@@ -20,14 +20,15 @@ export default {
 		return response.data || [];
 	},
 
-	getAllowedBranchAccountIds(accessRows = [], accessField, allowed = ["read", "write"]) {
+	getAllowedBranchAccountIds(accessRows = [], accessField = "", allowed = ["read", "write"]) {
+		if (!accessField) return [];
 		return accessRows
 			.filter((row) => allowed.includes(row?.[accessField]))
 			.map((row) => row.branch_account_id?.id ?? row.branch_account_id)
 			.filter(Boolean);
 	},
 
-	filterBranchAccountsByAccess(rows = [], accessRows = [], accessField, allowed = ["read", "write"]) {
+	filterBranchAccountsByAccess(rows = [], accessRows = [], accessField = "", allowed = ["read", "write"]) {
 		if (!accessField) return rows;
 
 		const allowedIds = new Set(
