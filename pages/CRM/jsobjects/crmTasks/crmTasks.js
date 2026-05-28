@@ -154,7 +154,7 @@ export default {
 			// Optimize task combination using a Map for faster lookups
 			const unreadMap = new Map();
 			unreadTasks.data.forEach(unread => {
-				unreadMap.set(unread.task_id, unread);
+				unreadMap.set(unread.crm_task_id, unread);
 			});
 
 			// Combine tasks with unread information

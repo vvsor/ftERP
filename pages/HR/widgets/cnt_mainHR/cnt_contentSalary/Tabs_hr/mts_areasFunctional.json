@@ -50,7 +50,7 @@
   "mobileLeftColumn": 35,
   "mobileRightColumn": 55,
   "mobileTopRow": 59,
-  "mode": "SHOW_ALL",
+  "mode": "SHOW_CHILD",
   "needsErrorInfo": false,
   "onOptionChange": "{{hrDictionaries.syncFunctionGroupPositions(mts_areasFunctional.selectedOptionValues, \"positionTitle\");}}",
   "options": "{{ utils.getFunctionGroupTreeOptions() }}",

@@ -1,4 +1,7 @@
 export default {
+	syncFunctionGroupPositionsRunning: false,
+	syncFunctionGroupPositionsQueued: null,
+
 	normalizeTableRow(row) {
 		return { ...(row?.allFields || row || {}), ...(row?.updatedFields || {}) };
 	},
@@ -96,6 +99,35 @@ export default {
 	},
 
 	syncFunctionGroupPositions: async (selectedValuesParam = null, mode = "functionGroup") => {
+		const requestedValues = [
+			...(
+				selectedValuesParam ??
+				(mode === "positionTitle" ? mts_areasFunctional.selectedOptionValues : ms_positionsOfFunctional.selectedOptionValues) ??
+				[]
+			)
+		];
+
+		if (hrDictionaries.syncFunctionGroupPositionsRunning) {
+			hrDictionaries.syncFunctionGroupPositionsQueued = { selectedValues: requestedValues, mode };
+			return;
+		}
+
+		hrDictionaries.syncFunctionGroupPositionsRunning = true;
+
+		try {
+			let current = { selectedValues: requestedValues, mode };
+
+			while (current) {
+				hrDictionaries.syncFunctionGroupPositionsQueued = null;
+				await hrDictionaries.syncFunctionGroupPositionsApply(current.selectedValues, current.mode);
+				current = hrDictionaries.syncFunctionGroupPositionsQueued;
+			}
+		} finally {
+			hrDictionaries.syncFunctionGroupPositionsRunning = false;
+		}
+	},
+
+	syncFunctionGroupPositionsApply: async (selectedValuesParam = null, mode = "functionGroup") => {
 		const selectedValues =
 					selectedValuesParam ??
 					(mode === "positionTitle" ? mts_areasFunctional.selectedOptionValues : ms_positionsOfFunctional.selectedOptionValues) ??
@@ -142,20 +174,19 @@ export default {
 				return;
 			}
 
-			await Promise.all([
-				...toCreate.map((functionGroupId) =>
-												items.createItems({
+			for (const functionGroupId of toCreate) {
+				await items.createItems({
 					collection: "duties",
 					body: {
 						function_group_id: functionGroupId,
 						position_title_id: positionTitleId
 					}
-				})
-											 ),
-				toDeleteIds.length
-				? items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } })
-				: Promise.resolve()
-			]);
+				});
+			}
+
+			if (toDeleteIds.length) {
+				await items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } });
+			}
 
 			await utils.getDutyRows();
 			await utils.refreshSelectedPositionFunctionals(positionTitleId);
@@ -191,20 +222,19 @@ export default {
 			return;
 		}
 
-		await Promise.all([
-			...toCreate.map((positionTitleId) =>
-											items.createItems({
+		for (const positionTitleId of toCreate) {
+			await items.createItems({
 				collection: "duties",
 				body: {
 					function_group_id: functionGroupId,
 					position_title_id: positionTitleId
 				}
-			})
-										 ),
-			toDeleteIds.length
-			? items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } })
-			: Promise.resolve()
-		]);
+			});
+		}
+
+		if (toDeleteIds.length) {
+			await items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } });
+		}
 
 		await utils.getDutyRows();
 		await utils.getFunctionGroupDutyRows(functionGroupId);

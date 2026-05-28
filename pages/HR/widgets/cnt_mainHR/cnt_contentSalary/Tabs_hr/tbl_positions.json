@@ -1,5 +1,6 @@
 {
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "allowAddNewRow": true,
   "animateLoading": true,
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
@@ -184,6 +185,7 @@
   "endOfData": false,
   "flexVerticalAlignment": "start",
   "horizontalAlignment": "LEFT",
+  "infiniteScrollEnabled": false,
   "inlineEditingSaveOption": "ROW_LEVEL",
   "isLoading": false,
   "isSortable": true,
@@ -208,6 +210,7 @@
   "parentColumnSpace": 10.9384765625,
   "parentId": "bc3hzxuyyy",
   "parentRowSpace": 10,
+  "primaryColumnId": "position_title_id",
   "primaryColumns": {
     "branch_id": {
       "alias": "branch_id",
@@ -968,6 +971,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 34,
   "searchKey": "",
+  "serverSidePaginationEnabled": true,
   "tableData": "{{ Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : [] }}",
   "textSize": "0.875rem",
   "topRow": 4,

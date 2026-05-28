@@ -57,6 +57,13 @@ export default {
 																												 : row
 																												);
 			await storeValue(rowsKey, rows, false);
+			
+			if (isFunctionGroup && fieldName === "description") {
+				const refreshedRows = await utils.getFunctionGroupRows();
+				const refreshedRecord = refreshedRows.find((row) => String(row.id) === String(recordId)) || updatedRecord;
+				await storeValue(storeKey, refreshedRecord, true);
+				showAlert("Описание функционала сохранено", "success");
+			}
 		} catch (err) {
 			console.error(`Autosave failed for ${target}.${fieldName}:`, err);
 			showAlert(`Autosave failed: ${fieldName}`, "warning");
