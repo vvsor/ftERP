@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 74,
+  "bottomRow": 75,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonVariant": "PRIMARY",
@@ -14,21 +14,26 @@
       "key": "borderRadius"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "isDefaultClickDisabled": true,
   "isDisabled": false,
   "isLoading": false,
   "isVisible": true,
   "key": "7g3dwpynk6",
-  "leftColumn": 46,
+  "leftColumn": 55,
   "minWidth": 120,
   "mobileBottomRow": 74,
   "mobileLeftColumn": 46,
   "mobileRightColumn": 62,
   "mobileTopRow": 70,
   "needsErrorInfo": false,
-  "originalBottomRow": 74,
-  "originalTopRow": 70,
+  "onClick": "{{showModal(mdl_duties.name);}}",
+  "originalBottomRow": 75,
+  "originalTopRow": 71,
   "parentColumnSpace": 16.625,
   "parentId": "bc3hzxuyyy",
   "parentRowSpace": 10,
@@ -37,9 +42,9 @@
   "renderMode": "CANVAS",
   "resetFormOnClick": false,
   "responsiveBehavior": "hug",
-  "rightColumn": 62,
-  "text": "Напечатать",
-  "topRow": 70,
+  "rightColumn": 64,
+  "text": "Печать",
+  "topRow": 71,
   "type": "BUTTON_WIDGET",
   "version": 1,
   "widgetId": "a51r1j2dsc",
