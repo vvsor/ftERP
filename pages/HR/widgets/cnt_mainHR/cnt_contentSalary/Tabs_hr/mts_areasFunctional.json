@@ -5,15 +5,19 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 66,
   "boxShadow": "none",
-  "defaultOptionValue": [
-    "GREEN"
-  ],
+  "defaultOptionValue": "{{ appsmith.store?.hrSelectedPositionFunctionGroupIds || [] }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "options"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -39,39 +43,16 @@
   "mobileTopRow": 59,
   "mode": "SHOW_ALL",
   "needsErrorInfo": false,
-  "options": [
-    {
-      "children": [
-        {
-          "label": "Dark Blue",
-          "value": "DARK BLUE"
-        },
-        {
-          "label": "Light Blue",
-          "value": "LIGHT BLUE"
-        }
-      ],
-      "label": "Blue",
-      "value": "BLUE"
-    },
-    {
-      "label": "Green",
-      "value": "GREEN"
-    },
-    {
-      "label": "Red",
-      "value": "RED"
-    }
-  ],
+  "options": "{{ utils.getFunctionGroupTreeOptions() }}",
   "originalBottomRow": 66,
   "originalTopRow": 59,
   "parentColumnSpace": 16.625,
   "parentId": "bc3hzxuyyy",
   "parentRowSpace": 10,
-  "placeholderText": "Select option(s)",
+  "placeholderText": "Выберите функционал должности",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 55,
+  "rightColumn": 64,
   "topRow": 59,
   "type": "MULTI_SELECT_TREE_WIDGET",
   "version": 1,

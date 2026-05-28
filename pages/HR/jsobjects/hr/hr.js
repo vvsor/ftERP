@@ -8,12 +8,14 @@ export default {
 			hrActivityAreaRows: [],
 			hrFunctionGroupRows: [],
 			hrFunctionGroupDutyRows: [],
+			hrDutyRows: [],
 			hrPositionRows: [],
 			hrEmployeeRows: [],
 			hrPositionTitleRows: [],
 			hrOfficeTermHistoryRows: [],
 			hrEmployeeOfficeTermHistoryRows: [],
-			hrSelectedFunctionGroupPositionIds: []
+			hrSelectedFunctionGroupPositionIds: [],
+			hrSelectedPositionFunctionGroupIds: []
 		};
 
 		await Promise.all(

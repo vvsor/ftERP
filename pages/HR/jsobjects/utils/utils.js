@@ -383,7 +383,8 @@ export default {
 			utils.getBranches(),
 			utils.getPolicies(),
 			utils.getActivityAreaRows(),
-			utils.getFunctionGroupRows()
+			utils.getFunctionGroupRows(),
+			utils.getDutyRows()
 		]);
 	},
 
@@ -503,6 +504,100 @@ export default {
 
 		if (commitToStore) await storeValue("hrFunctionGroupRows", rows, false);
 		return rows;
+	},
+
+	async getDutyRows({ commitToStore = true } = {}) {
+		const response = await items.getItems({
+			collection: "duties",
+			fields: [
+				"id",
+				"function_group_id.id",
+				"function_group_id.name",
+				"function_group_id.level",
+				"function_group_id.activity_area_id.id",
+				"function_group_id.activity_area_id.name",
+				"position_title_id.id",
+				"position_title_id.title"
+			].join(","),
+			limit: -1
+		});
+
+		const rows = (response.data || []).map((row) => {
+			const functionGroup = row.function_group_id || {};
+			const activityArea = functionGroup.activity_area_id || {};
+			const positionTitle = row.position_title_id || {};
+
+			return {
+				id: row.id,
+				function_group_id: functionGroup?.id ?? row.function_group_id ?? null,
+				function_group_name: functionGroup?.name || "",
+				function_group_level: functionGroup?.level ?? null,
+				activity_area_id: activityArea?.id ?? functionGroup.activity_area_id ?? null,
+				activity_area_name: activityArea?.name || "",
+				position_title_id: positionTitle?.id ?? row.position_title_id ?? null,
+				position_title: positionTitle?.title || ""
+			};
+		});
+
+		if (commitToStore) await storeValue("hrDutyRows", rows, false);
+		return rows;
+	},
+
+	getFunctionGroupTreeOptions() {
+		const rows = Array.isArray(appsmith.store?.hrFunctionGroupRows) ? appsmith.store.hrFunctionGroupRows : [];
+		const areas = new Map();
+
+		for (const row of rows) {
+			const areaKey = row.activity_area_id ? String(row.activity_area_id) : "__empty__";
+			if (!areas.has(areaKey)) {
+				areas.set(areaKey, {
+					label: row.activity_area_name || "Без направления",
+					value: `area:${areaKey}`,
+					children: []
+				});
+			}
+
+			areas.get(areaKey).children.push({
+				label: row.name || row.id,
+				value: row.id
+			});
+		}
+
+		return [...areas.values()].map((area) => ({
+			...area,
+			children: area.children.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")))
+		}));
+	},
+
+	getSelectedPositionFunctionGroupIds(positionTitleIdParam = null) {
+		const positionTitleId = positionTitleIdParam || appsmith.store?.hrSelectedPosition?.position_title_id || null;
+		const rows = Array.isArray(appsmith.store?.hrDutyRows) ? appsmith.store.hrDutyRows : [];
+		if (!positionTitleId) return [];
+
+		return [...new Set(
+			rows
+			.filter((row) => String(row.position_title_id || "") === String(positionTitleId))
+			.map((row) => row.function_group_id)
+			.filter(Boolean)
+		)];
+	},
+
+	async refreshSelectedPositionFunctionals(positionTitleIdParam = null) {
+		const positionTitleId = positionTitleIdParam || appsmith.store?.hrSelectedPosition?.position_title_id || null;
+		if (!positionTitleId) {
+			await storeValue("hrSelectedPositionFunctionGroupIds", [], false);
+			resetWidget("mts_areasFunctional", true);
+			return [];
+		}
+
+		if (!Array.isArray(appsmith.store?.hrDutyRows) || appsmith.store.hrDutyRows.length === 0) {
+			await utils.getDutyRows();
+		}
+
+		const ids = utils.getSelectedPositionFunctionGroupIds(positionTitleId);
+		await storeValue("hrSelectedPositionFunctionGroupIds", ids, false);
+		resetWidget("mts_areasFunctional", true);
+		return ids;
 	},
 
 	async getFunctionGroupDutyRows(functionGroupIdParam = null, { commitToStore = true } = {}) {

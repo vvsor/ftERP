@@ -10,6 +10,16 @@ export default {
 		return rows.filter((row) => String(row.activity_area_id || "") === String(activityAreaId));
 	},
 
+	getNextFunctionGroupLevel(activityAreaId) {
+		const rows = Array.isArray(appsmith.store?.hrFunctionGroupRows) ? appsmith.store.hrFunctionGroupRows : [];
+		const levels = rows
+		.filter((row) => String(row.activity_area_id || "") === String(activityAreaId || ""))
+		.map((row) => Number(row.level))
+		.filter(Number.isFinite);
+
+		return levels.length ? Math.max(...levels) + 1 : 1;
+	},
+
 	async refreshFunctionGroupsPage({ keepSelection = true } = {}) {
 		await Promise.all([
 			utils.getActivityAreaRows(),
@@ -55,17 +65,13 @@ export default {
 		const activityAreaId = rowActivityAreaId || sel_activityArea.selectedOptionValue || appsmith.store?.hrSelectedActivityAreaId || null;
 		const rawLevel = row?.level;
 		const hasLevel = rawLevel !== undefined && rawLevel !== null && String(rawLevel).trim() !== "";
-		const level = hasLevel ? Number(rawLevel) : NaN;
+		const level = hasLevel ? Number(rawLevel) : hrDictionaries.getNextFunctionGroupLevel(activityAreaId);
 
 		const body = {
 			name: row?.name?.trim?.() || "",
 			activity_area_id: activityAreaId,
 			level
 		};
-
-		if (Object.prototype.hasOwnProperty.call(row, "description")) {
-			body.description = row.description || "";
-		}
 
 		if (!body.name) return showAlert("Укажите название функционала", "warning");
 		if (!body.activity_area_id) return showAlert("Выберите направление деятельности", "warning");
@@ -143,7 +149,9 @@ export default {
 			: Promise.resolve()
 		]);
 
+		await utils.getDutyRows();
 		await utils.getFunctionGroupDutyRows(functionGroupId);
+		await utils.refreshSelectedPositionFunctionals();
 		showAlert("Привязка должностей обновлена", "success");
 	},
 

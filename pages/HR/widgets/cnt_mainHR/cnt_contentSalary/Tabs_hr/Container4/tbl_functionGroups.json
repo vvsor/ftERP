@@ -38,9 +38,10 @@
     "activity_area_id",
     "activity_area_name",
     "level",
-    "description"
+    "description",
+    "EditActions1"
   ],
-  "columnUpdatedAt": 1779894689816,
+  "columnUpdatedAt": 1779961348007,
   "columnWidthMap": {
     "name": 232
   },
@@ -82,6 +83,24 @@
     },
     {
       "key": "primaryColumns.description.computedValue"
+    },
+    {
+      "key": "primaryColumns.EditActions1.saveButtonColor"
+    },
+    {
+      "key": "primaryColumns.EditActions1.saveBorderRadius"
+    },
+    {
+      "key": "primaryColumns.EditActions1.discardBorderRadius"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveDisabled"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.activity_area_id.selectOptions"
     }
   ],
   "dynamicPropertyPathList": [
@@ -93,6 +112,12 @@
     },
     {
       "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isSaveDisabled"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -130,12 +155,52 @@
   "parentId": "eq26kv17xr",
   "parentRowSpace": 10,
   "primaryColumns": {
+    "EditActions1": {
+      "alias": "EditActions1",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "buttonStyle": "rgb(3, 179, 101)",
+      "columnType": "editActions",
+      "computedValue": "",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "discardActionLabel": "Discard",
+      "discardBorderRadius": "{{tbl_functionGroups.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "discardButtonColor": "#F22B2B",
+      "discardButtonVariant": "TERTIARY",
+      "discardIconAlign": "left",
+      "enableFilter": true,
+      "enableSort": true,
+      "id": "EditActions1",
+      "index": 6,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardDisabled": "{{tbl_functionGroups.processedTableData.map((currentRow, currentIndex) => ( !tbl_functionGroups.updatedRowIndices.includes(currentIndex)))}}",
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveDisabled": "{{tbl_functionGroups.processedTableData.map((currentRow, currentIndex) => ( !tbl_functionGroups.updatedRowIndices.includes(currentIndex)))}}",
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "Save / Discard",
+      "notation": "standard",
+      "originalId": "EditActions1",
+      "saveActionLabel": "Save",
+      "saveBorderRadius": "{{tbl_functionGroups.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
+      "saveButtonColor": "{{tbl_functionGroups.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
+      "saveIconAlign": "left",
+      "sticky": "right",
+      "thousandSeparator": true,
+      "validation": {},
+      "width": 150
+    },
     "activity_area_id": {
       "alias": "activity_area_id",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
-      "columnType": "number",
+      "columnType": "select",
       "computedValue": "{{(() => { const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"activity_area_id\"])) : activity_area_id })()}}",
       "currencyCode": "USD",
       "decimals": 0,
@@ -145,17 +210,18 @@
       "horizontalAlignment": "LEFT",
       "id": "activity_area_id",
       "index": 2,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
-      "isVisible": false,
-      "label": "activity_area_id",
+      "isVisible": true,
+      "label": "Направление",
       "notation": "standard",
       "originalId": "activity_area_id",
+      "selectOptions": "{{(() => { const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => { const options = (Array.isArray(appsmith.store?.hrActivityAreaRows) ? appsmith.store.hrActivityAreaRows : []).map((area) => ({ label: area.name, value: area.id })); const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map(() => options) : options; })())) : (() => { const options = (Array.isArray(appsmith.store?.hrActivityAreaRows) ? appsmith.store.hrActivityAreaRows : []).map((area) => ({ label: area.name, value: area.id })); const tableData = tbl_functionGroups.processedTableData || []; return tableData.length > 0 ? tableData.map(() => options) : options; })() })()}}",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
@@ -186,7 +252,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "activity_area_name",
       "notation": "standard",
       "originalId": "activity_area_name",
@@ -281,15 +347,15 @@
       "horizontalAlignment": "LEFT",
       "id": "level",
       "index": 4,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "level",
+      "label": "Сортировка",
       "notation": "standard",
       "originalId": "level",
       "sticky": "",
@@ -315,12 +381,12 @@
       "horizontalAlignment": "LEFT",
       "id": "name",
       "index": 1,
-      "isCellEditable": false,
+      "isCellEditable": true,
       "isCellVisible": true,
       "isDerived": false,
       "isDisabled": false,
       "isDiscardVisible": true,
-      "isEditable": false,
+      "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Функционал",
@@ -330,7 +396,9 @@
       "textColor": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
-      "validation": {},
+      "validation": {
+        "isColumnEditableCellValid": ""
+      },
       "verticalAlignment": "CENTER",
       "width": 150
     }
@@ -339,6 +407,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 29,
   "searchKey": "",
+  "showInlineEditingOptionDropdown": true,
   "tableData": "{{ hrDictionaries.getFilteredFunctionGroupRows() }}",
   "textSize": "0.875rem",
   "topRow": 7,
