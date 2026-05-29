@@ -36,7 +36,7 @@
   "mobileLeftColumn": 2,
   "mobileRightColumn": 18,
   "mobileTopRow": 3,
-  "originalBottomRow": 6,
+  "originalBottomRow": 4,
   "originalTopRow": 0,
   "overflow": "NONE",
   "parentColumnSpace": 12.265625,
@@ -44,7 +44,7 @@
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 24,
+  "rightColumn": 19,
   "searchTags": [
     "typography",
     "paragraph",
@@ -56,7 +56,7 @@
     "Suggested",
     "Content"
   ],
-  "text": "{{(() => {\n\tconst user = appsmith.store?.user;\n\tif (!user) return \"Пользователи. Пользователь неавторизован!\";\n\n\tconst name = utils.formatUserName(user);\n\treturn `HR${name ? `. ${name}` : \"\"}${user.email ? `, ${user.email}` : \"\"}`;\n})()}}",
+  "text": "{{(() => {\n  const currentPageName = String(appsmith.currentPageName || \"\").trim().toLowerCase();\n  const pages = Array.isArray(appsmith.store?.appPages) ? appsmith.store.appPages : [];\n\n  const page = pages.find((item) => {\n    const code = String(item.code || \"\").trim().toLowerCase();\n    const appsmithPage = String(item.appsmith_page || \"\").trim().toLowerCase();\n    return code === currentPageName || appsmithPage === currentPageName;\n  });\n\n  return page?.title || page?.label || page?.text || appsmith.currentPageName || \"\";\n})()}}",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,

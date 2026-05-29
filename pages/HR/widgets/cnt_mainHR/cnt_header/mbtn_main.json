@@ -36,6 +36,9 @@
     },
     {
       "key": "configureMenuItems.config.iconName"
+    },
+    {
+      "key": "label"
     }
   ],
   "dynamicPropertyPathList": [
@@ -81,15 +84,15 @@
       "key": "configureMenuItems.config.onClick"
     }
   ],
-  "iconAlign": "left",
+  "iconAlign": "right",
   "iconName": "menu",
   "isCompact": false,
   "isDisabled": false,
   "isLoading": false,
   "isVisible": true,
   "key": "o2kna0hd2j",
-  "label": "Меню",
-  "leftColumn": 58,
+  "label": "{{(() => {\n  const user = appsmith.store?.user;\n  if (!user) return \"Меню\";\n\n  const name = utils.formatUserName(user);\n  return name || user.email || \"Меню\";\n})()}}",
+  "leftColumn": 55,
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {
     "menuItem2": {
@@ -191,7 +194,7 @@
   "parentColumnSpace": 17.25,
   "parentId": "53yppeplv7",
   "parentRowSpace": 10,
-  "placement": "CENTER",
+  "placement": "BETWEEN",
   "renderMode": "CANVAS",
   "rightColumn": 64,
   "sourceData": "{{nav.menuItems(\"hr\")}}",
