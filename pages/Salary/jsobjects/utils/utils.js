@@ -205,7 +205,7 @@ export default {
 		const paymentAccountIds = salaryAccounts.getAllowedBranchAccountIds(accountAccessRows, "payments_access", ["read", "write"]);
 
 		const [accrualsBySalaryId, paymentsBySalaryId] = await Promise.all([
-			чutils.getAccrualsBySalaryId(salaryIds, accrualAccountIds),
+			utils.getAccrualsBySalaryId(salaryIds, accrualAccountIds),
 			utils.getPaymentsBySalaryId(salaryIds, paymentAccountIds)
 		]);
 
