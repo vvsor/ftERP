@@ -90,13 +90,13 @@
       "key": "primaryColumns.EditActions1.isSaveDisabled"
     },
     {
-      "key": "primaryColumns.EditActions1.isDiscardDisabled"
-    },
-    {
       "key": "primaryColumns.EditActions1.onSave"
     },
     {
       "key": "onAddNewRowSave"
+    },
+    {
+      "key": "primaryColumns.EditActions1.isDiscardDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -119,7 +119,7 @@
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
-  "isVisibleDownload": true,
+  "isVisibleDownload": false,
   "isVisibleFilters": true,
   "isVisiblePagination": false,
   "isVisibleSearch": true,
@@ -160,10 +160,10 @@
       "isCellVisible": true,
       "isDerived": true,
       "isDisabled": false,
-      "isDiscardDisabled": "{{tbl_cities.processedTableData.map((currentRow, currentIndex) => ( !tbl_cities.updatedRowIndices.includes(currentIndex)))}}",
+      "isDiscardDisabled": "{{(() => { const tableData = tbl_cities.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (!(tbl_cities.updatedRowIndices || []).includes(currentIndex))) : !(tbl_cities.updatedRowIndices || []).includes(currentIndex) })()}}",
       "isDiscardVisible": true,
       "isEditable": false,
-      "isSaveDisabled": "{{tbl_cities.processedTableData.map((currentRow, currentIndex) => ( !tbl_cities.updatedRowIndices.includes(currentIndex)))}}",
+      "isSaveDisabled": "{{(() => { const tableData = tbl_cities.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (!(tbl_cities.updatedRowIndices || []).includes(currentIndex))) : !(tbl_cities.updatedRowIndices || []).includes(currentIndex) })()}}",
       "isSaveVisible": true,
       "isVisible": true,
       "label": "Save / Discard",
