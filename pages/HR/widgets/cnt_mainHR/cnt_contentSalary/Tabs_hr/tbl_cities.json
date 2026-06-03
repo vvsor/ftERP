@@ -136,7 +136,7 @@
   "parentColumnSpace": 3.264190673828125,
   "parentId": "ex8g7sr7rh",
   "parentRowSpace": 10,
-  "primaryColumnId": "name",
+  "primaryColumnId": "id",
   "primaryColumns": {
     "EditActions1": {
       "alias": "EditActions1",
