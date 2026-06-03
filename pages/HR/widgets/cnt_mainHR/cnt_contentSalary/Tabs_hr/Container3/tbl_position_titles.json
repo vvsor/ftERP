@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 67,
+  "bottomRow": 68,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -37,7 +37,7 @@
     "title",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1778757327830,
+  "columnUpdatedAt": 1780498134852,
   "columnWidthMap": {
     "id": 146,
     "title": 317
@@ -100,6 +100,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "onRowSelected"
     }
   ],
   "dynamicTriggerPathList": [
@@ -108,6 +111,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
+    },
+    {
+      "key": "onRowSelected"
     }
   ],
   "enableClientSideSearch": true,
@@ -118,9 +124,9 @@
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
-  "isVisibleDownload": true,
+  "isVisibleDownload": false,
   "isVisibleFilters": false,
-  "isVisiblePagination": true,
+  "isVisiblePagination": false,
   "isVisibleSearch": true,
   "key": "kb8ez9pn6z",
   "label": "Data",
@@ -132,6 +138,7 @@
   "mobileTopRow": 1,
   "needsErrorInfo": false,
   "onAddNewRowSave": "{{hrDictionaries.savePositionTitleRow(tbl_position_titles.newRow);}}",
+  "onRowSelected": "{{hrDictionaries.tbl_position_titles_onRowSelected(tbl_position_titles.selectedRow);}}",
   "parentColumnSpace": 3.264190673828125,
   "parentId": "6n0sbv1t20",
   "parentRowSpace": 10,
@@ -250,8 +257,9 @@
   },
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 64,
+  "rightColumn": 32,
   "searchKey": "",
+  "serverSidePaginationEnabled": true,
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(appsmith.store?.hrPositionTitleRows) ? appsmith.store.hrPositionTitleRows : [] }}",
   "textSize": "0.875rem",

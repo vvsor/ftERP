@@ -98,6 +98,84 @@ export default {
 		showAlert("Функционал сохранен", "success");
 	},
 
+	async tbl_position_titles_onRowSelected(rowParam = null) {
+		const row = rowParam || tbl_position_titles.selectedRow;
+		const selected = row?.id ? row : null;
+		await storeValue("hrSelectedPositionTitle", selected, true);
+		await utils.refreshSelectedPositionTitleFunctionals(selected?.id || null);
+	},
+
+	syncPositionTitleFunctionGroups: async (selectedValuesParam = null) => {
+		const positionTitleId = appsmith.store?.hrSelectedPositionTitle?.id || tbl_position_titles.selectedRow?.id || null;
+		if (!positionTitleId) return showAlert("Выберите должность", "warning");
+
+		const selectedValues =
+					selectedValuesParam ??
+					(typeof mts_positionTitleFunctionals !== "undefined" ? mts_positionTitleFunctionals.selectedOptionValues : []) ??
+					[];
+
+		const selectedIds = [];
+		const selectedKeys = new Set();
+
+		for (const value of selectedValues || []) {
+			if (value === null || value === undefined || value === "") continue;
+			if (String(value).startsWith("area:")) continue;
+
+			const normalized = Number.isFinite(Number(value)) ? Number(value) : value;
+			const key = String(normalized);
+			if (selectedKeys.has(key)) continue;
+			selectedKeys.add(key);
+			selectedIds.push(normalized);
+		}
+
+		const currentRows = await utils.getDutyRows({ commitToStore: false });
+		const currentPositionRows = currentRows.filter((row) => String(row.position_title_id || "") === String(positionTitleId));
+		const currentByFunctionGroupId = {};
+		const duplicateIds = [];
+
+		for (const row of currentPositionRows) {
+			const key = String(row.function_group_id || "");
+			if (!key) continue;
+			if (currentByFunctionGroupId[key]) duplicateIds.push(row.id);
+			else currentByFunctionGroupId[key] = row;
+		}
+
+		const toCreate = selectedIds.filter((functionGroupId) => !currentByFunctionGroupId[String(functionGroupId)]);
+		const toDeleteIds = [...new Set([
+			...currentPositionRows.filter((row) => !selectedKeys.has(String(row.function_group_id))).map((row) => row.id),
+			...duplicateIds
+		].filter(Boolean))];
+
+		if (!toCreate.length && !toDeleteIds.length) {
+			await utils.refreshSelectedPositionTitleFunctionals(positionTitleId);
+			return;
+		}
+
+		if (toCreate.length) {
+			await items.createItems({
+				collection: "duties",
+				body: toCreate.map((functionGroupId) => ({
+					function_group_id: functionGroupId,
+					position_title_id: positionTitleId
+				}))
+			});
+		}
+
+		if (toDeleteIds.length) {
+			await items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } });
+		}
+
+		await utils.getDutyRows();
+		await utils.refreshSelectedPositionTitleFunctionals(positionTitleId);
+		if (String(appsmith.store?.hrSelectedPosition?.position_title_id || "") === String(positionTitleId)) {
+			await utils.refreshSelectedPositionFunctionals(positionTitleId);
+		}
+		if (appsmith.store?.hrSelectedFunctionGroup?.id) {
+			await utils.getFunctionGroupDutyRows(appsmith.store.hrSelectedFunctionGroup.id);
+		}
+		showAlert("Обязанности должности обновлены", "success");
+	},
+
 	syncFunctionGroupPositions: async (selectedValuesParam = null, mode = "functionGroup") => {
 		const requestedValues = [
 			...(

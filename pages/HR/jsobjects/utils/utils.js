@@ -582,6 +582,97 @@ export default {
 		)];
 	},
 
+	getSelectedPositionTitleId(positionTitleIdParam = null) {
+		return positionTitleIdParam || appsmith.store?.hrSelectedPositionTitle?.id || tbl_position_titles.selectedRow?.id || null;
+	},
+
+	getSelectedPositionTitleFunctionGroupIds(positionTitleIdParam = null) {
+		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
+		const rows = Array.isArray(appsmith.store?.hrDutyRows) ? appsmith.store.hrDutyRows : [];
+		if (!positionTitleId) return [];
+
+		return [...new Set(
+			rows
+			.filter((row) => String(row.position_title_id || "") === String(positionTitleId))
+			.map((row) => row.function_group_id)
+			.filter(Boolean)
+		)];
+	},
+
+	getSelectedPositionTitleDutyRows(positionTitleIdParam = null) {
+		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
+		const dutyRows = Array.isArray(appsmith.store?.hrDutyRows) ? appsmith.store.hrDutyRows : [];
+		const functionGroupRows = Array.isArray(appsmith.store?.hrFunctionGroupRows) ? appsmith.store.hrFunctionGroupRows : [];
+		const functionGroupsById = new Map(functionGroupRows.map((row) => [String(row.id), row]));
+		const sortLevel = (value) => Number.isFinite(Number(value)) ? Number(value) : 999999;
+		const seen = new Set();
+
+		if (!positionTitleId) return [];
+
+		return dutyRows
+			.filter((row) => String(row.position_title_id || "") === String(positionTitleId))
+			.filter((row) => {
+			const key = String(row.function_group_id || "");
+			if (!key || seen.has(key)) return false;
+			seen.add(key);
+			return true;
+		})
+			.map((row) => {
+			const functionGroup = functionGroupsById.get(String(row.function_group_id || "")) || {};
+			return {
+				activity_area_name: row.activity_area_name || functionGroup.activity_area_name || "Без направления",
+				function_group_id: row.function_group_id,
+				function_group_name: row.function_group_name || functionGroup.name || "",
+				function_group_level: sortLevel(row.function_group_level ?? functionGroup.level),
+				description: functionGroup.description || ""
+			};
+		})
+			.sort((a, b) =>
+						String(a.activity_area_name || "").localeCompare(String(b.activity_area_name || "")) ||
+						a.function_group_level - b.function_group_level ||
+						String(a.function_group_name || "").localeCompare(String(b.function_group_name || ""))
+					 );
+	},
+
+	getSelectedPositionTitleDutiesText(positionTitleIdParam = null) {
+		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
+		const rows = utils.getSelectedPositionTitleDutyRows(positionTitleId);
+		if (!positionTitleId) return "Выберите должность";
+		if (!rows.length) return "Обязанности не привязаны";
+
+		const areas = new Map();
+		for (const row of rows) {
+			const areaName = row.activity_area_name || "Без направления";
+			if (!areas.has(areaName)) areas.set(areaName, []);
+			areas.get(areaName).push(row);
+		}
+
+		return [...areas.entries()]
+			.map(([areaName, areaRows]) => [
+			areaName,
+			...areaRows.map((row) => `  ${row.function_group_name}`)
+		].join("\n"))
+			.join("\n\n");
+	},
+
+	async refreshSelectedPositionTitleFunctionals(positionTitleIdParam = null) {
+		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
+		if (!positionTitleId) {
+			await storeValue("hrSelectedPositionTitleFunctionGroupIds", [], false);
+			if (typeof mts_positionTitleFunctionals !== "undefined") resetWidget("mts_positionTitleFunctionals", true);
+			return [];
+		}
+
+		if (!Array.isArray(appsmith.store?.hrDutyRows) || appsmith.store.hrDutyRows.length === 0) {
+			await utils.getDutyRows();
+		}
+
+		const ids = utils.getSelectedPositionTitleFunctionGroupIds(positionTitleId);
+		await storeValue("hrSelectedPositionTitleFunctionGroupIds", ids, false);
+		if (typeof mts_positionTitleFunctionals !== "undefined") resetWidget("mts_positionTitleFunctionals", true);
+		return ids;
+	},
+
 	escapeHtml(value = "") {
 		return String(value ?? "")
 			.replace(/&/g, "&amp;")

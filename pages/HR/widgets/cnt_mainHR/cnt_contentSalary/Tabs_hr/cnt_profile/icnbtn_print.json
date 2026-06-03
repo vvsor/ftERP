@@ -1,11 +1,10 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 75,
+  "bottomRow": 12,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonVariant": "PRIMARY",
-  "disabledWhenInvalid": false,
   "dynamicBindingPathList": [
     {
       "key": "buttonColor"
@@ -14,39 +13,40 @@
       "key": "borderRadius"
     }
   ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "dynamicTriggerPathList": [
     {
       "key": "onClick"
     }
   ],
-  "isDefaultClickDisabled": true,
+  "iconName": "print",
   "isDisabled": false,
   "isLoading": false,
   "isVisible": true,
-  "key": "7g3dwpynk6",
-  "leftColumn": 55,
-  "minWidth": 120,
-  "mobileBottomRow": 74,
-  "mobileLeftColumn": 46,
-  "mobileRightColumn": 62,
-  "mobileTopRow": 70,
+  "key": "4m20c9cjku",
+  "leftColumn": 57,
+  "minWidth": 50,
+  "mobileBottomRow": 11,
+  "mobileLeftColumn": 57,
+  "mobileRightColumn": 61,
+  "mobileTopRow": 7,
   "needsErrorInfo": false,
   "onClick": "{{showModal(mdl_duties.name);}}",
-  "originalBottomRow": 75,
-  "originalTopRow": 71,
-  "parentColumnSpace": 16.625,
-  "parentId": "bc3hzxuyyy",
+  "originalBottomRow": 11,
+  "originalTopRow": 7,
+  "parentColumnSpace": 7.48046875,
+  "parentId": "qea5e6g59l",
   "parentRowSpace": 10,
-  "placement": "CENTER",
-  "recaptchaType": "V3",
   "renderMode": "CANVAS",
-  "resetFormOnClick": false,
   "responsiveBehavior": "hug",
-  "rightColumn": 64,
-  "text": "Печать",
-  "topRow": 71,
-  "type": "BUTTON_WIDGET",
+  "rightColumn": 61,
+  "topRow": 8,
+  "type": "ICON_BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "a51r1j2dsc",
-  "widgetName": "btn_printFunctional"
+  "widgetId": "hd0nkkqz98",
+  "widgetName": "icnbtn_print"
 }

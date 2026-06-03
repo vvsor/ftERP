@@ -1,0 +1,82 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "allowClear": false,
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 12,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ appsmith.store?.hrSelectedPositionTitleFunctionGroupIds || [] }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "options"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "onDropdownClose"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    },
+    {
+      "key": "onDropdownClose"
+    }
+  ],
+  "expandAll": true,
+  "isDisabled": "{{ !appsmith.store?.hrSelectedPositionTitle?.id }}",
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "2z9ww17ihu",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Функционал позиции",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 32,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 66,
+  "mobileLeftColumn": 35,
+  "mobileRightColumn": 55,
+  "mobileTopRow": 59,
+  "mode": "SHOW_CHILD",
+  "needsErrorInfo": false,
+  "onDropdownClose": "{{hrDictionaries.syncPositionTitleFunctionGroups(mts_positionTitleFunctionals.selectedOptionValues);}}",
+  "onOptionChange": "",
+  "options": "{{ utils.getFunctionGroupTreeOptions() }}",
+  "originalBottomRow": 75,
+  "originalTopRow": 68,
+  "parentColumnSpace": 16.625,
+  "parentId": "6n0sbv1t20",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите функционал должности",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 60,
+  "shouldScrollContents": true,
+  "topRow": 5,
+  "type": "MULTI_SELECT_TREE_WIDGET",
+  "version": 1,
+  "widgetId": "qux4bc4sbf",
+  "widgetName": "mts_positionTitleFunctionals"
+}

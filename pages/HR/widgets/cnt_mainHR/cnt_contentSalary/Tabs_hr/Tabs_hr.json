@@ -10,7 +10,7 @@
   "children": [
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 760,
+      "bottomRow": 770,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -326,7 +326,7 @@
       "widgetName": "Canvas44"
     }
   ],
-  "defaultTab": "",
+  "defaultTab": "Название должностей",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
