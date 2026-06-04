@@ -5,7 +5,6 @@ export default {
 		const [usersRes, officeTerms] = await Promise.all([
 			items.getUsers({
 				fields: "id,first_name,last_name,middle_name,email,status,role.id,role.name,policies.id,policies.policy.id,policies.policy.name",
-				// filter: { role: { name: { _in: ["Employees", "Employee with AppSmith"] } } },
 				limit: -1
 			}),
 			Array.isArray(appsmith.store?.hrCurrentOfficeTerms)
@@ -63,6 +62,40 @@ export default {
 		}).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
 
 		if (commitToStore) await storeValue("hrEmployeeRows", rows, false);
+		return rows;
+	},
+
+	async getPolicies({ commitToStore = true } = {}) {
+		const response = await items.getPolicies({
+			fields: "id,name",
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.map((policy) => ({
+			label: policy.name || policy.id,
+			value: policy.id
+		}))
+		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
+
+		if (commitToStore) await storeValue("hrPolicyOptions", rows, false);
+		return rows;
+	},
+
+	async getRoles({ commitToStore = true } = {}) {
+		const response = await items.getRoles({
+			fields: "id,name",
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.map((role) => ({
+			label: role.name || role.id,
+			value: role.id
+		}))
+		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
+
+		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
 		return rows;
 	},
 

@@ -30,40 +30,6 @@ export default {
 		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
 	},
 
-	async getPolicies({ commitToStore = true } = {}) {
-		const response = await items.getPolicies({
-			fields: "id,name",
-			limit: -1
-		});
-
-		const rows = (response.data || [])
-		.map((policy) => ({
-			label: policy.name || policy.id,
-			value: policy.id
-		}))
-		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
-
-		if (commitToStore) await storeValue("hrPolicyOptions", rows, false);
-		return rows;
-	},
-
-	async getRoles({ commitToStore = true } = {}) {
-		const response = await items.getRoles({
-			fields: "id,name",
-			limit: -1
-		});
-
-		const rows = (response.data || [])
-		.map((role) => ({
-			label: role.name || role.id,
-			value: role.id
-		}))
-		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
-
-		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
-		return rows;
-	},
-
 	formatRoleName(role) {
 		const value = role?.id ?? role ?? "";
 		const name = role?.name || role?.label || "";
@@ -75,11 +41,11 @@ export default {
 
 	async loadDictionaries() {
 		await Promise.all([
-			utils.getRoles(),
+			hrEmployees.getRoles(),
 			utils.getPositionTitleRows(),
 			utils.getCityRows(),
 			utils.getBranches(),
-			utils.getPolicies(),
+			hrEmployees.getPolicies(),
 			utils.getActivityAreaRows(),
 			utils.getFunctionGroupRows(),
 			utils.getDutyRows()
