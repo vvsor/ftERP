@@ -99,14 +99,13 @@ export default {
 	},
 
 	async tbl_position_titles_onRowSelected(rowParam = null) {
-		const row = rowParam || tbl_position_titles.selectedRow;
-		const selected = row?.id ? row : null;
+		const selected = rowParam?.id ? rowParam : null;
 		await storeValue("hrSelectedPositionTitle", selected, true);
 		await utils.refreshSelectedPositionTitleFunctionals(selected?.id || null);
 	},
 
 	syncPositionTitleFunctionGroups: async (selectedValuesParam = null) => {
-		const positionTitleId = appsmith.store?.hrSelectedPositionTitle?.id || tbl_position_titles.selectedRow?.id || null;
+		const positionTitleId = appsmith.store?.hrSelectedPositionTitle?.id ?? null;
 		if (!positionTitleId) return showAlert("Выберите должность", "warning");
 
 		const selectedValues =

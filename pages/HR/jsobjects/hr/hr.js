@@ -15,7 +15,8 @@ export default {
 			hrOfficeTermHistoryRows: [],
 			hrEmployeeOfficeTermHistoryRows: [],
 			hrSelectedFunctionGroupPositionIds: [],
-			hrSelectedPositionFunctionGroupIds: []
+			hrSelectedPositionFunctionGroupIds: [],
+			hrSelectedPositionTitleFunctionGroupIds: []
 		};
 
 		await Promise.all(
@@ -30,6 +31,10 @@ export default {
 
 		if (appsmith.store?.hrSelectedFunctionGroup === undefined) {
 			await storeValue("hrSelectedFunctionGroup", null, true);
+		}
+
+		if (appsmith.store?.hrSelectedPositionTitle === undefined) {
+			await storeValue("hrSelectedPositionTitle", null, true);
 		}
 	},
 

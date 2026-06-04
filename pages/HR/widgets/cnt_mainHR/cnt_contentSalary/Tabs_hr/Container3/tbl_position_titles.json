@@ -189,7 +189,7 @@
       "width": 150
     },
     "customColumn1": {
-      "alias": "duties_preview",
+      "alias": "Обязанности",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "buttonStyle": "rgb(3, 179, 101)",
@@ -210,7 +210,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "customColumn1",
+      "label": "Обязанности",
       "labelColor": "#FFFFFF",
       "notation": "standard",
       "originalId": "customColumn1",

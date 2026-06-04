@@ -583,7 +583,7 @@ export default {
 	},
 
 	getSelectedPositionTitleId(positionTitleIdParam = null) {
-		return positionTitleIdParam || appsmith.store?.hrSelectedPositionTitle?.id || tbl_position_titles.selectedRow?.id || null;
+		return positionTitleIdParam ?? appsmith.store?.hrSelectedPositionTitle?.id ?? null;
 	},
 
 	getSelectedPositionTitleFunctionGroupIds(positionTitleIdParam = null) {
@@ -655,14 +655,13 @@ export default {
 			.join("\n\n");
 	},
 
-		getSelectedPositionTitleDutiesHtml(positionTitleIdParam = null) {
+	getSelectedPositionTitleDutiesHtml(positionTitleIdParam = null) {
 		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
 		const positionTitleRows = Array.isArray(appsmith.store?.hrPositionTitleRows) ? appsmith.store.hrPositionTitleRows : [];
 		const selectedTitle =
-			positionTitleRows.find((row) => String(row.id) === String(positionTitleId || "")) ||
-			appsmith.store?.hrSelectedPositionTitle ||
-			tbl_position_titles.selectedRow ||
-			{};
+					positionTitleRows.find((row) => String(row.id) === String(positionTitleId || "")) ||
+					appsmith.store?.hrSelectedPositionTitle ||
+					{};
 		const title = selectedTitle.title || "Должность не выбрана";
 		const rows = utils.getSelectedPositionTitleDutyRows(positionTitleId);
 		const areas = new Map();
@@ -674,23 +673,23 @@ export default {
 		}
 
 		const content = !positionTitleId
-			? '<p class="empty">Выберите должность.</p>'
-			: rows.length
-			? [...areas.entries()].map(([areaName, areaRows]) => `
+		? '<p class="empty">Выберите должность.</p>'
+		: rows.length
+		? [...areas.entries()].map(([areaName, areaRows]) => `
 				<section class="area">
 					<div class="area-title">${utils.escapeHtml(areaName)}</div>
 					${areaRows.map((row) => {
-						const descriptionHtml = String(row.description || "").trim() || '<p class="empty">Описание не заполнено.</p>';
-						return `
+			const descriptionHtml = String(row.description || "").trim() || '<p class="empty">Описание не заполнено.</p>';
+			return `
 							<article class="functional">
 								<div class="functional-title">${utils.escapeHtml(row.function_group_name)}</div>
 								<div class="description">${descriptionHtml}</div>
 							</article>
 						`;
-					}).join("")}
+		}).join("")}
 				</section>
 			`).join("")
-			: '<p class="empty">Для должности функционал не привязан.</p>';
+		: '<p class="empty">Для должности функционал не привязан.</p>';
 
 		return `
 			<!doctype html>
@@ -728,12 +727,12 @@ export default {
 	getDutiesModalHtml() {
 		return appsmith.store?.hrDutiesModalMode === "positionTitle"
 			? utils.getSelectedPositionTitleDutiesHtml()
-			: utils.getCurrentPositionDutiesHtml();
+		: utils.getCurrentPositionDutiesHtml();
 	},
 
 	getDutiesModalTitle() {
 		if (appsmith.store?.hrDutiesModalMode === "positionTitle") {
-			const title = appsmith.store?.hrSelectedPositionTitle?.title || tbl_position_titles.selectedRow?.title || "Должность не выбрана";
+			const title = appsmith.store?.hrSelectedPositionTitle?.title || "Должность не выбрана";
 			return `Должность: ${title}`;
 		}
 
@@ -742,7 +741,7 @@ export default {
 		const branch = position.branch_name || "Подразделение не указано";
 		return `Должность: ${title}\nПодразделение: ${branch}`;
 	},
-	
+
 	async refreshSelectedPositionTitleFunctionals(positionTitleIdParam = null) {
 		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
 		if (!positionTitleId) {

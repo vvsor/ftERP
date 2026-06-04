@@ -3,7 +3,7 @@
   "allowClear": false,
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 15,
+  "bottomRow": 12,
   "boxShadow": "none",
   "defaultOptionValue": "{{ appsmith.store?.hrSelectedPositionTitleFunctionGroupIds || [] }}",
   "dynamicBindingPathList": [
@@ -74,7 +74,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 60,
   "shouldScrollContents": true,
-  "topRow": 8,
+  "topRow": 5,
   "type": "MULTI_SELECT_TREE_WIDGET",
   "version": 1,
   "widgetId": "qux4bc4sbf",
