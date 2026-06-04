@@ -22,23 +22,6 @@ export default {
 		return rows;
 	},
 
-	formatUserName(user) {
-		if (!user) return "";
-		const last = user.last_name || "";
-		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
-		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
-		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
-	},
-
-	formatRoleName(role) {
-		const value = role?.id ?? role ?? "";
-		const name = role?.name || role?.label || "";
-		if (name) return name;
-
-		const options = Array.isArray(appsmith.store?.hrRoleOptions) ? appsmith.store.hrRoleOptions : [];
-		return options.find((item) => String(item.value) === String(value))?.label || value || "";
-	},
-
 	async loadDictionaries() {
 		await Promise.all([
 			hrEmployees.getRoles(),

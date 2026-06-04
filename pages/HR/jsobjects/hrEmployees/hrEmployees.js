@@ -39,13 +39,13 @@ export default {
 			return {
 				id: user.id,
 				user_id: user.id,
-				employee: utils.formatUserName(user),
+				employee: hrEmployees.formatUserName(user),
 				first_name: user.first_name || "",
 				last_name: user.last_name || "",
 				middle_name: user.middle_name || "",
 				email: user.email || "",
 				role: roleId,
-				role_label: utils.formatRoleName(user.role),
+				role_label: hrEmployees.formatRoleName(user.role),
 				title: titles.join(", "),
 				branch_name: branches.join(", "),
 				office_term_ids: terms.map((term) => term.id),
@@ -97,6 +97,23 @@ export default {
 
 		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
 		return rows;
+	},
+
+	formatUserName(user) {
+		if (!user) return "";
+		const last = user.last_name || "";
+		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
+		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
+		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
+	},
+
+	formatRoleName(role) {
+		const value = role?.id ?? role ?? "";
+		const name = role?.name || role?.label || "";
+		if (name) return name;
+
+		const options = Array.isArray(appsmith.store?.hrRoleOptions) ? appsmith.store.hrRoleOptions : [];
+		return options.find((item) => String(item.value) === String(value))?.label || value || "";
 	},
 
 	getFilteredEmployeeRows() {

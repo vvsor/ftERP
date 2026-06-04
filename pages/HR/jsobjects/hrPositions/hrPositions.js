@@ -29,7 +29,7 @@ export default {
 			const current = employeeByPositionId[positionId];
 			if (!current || String(term.date_from || "") > String(current.date_from || "")) {
 				employeeByPositionId[positionId] = {
-					employee: utils.formatUserName(user),
+					employee: hrEmployees.formatUserName(user),
 					date_from: term.date_from || ""
 				};
 			}
@@ -95,13 +95,13 @@ export default {
 				employeeByPositionId[positionId] = {
 					office_term_id: row.id,
 					user_id: user.id,
-					employee: utils.formatUserName(user),
+					employee: hrEmployees.formatUserName(user),
 					first_name: user.first_name || "",
 					last_name: user.last_name || "",
 					middle_name: user.middle_name || "",
 					email: user.email || "",
 					role: roleId,
-					role_label: utils.formatRoleName(user.role),
+					role_label: hrEmployees.formatRoleName(user.role),
 					date_from: row.date_from,
 					date_till: row.date_till
 				};

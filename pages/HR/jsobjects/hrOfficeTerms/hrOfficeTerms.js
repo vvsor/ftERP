@@ -106,7 +106,7 @@ export default {
 				id: row.id,
 				office_term_id: row.id,
 				user_id: row?.user_id?.id || userId || null,
-				employee: utils.formatUserName(row?.user_id),
+				employee: hrEmployees.formatUserName(row?.user_id),
 				position_id: position?.id || positionId || null,
 				title: position?.position_title_id?.title || "",
 				branch_id: position?.branch_id?.id || null,
