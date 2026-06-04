@@ -1,6 +1,58 @@
 export default {
 	positionsRefreshPromise: null,
 
+	async getSupervisorPositionOptions({ commitToStore = true } = {}) {
+		const [positionsRes, officeTerms] = await Promise.all([
+			items.getItems({
+				collection: "positions",
+				fields: [
+					"id",
+					"position_title_id.id",
+					"position_title_id.title",
+					"branch_id.id",
+					"branch_id.name",
+					"supervisor_position_id.id"
+				].join(","),
+				limit: -1
+			}),
+			Array.isArray(appsmith.store?.hrCurrentOfficeTerms)
+			? appsmith.store.hrCurrentOfficeTerms
+			: hrOfficeTerms.getCurrentOfficeTerms()
+		]);
+
+		const employeeByPositionId = {};
+		for (const term of officeTerms || []) {
+			const positionId = term?.position_id?.id ?? term?.position_id;
+			const user = term?.user_id;
+			if (!positionId || !user?.id) continue;
+
+			const current = employeeByPositionId[positionId];
+			if (!current || String(term.date_from || "") > String(current.date_from || "")) {
+				employeeByPositionId[positionId] = {
+					employee: utils.formatUserName(user),
+					date_from: term.date_from || ""
+				};
+			}
+		}
+
+		const options = (positionsRes.data || [])
+		.map((position) => {
+			const id = position.id;
+			const title = position.position_title_id?.title || "";
+			const branch = position.branch_id?.name || "";
+			const employee = employeeByPositionId[id]?.employee || "";
+
+			return {
+				label: [branch, title, employee ? `(${employee})` : ""].filter(Boolean).join(" - "),
+				value: id
+			};
+		})
+		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
+
+		if (commitToStore) await storeValue("hrSupervisorPositionOptions", options, false);
+		return options;
+	},
+
 	getSelectedPositionRowIndex() {
 		const rows = tbl_positions.tableData || [];
 		const selectedId = appsmith.store?.hrSelectedPosition?.id;
@@ -109,7 +161,7 @@ export default {
 		};
 
 		await Promise.all([
-			utils.getSupervisorPositionOptions(),
+			this.getSupervisorPositionOptions(),
 			utils.getEmployees()
 		]);
 		await storeValue("hrPositionModalMode", isEdit ? "edit" : "add", true);

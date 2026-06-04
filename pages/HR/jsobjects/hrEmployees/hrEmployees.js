@@ -88,7 +88,7 @@ export default {
 			policy_links: sourceRow.policy_links || []
 		} : null;
 
-		await utils.getSupervisorPositionOptions();
+		await hrPositions.getSupervisorPositionOptions();
 		await storeValue("hrEmployeeModalMode", isEdit ? "edit" : "add", true);
 		await storeValue("hrSelectedEmployee", employee, true);
 
