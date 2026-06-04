@@ -70,7 +70,7 @@ export default {
 			const selectedBranchId = appsmith.store?.hrSelectedBranchId ?? "";
 			await hrPositions.refreshHrBranch(selectedBranchId, { keepSelection: false });
 
-			const employeeRows = await utils.getEmployees();
+			const employeeRows = await hrEmployees.getEmployees();
 			await hrEmployees.refreshSelectedEmployeeHistory(null, employeeRows);
 		} catch (error) {
 			if (error?.authHandled) return;

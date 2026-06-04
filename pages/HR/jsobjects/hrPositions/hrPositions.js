@@ -258,7 +258,7 @@ export default {
 
 		await Promise.all([
 			this.getSupervisorPositionOptions(),
-			utils.getEmployees()
+			hrEmployees.getEmployees()
 		]);
 		await storeValue("hrPositionModalMode", isEdit ? "edit" : "add", true);
 		await storeValue("hrSelectedPositionDraft", position, true);
