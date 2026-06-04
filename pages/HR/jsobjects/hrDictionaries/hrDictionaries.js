@@ -23,15 +23,6 @@ export default {
 		return levels.length ? Math.max(...levels) + 1 : 1;
 	},
 
-	async refreshFunctionGroupsPage({ keepSelection = true } = {}) {
-		await Promise.all([
-			utils.getActivityAreaRows(),
-			utils.getPositionTitleRows(),
-			utils.getFunctionGroupRows()
-		]);
-		return await hrDictionaries.ensureFunctionGroupSelection({ keepSelection });
-	},
-
 	async onActivityAreaChanged() {
 		await storeValue("hrSelectedActivityAreaId", sel_activityArea.selectedOptionValue || "", true);
 		await hrDictionaries.ensureFunctionGroupSelection({ keepSelection: false });

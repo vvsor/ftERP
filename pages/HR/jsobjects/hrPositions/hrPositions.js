@@ -66,8 +66,13 @@ export default {
 		this.positionsRefreshPromise = (async () => {
 			await storeValue("hrPositionsRefreshing", true, false);
 			try {
-				await utils.loadDictionaries();
-				await utils.getCurrentOfficeTerms();
+				await Promise.all([
+					utils.getPositionTitleRows(),
+					utils.getBranches(),
+					utils.getFunctionGroupRows(),
+					utils.getDutyRows(),
+					utils.getCurrentOfficeTerms()
+				]);
 
 				const branchId = sel_chooseBranch.selectedOptionValue ?? appsmith.store?.hrSelectedBranchId ?? "";
 				await this.refreshHrBranch(branchId);
@@ -196,14 +201,6 @@ export default {
 				collection: "positions",
 				body: { keys: [selectedPosition.id], data: body }
 			});
-			if (employeeId) {
-				await hrOfficeTerms.createOfficeTermAssignment({
-					user_id: employeeId,
-					position_id: savedPositionId,
-					date_from: assignmentStartDate
-				});
-				assignmentCreated = true;
-			}
 		} else {
 			const createdPosition = await items.createItems({ collection: "positions", body });
 			savedPositionId = hrOfficeTerms.getCreatedRecordId(createdPosition);

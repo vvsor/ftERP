@@ -342,11 +342,8 @@ export default {
 	},
 
 	async getRoles({ commitToStore = true } = {}) {
-		// const allowedRoleNames = ["Employees", "Employee with AppSmith"];
-
 		const response = await items.getRoles({
 			fields: "id,name",
-			// filter: { name: { _in: allowedRoleNames } },
 			limit: -1
 		});
 
@@ -355,11 +352,7 @@ export default {
 			label: role.name || role.id,
 			value: role.id
 		}))
-		// .sort((a, b) => {
-			// const aIndex = allowedRoleNames.indexOf(a.label);
-			// const bIndex = allowedRoleNames.indexOf(b.label);
-			// return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
-		// });
+		.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
 
 		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
 		return rows;
@@ -789,10 +782,6 @@ export default {
 			.replace(/>/g, "&gt;")
 			.replace(/"/g, "&quot;")
 			.replace(/'/g, "&#039;");
-	},
-
-	getCurrentPositionDutiesIframeSource() {
-		return `data:text/html;charset=utf-8,${encodeURIComponent(utils.getCurrentPositionDutiesHtml())}`;
 	},
 
 	getCurrentPositionDutiesHtml() {
