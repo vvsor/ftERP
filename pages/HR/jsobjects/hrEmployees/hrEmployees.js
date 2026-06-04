@@ -5,7 +5,7 @@ export default {
 		const [usersRes, officeTerms] = await Promise.all([
 			items.getUsers({
 				fields: "id,first_name,last_name,middle_name,email,status,role.id,role.name,policies.id,policies.policy.id,policies.policy.name",
-				filter: { role: { name: { _in: ["Employees", "Employee with AppSmith"] } } },
+				// filter: { role: { name: { _in: ["Employees", "Employee with AppSmith"] } } },
 				limit: -1
 			}),
 			Array.isArray(appsmith.store?.hrCurrentOfficeTerms)
