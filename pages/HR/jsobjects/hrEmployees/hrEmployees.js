@@ -10,19 +10,19 @@ export default {
 
 	async refreshSelectedEmployeeHistory(rowParam = null, employeeRowsParam = null) {
 		const employeeRows = Array.isArray(employeeRowsParam)
-			? employeeRowsParam
-			: (Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : []);
+		? employeeRowsParam
+		: (Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : []);
 		const selectedUserId =
-			rowParam?.user_id ||
-			appsmith.store?.hrSelectedEmployeeRow?.user_id ||
-			tbl_employees.selectedRow?.user_id ||
-			null;
+					rowParam?.user_id ||
+					appsmith.store?.hrSelectedEmployeeRow?.user_id ||
+					tbl_employees.selectedRow?.user_id ||
+					null;
 		const selectedRow =
-			rowParam?.user_id
-				? rowParam
-				: (selectedUserId
-					? employeeRows.find((row) => String(row.user_id) === String(selectedUserId))
-					: null);
+					rowParam?.user_id
+		? rowParam
+		: (selectedUserId
+			 ? employeeRows.find((row) => String(row.user_id) === String(selectedUserId))
+			 : null);
 
 		if (!selectedRow?.user_id) {
 			await storeValue("hrSelectedEmployeeRow", null, true);
@@ -102,40 +102,62 @@ export default {
 
 	normalizeSelectedIds(values = []) {
 		return [...new Set((Array.isArray(values) ? values : [])
-			.map((value) => String(value || "").trim())
-			.filter(Boolean))];
+											 .map((value) => String(value || "").trim())
+											 .filter(Boolean))];
+	},
+
+	getAssignableRoleIds() {
+		return new Set(
+			(Array.isArray(appsmith.store?.hrRoleOptions) ? appsmith.store.hrRoleOptions : [])
+			.map((item) => String(item.value || "").trim())
+			.filter(Boolean)
+		);
+	},
+
+	getAssignablePolicyIds() {
+		return new Set(
+			(Array.isArray(appsmith.store?.hrPolicyOptions) ? appsmith.store.hrPolicyOptions : [])
+			.map((item) => String(item.value || "").trim())
+			.filter(Boolean)
+		);
 	},
 
 	buildPoliciesPayload(userId, selectedPolicyIds = [], existingPolicyLinks = []) {
-		const selectedIds = this.normalizeSelectedIds(selectedPolicyIds);
+		const allowedPolicyIds = this.getAssignablePolicyIds();
+		const selectedIds = this.normalizeSelectedIds(selectedPolicyIds)
+		.filter((policyId) => allowedPolicyIds.has(policyId));
 		const existingLinks = (Array.isArray(existingPolicyLinks) ? existingPolicyLinks : [])
-			.map((item) => ({
-				id: item?.id || null,
-				policy_id: String(item?.policy_id || "").trim()
-			}))
-			.filter((item) => item.policy_id);
+		.map((item) => ({
+			id: item?.id || null,
+			policy_id: String(item?.policy_id || "").trim()
+		}))
+		.filter((item) => item.policy_id && allowedPolicyIds.has(item.policy_id));
 
 		const existingIds = existingLinks.map((item) => item.policy_id);
 
 		return {
 			create: selectedIds
-				.filter((policyId) => !existingIds.includes(policyId))
-				.map((policyId) => ({
-					user: userId,
-					policy: { id: policyId }
-				})),
+			.filter((policyId) => !existingIds.includes(policyId))
+			.map((policyId) => ({
+				user: userId,
+				policy: { id: policyId }
+			})),
 			update: [],
 			delete: existingLinks
-				.filter((item) => !selectedIds.includes(item.policy_id) && item.id)
-				.map((item) => item.id)
+			.filter((item) => !selectedIds.includes(item.policy_id) && item.id)
+			.map((item) => item.id)
 		};
 	},
 
 	getEmployeeFormData({ isNew = false } = {}) {
 		const email = inp_email.text?.trim();
 		const password = inp_password.text?.trim();
-		const role = sel_role.selectedOptionValue;
-		const policyIds = this.normalizeSelectedIds(msel_policies.selectedOptionValues);
+		const selectedRole = String(sel_role.selectedOptionValue || "").trim();
+		const role = this.getAssignableRoleIds().has(selectedRole) ? selectedRole : "";
+		const selectedPolicyIds = this.normalizeSelectedIds(msel_policies.selectedOptionValues);
+		const allowedPolicyIds = this.getAssignablePolicyIds();
+		const policyIds = selectedPolicyIds.filter((policyId) => allowedPolicyIds.has(policyId));
+		const hasForbiddenPolicies = policyIds.length !== selectedPolicyIds.length;
 
 		const body = {
 			first_name: inp_first_name.text?.trim() || "",
@@ -156,17 +178,19 @@ export default {
 		if (password) body.password = password;
 		if (role) body.role = role;
 
-		return { body, policyIds };
+		return { body, policyIds, roleIsAllowed: Boolean(role), hasForbiddenPolicies };
 	},
 
 	async saveEmployee() {
 		const mode = appsmith.store?.hrEmployeeModalMode || "add";
 		const selectedEmployee = appsmith.store?.hrSelectedEmployee;
-		const { body, policyIds } = this.getEmployeeFormData({ isNew: mode === "add" });
+		const { body, policyIds, roleIsAllowed, hasForbiddenPolicies } = this.getEmployeeFormData({ isNew: mode === "add" });
 		const positionId = sel_position4empl.selectedOptionValue || null;
 		const assignmentStartDate = hrOfficeTerms.formatDateValue(dp_startDatePos2Empl.selectedDate);
 
 		if (!body.last_name || !body.first_name) return showAlert("Заполните фамилию и имя", "warning");
+		if (!roleIsAllowed) return showAlert("Выберите разрешенную роль", "warning");
+		if (hasForbiddenPolicies) return showAlert("Выбрана недоступная политика доступа", "warning");
 		if (mode === "add" && positionId && !assignmentStartDate) return showAlert("Укажите дату назначения на должность", "warning");
 
 		if (mode === "add" && positionId) {

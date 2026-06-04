@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_ec709910-ace4-4b37-aa68-52225898bb3d",
+  "id": "Accounts_hrEmployees",
+  "unpublishedCollection": {
+    "name": "hrEmployees",
+    "pageId": "Accounts",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "employeesRefreshPromise",
+        "value": "null"
+      }
+    ]
+  }
+}

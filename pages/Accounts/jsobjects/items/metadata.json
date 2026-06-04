@@ -1,0 +1,20 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_b7819097-630e-4bfb-a11e-9a29de4bf2d1",
+  "id": "Accounts_items",
+  "unpublishedCollection": {
+    "name": "items",
+    "pageId": "Accounts",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "refreshPromise",
+        "value": "null"
+      },
+      {
+        "name": "authFailureHandled",
+        "value": "false"
+      }
+    ]
+  }
+}

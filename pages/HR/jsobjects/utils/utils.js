@@ -327,7 +327,6 @@ export default {
 	async getPolicies({ commitToStore = true } = {}) {
 		const response = await items.getPolicies({
 			fields: "id,name",
-			filter: { name: { _ends_with: " Users" } },
 			limit: -1
 		});
 
@@ -343,11 +342,11 @@ export default {
 	},
 
 	async getRoles({ commitToStore = true } = {}) {
-		const allowedRoleNames = ["Employees", "Employee with AppSmith"];
+		// const allowedRoleNames = ["Employees", "Employee with AppSmith"];
 
 		const response = await items.getRoles({
 			fields: "id,name",
-			filter: { name: { _in: allowedRoleNames } },
+			// filter: { name: { _in: allowedRoleNames } },
 			limit: -1
 		});
 
@@ -356,11 +355,11 @@ export default {
 			label: role.name || role.id,
 			value: role.id
 		}))
-		.sort((a, b) => {
-			const aIndex = allowedRoleNames.indexOf(a.label);
-			const bIndex = allowedRoleNames.indexOf(b.label);
-			return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
-		});
+		// .sort((a, b) => {
+			// const aIndex = allowedRoleNames.indexOf(a.label);
+			// const bIndex = allowedRoleNames.indexOf(b.label);
+			// return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+		// });
 
 		if (commitToStore) await storeValue("hrRoleOptions", rows, false);
 		return rows;

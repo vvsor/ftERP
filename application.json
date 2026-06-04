@@ -67,6 +67,10 @@
     {
       "id": "HR",
       "isDefault": false
+    },
+    {
+      "id": "Accounts",
+      "isDefault": false
     }
   ],
   "staticUrlSettings": {
