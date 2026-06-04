@@ -35,9 +35,10 @@
   "columnOrder": [
     "id",
     "title",
+    "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1780498134852,
+  "columnUpdatedAt": 1780563308259,
   "columnWidthMap": {
     "id": 146,
     "title": 317
@@ -83,6 +84,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
+    },
+    {
+      "key": "primaryColumns.customColumn1.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -182,6 +186,39 @@
       "sticky": "right",
       "thousandSeparator": true,
       "validation": {},
+      "width": 150
+    },
+    "customColumn1": {
+      "alias": "customColumn1",
+      "allowCellWrapping": false,
+      "allowSameOptionsInNewRow": true,
+      "buttonStyle": "rgb(3, 179, 101)",
+      "columnType": "text",
+      "computedValue": "{{(() => { const tableData = tbl_position_titles.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ('')) : '' })()}}",
+      "currencyCode": "USD",
+      "decimals": 0,
+      "enableFilter": true,
+      "enableSort": true,
+      "horizontalAlignment": "LEFT",
+      "id": "customColumn1",
+      "index": 4,
+      "isCellEditable": false,
+      "isCellVisible": true,
+      "isDerived": true,
+      "isDisabled": false,
+      "isDiscardVisible": true,
+      "isEditable": false,
+      "isSaveVisible": true,
+      "isVisible": true,
+      "label": "customColumn1",
+      "labelColor": "#FFFFFF",
+      "notation": "standard",
+      "originalId": "customColumn1",
+      "sticky": "",
+      "textSize": "0.875rem",
+      "thousandSeparator": true,
+      "validation": {},
+      "verticalAlignment": "CENTER",
       "width": 150
     },
     "id": {

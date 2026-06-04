@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 12,
+  "bottomRow": 11,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
   "buttonVariant": "PRIMARY",
@@ -35,18 +35,18 @@
   "mobileRightColumn": 61,
   "mobileTopRow": 7,
   "needsErrorInfo": false,
-  "onClick": "{{showModal(mdl_duties.name);}}",
-  "originalBottomRow": 11,
-  "originalTopRow": 7,
+  "onClick": "{{storeValue(\"hrDutiesModalMode\", \"position\", false).then(() => showModal(mdl_positionDuties.name));}}",
+  "originalBottomRow": 12,
+  "originalTopRow": 8,
   "parentColumnSpace": 7.48046875,
   "parentId": "qea5e6g59l",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",
   "rightColumn": 61,
-  "topRow": 8,
+  "topRow": 7,
   "type": "ICON_BUTTON_WIDGET",
   "version": 1,
   "widgetId": "hd0nkkqz98",
-  "widgetName": "icnbtn_print"
+  "widgetName": "icnbtn_printPositionDuties"
 }

@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 7,
+  "bottomRow": 5,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -41,7 +41,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 58,
   "shouldTruncate": false,
-  "text": "{{(() => {\n  const position = appsmith.store?.hrSelectedPosition || {};\n  const title = position.title || \"Должность не выбрана\";\n  const branch = position.branch_name || \"Подразделение не указано\";\n  return `Должность: ${title}\nПодразделение: ${branch}`;\n})()}}",
+  "text": "{{ utils.getDutiesModalTitle() }}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 1,

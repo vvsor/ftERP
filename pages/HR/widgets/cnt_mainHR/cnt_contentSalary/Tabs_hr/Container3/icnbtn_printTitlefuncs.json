@@ -19,6 +19,9 @@
   "dynamicPropertyPathList": [
     {
       "key": "isDisabled"
+    },
+    {
+      "key": "onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -38,7 +41,9 @@
   "mobileRightColumn": 61,
   "mobileTopRow": 7,
   "needsErrorInfo": false,
-  "onClick": "",
+  "onClick": "{{(() => {\n  if (!appsmith.store?.hrSelectedPositionTitle?.id) return showAlert(\"Выберите должность\", \"warning\");\n  return storeValue(\"hrDutiesModalMode\", \"positionTitle\", false).then(() => showModal(mdl_positionDuties.name));\n})()}}",
+  "originalBottomRow": 11,
+  "originalTopRow": 7,
   "parentColumnSpace": 7.48046875,
   "parentId": "6n0sbv1t20",
   "parentRowSpace": 10,

@@ -655,6 +655,94 @@ export default {
 			.join("\n\n");
 	},
 
+		getSelectedPositionTitleDutiesHtml(positionTitleIdParam = null) {
+		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
+		const positionTitleRows = Array.isArray(appsmith.store?.hrPositionTitleRows) ? appsmith.store.hrPositionTitleRows : [];
+		const selectedTitle =
+			positionTitleRows.find((row) => String(row.id) === String(positionTitleId || "")) ||
+			appsmith.store?.hrSelectedPositionTitle ||
+			tbl_position_titles.selectedRow ||
+			{};
+		const title = selectedTitle.title || "Должность не выбрана";
+		const rows = utils.getSelectedPositionTitleDutyRows(positionTitleId);
+		const areas = new Map();
+
+		for (const row of rows) {
+			const areaName = row.activity_area_name || "Без направления";
+			if (!areas.has(areaName)) areas.set(areaName, []);
+			areas.get(areaName).push(row);
+		}
+
+		const content = !positionTitleId
+			? '<p class="empty">Выберите должность.</p>'
+			: rows.length
+			? [...areas.entries()].map(([areaName, areaRows]) => `
+				<section class="area">
+					<div class="area-title">${utils.escapeHtml(areaName)}</div>
+					${areaRows.map((row) => {
+						const descriptionHtml = String(row.description || "").trim() || '<p class="empty">Описание не заполнено.</p>';
+						return `
+							<article class="functional">
+								<div class="functional-title">${utils.escapeHtml(row.function_group_name)}</div>
+								<div class="description">${descriptionHtml}</div>
+							</article>
+						`;
+					}).join("")}
+				</section>
+			`).join("")
+			: '<p class="empty">Для должности функционал не привязан.</p>';
+
+		return `
+			<!doctype html>
+			<html lang="ru">
+				<head>
+					<meta charset="utf-8">
+					<title>${utils.escapeHtml(title)}</title>
+					<style>
+						@page { margin: 14mm; }
+						body { margin: 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.45; color: #111; }
+						h1 { margin: 0 0 16px; font-size: 18px; font-weight: 700; }
+						.print-button { margin: 0 0 16px; padding: 6px 12px; border: 1px solid #999; background: #fff; cursor: pointer; }
+						.area { margin: 14px 0 0; page-break-inside: avoid; }
+						.area-title { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+						.functional { margin: 0 0 10px 18px; }
+						.functional-title { margin: 0 0 4px; font-weight: 600; }
+						.description { margin-left: 24px; }
+						.description p { margin: 0 0 6px; }
+						.empty { color: #777; font-style: italic; }
+						@media print {
+							body { margin: 0; }
+							.print-button { display: none; }
+						}
+					</style>
+				</head>
+				<body>
+					<button class="print-button" onclick="window.print()">Печать</button>
+					<h1>${utils.escapeHtml(title)}</h1>
+					${content}
+				</body>
+			</html>
+		`;
+	},
+
+	getDutiesModalHtml() {
+		return appsmith.store?.hrDutiesModalMode === "positionTitle"
+			? utils.getSelectedPositionTitleDutiesHtml()
+			: utils.getCurrentPositionDutiesHtml();
+	},
+
+	getDutiesModalTitle() {
+		if (appsmith.store?.hrDutiesModalMode === "positionTitle") {
+			const title = appsmith.store?.hrSelectedPositionTitle?.title || tbl_position_titles.selectedRow?.title || "Должность не выбрана";
+			return `Должность: ${title}`;
+		}
+
+		const position = appsmith.store?.hrSelectedPosition || {};
+		const title = position.title || "Должность не выбрана";
+		const branch = position.branch_name || "Подразделение не указано";
+		return `Должность: ${title}\nПодразделение: ${branch}`;
+	},
+	
 	async refreshSelectedPositionTitleFunctionals(positionTitleIdParam = null) {
 		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
 		if (!positionTitleId) {

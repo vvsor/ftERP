@@ -31,7 +31,7 @@
   "mobileRightColumn": 64,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "onClick": "{{closeModal(mdl_duties.name);}}",
+  "onClick": "{{closeModal(mdl_positionDuties.name);}}",
   "parentId": "lhoud7r51p",
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",

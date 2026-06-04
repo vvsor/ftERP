@@ -1,14 +1,14 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 735,
+  "bottomRow": 715,
   "boxShadow": "none",
   "canEscapeKeyClose": true,
   "canOutsideClickClose": true,
   "children": [
     {
       "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-      "bottomRow": 650,
+      "bottomRow": 630,
       "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
       "canExtend": true,
       "detachFromLayout": true,
@@ -57,14 +57,14 @@
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
-  "height": 650,
+  "height": 630,
   "isCanvas": true,
   "isLoading": false,
   "key": "5a3sgflqqw",
   "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 24,
-  "minHeight": 650,
+  "minHeight": 630,
   "mobileBottomRow": 109,
   "mobileLeftColumn": 0,
   "mobileRightColumn": 19,
@@ -80,6 +80,6 @@
   "type": "MODAL_WIDGET",
   "version": 2,
   "widgetId": "7nn1luk0sg",
-  "widgetName": "mdl_duties",
+  "widgetName": "mdl_positionDuties",
   "width": 1040
 }
