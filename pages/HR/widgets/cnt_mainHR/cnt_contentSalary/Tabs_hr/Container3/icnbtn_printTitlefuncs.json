@@ -41,7 +41,7 @@
   "mobileRightColumn": 61,
   "mobileTopRow": 7,
   "needsErrorInfo": false,
-  "onClick": "{{storeValue(\"hrDutiesModalMode\", \"position\", false).then(() => showModal(mdl_positionDuties.name));}}",
+  "onClick": "{{storeValue(\"hrDutiesModalMode\", \"positionTitle\", false).then(() => showModal(mdl_positionDuties.name));}}",
   "originalBottomRow": 11,
   "originalTopRow": 7,
   "parentColumnSpace": 7.48046875,

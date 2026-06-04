@@ -40,6 +40,7 @@
   ],
   "columnUpdatedAt": 1780563354868,
   "columnWidthMap": {
+    "customColumn1": 413,
     "id": 146,
     "title": 317
   },
@@ -175,7 +176,7 @@
       "isSaveDisabled": "{{tbl_position_titles.processedTableData.map((currentRow, currentIndex) => ( !tbl_position_titles.updatedRowIndices.includes(currentIndex)))}}",
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Save / Discard",
+      "label": "",
       "notation": "standard",
       "onSave": "{{hrDictionaries.savePositionTitleRow(tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow);}}",
       "originalId": "EditActions1",
@@ -194,7 +195,7 @@
       "allowSameOptionsInNewRow": true,
       "buttonStyle": "rgb(3, 179, 101)",
       "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_position_titles.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow?.id ? utils.getSelectedPositionTitleDutiesText(currentRow.id) : \"\")) : currentRow?.id ? utils.getSelectedPositionTitleDutiesText(currentRow.id) : \"\" })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_position_titles.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( currentRow?.id ? utils.getPositionTitleDutiesPreview(currentRow.id) : \"\" )) :  currentRow?.id ? utils.getPositionTitleDutiesPreview(currentRow.id) : \"\"  })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -218,7 +219,7 @@
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {},
-      "verticalAlignment": "CENTER",
+      "verticalAlignment": "TOP",
       "width": 150
     },
     "id": {

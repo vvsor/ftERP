@@ -177,7 +177,7 @@
       "isSaveDisabled": "{{tbl_branches.processedTableData.map((currentRow, currentIndex) => ( !tbl_branches.updatedRowIndices.includes(currentIndex)))}}",
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Save / Discard",
+      "label": "",
       "notation": "standard",
       "onSave": "{{hrDictionaries.saveBranchRow(tbl_branches.updatedRows?.[0] || tbl_branches.updatedRow);}}",
       "originalId": "EditActions1",

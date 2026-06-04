@@ -318,16 +318,33 @@ export default {
 		await utils.refreshSelectedPositionFunctionals();
 		showAlert("Привязка должностей обновлена", "success");
 	},
+
 	savePositionTitleRow: async (rowParam = null) => {
 		const rawRow = rowParam || (tbl_position_titles.isAddRowInProgress ? tbl_position_titles.newRow : (tbl_position_titles.updatedRows?.[0] || tbl_position_titles.updatedRow || tbl_position_titles.selectedRow));
 		const row = { ...(rawRow?.allFields || rawRow || {}), ...(rawRow?.updatedFields || {}) };
 		const body = { title: row?.title?.trim?.() || "" };
+
 		if (!body.title) return showAlert("Укажите название должности", "warning");
 
-		if (tbl_position_titles.isAddRowInProgress) await items.createItems({ collection: "position_titles", body });
-		else await items.updateItems({ collection: "position_titles", body: { keys: [row.id], data: body } });
+		const isNew = tbl_position_titles.isAddRowInProgress || !row.id;
+		let savedId = row.id || null;
 
-		await utils.getPositionTitleRows();
+		if (isNew) {
+			const created = await items.createItems({ collection: "position_titles", body });
+			savedId = created?.data?.id || created?.data?.[0]?.id || created?.id || null;
+		} else {
+			await items.updateItems({ collection: "position_titles", body: { keys: [savedId], data: body } });
+		}
+
+		const rows = await utils.getPositionTitleRows();
+		const currentSelectedId = appsmith.store?.hrSelectedPositionTitle?.id || null;
+
+		if (savedId && (isNew || String(currentSelectedId || "") === String(savedId))) {
+			const selected = rows.find((item) => String(item.id) === String(savedId)) || null;
+			await storeValue("hrSelectedPositionTitle", selected, true);
+			await utils.refreshSelectedPositionTitleFunctionals(savedId);
+		}
+
 		showAlert("Название должности сохранено", "success");
 	},
 

@@ -655,6 +655,29 @@ export default {
 			.join("\n\n");
 	},
 
+	getPositionTitleDutiesPreview(positionTitleIdParam = null) {
+		const positionTitleId = positionTitleIdParam ?? null;
+		if (!positionTitleId) return "";
+
+		const rows = utils.getSelectedPositionTitleDutyRows(positionTitleId);
+		if (!rows.length) return "Нет привязанных функционалов";
+
+		const areas = new Map();
+
+		for (const row of rows) {
+			const areaName = row.activity_area_name || "Без направления";
+			if (!areas.has(areaName)) areas.set(areaName, []);
+			areas.get(areaName).push(row.function_group_name);
+		}
+
+		return [
+			`Функционалов: ${rows.length}`,
+			...[...areas.entries()].map(([areaName, functionNames]) =>
+																	`${areaName} (${functionNames.length}): ${functionNames.filter(Boolean).join(", ")}`
+																 )
+		].join("\n");
+	},
+
 	getSelectedPositionTitleDutiesHtml(positionTitleIdParam = null) {
 		const positionTitleId = utils.getSelectedPositionTitleId(positionTitleIdParam);
 		const positionTitleRows = Array.isArray(appsmith.store?.hrPositionTitleRows) ? appsmith.store.hrPositionTitleRows : [];
