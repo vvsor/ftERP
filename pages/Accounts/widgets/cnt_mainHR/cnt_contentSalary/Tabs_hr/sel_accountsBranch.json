@@ -53,7 +53,7 @@
   "mobileRightColumn": 22,
   "mobileTopRow": 6,
   "needsErrorInfo": false,
-  "onOptionChange": "{{accountsO.onAccountBranchFilterChanged();}}",
+  "onOptionChange": "{{accounts.onAccountBranchFilterChanged();}}",
   "optionLabel": "name",
   "optionValue": "id",
   "originalBottomRow": 21,

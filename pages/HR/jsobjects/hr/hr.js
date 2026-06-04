@@ -1,8 +1,6 @@
 export default {
 	async initHrStores() {
 		const defaults = {
-			hrAccountRows: [],
-			hrAccountAccessRows: [],
 			hrCityRows: [],
 			hrBranchRows: [],
 			hrActivityAreaRows: [],
@@ -74,7 +72,6 @@ export default {
 
 			const employeeRows = await utils.getEmployees();
 			await hrEmployees.refreshSelectedEmployeeHistory(null, employeeRows);
-			await accounts.refreshAccountsPage({ notify: false, keepSelection: false });
 		} catch (error) {
 			if (error?.authHandled) return;
 			console.error("Error loading HR:", error);

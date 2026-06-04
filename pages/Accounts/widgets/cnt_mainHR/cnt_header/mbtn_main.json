@@ -91,7 +91,7 @@
   "isLoading": false,
   "isVisible": true,
   "key": "o2kna0hd2j",
-  "label": "{{(() => {\n  const user = appsmith.store?.user;\n  if (!user) return \"Меню\";\n\n  const name = utils.formatUserName(user);\n  return name || user.email || \"Меню\";\n})()}}",
+  "label": "{{(() => {\n  const user = appsmith.store?.user;\n  if (!user) return \"Меню\";\n\n  const name = accounts.formatUserName(user);\n  return name || user.email || \"Меню\";\n})()}}",
   "leftColumn": 55,
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {

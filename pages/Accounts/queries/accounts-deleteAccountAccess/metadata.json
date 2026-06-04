@@ -1,12 +1,16 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_04e75b8c-b95a-4c7d-aa6c-1ec83f3cd8fe",
-  "id": "Accounts_accounts.initAccountsStores",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_5413c19e-2882-4e04-afef-6ff8086e7ba1",
+  "id": "Accounts_accounts.deleteAccountAccess",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [],
+      "jsArguments": [
+        {
+          "name": "accessId"
+        }
+      ],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -22,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "accounts.initAccountsStores",
-    "name": "initAccountsStores",
+    "fullyQualifiedName": "accounts.deleteAccountAccess",
+    "name": "deleteAccountAccess",
     "pageId": "Accounts",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

@@ -110,7 +110,6 @@ export default {
 		}
 	},
 
-
 	createItems: async (params = {}) => {
 		const { fields = "*", collection, filter = {}, body = {}, limit = -1 } = params;
 
@@ -202,30 +201,11 @@ export default {
 
 		await items.refreshAccessToken();
 	},
-	createUser: async (body = {}) => {
-		if (!body || Object.keys(body).length === 0) throw new Error("User body is empty.");
-		return await items.runWithRefresh(() => qCreateUser.run({ body }));
-	},
-
-	updateUser: async (id, body = {}) => {
-		if (!id) throw new Error("User id is required.");
-		if (!body || Object.keys(body).length === 0) throw new Error("User body is empty.");
-		return await items.runWithRefresh(() => qUpdateUser.run({ id, body }));
-	},
 
 	getUsers: async (params = {}) => {
-		const { fields = "id,first_name,last_name,middle_name,email,status,role.id,role.name,role.parent.id,role.parent.name,policies.policy.id,policies.policy.name", filter = {}, limit = -1 } = params;
+		const { fields = "id,first_name,last_name,middle_name,email,status", filter = {}, limit = -1 } = params;
 		return await items.runWithRefresh(() => qGetUsers.run({ fields, filter, limit }));
 	},
 
-	getRoles: async (params = {}) => {
-		const { fields = "id,name", filter = {}, limit = -1 } = params;
-		return await items.runWithRefresh(() => qGetRoles.run({ fields, filter, limit }));
-	},
-
-	getPolicies: async (params = {}) => {
-		const { fields = "id,name", filter = {}, limit = -1 } = params;
-		return await items.runWithRefresh(() => qGetPolicies.run({ fields, filter, limit }));
-	}
 
 }

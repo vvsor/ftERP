@@ -1,12 +1,20 @@
 {
-  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_04e75b8c-b95a-4c7d-aa6c-1ec83f3cd8fe",
-  "id": "Accounts_accounts.initAccountsStores",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_4f2abbd7-cc10-4262-a550-81507ab30027",
+  "id": "Accounts_accounts.getAccountAccessRows",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [],
+      "jsArguments": [
+        {
+          "name": "accountIdParam",
+          "value": "{{null}}"
+        },
+        {
+          "name": ""
+        }
+      ],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -22,8 +30,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "accounts.initAccountsStores",
-    "name": "initAccountsStores",
+    "fullyQualifiedName": "accounts.getAccountAccessRows",
+    "name": "getAccountAccessRows",
     "pageId": "Accounts",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

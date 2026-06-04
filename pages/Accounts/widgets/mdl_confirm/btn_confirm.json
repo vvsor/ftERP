@@ -37,7 +37,7 @@
   "mobileRightColumn": 63,
   "mobileTopRow": 18,
   "needsErrorInfo": false,
-  "onClick": "{{accountsO.confirmAction();}}",
+  "onClick": "{{accounts.confirmAction();}}",
   "parentId": "2i5nggdb0s",
   "placement": "CENTER",
   "recaptchaType": "V3",
