@@ -1,7 +1,7 @@
 export default {
 	// ================== CONFIG ==================
 	DEBOUNCE_DELAY: 2000,
-	debouncedSaveFn: null,
+	debouncedSaveFns: {},
 
 	// ================== DEBOUNCE ==================
 	debounce(func, delay) {
@@ -13,10 +13,8 @@ export default {
 	},
 
 	// ================== CORE SAVE ==================
-	async saveField(fieldName, widget, target = "position") {
+	async saveField(fieldName, value, target = "position", recordId = null) {
 		const isFunctionGroup = target === "functionGroup";
-		const record = isFunctionGroup ? appsmith.store?.hrSelectedFunctionGroup : appsmith.store?.hrSelectedPosition;
-		const recordId = record?.id;
 
 		if (!recordId) {
 			console.warn("Autosave skipped: record id not ready", { fieldName, target });
@@ -24,21 +22,18 @@ export default {
 		}
 
 		try {
-			const value =
-						widget && "text" in widget
-			? widget.text
-			: widget && "selectedOptionValue" in widget
-			? widget.selectedOptionValue
-			: null;
-
 			if (value === null || value === undefined) return;
-
-			const currentValue = record?.[fieldName] ?? "";
-			if (String(value ?? "") === String(currentValue ?? "")) return;
 
 			const collection = isFunctionGroup ? "function_groups" : "positions";
 			const storeKey = isFunctionGroup ? "hrSelectedFunctionGroup" : "hrSelectedPosition";
 			const rowsKey = isFunctionGroup ? "hrFunctionGroupRows" : "hrPositionRows";
+			const currentRows = Array.isArray(appsmith.store?.[rowsKey]) ? appsmith.store[rowsKey] : [];
+			const selectedRecord = appsmith.store?.[storeKey];
+			const currentRecord =
+						currentRows.find((row) => String(row.id) === String(recordId)) ||
+						(String(selectedRecord?.id) === String(recordId) ? selectedRecord : null);
+
+			if (currentRecord && String(value ?? "") === String(currentRecord[fieldName] ?? "")) return;
 
 			await items.updateItems({
 				collection,
@@ -48,20 +43,29 @@ export default {
 				}
 			});
 
-			const updatedRecord = { ...record, [fieldName]: value };
-			await storeValue(storeKey, updatedRecord, true);
-
 			const rows = (appsmith.store?.[rowsKey] || []).map((row) =>
 																												 String(row.id) === String(recordId)
 																												 ? { ...row, [fieldName]: value }
 																												 : row
 																												);
 			await storeValue(rowsKey, rows, false);
-			
+
+			const currentSelectedRecord = appsmith.store?.[storeKey];
+			if (String(currentSelectedRecord?.id) === String(recordId)) {
+				await storeValue(storeKey, { ...currentSelectedRecord, [fieldName]: value }, true);
+			}
+
 			if (isFunctionGroup && fieldName === "description") {
 				const refreshedRows = await utils.getFunctionGroupRows();
-				const refreshedRecord = refreshedRows.find((row) => String(row.id) === String(recordId)) || updatedRecord;
-				await storeValue(storeKey, refreshedRecord, true);
+				const selectedAfterRefresh = appsmith.store?.[storeKey];
+
+				if (String(selectedAfterRefresh?.id) === String(recordId)) {
+					const refreshedRecord =
+								refreshedRows.find((row) => String(row.id) === String(recordId)) ||
+								selectedAfterRefresh;
+					await storeValue(storeKey, refreshedRecord, true);
+				}
+
 				showAlert("Описание функционала сохранено", "success");
 			}
 		} catch (err) {
@@ -69,21 +73,35 @@ export default {
 			showAlert(`Autosave failed: ${fieldName}`, "warning");
 		}
 	},
+
 	// ================== PUBLIC API ==================
-	initAutosave() {
-		if (!this.debouncedSaveFn) {
-			this.debouncedSaveFn = this.debounce(
-				this.saveField.bind(this),
+	autosave(widget, fieldName, target = "position") {
+		const isFunctionGroup = target === "functionGroup";
+		const record = isFunctionGroup
+		? appsmith.store?.hrSelectedFunctionGroup
+		: appsmith.store?.hrSelectedPosition;
+		const recordId = record?.id || null;
+		const value =
+					widget && "text" in widget
+		? widget.text
+		: widget && "selectedOptionValue" in widget
+		? widget.selectedOptionValue
+		: null;
+
+		if (!recordId) {
+			console.warn("Autosave skipped: record id not ready", { fieldName, target });
+			return;
+		}
+		if (value === null || value === undefined) return;
+
+		const debounceKey = [target, recordId, fieldName].join(":");
+		if (!this.debouncedSaveFns[debounceKey]) {
+			this.debouncedSaveFns[debounceKey] = this.debounce(
+				(nextValue) => this.saveField(fieldName, nextValue, target, recordId),
 				this.DEBOUNCE_DELAY
 			);
 		}
-	},
 
-	autosave(widget, fieldName, target = "position") {
-		if (!this.debouncedSaveFn) {
-			this.initAutosave();
-		}
-
-		this.debouncedSaveFn(fieldName, widget, target);
+		this.debouncedSaveFns[debounceKey](value);
 	}
 }

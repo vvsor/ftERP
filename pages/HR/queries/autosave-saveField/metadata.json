@@ -11,11 +11,15 @@
           "name": "fieldName"
         },
         {
-          "name": "widget"
+          "name": "value"
         },
         {
           "name": "target",
           "value": "position"
+        },
+        {
+          "name": "recordId",
+          "value": "{{null}}"
         }
       ],
       "paginationType": "NONE",

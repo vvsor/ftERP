@@ -12,8 +12,8 @@
         "value": "2000"
       },
       {
-        "name": "debouncedSaveFn",
-        "value": "null"
+        "name": "debouncedSaveFns",
+        "value": "{}"
       }
     ]
   }
