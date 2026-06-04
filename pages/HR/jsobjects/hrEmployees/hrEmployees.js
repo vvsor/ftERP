@@ -31,7 +31,7 @@ export default {
 		}
 
 		await storeValue("hrSelectedEmployeeRow", selectedRow, true);
-		return await utils.getOfficeTermHistoryByUser(selectedRow.user_id);
+		return await hrOfficeTerms.getOfficeTermHistoryByUser(selectedRow.user_id);
 	},
 
 	getSelectedEmployeeRowIndex() {
@@ -53,7 +53,7 @@ export default {
 		this.employeesRefreshPromise = (async () => {
 			await storeValue("hrEmployeesRefreshing", true, false);
 			try {
-				await utils.getCurrentOfficeTerms();
+				await hrOfficeTerms.getCurrentOfficeTerms();
 				const employeeRows = await utils.getEmployees();
 				await this.refreshSelectedEmployeeHistory(null, employeeRows);
 

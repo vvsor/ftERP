@@ -65,7 +65,7 @@ export default {
 			await items.ensureFreshToken();
 			await utils.loadDictionaries();
 			await hrDictionaries.ensureFunctionGroupSelection({ keepSelection: true });
-			await utils.getCurrentOfficeTerms();
+			await hrOfficeTerms.getCurrentOfficeTerms();
 
 			const selectedBranchId = appsmith.store?.hrSelectedBranchId ?? "";
 			await hrPositions.refreshHrBranch(selectedBranchId, { keepSelection: false });

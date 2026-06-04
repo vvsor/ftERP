@@ -6,6 +6,11 @@
     "pageId": "HR",
     "pluginId": "js-plugin",
     "pluginType": "JS",
-    "variables": []
+    "variables": [
+      {
+        "name": "currentOfficeTermsPromise",
+        "value": "null"
+      }
+    ]
   }
 }

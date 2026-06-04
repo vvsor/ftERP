@@ -15,11 +15,7 @@
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
-  "dynamicPropertyPathList": [
-    {
-      "key": "onTextChanged"
-    }
-  ],
+  "dynamicPropertyPathList": [],
   "dynamicTriggerPathList": [
     {
       "key": "onTextChanged"
@@ -48,7 +44,7 @@
   "mobileRightColumn": 52,
   "mobileTopRow": 1,
   "needsErrorInfo": false,
-  "onTextChanged": "{{ autosave.autosave(txt_position_comment, \"comment\")\n}}",
+  "onTextChanged": "",
   "originalBottomRow": 15,
   "originalTopRow": 5,
   "parentColumnSpace": 16.6630859375,

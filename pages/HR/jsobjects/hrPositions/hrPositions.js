@@ -22,7 +22,7 @@ export default {
 
 		await storeValue("hrSelectedPosition", row, true);
 		await storeValue("hrOfficeTermHistoryMode", "position", true);
-		await utils.getOfficeTermHistory({ positionId: row.id });
+		await hrOfficeTerms.getOfficeTermHistory({ positionId: row.id });
 		await utils.refreshSelectedPositionFunctionals(row.position_title_id || null);
 	},
 
@@ -50,7 +50,7 @@ export default {
 
 		if (selectedPosition?.id) {
 			await storeValue("hrOfficeTermHistoryMode", "position", true);
-			await utils.getOfficeTermHistory({ positionId: selectedPosition.id });
+			await hrOfficeTerms.getOfficeTermHistory({ positionId: selectedPosition.id });
 			await utils.refreshSelectedPositionFunctionals(selectedPosition.position_title_id || null);
 		} else {
 			await storeValue("hrOfficeTermHistoryRows", [], false);
@@ -71,7 +71,7 @@ export default {
 					utils.getBranches(),
 					utils.getFunctionGroupRows(),
 					utils.getDutyRows(),
-					utils.getCurrentOfficeTerms()
+					hrOfficeTerms.getCurrentOfficeTerms()
 				]);
 
 				const branchId = sel_chooseBranch.selectedOptionValue ?? appsmith.store?.hrSelectedBranchId ?? "";
