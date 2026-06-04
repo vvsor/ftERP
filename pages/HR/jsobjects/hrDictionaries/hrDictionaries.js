@@ -2,6 +2,122 @@ export default {
 	syncFunctionGroupPositionsRunning: false,
 	syncFunctionGroupPositionsQueued: null,
 
+	async loadDictionaries() {
+		await Promise.all([
+			hrEmployees.getRoles(),
+			hrDictionaries.getPositionTitleRows(),
+			hrDictionaries.getCityRows(),
+			hrDictionaries.getBranches(),
+			hrEmployees.getPolicies(),
+			hrDictionaries.getActivityAreaRows(),
+			hrDictionaries.getFunctionGroupRows(),
+			utils.getDutyRows()
+		]);
+	},
+
+	async getBranches({ commitToStore = true } = {}) {
+		const response = await items.getItems({
+			collection: "branches",
+			fields: "id,name,city_id.id,city_id.name",
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.map((row) => ({
+			id: row.id,
+			name: row.name || "",
+			city_id: row.city_id?.id ?? row.city_id ?? null,
+			city: row.city_id?.name || ""
+		}))
+		.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+		if (commitToStore) await storeValue("hrBranchRows", rows, true);
+		return rows;
+	},
+
+	async getCityRows() {
+		const response = await items.getItems({
+			collection: "cities",
+			fields: "id,name",
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+		await storeValue("hrCityRows", rows, false);
+		return rows;
+	},
+
+	async getPositionTitleRows() {
+		const response = await items.getItems({
+			collection: "position_titles",
+			fields: "id,title",
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.sort((a, b) => String(a.title || "").localeCompare(String(b.title || "")));
+
+		await storeValue("hrPositionTitleRows", rows, false);
+		return rows;
+	},
+
+	async getActivityAreaRows({ commitToStore = true } = {}) {
+		const response = await items.getItems({
+			collection: "activity_areas",
+			fields: "id,name",
+			limit: -1
+		});
+
+		const rows = (response.data || [])
+		.map((row) => ({ id: row.id, name: row.name || "" }))
+		.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+
+		if (commitToStore) await storeValue("hrActivityAreaRows", rows, false);
+		return rows;
+	},
+
+	getPositionTitleOptions() {
+		const rows = Array.isArray(appsmith.store?.hrPositionTitleRows) ? appsmith.store.hrPositionTitleRows : [];
+		return rows.map((row) => ({ label: row.title || row.id, value: row.id }));
+	},
+
+	async getFunctionGroupRows({ commitToStore = true } = {}) {
+		const response = await items.getItems({
+			collection: "function_groups",
+			fields: "*,activity_area_id.id,activity_area_id.name",
+			limit: -1
+		});
+
+		const sortLevel = (value) => Number.isFinite(Number(value)) ? Number(value) : 999999;
+		const rows = (response.data || [])
+		.map((row) => {
+			const activityAreaId = row.activity_area_id?.id ?? row.activity_area_id ?? null;
+			const normalized = {
+				id: row.id,
+				name: row.name || "",
+				activity_area_id: activityAreaId,
+				activity_area_name: row.activity_area_id?.name || "",
+				level: row.level ?? null
+			};
+
+			if (Object.prototype.hasOwnProperty.call(row, "description")) {
+				normalized.description = row.description || "";
+			}
+
+			return normalized;
+		})
+		.sort((a, b) =>
+					sortLevel(a.level) - sortLevel(b.level) ||
+					String(a.activity_area_name || "").localeCompare(String(b.activity_area_name || "")) ||
+					String(a.name || "").localeCompare(String(b.name || ""))
+				 );
+
+		if (commitToStore) await storeValue("hrFunctionGroupRows", rows, false);
+		return rows;
+	},
+
 	normalizeTableRow(row) {
 		return { ...(row?.allFields || row || {}), ...(row?.updatedFields || {}) };
 	},
@@ -79,7 +195,7 @@ export default {
 			await items.updateItems({ collection: "function_groups", body: { keys: [savedId], data: body } });
 		}
 
-		const rows = await utils.getFunctionGroupRows();
+		const rows = await hrDictionaries.getFunctionGroupRows();
 		const filteredRows = hrDictionaries.getFilteredFunctionGroupRows();
 		const selected = filteredRows.find((item) => String(item.id) === String(savedId)) || filteredRows[0] || rows[0] || null;
 		await storeValue("hrSelectedFunctionGroup", selected, true);
@@ -327,7 +443,7 @@ export default {
 			await items.updateItems({ collection: "position_titles", body: { keys: [savedId], data: body } });
 		}
 
-		const rows = await utils.getPositionTitleRows();
+		const rows = await hrDictionaries.getPositionTitleRows();
 		const currentSelectedId = appsmith.store?.hrSelectedPositionTitle?.id || null;
 
 		if (savedId && (isNew || String(currentSelectedId || "") === String(savedId))) {
@@ -359,8 +475,8 @@ export default {
 		}
 
 		await Promise.all([
-			utils.getCityRows(),
-			utils.getBranches()
+			hrDictionaries.getCityRows(),
+			hrDictionaries.getBranches()
 		]);
 		showAlert("Город сохранен", "success");
 	},
@@ -377,7 +493,7 @@ export default {
 		if (tbl_branches.isAddRowInProgress) await items.createItems({ collection: "branches", body });
 		else await items.updateItems({ collection: "branches", body: { keys: [row.id], data: body } });
 
-		await utils.getBranches();
+		await hrDictionaries.getBranches();
 		showAlert("Подразделение сохранено", "success");
 	}
 }

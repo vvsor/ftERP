@@ -56,7 +56,7 @@ export default {
 			}
 
 			if (isFunctionGroup && fieldName === "description") {
-				const refreshedRows = await utils.getFunctionGroupRows();
+				const refreshedRows = await hrDictionaries.getFunctionGroupRows();
 				const selectedAfterRefresh = appsmith.store?.[storeKey];
 
 				if (String(selectedAfterRefresh?.id) === String(recordId)) {

@@ -215,9 +215,9 @@ export default {
 			await storeValue("hrPositionsRefreshing", true, false);
 			try {
 				await Promise.all([
-					utils.getPositionTitleRows(),
-					utils.getBranches(),
-					utils.getFunctionGroupRows(),
+					hrDictionaries.getPositionTitleRows(),
+					hrDictionaries.getBranches(),
+					hrDictionaries.getFunctionGroupRows(),
 					utils.getDutyRows(),
 					hrOfficeTerms.getCurrentOfficeTerms()
 				]);

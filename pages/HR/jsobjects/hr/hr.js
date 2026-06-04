@@ -63,7 +63,7 @@ export default {
 
 		try {
 			await items.ensureFreshToken();
-			await utils.loadDictionaries();
+			await hrDictionaries.loadDictionaries();
 			await hrDictionaries.ensureFunctionGroupSelection({ keepSelection: true });
 			await hrOfficeTerms.getCurrentOfficeTerms();
 
