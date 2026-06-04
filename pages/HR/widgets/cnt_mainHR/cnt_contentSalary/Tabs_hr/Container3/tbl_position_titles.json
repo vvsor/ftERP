@@ -38,7 +38,7 @@
     "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1780563308259,
+  "columnUpdatedAt": 1780563354868,
   "columnWidthMap": {
     "id": 146,
     "title": 317
@@ -189,12 +189,12 @@
       "width": 150
     },
     "customColumn1": {
-      "alias": "customColumn1",
+      "alias": "duties_preview",
       "allowCellWrapping": false,
       "allowSameOptionsInNewRow": true,
       "buttonStyle": "rgb(3, 179, 101)",
       "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_position_titles.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ('')) : '' })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_position_titles.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow?.id ? utils.getSelectedPositionTitleDutiesText(currentRow.id) : \"\")) : currentRow?.id ? utils.getSelectedPositionTitleDutiesText(currentRow.id) : \"\" })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
