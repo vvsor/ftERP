@@ -7,27 +7,26 @@ export default {
 		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
 	},
 
-	addAuditAction: async ({action, taskId, commentId, clientId}) => {
+	addAuditAction: async (params = {}, legacyTaskId, legacyCommentId, legacyClientId) => {
+		const payload = typeof params === "string"
+		? { action: params, taskId: legacyTaskId, commentId: legacyCommentId, clientId: legacyClientId }
+		: params;
+
+		if (!payload?.action || !appsmith.store?.user?.id) return;
+
 		try {
-			const body = {
-				user_id: appsmith.store.user.id,
-				action: action,
-				task_id: taskId,
-				comment_id: commentId,
-				client_id: clientId
-			};
-
-			const params = {
+			await items.createItems({
 				collection: "tasklog",
-				body: body
-			};
-
-			items.createItems(params);
-			return;
+				body: {
+					user_id: appsmith.store.user.id,
+					action: payload.action,
+					task_id: payload.taskId,
+					comment_id: payload.commentId,
+					client_id: payload.clientId
+				}
+			});
 		} catch (error) {
-			// General catch for the entire operation
 			console.error("Error in saving activity log:", error);
-			throw error; // Re-throw to allow calling code to handle the error
 		}
 	},
 
@@ -88,23 +87,14 @@ export default {
 			throw error;
 		}
 	},
-	
+
 	// for auditors and participants
 	getNamesFromArray: (usersArray) => {
-		// Извлекаем JSON часть из строки (удаляем "<b>Участники</b>: ")
-		// Извлечение фамилий и инициалов
-		if (Array.isArray(usersArray) && usersArray.length > 0) {
-			const result = usersArray
-			.filter(participant => participant && participant.directus_users_id) // Фильтруем некорректные элементы
-			.map(participant => {
-				const { last_name, first_name } = participant.directus_users_id;
-				return(`${last_name} ${first_name[0]}.`);
-			})
+		if (!Array.isArray(usersArray) || !usersArray.length) return "";
+		return usersArray
+			.map((participant) => utils.formatUserName(participant?.directus_users_id))
+			.filter(Boolean)
 			.join(", ");
-			return(result);
-		} else {
-			return ("");
-		}
 	},
 
 	getClientLog: async () => {
@@ -113,7 +103,7 @@ export default {
 		}
 		const clientId = clients.selectedClient.id;
 		const params = {
-			fields: "*,user_id.last_name,user_id.first_name",
+			fields: "*,user_id.last_name,user_id.first_name,user_id.middle_name",
 			filter: JSON.stringify({ client_id: { _eq: clientId } }),
 			collection: "tasklog"
 		};

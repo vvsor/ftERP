@@ -15,24 +15,12 @@
     },
     {
       "key": "sourceData"
-    },
-    {
-      "key": "optionLabel"
-    },
-    {
-      "key": "optionValue"
     }
   ],
   "dynamicHeight": "FIXED",
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
-    },
-    {
-      "key": "optionLabel"
-    },
-    {
-      "key": "optionValue"
     },
     {
       "key": "onOptionChange"
@@ -66,8 +54,8 @@
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
   "onOptionChange": "{{clients.updateClientsList({ keepSelection: false });}}",
-  "optionLabel": "{{sel_chooseEmployee.sourceData.map((item) => (sel_chooseEmployee.sourceData.map((item) => item.label || `${item.last_name} ${item.first_name}`.trim())))}}",
-  "optionValue": "{{sel_chooseEmployee.sourceData.map((item) => (sel_chooseEmployee.sourceData.map((item) => item.id)))}}",
+  "optionLabel": "label",
+  "optionValue": "id",
   "originalBottomRow": 87,
   "originalTopRow": 80,
   "parentColumnSpace": 6.9375,

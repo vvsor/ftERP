@@ -4,21 +4,25 @@ export default {
 	savedClientId: undefined,			// for keeping last selected client ID for restoring last
 
 	setSelectedClient: async (client) => {		
-		this.selectedClient = client;
+		clients.selectedClient = client;
+		await storeValue("selectedClient", client || null, true);
 	},
 
 	saveSelectedClientId: async () => {
-		if (this.savedClientId) {
-			showAlert('There is saved client ID', 'error');
-		}
-		this.savedClientId = this.selectedClient.id;
+		clients.savedClientId = clients.selectedClient?.id;
 	},
 
 	restoreSavedClientSelection: async () => {
-		const index = tbl_clients.tableData.findIndex(row => row.id === this.savedClientId);
-		const curRow = await tbl_clients.setSelectedRowIndex(index);
-		this.selectedClient = tbl_clients.tableData[curRow];
-		this.savedClientId = undefined;
+		if (!clients.savedClientId) return;
+		const rows = appsmith.store?.clientRows || tbl_clients.tableData || [];
+		const index = rows.findIndex((row) => String(row.id) === String(clients.savedClientId));
+		if (index < 0) {
+			clients.savedClientId = undefined;
+			return;
+		}
+		await tbl_clients.setSelectedRowIndex(index);
+		await clients.setSelectedClient(rows[index]);
+		clients.savedClientId = undefined;
 	},
 
 	initClients: async () => {
@@ -52,7 +56,10 @@ export default {
 
 			await Promise.all([
 				channels.getChannelsTypes(),
-				utils.GetUsersOfficeTerms()
+				utils.GetUsersOfficeTerms(),
+				employees.getBranches(),
+				employees.getSpheres(),
+				employees.getFunctionals()
 			]);
 
 			await clients.updateClientsList({ keepSelection: false });
@@ -126,12 +133,10 @@ export default {
 		}
 	},
 
-	openAddClientModal: ()=> {
-		// save selected client for restoring it if nothing will be added
-		clients.saveSelectedClientId();
-		// clear currently selected client
-		clients.setSelectedClient();
-		// utils.GetUsersOfficeTerms();
+	openAddClientModal: async () => {
+		await clients.saveSelectedClientId();
+		await clients.setSelectedClient();
+		resetWidget("frm_addEditClient", true);
 		showModal(mdl_addEditClient.name);
 	},
 
@@ -187,49 +192,44 @@ export default {
 			throw error;
 		}
 	},
-	
+
 	addClient: async () => {
+		const name = inp_clientAddName.text?.trim();
+		const supervisorId = sel_clientAddSuperviser.selectedOptionValue || appsmith.store?.user?.id || null;
+
+		if (!name) return showAlert("Укажите название клиента", "warning");
+		if (!supervisorId) return showAlert("Выберите супервайзера", "warning");
+
 		try {
-			showAlert('Создаем клиента...', 'info');
+			showAlert("Создаем клиента...", "info");
 
-			const body = {
-				name: inp_clientAddName.text,
-				description: inp_clientAddDescription.text,
-				supervisor_id: sel_clientAddSuperviser.selectedOptionValue,
-				date_updated: new Date().toISOString(),
-				user_created_id: appsmith.store.user.id
-			};
-
-			const params = {
+			const newClient = await items.createItems({
 				collection: "clients",
-				body: body
-			};
+				body: {
+					name,
+					description: inp_clientAddDescription.text || "",
+					supervisor_id: supervisorId,
+					user_created_id: appsmith.store.user.id
+				}
+			});
 
-			// 1. Create client
-			const newClient = await items.createItems(params);
-			const clientId = newClient.data.id;
+			const clientId = newClient?.data?.id;
+			const rows = await clients.updateClientsList({ keepSelection: false });
+			const selected = rows.find((row) => String(row.id) === String(clientId)) || rows[0] || null;
+			const index = selected ? rows.findIndex((row) => String(row.id) === String(selected.id)) : -1;
 
-			tbl_clients.setSelectedRowIndex(tbl_clients.tableData.length - 1);
+			if (index >= 0) await tbl_clients.setSelectedRowIndex(index);
+			await clients.setSelectedClient(selected);
+			if (selected?.id) await clients.tbs_client_onTabSelected();
 
-			// 4. Refresh tasks (triggers table reactivity)
-			// below we use 'withNewTasks', becase tasks.getTasks() do not contain
-			// our new task... because of async ?!?
-			const withNewClient = await this.getClients();
-			await tbl_clients.setData(withNewClient);
-
-			// 5. Select the new row after data refresh
-			const index = tbl_clients.tableData.findIndex(row => row.id === clientId);
-			const curRow = await tbl_clients.setSelectedRowIndex(index);
-			clients.setSelectedClient(tbl_clients.tableData[curRow]);
-
-			// 6. Finalize
-			await utils.addAuditAction('client_add', undefined, undefined, clients.selectedClient.id);
-			showAlert('Клиент создан!', 'success');
+			await utils.addAuditAction({ action: "client_add", clientId: selected?.id || clientId });
+			showAlert("Клиент создан", "success");
 			closeModal(mdl_addEditClient.name);
 		} catch (error) {
-			// General catch for the entire operation
-			console.error("Error in task processing:", error);
-			throw error; // Re-throw to allow calling code to handle the error
+			if (error?.authHandled) throw error;
+			console.error("Error in client creation:", error);
+			showAlert("Ошибка при создании клиента", "error");
+			throw error;
 		}
 	}
 }

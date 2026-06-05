@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 4,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( clients.selectedClient ? clients.selectedClient.supervisor_id: ''))(sel_clientSuperviser.options, sel_clientSuperviser.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store.user?.id || \"\"))(sel_clientSuperviser.options, sel_clientSuperviser.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -16,9 +16,6 @@
       "key": "sourceData"
     },
     {
-      "key": "optionLabel"
-    },
-    {
       "key": "defaultOptionValue"
     }
   ],
@@ -26,9 +23,6 @@
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
-    },
-    {
-      "key": "optionLabel"
     }
   ],
   "dynamicTriggerPathList": [
@@ -58,7 +52,7 @@
   "mobileTopRow": 4,
   "needsErrorInfo": false,
   "onOptionChange": "{{autosave.updateSupervisor();}}",
-  "optionLabel": "{{sel_clientSuperviser.sourceData.map((item) => (sel_clientSuperviser.sourceData.map((item) => item.label || `${item.last_name} ${item.first_name}`.trim())))}}",
+  "optionLabel": "label",
   "optionValue": "id",
   "parentColumnSpace": 8.373046875,
   "parentId": "f4biyd68hs",

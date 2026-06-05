@@ -8,8 +8,17 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": "",
+          "name": "params",
           "value": "{{{}}}"
+        },
+        {
+          "name": "legacyTaskId"
+        },
+        {
+          "name": "legacyCommentId"
+        },
+        {
+          "name": "legacyClientId"
         }
       ],
       "paginationType": "NONE",

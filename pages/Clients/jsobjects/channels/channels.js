@@ -155,12 +155,13 @@ export default {
 			const response = await items.getItems(params);
 			const responseData = response.data;
 
-			const сhannelsTypes = responseData.flat().map(item => ({
+			const channelTypes = (responseData || []).flat().map(item => ({
 				label: item.name,
 				value: item.id
 			}));
 
-			return сhannelsTypes;
+			await storeValue("channelTypeOptions", channelTypes, false);
+			return channelTypes;
 		} catch (error) {
 			console.error(`Error fetching channels types`, error);
 			throw error; // Re-throw to allow calling code to handle the error
