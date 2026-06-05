@@ -10,39 +10,50 @@ export default {
 
 	// Save function for description
 	saveDescription: async function() {
+		const clientId = clients.selectedClient?.id;
+		if (!clientId) return;
+
 		try {
-			const body = {
-				keys: [clients.selectedClient.id],
-				data: {	description: inp_clientDescription.text	}
-			};
-			const params = { collection: "clients",	body: body };
-			await items.updateItems(params);
+			await items.updateItems({
+				collection: "clients",
+				body: {
+					keys: [clientId],
+					data: { description: inp_clientDescription.text || "" }
+				}
+			});
 
-			await clients.updateClientsList();
+			await clients.updateClientsList({ keepSelection: true });
 
-			showAlert('Description autosaved!', 'success');
+			showAlert("Описание сохранено", "success");
 		} catch (error) {
-			console.error('Autosave (description) failed:', error);
-			showAlert('Autosave for description failed.', 'warning');
+			if (error?.authHandled) throw error;
+			console.error("Autosave description failed:", error);
+			showAlert("Ошибка автосохранения описания", "warning");
 		}
 	},
 
 	// Save function for name
 	saveName: async function() {
+		const clientId = clients.selectedClient?.id;
+		const name = inp_clientName.text?.trim();
+		if (!clientId) return;
+		if (!name) return showAlert("Укажите название клиента", "warning");
+
 		try {
-			const body = {
-				keys: [clients.selectedClient.id],
-				data: {	name: inp_clientName.text	}
-			};
+			await items.updateItems({
+				collection: "clients",
+				body: {
+					keys: [clientId],
+					data: { name }
+				}
+			});
+			await clients.updateClientsList({ keepSelection: true });
 
-			const params = { collection: "clients",	body: body };
-
-			await items.updateItems(params);
-			await clients.updateClientsList();
-
-			showAlert('Client name autosaved!', 'success');
+			showAlert("Название клиента сохранено", "success");
 		} catch (error) {
-			showAlert('Autosave for client name failed.', 'warning');
+			if (error?.authHandled) throw error;
+			console.error("Autosave name failed:", error);
+			showAlert("Ошибка автосохранения названия клиента", "warning");
 		}
 	},
 
@@ -60,21 +71,29 @@ export default {
 			this.debouncedSaveName = this.debounce(this.saveName, 2000);
 		}
 	},
-	
+
 	updateSupervisor: async () => {
-		const body = {
-			keys: [clients.selectedClient.id],
-			data: {
-				supervisor_id: sel_clientSuperviser.selectedOptionValue
-			}
-		};
+		const clientId = clients.selectedClient?.id;
+		const supervisorId = sel_clientSuperviser.selectedOptionValue;
 
-		const params = {
-			collection: "clients",
-			body: body
-		};
+		if (!clientId || !supervisorId) return;
+		if (String(supervisorId) === String(clients.selectedClient?.supervisor_id || "")) return;
 
-		await items.updateItems(params);
-		await clients.updateClientsList();
+		try {
+			await items.updateItems({
+				collection: "clients",
+				body: {
+					keys: [clientId],
+					data: { supervisor_id: supervisorId }
+				}
+			});
+
+			await clients.updateClientsList({ keepSelection: true });
+			showAlert("Супервайзер сохранен", "success");
+		} catch (error) {
+			if (error?.authHandled) throw error;
+			console.error("Autosave supervisor failed:", error);
+			showAlert("Ошибка сохранения супервайзера", "warning");
+		}
 	}
 }

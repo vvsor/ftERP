@@ -31,15 +31,15 @@
     }
   },
   "columnOrder": [
+    "user_id",
     "client_id",
     "date_created",
     "action",
     "id",
     "task_id",
-    "comment_id",
-    "user_id"
+    "comment_id"
   ],
-  "columnUpdatedAt": 1780651697819,
+  "columnUpdatedAt": 1780662608714,
   "columnWidthMap": {
     "action": 96,
     "client_id": 100,
@@ -64,9 +64,6 @@
       "key": "boxShadow"
     },
     {
-      "key": "tableData"
-    },
-    {
       "key": "primaryColumns.id.computedValue"
     },
     {
@@ -86,6 +83,9 @@
     },
     {
       "key": "primaryColumns.user_id.computedValue"
+    },
+    {
+      "key": "tableData"
     }
   ],
   "dynamicPropertyPathList": [
@@ -101,7 +101,7 @@
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
-  "isVisibleDownload": true,
+  "isVisibleDownload": false,
   "isVisibleFilters": false,
   "isVisiblePagination": false,
   "isVisibleSearch": true,
@@ -158,7 +158,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "number",
-      "computedValue": "{{(() => { const tableData = tbl_clientLogs.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"client_id\"])) : currentRow[\"client_id\"] })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_clientLogs.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (utils.formatUserName(currentRow.user_id))) : utils.formatUserName(currentRow.user_id) })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -175,7 +175,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": false,
-      "label": "Пользователь",
+      "label": "",
       "notation": "standard",
       "originalId": "client_id",
       "sticky": "",
@@ -346,7 +346,7 @@
       "isEditable": false,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "user_id",
+      "label": "Пользователь",
       "notation": "standard",
       "originalId": "user_id",
       "sticky": "",

@@ -1,27 +1,27 @@
 export default {
 	/// ================================= test block =================================
 	// test: async () => {
-		// try {
-			// const fields = [
-				// "id", "name", "logix_client_id",
-				// "supervisor_id", "supervisor_id.last_name", "supervisor_id.first_name",
-			// ].join(",");
-// 
-			// const filter = { logix_client_id: { _eq: '22000000' } };
-// 
-			// const params = {
-				// fields: fields,
-				// collection: "clients",
-				// filter: filter
-			// };
-			// const response = await items.getItems(params);
-			// const linkedClients = response.data || [];
-			// const LinkedClientsQnt = linkedClients.length;
-			// showAlert(`There is ${LinkedClientsQnt} linked client(s).`, 'success');
-			// return LinkedClientsQnt;
-		// } catch (error) {
-			// showAlert('Autosave for client name failed.', 'warning');
-		// }
+	// try {
+	// const fields = [
+	// "id", "name", "logix_client_id",
+	// "supervisor_id", "supervisor_id.last_name", "supervisor_id.first_name",
+	// ].join(",");
+	// 
+	// const filter = { logix_client_id: { _eq: '22000000' } };
+	// 
+	// const params = {
+	// fields: fields,
+	// collection: "clients",
+	// filter: filter
+	// };
+	// const response = await items.getItems(params);
+	// const linkedClients = response.data || [];
+	// const LinkedClientsQnt = linkedClients.length;
+	// showAlert(`There is ${LinkedClientsQnt} linked client(s).`, 'success');
+	// return LinkedClientsQnt;
+	// } catch (error) {
+	// showAlert('Autosave for client name failed.', 'warning');
+	// }
 	// },
 	/// ============================= end of test block ============================
 
@@ -48,60 +48,71 @@ export default {
 	},
 
 	connectWithLogixClient: async () => {
-		const inn = inp_clientINN.text;
-		const kpp = inp_clientKPP.text;
+		const clientId = clients.selectedClient?.id;
+		const inn = inp_clientINN.text?.trim();
+		const kpp = inp_clientKPP.text?.trim();
+
+		if (!clientId) return showAlert("Сначала выберите клиента", "warning");
+
 		// INN: 10 or 12 digits; KPP: 9 digits or empty
-		if (
-			(/^\d{10}$/.test(inn) || /^\d{12}$/.test(inn)) &&
-			(/^\d{9}$/.test(kpp) || !kpp)
-		) {
-			try {
-				const response = await logix.getLogixClientsByINN_KPP(inn, kpp);
-				const logix_client_id = response.client_id;
-				const logix_client_name = response.name;
-				showAlert(`Головной клиент в Logix: ${logix_client_name}, ID: ${logix_client_id}`, 'success');
-				// check if client already linked
-				try {
-					const fields = [
-						"id", "name", "logix_client_id",
-						"supervisor_id", "supervisor_id.last_name", "supervisor_id.first_name",
-					].join(",");
+		if (!((/^\d{10}$/.test(inn) || /^\d{12}$/.test(inn)) && (/^\d{9}$/.test(kpp) || !kpp))) {
+			return showAlert("Проверьте ИНН/КПП", "warning");
+		}
 
-					const filter = { logix_client_id: { _eq: logix_client_id } };
+		try {
+			const response = await logix.getLogixClientsByINN_KPP(inn, kpp);
+			const logixClientId = response?.client_id;
+			const logixClientName = response?.name || "";
 
-					const params = {
-						fields: fields,
-						collection: "clients",
-						filter: filter
-					};
-					const response = await items.getItems(params);
-					const linkedClients = response.data || [];
-					console.log(linkedClients);
-					if (linkedClients.length > 0) {
-						showModal(mdl_linkedClientAlert.name);
-						txt_linkedClientAlertText.setText(`Клиент <b>${linkedClients[0].name}</b>: (супервайзер ${linkedClients[0].supervisor_id.last_name} ${linkedClients[0].supervisor_id.first_name}) уже привязан к клиенту Logix <b>${logix_client_name}</b>  с ID ${logix_client_id}:`);
-						return;
-					}
-				} catch (error) {
-					showAlert('Checking clients with linked logix_client_id failed.', 'error');
-				}
+			if (!logixClientId) return showAlert("Клиент Logix не найден", "warning");
 
-				showAlert('Сохраняем Logix ID...', 'info');
+			showAlert(`Головной клиент в Logix: ${logixClientName}, ID: ${logixClientId}`, "success");
 
-				const body = {
-					keys: [clients.selectedClient.id],
-					data: {	logix_client_id: logix_client_id	}
-				};
-				const params = { collection: "clients",	body: body };
-				await items.updateItems(params);
+			const linkedResponse = await items.getItems({
+				fields: [
+					"id",
+					"name",
+					"logix_client_id",
+					"supervisor_id.id",
+					"supervisor_id.last_name",
+					"supervisor_id.first_name",
+					"supervisor_id.middle_name"
+				].join(","),
+				collection: "clients",
+				filter: { logix_client_id: { _eq: logixClientId } },
+				limit: -1
+			});
 
-				await clients.updateClientsList();
-				showAlert('Клиент привязан!', 'success');
-				await utils.addAuditAction('client_edit', undefined, undefined, clients.selectedClient.id);
-			} catch (error) {
-				console.error("Error in client updating:", error);
-				throw error; // Re-throw to allow calling code to handle the error
+			const linkedClients = (linkedResponse.data || [])
+			.filter((client) => String(client.id) !== String(clientId));
+
+			if (linkedClients.length > 0) {
+				const linkedClient = linkedClients[0];
+				const supervisorName = utils.formatUserName(linkedClient.supervisor_id);
+
+				showModal(mdl_linkedClientAlert.name);
+				txt_linkedClientAlertText.setText(`Клиент <b>${linkedClient.name}</b>: (супервайзер ${supervisorName}) уже привязан к клиенту Logix <b>${logixClientName}</b> с ID ${logixClientId}:`);
+				return;
 			}
+
+			showAlert("Сохраняем Logix ID...", "info");
+
+			await items.updateItems({
+				collection: "clients",
+				body: {
+					keys: [clientId],
+					data: { logix_client_id: logixClientId }
+				}
+			});
+
+			await clients.updateClientsList({ keepSelection: true });
+			showAlert("Клиент привязан", "success");
+			await utils.addAuditAction({ action: "client_edit", clientId });
+		} catch (error) {
+			if (error?.authHandled) throw error;
+			console.error("Error in client updating:", error);
+			showAlert("Ошибка привязки клиента к Logix", "error");
+			throw error;
 		}
 	}
 }
