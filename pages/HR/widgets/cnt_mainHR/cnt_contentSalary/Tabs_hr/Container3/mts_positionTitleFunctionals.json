@@ -61,7 +61,7 @@
   "mobileTopRow": 59,
   "mode": "SHOW_CHILD",
   "needsErrorInfo": false,
-  "onDropdownClose": "{{hrDictionaries.syncPositionTitleFunctionGroups(mts_positionTitleFunctionals.selectedOptionValues);}}",
+  "onDropdownClose": "{{hrDuties.syncPositionTitleFunctionGroups(mts_positionTitleFunctionals.selectedOptionValues);}}",
   "onOptionChange": "",
   "options": "{{ hrDuties.getFunctionGroupTreeOptions() }}",
   "originalBottomRow": 12,

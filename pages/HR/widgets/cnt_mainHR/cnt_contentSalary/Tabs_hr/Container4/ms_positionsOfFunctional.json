@@ -53,7 +53,7 @@
   "mobileRightColumn": 50,
   "mobileTopRow": 55,
   "needsErrorInfo": false,
-  "onOptionChange": "{{hrDictionaries.syncFunctionGroupPositions(ms_positionsOfFunctional.selectedOptionValues);}}",
+  "onOptionChange": "{{hrDuties.syncFunctionGroupPositions(ms_positionsOfFunctional.selectedOptionValues);}}",
   "optionLabel": "label",
   "optionValue": "value",
   "originalBottomRow": 63,
