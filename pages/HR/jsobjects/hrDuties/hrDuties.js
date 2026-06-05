@@ -440,5 +440,5 @@ export default {
 		}
 
 		return rows;
-	}	
+	}
 }
