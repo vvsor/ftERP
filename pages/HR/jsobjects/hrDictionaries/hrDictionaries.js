@@ -11,7 +11,7 @@ export default {
 			hrEmployees.getPolicies(),
 			hrDictionaries.getActivityAreaRows(),
 			hrDictionaries.getFunctionGroupRows(),
-			utils.getDutyRows()
+			hrDuties.getDutyRows()
 		]);
 	},
 
@@ -153,7 +153,7 @@ export default {
 		: (rows[0] || null);
 
 		await storeValue("hrSelectedFunctionGroup", selected, true);
-		await utils.getFunctionGroupDutyRows(selected?.id || null);
+		await hrDuties.getFunctionGroupDutyRows(selected?.id || null);
 		resetWidget("rte_curFunctional", true);
 		resetWidget("ms_positionsOfFunctional", true);
 		return selected;
@@ -163,7 +163,7 @@ export default {
 		const row = rowParam || tbl_functionGroups.selectedRow;
 		const selected = row?.id ? row : null;
 		await storeValue("hrSelectedFunctionGroup", selected, true);
-		await utils.getFunctionGroupDutyRows(selected?.id || null);
+		await hrDuties.getFunctionGroupDutyRows(selected?.id || null);
 		resetWidget("rte_curFunctional", true);
 		resetWidget("ms_positionsOfFunctional", true);
 	},
@@ -199,7 +199,7 @@ export default {
 		const filteredRows = hrDictionaries.getFilteredFunctionGroupRows();
 		const selected = filteredRows.find((item) => String(item.id) === String(savedId)) || filteredRows[0] || rows[0] || null;
 		await storeValue("hrSelectedFunctionGroup", selected, true);
-		await utils.getFunctionGroupDutyRows(selected?.id || null);
+		await hrDuties.getFunctionGroupDutyRows(selected?.id || null);
 		resetWidget("rte_curFunctional", true);
 		resetWidget("ms_positionsOfFunctional", true);
 		showAlert("Функционал сохранен", "success");
@@ -208,7 +208,7 @@ export default {
 	async tbl_position_titles_onRowSelected(rowParam = null) {
 		const selected = rowParam?.id ? rowParam : null;
 		await storeValue("hrSelectedPositionTitle", selected, true);
-		await utils.refreshSelectedPositionTitleFunctionals(selected?.id || null);
+		await hrDuties.refreshSelectedPositionTitleFunctionals(selected?.id || null);
 	},
 
 	syncPositionTitleFunctionGroups: async (selectedValuesParam = null) => {
@@ -234,7 +234,7 @@ export default {
 			selectedIds.push(normalized);
 		}
 
-		const currentRows = await utils.getDutyRows({ commitToStore: false });
+		const currentRows = await hrDuties.getDutyRows({ commitToStore: false });
 		const currentPositionRows = currentRows.filter((row) => String(row.position_title_id || "") === String(positionTitleId));
 		const currentByFunctionGroupId = {};
 		const duplicateIds = [];
@@ -253,7 +253,7 @@ export default {
 		].filter(Boolean))];
 
 		if (!toCreate.length && !toDeleteIds.length) {
-			await utils.refreshSelectedPositionTitleFunctionals(positionTitleId);
+			await hrDuties.refreshSelectedPositionTitleFunctionals(positionTitleId);
 			return;
 		}
 
@@ -271,13 +271,13 @@ export default {
 			await items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } });
 		}
 
-		await utils.getDutyRows();
-		await utils.refreshSelectedPositionTitleFunctionals(positionTitleId);
+		await hrDuties.getDutyRows();
+		await hrDuties.refreshSelectedPositionTitleFunctionals(positionTitleId);
 		if (String(appsmith.store?.hrSelectedPosition?.position_title_id || "") === String(positionTitleId)) {
-			await utils.refreshSelectedPositionFunctionals(positionTitleId);
+			await hrDuties.refreshSelectedPositionFunctionals(positionTitleId);
 		}
 		if (appsmith.store?.hrSelectedFunctionGroup?.id) {
-			await utils.getFunctionGroupDutyRows(appsmith.store.hrSelectedFunctionGroup.id);
+			await hrDuties.getFunctionGroupDutyRows(appsmith.store.hrSelectedFunctionGroup.id);
 		}
 		showAlert("Обязанности должности обновлены", "success");
 	},
@@ -335,7 +335,7 @@ export default {
 			const positionTitleId = appsmith.store?.hrSelectedPosition?.position_title_id || null;
 			if (!positionTitleId) return showAlert("Выберите должность", "warning");
 
-			const currentRows = await utils.getDutyRows({ commitToStore: false });
+			const currentRows = await hrDuties.getDutyRows({ commitToStore: false });
 			const currentPositionRows = currentRows.filter((row) => String(row.position_title_id || "") === String(positionTitleId));
 			const currentByFunctionGroupId = {};
 			const duplicateIds = [];
@@ -354,7 +354,7 @@ export default {
 			].filter(Boolean))];
 
 			if (!toCreate.length && !toDeleteIds.length) {
-				await utils.refreshSelectedPositionFunctionals(positionTitleId);
+				await hrDuties.refreshSelectedPositionFunctionals(positionTitleId);
 				return;
 			}
 
@@ -372,10 +372,10 @@ export default {
 				await items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } });
 			}
 
-			await utils.getDutyRows();
-			await utils.refreshSelectedPositionFunctionals(positionTitleId);
+			await hrDuties.getDutyRows();
+			await hrDuties.refreshSelectedPositionFunctionals(positionTitleId);
 			if (appsmith.store?.hrSelectedFunctionGroup?.id) {
-				await utils.getFunctionGroupDutyRows(appsmith.store.hrSelectedFunctionGroup.id);
+				await hrDuties.getFunctionGroupDutyRows(appsmith.store.hrSelectedFunctionGroup.id);
 			}
 			showAlert("Функционалы должности обновлены", "success");
 			return;
@@ -384,7 +384,7 @@ export default {
 		const functionGroupId = appsmith.store?.hrSelectedFunctionGroup?.id || null;
 		if (!functionGroupId) return showAlert("Выберите функционал", "warning");
 
-		const currentRows = await utils.getFunctionGroupDutyRows(functionGroupId, { commitToStore: false });
+		const currentRows = await hrDuties.getFunctionGroupDutyRows(functionGroupId, { commitToStore: false });
 		const currentByPositionId = {};
 		const duplicateIds = [];
 
@@ -402,7 +402,7 @@ export default {
 		].filter(Boolean))];
 
 		if (!toCreate.length && !toDeleteIds.length) {
-			await utils.getFunctionGroupDutyRows(functionGroupId);
+			await hrDuties.getFunctionGroupDutyRows(functionGroupId);
 			return;
 		}
 
@@ -420,9 +420,9 @@ export default {
 			await items.deleteItems({ collection: "duties", body: { keys: toDeleteIds } });
 		}
 
-		await utils.getDutyRows();
-		await utils.getFunctionGroupDutyRows(functionGroupId);
-		await utils.refreshSelectedPositionFunctionals();
+		await hrDuties.getDutyRows();
+		await hrDuties.getFunctionGroupDutyRows(functionGroupId);
+		await hrDuties.refreshSelectedPositionFunctionals();
 		showAlert("Привязка должностей обновлена", "success");
 	},
 
@@ -449,7 +449,7 @@ export default {
 		if (savedId && (isNew || String(currentSelectedId || "") === String(savedId))) {
 			const selected = rows.find((item) => String(item.id) === String(savedId)) || null;
 			await storeValue("hrSelectedPositionTitle", selected, true);
-			await utils.refreshSelectedPositionTitleFunctionals(savedId);
+			await hrDuties.refreshSelectedPositionTitleFunctionals(savedId);
 		}
 
 		showAlert("Название должности сохранено", "success");

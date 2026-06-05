@@ -195,7 +195,7 @@
       "allowSameOptionsInNewRow": true,
       "buttonStyle": "rgb(3, 179, 101)",
       "columnType": "text",
-      "computedValue": "{{(() => { const tableData = tbl_position_titles.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( currentRow?.id ? utils.getPositionTitleDutiesPreview(currentRow.id) : \"\" )) :  currentRow?.id ? utils.getPositionTitleDutiesPreview(currentRow.id) : \"\"  })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_position_titles.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ( currentRow?.id ? hrDuties.getPositionTitleDutiesPreview(currentRow.id) : \"\" )) :  currentRow?.id ? hrDuties.getPositionTitleDutiesPreview(currentRow.id) : \"\"  })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,

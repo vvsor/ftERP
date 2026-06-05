@@ -36,7 +36,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 63,
   "source": "",
-  "srcDoc": "{{ utils.getDutiesModalHtml() }}",
+  "srcDoc": "{{ hrDuties.getDutiesModalHtml() }}",
   "topRow": 6,
   "type": "IFRAME_WIDGET",
   "version": 1,

@@ -63,7 +63,7 @@
   "needsErrorInfo": false,
   "onDropdownClose": "{{hrDictionaries.syncPositionTitleFunctionGroups(mts_positionTitleFunctionals.selectedOptionValues);}}",
   "onOptionChange": "",
-  "options": "{{ utils.getFunctionGroupTreeOptions() }}",
+  "options": "{{ hrDuties.getFunctionGroupTreeOptions() }}",
   "originalBottomRow": 12,
   "originalTopRow": 5,
   "parentColumnSpace": 16.625,

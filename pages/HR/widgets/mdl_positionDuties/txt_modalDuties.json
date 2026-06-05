@@ -41,7 +41,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 58,
   "shouldTruncate": false,
-  "text": "{{ utils.getDutiesModalTitle() }}",
+  "text": "{{ hrDuties.getDutiesModalTitle() }}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 1,
