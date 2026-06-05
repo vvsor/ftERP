@@ -3,165 +3,172 @@ export default {
 	selectedContact: undefined,
 	savedContactId: undefined,
 
-	tbl_contacts_onRowSelected: async () => {
-		if (tbl_contacts.selectedRowIndex == -1) {
-			return;
-		}
-		const contact =  contacts.getClientContacts.data[tbl_contacts.selectedRowIndex];
-		if (this.selectedContact?.id == contact.id) {
-			// clicking same contact shouldn't reload channels
-			return;
-		}
-		await contacts.setSelectedContact(contact);
-		channels.updateChannelsList(contact.id);
-		// utils.addAuditAction({action: 'client_view', clientId: tbl_clients.selectedRow.id});
+	normalizeTableRow(row) {
+		return { ...(row?.allFields || row || {}), ...(row?.updatedFields || {}) };
 	},
 
+	setSelectedContact: async (contact) => {
+		contacts.selectedContact = contact;
+		await storeValue("selectedContact", contact || null, true);
+	},
 
-	updateContactsList: async (clientId) => {
-		if (contacts.selectedContact && !contacts.savedContactId) {
-			// keeping last selectedItem for restoring last state if we cancel adding task			
-			await contacts.saveSelectedContact();
+	saveSelectedContact: async () => {
+		contacts.savedContactId = contacts.selectedContact?.id;
+	},
+
+	restoreSavedContactSelection: async () => {
+		if (!contacts.savedContactId) return;
+		const rows = appsmith.store?.clientContactRows || tbl_contacts.tableData || [];
+		const index = rows.findIndex((row) => String(row.id) === String(contacts.savedContactId));
+
+		if (index < 0) {
+			contacts.savedContactId = undefined;
+			return;
 		}
+
+		await tbl_contacts.setSelectedRowIndex(index);
+		await contacts.setSelectedContact(rows[index]);
+		contacts.savedContactId = undefined;
+	},
+
+	updateContactsList: async (clientId = clients.selectedClient?.id) => {
+		if (!clientId) {
+			await contacts.setSelectedContact();
+			await channels.setSelectedChannel();
+			await storeValue("clientContactRows", [], false);
+			await storeValue("contactChannelRows", [], false);
+			return [];
+		}
+
+		const previousId = contacts.savedContactId || contacts.selectedContact?.id;
 		const contactsData = await contacts.getClientContacts(clientId);
-		await tbl_contacts.setData(contactsData);
-		// if contacts exist - restore previously selected contact or first one
-		if (contactsData.length > 0 ) {
-			if (!contacts.savedContactId) {	
-				if (!contacts.selectedContact){
-					//	set first client as active
-					console.log("contacts.savedContactId = contactsData[0].id;");
-					contacts.savedContactId = contactsData[0].id;	
-				} else {
-					// save current contact
-					console.log("contacts.savedContactId = contacts.selectedContact.id;");
-					contacts.savedContactId = contacts.selectedContact.id;
-				}
-			}
-			console.log("selectedContact: ", contacts.selectedContact);
-			console.log("savedContactId: ", contacts.savedContactId);
+		await storeValue("clientContactRows", contactsData, false);
 
-			await contacts.restoreSavedContactSelection();
-			channels.updateChannelsList(this.selectedContact.id);
-			// await clients.tbs_client_onTabSelected();
+		if (!contactsData.length) {
+			await contacts.setSelectedContact();
+			await channels.setSelectedChannel();
+			await storeValue("contactChannelRows", [], false);
+			return [];
 		}
 
-		return;
+		const selected =
+			(previousId ? contactsData.find((row) => String(row.id) === String(previousId)) : null) ||
+			contactsData[0];
+
+		await contacts.setSelectedContact(selected);
+		contacts.savedContactId = undefined;
+
+		const index = contactsData.findIndex((row) => String(row.id) === String(selected.id));
+		if (index >= 0) await tbl_contacts.setSelectedRowIndex(index);
+
+		await channels.updateChannelsList(selected.id);
+		return contactsData;
+	},
+
+	tbl_contacts_onRowSelected: async () => {
+		const contact = tbl_contacts.selectedRow;
+		if (!contact?.id || String(contacts.selectedContact?.id) === String(contact.id)) return;
+
+		await contacts.setSelectedContact(contact);
+		await channels.updateChannelsList(contact.id);
 	},
 
 	tbl_contacts_onSave: async () => {
-		if (!clients.selectedClient.id){
-			showAlert('selectedClient.id is empty...', 'error');
-			return;
-		}
-		const clientId = clients.selectedClient.id;
+		const clientId = clients.selectedClient?.id;
+		if (!clientId) return showAlert("Сначала выберите клиента", "warning");
+
 		try {
-			showAlert('Сохраняем контактное лицо...', 'info');
+			const sourceRow = tbl_contacts.isAddRowInProgress
+				? tbl_contacts.newRow
+				: (tbl_contacts.updatedRows?.[0] || tbl_contacts.updatedRow || tbl_contacts.selectedRow);
 
-			let body;
-			// adding new contact
+			const row = contacts.normalizeTableRow(sourceRow);
+			const name = row.name?.trim();
+
+			if (!name) return showAlert("Укажите контактное лицо", "warning");
+
 			if (tbl_contacts.isAddRowInProgress) {
-				body = {
-					name: tbl_contacts.newRow.name,
-					lpr: tbl_contacts.newRow.lpr,
-					client_id: clientId
-				};
-				const params = {
+				const newItem = await items.createItems({
 					collection: "client_contacts",
-					body: body
-				}
-
-				const newItem = await items.createItems(params);
-				contacts.savedContactId = newItem.data.id;
-
-			} else {	// editing existing contact
-				body = {
-					keys: [contacts.selectedContact.id],
-					data: {	
-						name: tbl_contacts.updatedRow.name,
-						lpr: tbl_contacts.updatedRow.lpr
+					body: {
+						name,
+						lpr: Boolean(row.lpr),
+						client_id: clientId
 					}
-				};
-				const params = { collection: "client_contacts",	body: body };
-				await items.updateItems(params);
+				});
+				contacts.savedContactId = newItem?.data?.id;
+			} else {
+				const contactId = row.id || contacts.selectedContact?.id;
+				if (!contactId) return showAlert("Не удалось определить контактное лицо", "warning");
+
+				await items.updateItems({
+					collection: "client_contacts",
+					body: {
+						keys: [contactId],
+						data: {
+							name,
+							lpr: Boolean(row.lpr)
+						}
+					}
+				});
+				contacts.savedContactId = contactId;
 			}
 
 			await contacts.updateContactsList(clientId);
-			// await contacts.restoreSavedContactSelection();
-
-			// 6. Finalize
-			// - await utils.addAuditAction('client_add', undefined, undefined, clients.selectedItem.id);
-
-			showAlert('Контактное лицо сохранено!', 'success');
+			showAlert("Контактное лицо сохранено", "success");
 		} catch (error) {
-			// General catch for the entire operation
-			console.error("Error in creating contact:", error);
-			throw error; // Re-throw to allow calling code to handle the error
+			if (error?.authHandled) throw error;
+			console.error("Error in saving contact:", error);
+			showAlert("Ошибка сохранения контактного лица", "error");
+			throw error;
 		}
 	},
 
 	tbl_contacts_onDelete: async () => {
-		const contactIdToDelete = tbl_contacts.triggeredRow.id;
+		const contactIdToDelete = tbl_contacts.triggeredRow?.id || tbl_contacts.selectedRow?.id;
+		if (!contactIdToDelete) return;
+
 		try {
-			items.deleteItems({
+			await items.deleteItems({
 				collection: "client_contacts",
-				body: {	query: { filter: { id: { "_eq": contactIdToDelete }	}	}	}
-			})
+				body: {
+					query: {
+						filter: {
+							id: { _eq: contactIdToDelete }
+						}
+					}
+				}
+			});
+
+			if (String(contacts.selectedContact?.id) === String(contactIdToDelete)) {
+				await contacts.setSelectedContact();
+			}
+
+			await contacts.updateContactsList(clients.selectedClient?.id);
+			showAlert("Контактное лицо удалено", "success");
 		} catch (error) {
-			// General catch for the entire operation
+			if (error?.authHandled) throw error;
 			console.error("Error during deleting contact:", error);
-			throw error; // Re-throw to allow calling code to handle the error
+			showAlert("Ошибка удаления контактного лица", "error");
+			throw error;
 		}
-
-		// check if deleting contact is selected and clear selection
-		if (this.selectedContact.id == contactIdToDelete) {
-			contacts.setSelectedContact();
-		}
-		if (clients.selectedClient?.id){
-			await contacts.updateContactsList(clients.selectedClient.id);
-		}
-		return;
-	},
-
-	setSelectedContact: async (contact) => {
-		this.selectedContact = contact;
-		// this.selectedContactClient = clients.selectedClient.id;
-		// this.selectedContactClientId = contact.id;
-	},
-
-	saveSelectedContact: async () => {
-		if (this.savedContactId) {
-			showAlert('There is saved contactId', 'error');
-			return;
-		}
-		this.savedContactId = this.selectedContact.id;
-	},
-
-	restoreSavedContactSelection: async () => { 
-		const index = tbl_contacts.tableData.findIndex(row => row.id === this.savedContactId);
-		const curRow = await tbl_contacts.setSelectedRowIndex(index);
-		this.selectedContact = tbl_contacts.tableData[curRow];
-		this.savedContactId = undefined;
 	},
 
 	getClientContacts: async (clientId) => {
-		if (!clientId) {
-			console.error("No clientId provided");
-			return [];
-		}
-
-		const params = {
-			fields: "id,name,lpr,client.id",
-			filter: JSON.stringify({ client_id: { _eq: clientId } }),
-			collection: "client_contacts"
-		};
+		if (!clientId) return [];
 
 		try {
-			const response = await items.getItems(params);
+			const response = await items.getItems({
+				fields: "id,name,lpr,client_id",
+				filter: { client_id: { _eq: clientId } },
+				collection: "client_contacts",
+				limit: -1
+			});
+
 			return response.data || [];
 		} catch (error) {
 			console.error(`Error fetching client contacts for clientId ${clientId}:`, error);
 			throw error;
 		}
 	}
-}
+};

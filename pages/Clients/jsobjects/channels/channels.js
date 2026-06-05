@@ -1,161 +1,165 @@
 export default {
 	// Channels js object
 	selectedChannel: undefined,
-	savedChannelId: undefined,			// keep last selected channel id for restoring later
+	savedChannelId: undefined,
 
-	updateChannelsList: async (contactId) => {
-		if (channels.selectedChannel && !channels.savedChannelId) {
-			// keeping last selectedItem for restoring last state if we cancel adding task			
-			await channels.saveSelectedChannel();
-		}
-		const channelsData = await channels.getContactChannels(contactId);
-		await tbl_channels.setData(channelsData);
-		// if channel exist - restore previously selected channel or first one
-		if (channelsData.length > 0 ) {
-			if (!channels.savedChannelId) {	
-				if (!channels.selectedChannel){
-					//	set first channel as active
-					channels.savedChannelId = channelsData[0].id;	
-				} else {
-					// save current channel
-					channels.savedChannelId = channels.selectedChannel.id;
-				}
-			}
-			await channels.restoreSavedChannelSelection();
-			// await clients.tbs_client_onTabSelected();
-		}
-
-		return;
+	normalizeTableRow(row) {
+		return { ...(row?.allFields || row || {}), ...(row?.updatedFields || {}) };
 	},
 
-	restoreSavedChannelSelection: async () => { 
-		const index = tbl_channels.tableData.findIndex(row => row.id === this.savedChannelId);
-		const curRow = await tbl_channels.setSelectedRowIndex(index);
-		this.selectedChannel = tbl_channels.tableData[curRow];
-		this.savedChannelId = undefined;
+	setSelectedChannel: async (channel) => {
+		channels.selectedChannel = channel;
+		await storeValue("selectedChannel", channel || null, true);
+	},
+
+	saveSelectedChannel: async () => {
+		channels.savedChannelId = channels.selectedChannel?.id;
+	},
+
+	restoreSavedChannelSelection: async () => {
+		if (!channels.savedChannelId) return;
+		const rows = appsmith.store?.contactChannelRows || tbl_channels.tableData || [];
+		const index = rows.findIndex((row) => String(row.id) === String(channels.savedChannelId));
+
+		if (index < 0) {
+			channels.savedChannelId = undefined;
+			return;
+		}
+
+		await tbl_channels.setSelectedRowIndex(index);
+		await channels.setSelectedChannel(rows[index]);
+		channels.savedChannelId = undefined;
+	},
+
+	updateChannelsList: async (contactId = contacts.selectedContact?.id) => {
+		if (!contactId) {
+			await channels.setSelectedChannel();
+			await storeValue("contactChannelRows", [], false);
+			return [];
+		}
+
+		const previousId = channels.savedChannelId || channels.selectedChannel?.id;
+		const channelsData = await channels.getContactChannels(contactId);
+		await storeValue("contactChannelRows", channelsData, false);
+
+		if (!channelsData.length) {
+			await channels.setSelectedChannel();
+			return [];
+		}
+
+		const selected =
+			(previousId ? channelsData.find((row) => String(row.id) === String(previousId)) : null) ||
+			channelsData[0];
+
+		await channels.setSelectedChannel(selected);
+		channels.savedChannelId = undefined;
+
+		const index = channelsData.findIndex((row) => String(row.id) === String(selected.id));
+		if (index >= 0) await tbl_channels.setSelectedRowIndex(index);
+
+		return channelsData;
+	},
+
+	tbl_channels_onRowSelected: async () => {
+		const channel = tbl_channels.selectedRow;
+		if (!channel?.id || String(channels.selectedChannel?.id) === String(channel.id)) return;
+
+		await channels.setSelectedChannel(channel);
+	},
+
+	tbl_channels_onSave: async () => {
+		const contactId = contacts.selectedContact?.id;
+		if (!contactId) return showAlert("Сначала выберите контактное лицо", "warning");
+
+		try {
+			const sourceRow = tbl_channels.isAddRowInProgress
+				? tbl_channels.newRow
+				: (tbl_channels.updatedRows?.[0] || tbl_channels.updatedRow || tbl_channels.selectedRow);
+
+			const row = channels.normalizeTableRow(sourceRow);
+			const channelTypeId = row.channel_type_name || row.channel_type_id;
+			const channelId = typeof row.channel_id === "string" ? row.channel_id.trim() : row.channel_id;
+
+			if (!channelTypeId) return showAlert("Выберите тип канала", "warning");
+			if (!channelId) return showAlert("Укажите канал связи", "warning");
+
+			if (tbl_channels.isAddRowInProgress) {
+				const newItem = await items.createItems({
+					collection: "contact_channels",
+					body: {
+						channel_type_id: channelTypeId,
+						channel_id: channelId,
+						client_contact_id: contactId
+					}
+				});
+				channels.savedChannelId = newItem?.data?.id;
+			} else {
+				const channelRecordId = row.id || channels.selectedChannel?.id;
+				if (!channelRecordId) return showAlert("Не удалось определить канал связи", "warning");
+
+				await items.updateItems({
+					collection: "contact_channels",
+					body: {
+						keys: [channelRecordId],
+						data: {
+							channel_type_id: channelTypeId,
+							channel_id: channelId,
+							client_contact_id: contactId
+						}
+					}
+				});
+				channels.savedChannelId = channelRecordId;
+			}
+
+			await channels.updateChannelsList(contactId);
+			showAlert("Канал коммуникаций сохранен", "success");
+		} catch (error) {
+			if (error?.authHandled) throw error;
+			console.error("Error in saving channel:", error);
+			showAlert("Ошибка сохранения канала коммуникаций", "error");
+			throw error;
+		}
 	},
 
 	tbl_channel_onDelete: async () => {
-		const channelIdToDelete = tbl_channels.triggeredRow.id;
+		const channelIdToDelete = tbl_channels.triggeredRow?.id || tbl_channels.selectedRow?.id;
+		if (!channelIdToDelete) return;
+
 		try {
-			items.deleteItems({
+			await items.deleteItems({
 				collection: "contact_channels",
 				body: {
 					query: {
 						filter: {
-							id: { "_eq": channelIdToDelete }
+							id: { _eq: channelIdToDelete }
 						}
 					}
 				}
-			})
-		} catch (error) {
-			// General catch for the entire operation
-			console.error("Error during deleting channel:", error);
-			throw error; // Re-throw to allow calling code to handle the error
-		}
+			});
 
-		//  if deleting channel is selected then clear selection
-		if (this.selectedChannel.id == channelIdToDelete) {
-			this.setSelectedChannel();
-		}
-		if (contacts.selectedContact?.id){
-			await this.updateChannelsList(contacts.selectedContact.id);
-		}
-		return;
-	},
-
-	tbl_channels_onRowSelected: async () => {
-		// showAlert('tbl_contacts_onRowSelected: ' + tbl_contacts.selectedRowIndex, 'info');
-		// console.log("tbl_contacts.selectedRowIndex: ", tbl_contacts.selectedRowIndex);
-		if (tbl_channels.selectedRowIndex == -1) {
-			return;
-		}
-		const channel =  channels.getContactChannels.data[tbl_channels.selectedRowIndex];
-		if (this.selectedChannel?.id == channel.id) {
-			// clicking same contact shouldn't reload channels
-			return;
-		}
-		await this.setSelectedChannel(channel);
-		// utils.addAuditAction({action: 'client_view', clientId: tbl_clients.selectedRow.id});
-	},
-
-	tbl_channels_onSave: async () => {
-		if (!this.selectedChannel?.id){
-			showAlert('selectedChannel.id is empty...', 'error');
-			return;
-		}
-		const contactId = contacts.selectedContact.id;
-		try {
-			showAlert('Сохраняем канал коммуникаций...', 'info');
-			console.log("tbl_channels.newRow", tbl_channels.newRow);
-			let body;
-			// adding new contact channel
-			if (tbl_channels.isAddRowInProgress) {
-				body = {
-					channel_type_id: tbl_channels.newRow.channel_type_name,
-					channel_id: tbl_channels.newRow.channel_id,
-					client_contact_id: contactId
-				};
-				const params = {
-					collection: "contact_channels",
-					body: body
-				}
-
-				const newItem = await items.createItems(params);
-				this.savedChannelId = newItem.data.id;
-
-			} else {	// editing existing contact
-				body = {
-					keys: [channels.selectedChannel.id],
-					data: {	
-						channel_type_id: tbl_channels.updatedRow.channel_type_id,
-						channel_id: tbl_channels.updatedRow.channel_id,
-						client_contact_id: contactId
-					}
-				};
-				const params = { collection: "contact_channels",	body: body };
-				await items.updateItems(params);
+			if (String(channels.selectedChannel?.id) === String(channelIdToDelete)) {
+				await channels.setSelectedChannel();
 			}
 
-			await channels.updateChannelsList(contactId);
-
-			showAlert('Канал коммуникаций сохранен!', 'success');
+			await channels.updateChannelsList(contacts.selectedContact?.id);
+			showAlert("Канал коммуникаций удален", "success");
 		} catch (error) {
-			// General catch for the entire operation
-			console.error("Error in creating channel:", error);
-			throw error; // Re-throw to allow calling code to handle the error
+			if (error?.authHandled) throw error;
+			console.error("Error during deleting channel:", error);
+			showAlert("Ошибка удаления канала коммуникаций", "error");
+			throw error;
 		}
-	},
-
-	setSelectedChannel: async (channel) => {
-		this.selectedChannel = channel;
-	},
-
-	saveSelectedChannel: async () => {
-		if (this.savedChannelId) {
-			showAlert('There is saved channelId', 'error');
-			return;
-		}
-		this.savedChannelId = this.selectedChannel.id;
 	},
 
 	getChannelsTypes: async () => {
-		// Define the fields to include in the response
-		const fields = [
-			"id", "name"
-		].join(",");
-
-
-		const params = {
-			fields: fields,
-			collection: "channel_types"
-		};
-
 		try {
-			const response = await items.getItems(params);
-			const responseData = response.data;
+			const response = await items.getItems({
+				fields: "id,name",
+				collection: "channel_types",
+				limit: -1
+			});
 
-			const channelTypes = (responseData || []).flat().map(item => ({
+			const channelTypes = (response.data || []).map((item) => ({
 				label: item.name,
 				value: item.id
 			}));
@@ -163,45 +167,31 @@ export default {
 			await storeValue("channelTypeOptions", channelTypes, false);
 			return channelTypes;
 		} catch (error) {
-			console.error(`Error fetching channels types`, error);
-			throw error; // Re-throw to allow calling code to handle the error
+			console.error("Error fetching channels types", error);
+			throw error;
 		}
 	},
 
 	getContactChannels: async (contactId) => {
-		if (!contactId) {
-			showAlert('Contact ID not defined, so do exit from getContactChannels', 'info');
-			return;
-		}
-		// Define the fields to include in the response
-		const fields = [
-			"id", "channel_id",
-			"channel_type.id", "channel_type.name",
-			"channel_type_id.id","channel_type_id.name"
-		].join(",");
-
-		const filter = { "client_contact_id": {	"_eq": contactId }};
-
-		const params = {
-			fields: fields,
-			filter: filter,
-			collection: "contact_channels"
-		};
+		if (!contactId) return [];
 
 		try {
-			const response = await items.getItems(params);
-			const contactChannels = response.data;
-			const flattenedChannels = contactChannels.map(item => ({
-				id: item.id,
-				channel_id: item.channel_id,
-				channel_type_id: item.channel_type_id?.id,
-				channel_type_name: item.channel_type_id?.name
-			}));
+			const response = await items.getItems({
+				fields: "id,channel_id,channel_type_id.id,channel_type_id.name",
+				filter: { client_contact_id: { _eq: contactId } },
+				collection: "contact_channels",
+				limit: -1
+			});
 
-			return flattenedChannels;
+			return (response.data || []).map((item) => ({
+				id: item.id,
+				channel_id: item.channel_id || "",
+				channel_type_id: item.channel_type_id?.id ?? item.channel_type_id ?? null,
+				channel_type_name: item.channel_type_id?.name || ""
+			}));
 		} catch (error) {
-			console.error(`Error fetching clients`, error);
-			throw error; // Re-throw to allow calling code to handle the error
+			console.error(`Error fetching contact channels for contactId ${contactId}:`, error);
+			throw error;
 		}
 	}
-}
+};

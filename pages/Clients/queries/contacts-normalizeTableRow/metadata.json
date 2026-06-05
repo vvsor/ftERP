@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "6836fddb2375026597df2abb_af7f2d8e-8837-4279-9b43-662e141c40da",
-  "id": "Clients_contacts.updateContactsList",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_28cc9ea1-3239-4376-b087-46d39f3ebe3a",
+  "id": "Clients_contacts.normalizeTableRow",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -8,8 +8,7 @@
       "encodeParamsToggle": true,
       "jsArguments": [
         {
-          "name": "clientId",
-          "value": "{{clients.selectedClient?.id}}"
+          "name": "row"
         }
       ],
       "paginationType": "NONE",
@@ -27,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "contacts.updateContactsList",
-    "name": "updateContactsList",
+    "fullyQualifiedName": "contacts.normalizeTableRow",
+    "name": "normalizeTableRow",
     "pageId": "Clients",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
