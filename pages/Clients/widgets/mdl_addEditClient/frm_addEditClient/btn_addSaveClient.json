@@ -43,7 +43,7 @@
   "mobileLeftColumn": 47,
   "mobileRightColumn": 63,
   "mobileTopRow": 18,
-  "onClick": "{{\n// clients.selectedItem ? \n//clients.updateClient() :\nclients.addClient() \n}}",
+  "onClick": "{{clients.addClient();}}",
   "originalBottomRow": 60,
   "originalTopRow": 56,
   "parentId": "b8ogmo52j4",

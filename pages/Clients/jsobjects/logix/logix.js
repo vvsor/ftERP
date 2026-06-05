@@ -1,28 +1,28 @@
 export default {
 	/// ================================= test block =================================
-	test: async () => {
-		try {
-			const fields = [
-				"id", "name", "logix_client_id",
-				"supervisor_id", "supervisor_id.last_name", "supervisor_id.first_name",
-			].join(",");
-
-			const filter = { logix_client_id: { _eq: '22000000' } };
-
-			const params = {
-				fields: fields,
-				collection: "clients",
-				filter: filter
-			};
-			const response = await items.getItems(params);
-			const linkedClients = response.data || [];
-			const LinkedClientsQnt = linkedClients.length;
-			showAlert(`There is ${LinkedClientsQnt} linked client(s).`, 'success');
-			return LinkedClientsQnt;
-		} catch (error) {
-			showAlert('Autosave for client name failed.', 'warning');
-		}
-	},
+	// test: async () => {
+		// try {
+			// const fields = [
+				// "id", "name", "logix_client_id",
+				// "supervisor_id", "supervisor_id.last_name", "supervisor_id.first_name",
+			// ].join(",");
+// 
+			// const filter = { logix_client_id: { _eq: '22000000' } };
+// 
+			// const params = {
+				// fields: fields,
+				// collection: "clients",
+				// filter: filter
+			// };
+			// const response = await items.getItems(params);
+			// const linkedClients = response.data || [];
+			// const LinkedClientsQnt = linkedClients.length;
+			// showAlert(`There is ${LinkedClientsQnt} linked client(s).`, 'success');
+			// return LinkedClientsQnt;
+		// } catch (error) {
+			// showAlert('Autosave for client name failed.', 'warning');
+		// }
+	// },
 	/// ============================= end of test block ============================
 
 	getLogixClientsByINN_KPP: async (inn, kpp) => {

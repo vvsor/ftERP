@@ -3,28 +3,6 @@ export default {
 	selectedChannel: undefined,
 	savedChannelId: undefined,			// keep last selected channel id for restoring later
 
-	/// ================================= test block =================================
-	Test: async () => {
-		// showAlert('Yep', 'info');
-		// console.log("selectedContact: ", this.selectedContact);
-		// console.log("savedContactId: ", this.savedContact);
-		// // await contacts.setSelectedContact(19);
-		// this.savedContact = 21;
-		// // await contacts.saveSelectedContactID();
-		// // await contacts.updateContactsList(clientId);
-		// await contacts.restoreSavedContactSelection();
-		// await contacts.updateContactsList(clients.selectedClient.id);
-		// let a = contacts.selectedContact;
-		// let b = contacts.savedContactId;
-		return channels.getContactChannels(58);
-	},
-
-	Test1: async () => {
-		this.updateChannelsList(59);
-	},
-
-	/// ============================= end of test block ============================
-
 	updateChannelsList: async (contactId) => {
 		if (channels.selectedChannel && !channels.savedChannelId) {
 			// keeping last selectedItem for restoring last state if we cancel adding task			

@@ -407,7 +407,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 30,
   "searchKey": "",
-  "tableData": "{{clients.getClients.data}}",
+  "tableData": "{{appsmith.store.clientRows || []}}",
   "textSize": "0.875rem",
   "topRow": 5,
   "totalRecordsCount": 0,

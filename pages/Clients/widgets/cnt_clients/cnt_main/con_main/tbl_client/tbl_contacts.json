@@ -97,6 +97,9 @@
     },
     {
       "key": "primaryColumns.EditActions1.isSaveDisabled"
+    },
+    {
+      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -211,7 +214,7 @@
       "label": "",
       "labelColor": "#FFFFFF",
       "notation": "standard",
-      "onClick": "{{channels.tbl_channel_onDelete();}}",
+      "onClick": "{{contacts.tbl_contacts_onDelete();}}",
       "originalId": "customColumn1",
       "sticky": "right",
       "textSize": "0.875rem",
@@ -327,7 +330,7 @@
   "rightColumn": 64,
   "searchKey": "",
   "showInlineEditingOptionDropdown": true,
-  "tableData": "{{contacts.getClientContacts.data || []}}",
+  "tableData": "{{appsmith.store.clientContactRows || []}}",
   "textSize": "0.875rem",
   "topRow": 0,
   "totalRecordsCount": 0,

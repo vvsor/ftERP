@@ -6,7 +6,7 @@ export default {
 		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
 		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
 	},
-	
+
 	addAuditAction: async ({action, taskId, commentId, clientId}) => {
 		try {
 			const body = {
@@ -86,7 +86,7 @@ export default {
 			return ("");
 		}
 	},
-		
+
 	getClientLog: async () => {
 		if (!clients.selectedClient) {
 			return;
@@ -100,14 +100,13 @@ export default {
 
 		try {
 			const response = await items.getItems(params);
-			
+
 			return response.data || [];
 		} catch (error) {
 			console.error(`Error fetching logs for client ${clientId}:`, error);
 			throw error; // Re-throw to allow calling code to handle the error
 		}
 	},
-
 
 	formatBytes: async (bytes, decimals = 2) => {
 		if (bytes === 0) return '0 B';
@@ -119,13 +118,5 @@ export default {
 		const value = parseFloat((bytes / Math.pow(k, i)).toFixed(decimals));
 
 		return `${value} ${sizes[i]}`;
-	},
-
-	logout: async () => {
-		_qAuth_logout.run();
-		showAlert('Успешный выход', 'success');
-		clearStore();
-		navigateTo('Auth');
-		return
 	}
 }

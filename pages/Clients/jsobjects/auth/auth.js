@@ -19,5 +19,5 @@ export default {
 			showAlert("Успешный выход", "success");
 			navigateTo("Auth");
 		}
-	},
+	}
 }

@@ -70,7 +70,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{_qGetBranches.data.data}}",
+  "sourceData": "{{employees.getBranches.data || []}}",
   "tags": [
     "Suggested",
     "Select"

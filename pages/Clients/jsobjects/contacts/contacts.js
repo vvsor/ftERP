@@ -1,31 +1,9 @@
 export default {
 	// Contacts js object
 	selectedContact: undefined,
-	// selectedContactClientId: undefined,		// for keeping last selected contact's client id
-	savedContactId: undefined,			// for keeping last selected contact id for restoring later
-	// savedContactClientId: undefined,		// for keeping last selected contact's client id
-
-	/// ================================= test block =================================
-	Test: async () => {
-		// showAlert('Yep', 'info');
-		// console.log("selectedContact: ", this.selectedContact);
-		// console.log("savedContactId: ", this.savedContact);
-		// // await contacts.setSelectedContact(19);
-		// this.savedContact = 21;
-		// // await contacts.saveSelectedContactID();
-		// // await contacts.updateContactsList(clientId);
-		// await contacts.restoreSavedContactSelection();
-		await contacts.updateContactsList(clients.selectedClient.id);
-		let a = contacts.selectedContact;
-		let b = contacts.savedContactId;
-
-	},
-
-	/// ============================= end of test block ============================
+	savedContactId: undefined,
 
 	tbl_contacts_onRowSelected: async () => {
-		// showAlert('tbl_contacts_onRowSelected: ' + tbl_contacts.selectedRowIndex, 'info');
-		// console.log("tbl_contacts.selectedRowIndex: ", tbl_contacts.selectedRowIndex);
 		if (tbl_contacts.selectedRowIndex == -1) {
 			return;
 		}

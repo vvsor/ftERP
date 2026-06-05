@@ -70,7 +70,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{_qGetSpheres.data.data}}",
+  "sourceData": "{{employees.getSpheres.data || []}}",
   "tags": [
     "Suggested",
     "Select"
