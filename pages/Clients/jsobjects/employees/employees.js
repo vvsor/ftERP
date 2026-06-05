@@ -2,25 +2,23 @@ export default {
 	chooseEmployeeControls: async (changedControl = "") => {
 		try {
 			if (changedControl === "branch") {
-				resetWidget("sel_chooseSphere", true);
-				resetWidget("sel_chooseFunctional", true);
-				resetWidget("sel_chooseEmployee", true);
-			}
-			if (changedControl === "sphere") {
-				resetWidget("sel_chooseFunctional", true);
-				resetWidget("sel_chooseEmployee", true);
-			}
-			if (changedControl === "functional") {
-				resetWidget("sel_chooseEmployee", true);
+				await resetWidget("sel_chooseSphere", true);
+				await resetWidget("sel_chooseFunctional", true);
+				await resetWidget("sel_chooseEmployee", true);
+			} else if (changedControl === "sphere") {
+				await resetWidget("sel_chooseFunctional", true);
+				await resetWidget("sel_chooseEmployee", true);
+			} else if (changedControl === "functional") {
+				await resetWidget("sel_chooseEmployee", true);
 			}
 
 			const hasBranch = Boolean(sel_chooseBranch.selectedOptionValue);
 			const hasSphere = hasBranch && Boolean(sel_chooseSphere.selectedOptionValue);
 			const hasFunctional = hasSphere && Boolean(sel_chooseFunctional.selectedOptionValue);
 
-			sel_chooseSphere.setDisabled(!hasBranch);
-			sel_chooseFunctional.setDisabled(!hasSphere);
-			sel_chooseEmployee.setDisabled(!hasFunctional);
+			await sel_chooseSphere.setDisabled(!hasBranch);
+			await sel_chooseFunctional.setDisabled(!hasSphere);
+			await sel_chooseEmployee.setDisabled(!hasFunctional);
 
 			await clients.updateClientsList({ keepSelection: false });
 		} catch (error) {
@@ -55,10 +53,10 @@ export default {
 
 		return (response.data || [])
 			.map((row) => ({
-				id: row.id,
-				name: row.name || "",
-				activity_area_id: row.activity_area_id?.id ?? row.activity_area_id ?? null
-			}))
+			id: row.id,
+			name: row.name || "",
+			activity_area_id: row.activity_area_id?.id ?? row.activity_area_id ?? null
+		}))
 			.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 	},
 
@@ -99,16 +97,18 @@ export default {
 
 		const matchingPositionTitleIds = new Set(
 			duties
-				.filter((row) => !sphereId || String(row.activity_area_id) === String(sphereId))
-				.filter((row) => !functionalId || String(row.function_group_id) === String(functionalId))
-				.map((row) => String(row.position_title_id))
+			.filter((row) => !sphereId || String(row.activity_area_id) === String(sphereId))
+			.filter((row) => !functionalId || String(row.function_group_id) === String(functionalId))
+			.map((row) => String(row.position_title_id))
 		);
 
 		return officeTerms.filter((row) => {
-			const branchMatches = !branchId || String(row.branch_id) === String(branchId);
+			const branchIds = row.branch_ids?.length ? row.branch_ids : [row.branch_id].filter(Boolean);
+			const positionTitleIds = row.position_title_ids?.length ? row.position_title_ids : [row.position_title_id].filter(Boolean);
+			const branchMatches = !branchId || branchIds.some((id) => String(id) === String(branchId));
 			const dutyMatches = !sphereId && !functionalId
-				? true
-				: matchingPositionTitleIds.has(String(row.position_title_id));
+			? true
+			: positionTitleIds.some((id) => matchingPositionTitleIds.has(String(id)));
 
 			return branchMatches && dutyMatches;
 		});

@@ -28,7 +28,7 @@
     }
   ],
   "isDefaultClickDisabled": true,
-  "isDisabled": "{{ clients.selectedClient?.logix_client_id ? true : false\n}}",
+  "isDisabled": "{{!clients.selectedClient?.id || Boolean(clients.selectedClient?.logix_client_id)}}",
   "isLoading": false,
   "isVisible": true,
   "key": "irm1sseno2",

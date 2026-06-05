@@ -21,6 +21,9 @@
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
     }
   ],
   "dynamicTriggerPathList": [
@@ -50,7 +53,7 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "onOptionChange": "{{employees.chooseEmployeeControls();}}",
+  "onOptionChange": "{{employees.chooseEmployeeControls(\"functional\");}}",
   "optionLabel": "name",
   "optionValue": "id",
   "originalBottomRow": 14,
