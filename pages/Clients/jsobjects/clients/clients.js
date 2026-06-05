@@ -59,7 +59,8 @@ export default {
 				utils.GetUsersOfficeTerms(),
 				employees.getBranches(),
 				employees.getSpheres(),
-				employees.getFunctionals()
+				employees.getFunctionals(),
+				employees.getDuties()
 			]);
 
 			await clients.updateClientsList({ keepSelection: false });

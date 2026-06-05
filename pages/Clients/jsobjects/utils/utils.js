@@ -40,6 +40,7 @@ export default {
 			"user_id.middle_name",
 			"user_id.last_name",
 			"position_id.id",
+			"position_id.position_title_id.id",
 			"position_id.position_title_id.title",
 			"position_id.branch_id.id",
 			"position_id.branch_id.name"
@@ -73,6 +74,7 @@ export default {
 					first_name: user.first_name || "",
 					middle_name: user.middle_name || "",
 					initials: user.first_name?.[0] ? `${user.first_name[0]}.` : "",
+					position_title_id: position?.position_title_id?.id || "",
 					title: position?.position_title_id?.title || "",
 					branch_id: position?.branch_id?.id || "",
 					branch_name: position?.branch_id?.name || "",

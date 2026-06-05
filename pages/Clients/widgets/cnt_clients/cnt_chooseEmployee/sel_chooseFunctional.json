@@ -66,7 +66,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{employees.getFunctionals.data || []}}",
+  "sourceData": "{{employees.getFilteredFunctionals()}}",
   "tags": [
     "Suggested",
     "Select"

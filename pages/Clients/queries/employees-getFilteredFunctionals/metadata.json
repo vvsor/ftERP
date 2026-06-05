@@ -1,17 +1,12 @@
 {
-  "gitSyncId": "66959955819ac61979db6c71_cba492da-6b13-4652-a022-96af9fba957e",
-  "id": "Clients_employees.chooseEmployeeControls",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_9a416bff-c817-48ee-bc8d-417604899790",
+  "id": "Clients_employees.getFilteredFunctionals",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [
-        {
-          "name": "changedControl",
-          "value": ""
-        }
-      ],
+      "jsArguments": [],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -27,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "employees.chooseEmployeeControls",
-    "name": "chooseEmployeeControls",
+    "fullyQualifiedName": "employees.getFilteredFunctionals",
+    "name": "getFilteredFunctionals",
     "pageId": "Clients",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
