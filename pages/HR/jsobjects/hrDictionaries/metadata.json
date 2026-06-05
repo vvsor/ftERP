@@ -6,15 +6,6 @@
     "pageId": "HR",
     "pluginId": "js-plugin",
     "pluginType": "JS",
-    "variables": [
-      {
-        "name": "syncFunctionGroupPositionsRunning",
-        "value": "false"
-      },
-      {
-        "name": "syncFunctionGroupPositionsQueued",
-        "value": "null"
-      }
-    ]
+    "variables": []
   }
 }

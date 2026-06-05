@@ -1,7 +1,4 @@
 export default {
-	syncFunctionGroupPositionsRunning: false,
-	syncFunctionGroupPositionsQueued: null,
-
 	async loadDictionaries() {
 		await Promise.all([
 			hrEmployees.getRoles(),
