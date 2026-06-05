@@ -187,6 +187,7 @@ export default {
 			throw error;
 		}
 	},
+	
 	addClient: async () => {
 		try {
 			showAlert('Создаем клиента...', 'info');
@@ -207,7 +208,6 @@ export default {
 			// 1. Create client
 			const newClient = await items.createItems(params);
 			const clientId = newClient.data.id;
-
 
 			tbl_clients.setSelectedRowIndex(tbl_clients.tableData.length - 1);
 
