@@ -1,6 +1,18 @@
 export default {
 	employeesRefreshPromise: null,
 
+	protectedPolicyIds: new Set([
+		//"ACCOUNT_ADMINS_POLICY_ID",
+		"4ec75fd7-116b-4fba-91e8-06ce1d8ed458",
+		//"ADMINISTRATOR_POLICY_ID"
+		"465c637a-43a7-4e7c-8c96-1b1ce38b77bc"
+	]),
+
+	hasProtectedPolicy(row = null) {
+		const policyIds = row?.policies || [];
+		return policyIds.some((policyId) => this.protectedPolicyIds.has(String(policyId)));
+	},
+
 	async getEmployees({ commitToStore = true } = {}) {
 		const [usersRes, officeTerms] = await Promise.all([
 			items.getUsers({
@@ -191,6 +203,11 @@ export default {
 			return;
 		}
 
+		if (isEdit && this.hasProtectedPolicy(sourceRow)) {
+			showAlert("Пользователь с повышенными правами не может редактироваться через HR", "warning");
+			return;
+		}
+
 		const employee = isEdit ? {
 			id: sourceRow.user_id,
 			employee: sourceRow.employee || "",
@@ -329,6 +346,11 @@ export default {
 			const createdUserId = hrOfficeTerms.getCreatedRecordId(createdUser);
 
 			if (!createdUserId) throw new Error("Не удалось получить ID созданного пользователя");
+
+			if (mode === "edit" && this.hasProtectedPolicy(selectedEmployee)) {
+				showAlert("Пользователь с повышенными правами не может редактироваться через HR", "warning");
+				return;
+			}
 
 			if (policyIds.length) {
 				await items.updateUser(createdUserId, {
