@@ -25,7 +25,7 @@
     "fullyQualifiedName": "utils.GetUsersOfficeTerms",
     "name": "GetUsersOfficeTerms",
     "pageId": "Clients",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

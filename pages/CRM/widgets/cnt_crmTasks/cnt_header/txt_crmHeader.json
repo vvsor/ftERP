@@ -36,15 +36,15 @@
   "mobileLeftColumn": 2,
   "mobileRightColumn": 18,
   "mobileTopRow": 3,
-  "originalBottomRow": 4,
-  "originalTopRow": 0,
+  "originalBottomRow": 8,
+  "originalTopRow": 4,
   "overflow": "NONE",
   "parentColumnSpace": 12.265625,
-  "parentId": "53yppeplv7",
+  "parentId": "ygr9f46ar1",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 19,
+  "rightColumn": 22,
   "searchTags": [
     "typography",
     "paragraph",
@@ -63,6 +63,6 @@
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "6ghzaljczc",
-  "widgetName": "txt_tasks"
+  "widgetId": "73mv3h5anq",
+  "widgetName": "txt_crmHeader"
 }

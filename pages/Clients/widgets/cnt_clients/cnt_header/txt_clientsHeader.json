@@ -56,7 +56,7 @@
     "Suggested",
     "Content"
   ],
-  "text": "Клиенты. {{appsmith.store.user.last_name + \" \" + appsmith.store.user.first_name[0] + '. (' + appsmith.store.user.email}})",
+  "text": "{{(() => {\n  const currentPageName = String(appsmith.currentPageName || \"\").trim().toLowerCase();\n  const pages = Array.isArray(appsmith.store?.appPages) ? appsmith.store.appPages : [];\n\n  const page = pages.find((item) => {\n    const code = String(item.code || \"\").trim().toLowerCase();\n    const appsmithPage = String(item.appsmith_page || \"\").trim().toLowerCase();\n    return code === currentPageName || appsmithPage === currentPageName;\n  });\n\n  return page?.title || page?.label || page?.text || appsmith.currentPageName || \"\";\n})()}}",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,
@@ -64,5 +64,5 @@
   "type": "TEXT_WIDGET",
   "version": 1,
   "widgetId": "07h2tijqct",
-  "widgetName": "txt_tasks"
+  "widgetName": "txt_clientsHeader"
 }

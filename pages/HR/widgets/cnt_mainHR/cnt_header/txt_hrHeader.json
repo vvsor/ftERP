@@ -44,7 +44,7 @@
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 24,
+  "rightColumn": 33,
   "searchTags": [
     "typography",
     "paragraph",
@@ -64,5 +64,5 @@
   "type": "TEXT_WIDGET",
   "version": 1,
   "widgetId": "6ghzaljczc",
-  "widgetName": "txt_tasks"
+  "widgetName": "txt_hrHeader"
 }

@@ -81,7 +81,7 @@
       "key": "configureMenuItems.config.onClick"
     }
   ],
-  "iconAlign": "left",
+  "iconAlign": "right",
   "iconName": "menu",
   "isCompact": false,
   "isDisabled": false,
@@ -89,7 +89,7 @@
   "isVisible": true,
   "key": "o2kna0hd2j",
   "label": "Меню",
-  "leftColumn": 57,
+  "leftColumn": 56,
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {
     "menuItem2": {
@@ -191,7 +191,7 @@
   "parentColumnSpace": 17.25,
   "parentId": "1l6q7u6qeo",
   "parentRowSpace": 10,
-  "placement": "CENTER",
+  "placement": "BETWEEN",
   "renderMode": "CANVAS",
   "rightColumn": 63,
   "sourceData": "{{nav.menuItems(\"auth\")}}",

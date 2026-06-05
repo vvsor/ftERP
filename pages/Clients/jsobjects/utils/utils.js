@@ -1,5 +1,12 @@
 export default {
-
+	formatUserName(user) {
+		if (!user) return "";
+		const last = user.last_name || "";
+		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
+		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
+		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
+	},
+	
 	addAuditAction: async ({action, taskId, commentId, clientId}) => {
 		try {
 			const body = {

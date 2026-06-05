@@ -1,37 +1,11 @@
 export default {
-	// addAuditAction: async (action, task_id, comment_id) => {
-		// if (tasks.selectedTask) {
-			// const task_id = tasks.selectedTask.id;
-			// const BodyObj = {
-				// user_id: appsmith.store.user.id,
-				// action: action,
-				// task_id: task_id,
-				// comment_id: comment_id
-			// };
-			// return qAddAuditRecord.run({body: BodyObj})
-				// .catch(error => {
-				// // General catch for the entire operation
-				// console.error("Error in task processing:", error);
-				// throw error; // Re-throw to allow calling code to handle the error
-			// });
-		// }
-	// },
-
-	// test() {
-		// // const t=typeof(tasks.selectedTask.auditor_ids);
-		// // sel_TaskAuditors.selectedOptionValues = tasks.selectedTask.auditor_ids.map(item => item.directus_users_id.id);
-		// const t=tasks.selectedTask.auditor_ids.map(item => item.directus_users_id.id);
-		// return (t);
-		// // tasks.selectedTask ? tasks.selectedTask.auditor_ids.map(item => item.directus_users_id.id): ''
-	// },
-
-	// getSurnameInitials: async (user_id) => {
-	// const userdata = await qGetUserDataByID.run({id: user_id});
-	// let lastname = userdata.data.last_name;
-	// let firstname = userdata.data.first_name;
-	// let SurnameInitials = lastname + ' ' + firstname.slice(0,1) + '.';
-	// return SurnameInitials;
-	// },
+	formatUserName(user) {
+		if (!user) return "";
+		const last = user.last_name || "";
+		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
+		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
+		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
+	},
 
 	GetUsersOfficeTerms: () => {
 		// Create the filter object

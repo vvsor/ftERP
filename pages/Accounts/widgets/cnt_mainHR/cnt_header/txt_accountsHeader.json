@@ -36,15 +36,15 @@
   "mobileLeftColumn": 2,
   "mobileRightColumn": 18,
   "mobileTopRow": 3,
-  "originalBottomRow": 8,
-  "originalTopRow": 4,
+  "originalBottomRow": 4,
+  "originalTopRow": 0,
   "overflow": "NONE",
   "parentColumnSpace": 12.265625,
-  "parentId": "ygr9f46ar1",
+  "parentId": "53yppeplv7",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 22,
+  "rightColumn": 31,
   "searchTags": [
     "typography",
     "paragraph",
@@ -56,13 +56,13 @@
     "Suggested",
     "Content"
   ],
-  "text": "{{appsmith.currentPageName}}. {{appsmith.store.user.last_name + \" \" + appsmith.store.user.first_name[0] + '. (' + appsmith.store.user.email}})",
+  "text": "{{(() => {\n  const currentPageName = String(appsmith.currentPageName || \"\").trim().toLowerCase();\n  const pages = Array.isArray(appsmith.store?.appPages) ? appsmith.store.appPages : [];\n\n  const page = pages.find((item) => {\n    const code = String(item.code || \"\").trim().toLowerCase();\n    const appsmithPage = String(item.appsmith_page || \"\").trim().toLowerCase();\n    return code === currentPageName || appsmithPage === currentPageName;\n  });\n\n  return page?.title || page?.label || page?.text || appsmith.currentPageName || \"\";\n})()}}",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,
-  "widgetId": "73mv3h5anq",
-  "widgetName": "txt_crm"
+  "widgetId": "6ghzaljczc",
+  "widgetName": "txt_accountsHeader"
 }
