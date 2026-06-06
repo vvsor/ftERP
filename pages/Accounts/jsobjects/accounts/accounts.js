@@ -131,34 +131,38 @@ export default {
 			return [];
 		}
 
-		const [accessResponse, employeeRows] = await Promise.all([
+		const [accessResponse, positionRows] = await Promise.all([
 			items.getItems({
 				collection: "branch_account_access",
-				fields: "id,user_id.id,active,account_access,payments_access,accruals_access,branch_account_id.id",
+				fields: "id,position_id.id,position_id.position_title_id.title,position_id.branch_id.id,position_id.branch_id.name,active,account_access,payments_access,accruals_access,branch_account_id.id",
 				filter: { branch_account_id: { id: { _eq: accountId } } },
 				limit: -1
 			}),
-			Array.isArray(appsmith.store?.hrEmployeeRows) ? appsmith.store.hrEmployeeRows : accounts.getEmployees()
+			Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : accounts.getEmployees()
 		]);
 
-		const employeeByUserId = {};
+		const positionById = {};
 
-		for (const employee of employeeRows || []) {
-			const userId = employee.user_id || employee.id || null;
-			if (userId) employeeByUserId[String(userId)] = employee;
+		for (const position of positionRows || []) {
+			const positionId = position.position_id || position.id || null;
+			if (positionId) positionById[String(positionId)] = position;
 		}
 
 		const rows = (accessResponse.data || []).map((access) => {
-			const userId = access.user_id?.id ?? access.user_id ?? null;
-			if (!userId) return null;
-			const employee = employeeByUserId[String(userId)] || {};
+			const positionId = access.position_id?.id ?? access.position_id ?? null;
+			if (!positionId) return null;
+			const position = positionById[String(positionId)] || {};
+			const branchName = access.position_id?.branch_id?.name || position.branch_name || "";
+			const title = access.position_id?.position_title_id?.title || position.title || "";
+			const fallbackName = [branchName, title, `#${positionId}`].filter(Boolean).join(" - ");
 
 			return {
 				id: access.id,
 				access_id: access.id,
 				branch_account_id: accountId,
-				user_id: userId,
-				employee: employee.employee || employee.email || userId,
+				position_id: positionId,
+				position_name: position.position_name || fallbackName,
+				employee: position.employee || "",
 				active: access.active !== false,
 				account_access: access.account_access || "none",
 				payments_access: access.payments_access || "none",
@@ -172,7 +176,7 @@ export default {
 			row.payments_access !== "none" ||
 			row.accruals_access !== "none"
 		)
-						 ).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
+						 ).sort((a, b) => String(a.position_name || "").localeCompare(String(b.position_name || "")));
 
 		if (commitToStore) await storeValue("hrAccountAccessRows", rows, false);
 		return rows;
@@ -182,12 +186,12 @@ export default {
 		const rawRow = rowParam || (tbl_curAccountAccess.updatedRows?.[0] || tbl_curAccountAccess.updatedRow || tbl_curAccountAccess.selectedRow);
 		const row = this.normalizeTableRow(rawRow);
 		const accountId = row.branch_account_id || appsmith.store?.hrSelectedAccount?.id || null;
-		const userId = row.user_id || null;
+		const positionId = row.position_id || null;
 		if (!accountId) return showAlert("Выберите счет", "warning");
-		if (!userId) return showAlert("Выберите сотрудника", "warning");
+		if (!positionId) return showAlert("Выберите позицию", "warning");
 
 		const body = {
-			user_id: userId,
+			position_id: positionId,
 			branch_account_id: accountId,
 			account_access: this.normalizeAccess(row.account_access, ["none", "read"]),
 			payments_access: this.normalizeAccess(row.payments_access),
@@ -265,7 +269,7 @@ export default {
 		if (!accessId) return showAlert("Выберите запись доступа для удаления", "warning");
 
 		await this.openConfirm({
-			title: `Удалить доступ "${row.employee || accessId}"?`,
+			title: `Удалить доступ "${row.position_name || row.employee || accessId}"?`,
 			action: "deleteAccountAccess",
 			payload: { id: accessId }
 		});
@@ -288,7 +292,7 @@ export default {
 			hrAccountRows: [],
 			hrAccountAccessRows: [],
 			hrBranchRows: [],
-			hrEmployeeRows: []
+			hrPositionRows: []
 		};
 
 		await Promise.all(
@@ -325,25 +329,68 @@ export default {
 	},
 
 	async getEmployees({ commitToStore = true } = {}) {
-		const response = await items.getUsers({
-			fields: "id,first_name,last_name,middle_name,email,status",
-			filter: { status: { _eq: "active" } },
-			limit: -1
-		});
+		const today = moment().format("YYYY-MM-DD");
+		const [positionsResponse, officeTermsResponse] = await Promise.all([
+			items.getItems({
+				collection: "positions",
+				fields: "id,position_title_id.id,position_title_id.title,branch_id.id,branch_id.name",
+				limit: -1
+			}),
+			items.getItems({
+				collection: "office_terms",
+				fields: "id,date_from,position_id.id,user_id.id,user_id.first_name,user_id.last_name,user_id.middle_name,user_id.email",
+				filter: {
+					_and: [
+						{ date_from: { _lte: today } },
+						{ _or: [{ date_till: { _null: true } }, { date_till: { _gte: today } }] }
+					]
+				},
+				limit: -1
+			})
+		]);
 
-		const rows = (response.data || [])
-		.map((user) => ({
-			id: user.id,
-			user_id: user.id,
-			employee: this.formatUserName(user) || user.email || user.id,
-			email: user.email || ""
-		}))
-		.sort((a, b) => String(a.employee).localeCompare(String(b.employee)));
+		const employeeByPositionId = {};
 
-		if (commitToStore) await storeValue("hrEmployeeRows", rows, false);
+		for (const term of officeTermsResponse.data || []) {
+			const positionId = term?.position_id?.id ?? term?.position_id ?? null;
+			const user = term?.user_id || {};
+			if (!positionId || !user?.id) continue;
+
+			const current = employeeByPositionId[String(positionId)];
+			const nextDate = term.date_from || "";
+			if (!current || nextDate > current.date_from) {
+				employeeByPositionId[String(positionId)] = {
+					employee: this.formatUserName(user) || user.email || "",
+					user_id: user.id,
+					date_from: nextDate
+				};
+			}
+		}
+
+		const rows = (positionsResponse.data || [])
+		.map((position) => {
+			const positionId = position.id;
+			const branchName = position.branch_id?.name || "";
+			const title = position.position_title_id?.title || "";
+			const employee = employeeByPositionId[String(positionId)] || {};
+			const positionName = [branchName, title, employee.employee ? `(${employee.employee})` : `#${positionId}`].filter(Boolean).join(" - ");
+
+			return {
+				id: positionId,
+				position_id: positionId,
+				position_name: positionName,
+				title,
+				branch_id: position.branch_id?.id ?? position.branch_id ?? null,
+				branch_name: branchName,
+				employee: employee.employee || "",
+				user_id: employee.user_id || null
+			};
+		})
+		.sort((a, b) => String(a.position_name).localeCompare(String(b.position_name)));
+
+		if (commitToStore) await storeValue("hrPositionRows", rows, false);
 		return rows;
 	},
-
 	async initAccounts() {
 		await this.initAccountsStores();
 		const user = appsmith.store?.user;

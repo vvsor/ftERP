@@ -7,11 +7,32 @@ export default {
 		const userId = this.getCurrentUserId();
 		if (!userId) return [];
 
+		const today = moment().format("YYYY-MM-DD");
+		const officeTermsResponse = await items.getItems({
+			collection: "office_terms",
+			fields: "id,position_id.id",
+			filter: {
+				_and: [
+					{ user_id: { id: { _eq: userId } } },
+					{ date_from: { _lte: today } },
+					{ _or: [{ date_till: { _null: true } }, { date_till: { _gte: today } }] }
+				]
+			},
+			limit: -1
+		});
+
+		const positionIds = [...new Set((officeTermsResponse.data || [])
+																		.map((row) => row.position_id?.id ?? row.position_id)
+																		.filter(Boolean)
+																		.map(String))];
+
+		if (!positionIds.length) return [];
+
 		const response = await items.getItems({
 			collection: "branch_account_access",
-			fields: "id,branch_account_id.id,active,account_access,payments_access,accruals_access",
+			fields: "id,branch_account_id.id,position_id.id,active,account_access,payments_access,accruals_access",
 			filter: {
-				user_id: { id: { _eq: userId } },
+				position_id: { id: { _in: positionIds } },
 				active: { _eq: true }
 			},
 			limit: -1
