@@ -61,27 +61,53 @@ export default {
 
 		try {
 			const response = await items.getItems(params);
-			const seen = new Set();
-			const contacts = (response.data || [])
-			.map((item) => {
+			const contactsByUserId = new Map();
+
+			(response.data || []).forEach((item) => {
 				const user = item?.user_id;
 				const position = item?.position_id;
-				if (!user?.id || seen.has(user.id)) return null;
-				seen.add(user.id);
-				return {
+				if (!user?.id) return;
+
+				const existing = contactsByUserId.get(user.id) || {
 					id: user.id,
 					last_name: user.last_name || "",
 					first_name: user.first_name || "",
 					middle_name: user.middle_name || "",
 					initials: user.first_name?.[0] ? `${user.first_name[0]}.` : "",
-					position_title_id: position?.position_title_id?.id || "",
-					title: position?.position_title_id?.title || "",
-					branch_id: position?.branch_id?.id || "",
-					branch_name: position?.branch_id?.name || "",
+					position_title_id: "",
+					position_title_ids: [],
+					title: "",
+					titles: [],
+					branch_id: "",
+					branch_ids: [],
+					branch_name: "",
+					branch_names: [],
 					label: utils.formatUserName(user)
 				};
-			})
-			.filter(Boolean)
+
+				const positionTitleId = position?.position_title_id?.id || "";
+				const title = position?.position_title_id?.title || "";
+				const branchId = position?.branch_id?.id || "";
+				const branchName = position?.branch_id?.name || "";
+
+				if (positionTitleId && !existing.position_title_ids.some((id) => String(id) === String(positionTitleId))) {
+					existing.position_title_ids.push(positionTitleId);
+				}
+				if (title && !existing.titles.includes(title)) existing.titles.push(title);
+				if (branchId && !existing.branch_ids.some((id) => String(id) === String(branchId))) {
+					existing.branch_ids.push(branchId);
+				}
+				if (branchName && !existing.branch_names.includes(branchName)) existing.branch_names.push(branchName);
+
+				existing.position_title_id = existing.position_title_ids[0] || "";
+				existing.title = existing.titles.join(", ");
+				existing.branch_id = existing.branch_ids[0] || "";
+				existing.branch_name = existing.branch_names.join(", ");
+
+				contactsByUserId.set(user.id, existing);
+			});
+
+			const contacts = Array.from(contactsByUserId.values())
 			.sort((a, b) => String(a.label || "").localeCompare(String(b.label || "")));
 			return contacts;
 		} catch (error) {
