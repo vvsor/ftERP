@@ -9,7 +9,7 @@ export default {
 	getAccountAccessOptions() {
 		return [
 			{ label: "Нет", value: "none" },
-			{ label: "Чтение", value: "read" }
+			{ label: "Да", value: "read" }
 		];
 	},
 

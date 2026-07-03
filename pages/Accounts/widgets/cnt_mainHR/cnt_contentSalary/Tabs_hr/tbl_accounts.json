@@ -38,13 +38,14 @@
     "type",
     "branch_id",
     "branch_name",
-    "customColumn1",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1779783493235,
+  "columnUpdatedAt": 1783069152450,
   "columnWidthMap": {
     "branch_id": 210,
-    "customColumn1": 76
+    "branch_name": 68,
+    "customColumn1": 76,
+    "id": 67
   },
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -101,15 +102,6 @@
       "key": "primaryColumns.type.selectOptions"
     },
     {
-      "key": "primaryColumns.customColumn1.boxShadow"
-    },
-    {
-      "key": "primaryColumns.customColumn1.borderRadius"
-    },
-    {
-      "key": "primaryColumns.customColumn1.buttonColor"
-    },
-    {
       "key": "primaryColumns.branch_id.selectOptions"
     }
   ],
@@ -131,9 +123,6 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
-    },
-    {
-      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "dynamicTriggerPathList": [
@@ -145,9 +134,6 @@
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
-    },
-    {
-      "key": "primaryColumns.customColumn1.onClick"
     }
   ],
   "enableClientSideSearch": true,
@@ -288,46 +274,6 @@
       "verticalAlignment": "CENTER",
       "width": 150
     },
-    "customColumn1": {
-      "alias": "",
-      "allowCellWrapping": false,
-      "allowSameOptionsInNewRow": true,
-      "borderRadius": "{{tbl_accounts.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
-      "boxShadow": "{{tbl_accounts.processedTableData.map((currentRow, currentIndex) => ( \"none\"))}}",
-      "buttonColor": "{{tbl_accounts.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
-      "buttonStyle": "rgb(3, 179, 101)",
-      "buttonVariant": "TERTIARY",
-      "columnType": "iconButton",
-      "computedValue": "",
-      "currencyCode": "USD",
-      "customAlias": "",
-      "decimals": 0,
-      "enableFilter": true,
-      "enableSort": true,
-      "horizontalAlignment": "LEFT",
-      "iconName": "delete",
-      "id": "customColumn1",
-      "index": 6,
-      "isCellEditable": false,
-      "isCellVisible": true,
-      "isDerived": true,
-      "isDisabled": false,
-      "isDiscardVisible": true,
-      "isEditable": false,
-      "isSaveVisible": true,
-      "isVisible": true,
-      "label": "",
-      "labelColor": "#FFFFFF",
-      "notation": "standard",
-      "onClick": "{{accounts.requestDeleteAccount(tbl_accounts.triggeredRow);}}",
-      "originalId": "customColumn1",
-      "sticky": "",
-      "textSize": "0.875rem",
-      "thousandSeparator": true,
-      "validation": {},
-      "verticalAlignment": "CENTER",
-      "width": 150
-    },
     "id": {
       "alias": "id",
       "allowCellWrapping": false,
@@ -434,7 +380,7 @@
   },
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 36,
+  "rightColumn": 27,
   "searchKey": "",
   "serverSidePaginationEnabled": true,
   "showInlineEditingOptionDropdown": true,

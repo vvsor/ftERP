@@ -38,18 +38,19 @@
     "branch_account_id",
     "employee",
     "active",
+    "position_id",
     "account_access",
     "accruals_access",
     "payments_access",
-    "customColumn1",
-    "position_id",
     "position_name",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1780774903295,
+  "columnUpdatedAt": 1783070502459,
   "columnWidthMap": {
+    "active": 129,
     "customColumn1": 60,
     "id": 127,
+    "position_id": 169,
     "position_name": 225
   },
   "customIsLoading": false,
@@ -122,15 +123,6 @@
       "key": "primaryColumns.accruals_access.selectOptions"
     },
     {
-      "key": "primaryColumns.customColumn1.boxShadow"
-    },
-    {
-      "key": "primaryColumns.customColumn1.borderRadius"
-    },
-    {
-      "key": "primaryColumns.customColumn1.buttonColor"
-    },
-    {
       "key": "primaryColumns.position_id.computedValue"
     },
     {
@@ -154,18 +146,12 @@
       "key": "primaryColumns.EditActions1.isDiscardDisabled"
     },
     {
-      "key": "primaryColumns.customColumn1.onClick"
-    },
-    {
       "key": "primaryColumns.EditActions1.onSave"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "onAddNewRowSave"
-    },
-    {
-      "key": "primaryColumns.customColumn1.onClick"
     },
     {
       "key": "primaryColumns.EditActions1.onSave"
@@ -193,10 +179,12 @@
   "mobileTopRow": 1,
   "needsErrorInfo": false,
   "onAddNewRowSave": "{{accounts.saveAccessRow(tbl_curAccountAccess.newRow);}}",
+  "originalBottomRow": 48,
+  "originalTopRow": 5,
   "parentColumnSpace": 16.625,
   "parentId": "29oho5zkft",
   "parentRowSpace": 10,
-  "primaryColumnId": "user_id",
+  "primaryColumnId": "position_id",
   "primaryColumns": {
     "EditActions1": {
       "alias": "EditActions1",
@@ -296,7 +284,7 @@
       "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "Счёт",
+      "label": "Видимость",
       "notation": "standard",
       "originalId": "account_access",
       "selectOptions": "{{(() => { const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (accounts.getAccountAccessOptions())) : accounts.getAccountAccessOptions() })()}}",
@@ -405,46 +393,6 @@
       "originalId": "branch_account_id",
       "sticky": "",
       "textColor": "",
-      "textSize": "0.875rem",
-      "thousandSeparator": true,
-      "validation": {},
-      "verticalAlignment": "CENTER",
-      "width": 150
-    },
-    "customColumn1": {
-      "alias": "",
-      "allowCellWrapping": false,
-      "allowSameOptionsInNewRow": true,
-      "borderRadius": "{{tbl_curAccountAccess.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
-      "boxShadow": "{{tbl_curAccountAccess.processedTableData.map((currentRow, currentIndex) => ( \"none\"))}}",
-      "buttonColor": "{{tbl_curAccountAccess.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.colors.primaryColor)))}}",
-      "buttonStyle": "rgb(3, 179, 101)",
-      "buttonVariant": "TERTIARY",
-      "columnType": "iconButton",
-      "computedValue": "",
-      "currencyCode": "USD",
-      "customAlias": "",
-      "decimals": 0,
-      "enableFilter": true,
-      "enableSort": true,
-      "horizontalAlignment": "LEFT",
-      "iconName": "delete",
-      "id": "customColumn1",
-      "index": 10,
-      "isCellEditable": false,
-      "isCellVisible": true,
-      "isDerived": true,
-      "isDisabled": false,
-      "isDiscardVisible": true,
-      "isEditable": false,
-      "isSaveVisible": true,
-      "isVisible": true,
-      "label": "",
-      "labelColor": "#FFFFFF",
-      "notation": "standard",
-      "onClick": "{{accounts.requestDeleteAccountAccess(tbl_curAccountAccess.triggeredRow);}}",
-      "originalId": "customColumn1",
-      "sticky": "",
       "textSize": "0.875rem",
       "thousandSeparator": true,
       "validation": {},
@@ -560,7 +508,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "select",
-      "computedValue": "{{(() => { const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => { const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"position_id\"])) : position_id })())) : (() => { const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"position_id\"])) : position_id })() })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow.position_id)) : currentRow.position_id })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -577,10 +525,10 @@
       "isEditable": true,
       "isSaveVisible": true,
       "isVisible": true,
-      "label": "position_id",
+      "label": "Позиция",
       "notation": "standard",
       "originalId": "position_id",
-      "selectOptions": "{{(() => { const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => { const rows = Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : []; const options = rows.map((row) => ({ label: row.position_name || row.title || row.id, value: row.position_id || row.id })); const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map(() => options) : options })())) : (() => { const rows = Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : []; const options = rows.map((row) => ({ label: row.position_name || row.title || row.id, value: row.position_id || row.id })); const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map(() => options) : options })() })()}}",
+      "selectOptions": "{{(() => { const tableData = tbl_curAccountAccess.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : []).map((row) => ({ label: row.position_name || row.title || row.id, value: row.position_id ?? row.id })))) : (Array.isArray(appsmith.store?.hrPositionRows) ? appsmith.store.hrPositionRows : []).map((row) => ({ label: row.position_name || row.title || row.id, value: row.position_id ?? row.id })) })()}}",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
@@ -611,7 +559,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "position_name",
       "notation": "standard",
       "originalId": "position_name",
