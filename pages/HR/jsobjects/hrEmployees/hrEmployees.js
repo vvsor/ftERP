@@ -272,7 +272,7 @@ export default {
 			.filter((policyId) => !existingIds.includes(policyId))
 			.map((policyId) => ({
 				user: userId,
-				policy: { id: policyId }
+				policy: policyId
 			})),
 			update: [],
 			delete: existingLinks

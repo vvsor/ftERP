@@ -92,7 +92,7 @@
   "isVisible": true,
   "key": "o2kna0hd2j",
   "label": "{{(() => {\n  const user = appsmith.store?.user;\n  if (!user) return \"Меню\";\n\n  const name = hrEmployees.formatUserName(user);\n  return name || user.email || \"Меню\";\n})()}}",
-  "leftColumn": 55,
+  "leftColumn": 53,
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {
     "menuItem2": {
