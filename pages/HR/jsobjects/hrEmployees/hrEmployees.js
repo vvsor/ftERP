@@ -71,7 +71,7 @@ export default {
 				.filter(Boolean)
 				.join(", "),
 			};
-		}).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || "")));
+		}).sort((a, b) => String(a.employee || "").localeCompare(String(b.employee || ""), "ru"));
 
 		if (commitToStore) await storeValue("hrEmployeeRows", rows, false);
 		return rows;
@@ -114,9 +114,9 @@ export default {
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name || "";
-		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
-		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
-		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
+		const first = user.first_name || "";
+		const middle = user.middle_name || "";
+		return [last, first, middle].filter(Boolean).join(" ").trim();
 	},
 
 	formatRoleName(role) {

@@ -140,6 +140,11 @@ export default {
 				supervisor_display: [supervisorTitle, supervisorEmployee.employee].filter(Boolean).join(" - ")
 			};
 		})
+		// .sort((a, b) =>
+		// String(a.employee || "").localeCompare(String(b.employee || ""), "ru") ||
+		// String(a.branch_name || "").localeCompare(String(b.branch_name || ""), "ru") ||
+		// String(a.title || "").localeCompare(String(b.title || ""), "ru")
+		// );
 		.sort((a, b) => {
 			const branchCompare = String(a.branch_name || "").localeCompare(String(b.branch_name || ""));
 			return branchCompare || String(a.title || "").localeCompare(String(b.title || ""));

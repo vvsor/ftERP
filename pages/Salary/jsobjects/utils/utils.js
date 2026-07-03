@@ -230,7 +230,11 @@ export default {
 				payments_sum: paymentsSum,
 				balance: accrualsSum - paymentsSum
 			};
-		});
+		})
+		.sort((a, b) =>
+					String(a.employee || "").localeCompare(String(b.employee || ""), "ru") ||
+					String(a.title || "").localeCompare(String(b.title || ""), "ru")
+				 );
 
 		await storeValue("salaryByOfficeTermId", salaryByOfficeTermId, false);
 
@@ -265,9 +269,9 @@ export default {
 	formatUserName(user) {
 		if (!user) return "";
 		const last = user.last_name || "";
-		const first = user.first_name?.[0] ? `${user.first_name[0]}.` : "";
-		const middle = user.middle_name?.[0] ? `${user.middle_name[0]}.` : "";
-		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
+		const first = user.first_name || "";
+		const middle = user.middle_name || "";
+		return [last, first, middle].filter(Boolean).join(" ").trim();
 	},
 
 	async reloadSalaryContext({ refreshEmployees = false, salaryRecord: prefetchedSalaryRecord = null } = {}) {

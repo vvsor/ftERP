@@ -43,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 49,
   "shouldTruncate": false,
-  "text": "Начисления: {{\ntbl_employees.selectedRow.employee\n}}",
+  "text": "Начисления: {{tbl_employees.selectedRow?.employee || appsmith.store?.SelectedOfficeTerm?.employee || \"\"}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,
