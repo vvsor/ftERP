@@ -184,28 +184,27 @@ export default {
 
 		if (!salaryId) {
 			showAlert("Зарплата периода не выбрана", "error");
-			throw new Error("salaryId missing");
+			return null;
 		}
 
 		if (!newAccountId) {
 			showAlert("Выберите счет филиала", "error");
-			throw new Error("Branch account is required");
+			return null;
 		}
 
 		if (!salaryAccounts.hasBranchAccountWriteAccess(newAccountId, "salaryAccrualWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету начислений", "error");
-			throw new Error("No write access to accrual account");
+			return null;
 		}
 
 		if (!nextAccrualTypeId) {
 			showAlert("Выберите тип начисления", "error");
-			throw new Error("Accrual type is required");
+			return null;
 		}
 
-
 		if (!Number.isFinite(newAmount) || newAmount <= 0) {
-			showAlert("Accrual amount is invalid", "error");
-			throw new Error("Ошибочная сумма начисления");
+			showAlert("Ошибочная сумма начисления", "error");
+			return null;
 		}
 
 		const getPaidSum = async (branchAccountId) => {
@@ -248,7 +247,7 @@ export default {
 			const accrualAfterEdit = accrualsWithoutCurrent + newAmount;
 			if (paid > accrualAfterEdit + EPS) {
 				showAlert("Невозможно сохранить начисление: выплаты превышают начисления по данному счету", "error");
-				throw new Error("Редактирование начисления заблокировано существующими выплатами");
+				return null;
 			}
 		} else {
 			const [
@@ -268,12 +267,12 @@ export default {
 
 			if (oldPaid > oldAfterEdit + EPS) {
 				showAlert("Невозможно изменить начисление: существующие выплаты превышают начисления по счету", "error");
-				throw new Error("Изменение начисления заблокировано существующими выплатами");
+				return null;
 			}
 
 			if (newPaid > newAfterEdit + EPS) {
 				showAlert("Невозможно изменить начисление: существующие выплаты превышают начисления по счету (НЕВОЗМОЖНАЯ СИТУАЦИЯ)", "error");
-				throw new Error("Изменение начисления заблокировано");
+				return null;
 			}
 		}
 
@@ -297,7 +296,7 @@ export default {
 
 		if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету начислений", "error");
-			throw new Error("No write access to accrual account");
+			return null;
 		}
 
 		const now = Date.now();
@@ -352,11 +351,8 @@ export default {
 
 		// 3) Block deletion if payments would exceed accruals after delete
 		if (paidSum > accrualAfterDelete + EPS) {
-			showAlert(
-				"Невозможно удалить данное начисление: существуют выплаты по данному счету в этом периоде.",
-				"error"
-			);
-			throw new Error("Удаление заблокировано существующими выплатами");
+			showAlert("Невозможно удалить данное начисление: существуют выплаты по данному счету в этом периоде.", "error");
+			return null;
 		}
 
 		// 4) Soft delete

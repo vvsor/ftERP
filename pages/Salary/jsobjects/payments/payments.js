@@ -245,27 +245,27 @@ export default {
 
 		if (!salaryId) {
 			showAlert("Зарплата периода не выбрана", "error");
-			throw new Error("salaryId missing");
+			return null;
 		}
 
 		if (!nextBranchAccountId) {
 			showAlert("Выберите счет филиала", "error");
-			throw new Error("Branch account is required");
+			return null;
 		}
 
 		if (!salaryAccounts.hasBranchAccountWriteAccess(nextBranchAccountId, "salaryPaymentWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету выплат", "error");
-			throw new Error("No write access to payment account");
+			return null;
 		}
 
 		if (!nextPaymentDate) {
 			showAlert("Укажите дату выплаты", "error");
-			throw new Error("Payment date is required");
+			return null;
 		}
 
 		if (!Number.isFinite(nextAmount) || nextAmount <= 0) {
 			showAlert("Ошибочная сумма выплаты", "error");
-			throw new Error("Invalid payment amount");
+			return null;
 		}
 
 		// Sum accruals for target account (active only)
@@ -307,7 +307,7 @@ export default {
 				`Попытка выплатить: ${nextAmount}`,
 				"error"
 			);
-			throw new Error("Выплата превышает начисление");
+			return null;
 		}
 
 		await items.updateItems({
@@ -329,7 +329,7 @@ export default {
 
 		if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету выплат", "error");
-			throw new Error("No write access to payment account");
+			return null;
 		}
 
 		const now = Date.now();
