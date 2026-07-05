@@ -28,35 +28,18 @@ export default {
 
 		if (!positionIds.length) return [];
 
-		try {
-			const response = await items.getItems({
-				collection: "branch_account_access",
-				fields: "id,branch_account_id.id,position_id.id,active,account_access,payments_access,accruals_access",
-				filter: {
-					position_id: { id: { _in: positionIds } },
-					active: { _eq: true }
-				},
-				limit: -1
-			});
+		const response = await items.getItems({
+			collection: "branch_account_access",
+			fields: "id,branch_account_id.id,position_id.id,active,account_access,payments_access,accruals_access",
+			filter: {
+				position_id: { id: { _in: positionIds } },
+				active: { _eq: true }
+			},
+			limit: -1
+		});
 
-			if (appsmith.store?.salaryBranchAccountAccessDenied === true) {
-				await storeValue("salaryBranchAccountAccessDenied", false, false);
-			}
-
-			return response.data || [];
-		} catch (error) {
-			if (error?.authHandled) throw error;
-			console.warn("Branch account access unavailable:", error);
-
-			if (appsmith.store?.salaryBranchAccountAccessDenied !== true) {
-				await storeValue("salaryBranchAccountAccessDenied", true, false);
-				showAlert("Нет доступа к настройкам счетов филиала. Начисления и выплаты будут скрыты.", "warning");
-			}
-
-			return [];
-		}
-	},
-	
+		return response.data || [];
+	},	
 	getAllowedBranchAccountIds(accessRows = [], accessField = "", allowed = ["read", "write"]) {
 		if (!accessField) return [];
 		return accessRows
