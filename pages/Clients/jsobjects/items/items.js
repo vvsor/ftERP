@@ -1,6 +1,26 @@
 export default {
 	refreshPromise: null,
 	authFailureHandled: false,
+	queryQueue: null,
+
+	async runSerialized(runQuery) {
+		const previous = items.queryQueue || Promise.resolve();
+		let releaseQueue;
+
+		items.queryQueue = new Promise((resolve) => {
+			releaseQueue = resolve;
+		});
+
+		try {
+			await previous;
+		} catch (_) {}
+
+		try {
+			return await runQuery();
+		} finally {
+			releaseQueue();
+		}
+	},
 
 	getErrorText(error) {
 		const parts = [
@@ -86,9 +106,11 @@ export default {
 		}
 
 		try {
-			return await runQuery();
+			return await items.runSerialized(runQuery);
 		} catch (error) {
-			if (!items.isTokenExpiredError(error)) throw error;
+			if (!items.isTokenExpiredError(error)) {
+				throw error;
+			}
 
 			try {
 				await items.refreshAccessToken();
@@ -96,7 +118,7 @@ export default {
 				return await items.handleRefreshFailure(refreshError);
 			}
 
-			return await runQuery();
+			return await items.runSerialized(runQuery);
 		}
 	},
 
@@ -105,8 +127,8 @@ export default {
 		if (!collection) throw new Error("'collection' must be defined.");
 
 		return await items.runWithRefresh(() =>
-			qCreateItems.run({ fields, filter, body, limit, collection })
-		);
+																			qCreateItems.run({ fields, filter, body, limit, collection })
+																		 );
 	},
 
 	updateItems: async (params = {}) => {
@@ -114,8 +136,8 @@ export default {
 		if (!body || !collection) throw new Error("Both 'body' and 'collection' must be defined.");
 
 		return await items.runWithRefresh(() =>
-			qUpdateItems.run({ fields, filter, body, limit, collection })
-		);
+																			qUpdateItems.run({ fields, filter, body, limit, collection })
+																		 );
 	},
 
 	getItems: async (params = {}) => {
@@ -123,8 +145,8 @@ export default {
 		if (!fields || !collection) throw new Error("Both 'fields' and 'collection' must be defined.");
 
 		return await items.runWithRefresh(() =>
-			qGetItems.run({ fields, filter, body, limit, collection })
-		);
+																			qGetItems.run({ fields, filter, body, limit, collection })
+																		 );
 	},
 
 	deleteItems: async (params = {}) => {
@@ -132,8 +154,8 @@ export default {
 		if (!body || Object.keys(body).length === 0) throw new Error("You must specify body for deletion!");
 
 		return await items.runWithRefresh(() =>
-			qDeleteItems.run({ fields, filter, body, limit, collection })
-		);
+																			qDeleteItems.run({ fields, filter, body, limit, collection })
+																		 );
 	},
 
 	parseJwtPayload(token) {

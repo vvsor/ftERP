@@ -31,7 +31,7 @@
   "isFilterable": true,
   "isLoading": false,
   "isRequired": false,
-  "isVisible": false,
+  "isVisible": true,
   "key": "s0rcrbaz7o",
   "labelAlignment": "left",
   "labelPosition": "Top",

@@ -1,6 +1,26 @@
 export default {
 	refreshPromise: null,
 	authFailureHandled: false,
+	queryQueue: null,
+
+	async runSerialized(runQuery) {
+		const previous = items.queryQueue || Promise.resolve();
+		let releaseQueue;
+
+		items.queryQueue = new Promise((resolve) => {
+			releaseQueue = resolve;
+		});
+
+		try {
+			await previous;
+		} catch (_) {}
+
+		try {
+			return await runQuery();
+		} finally {
+			releaseQueue();
+		}
+	},
 
 	getErrorText(error) {
 		const parts = [
@@ -94,7 +114,7 @@ export default {
 		}
 
 		try {
-			return await runQuery();
+			return await items.runSerialized(runQuery);
 		} catch (error) {
 			if (!items.isTokenExpiredError(error)) {
 				throw error;
@@ -106,7 +126,7 @@ export default {
 				return await items.handleRefreshFailure(refreshError);
 			}
 
-			return await runQuery();
+			return await items.runSerialized(runQuery);
 		}
 	},
 
