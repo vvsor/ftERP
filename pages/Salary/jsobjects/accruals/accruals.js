@@ -88,57 +88,63 @@ export default {
 	},
 
 	async createSalaryAccrual(newRow) {
-		const branchAccountId = newRow.branch_account_name;
-		const accrualTypeId = newRow.accrual_name;
-		const amount = Number(newRow.amount);
-		const comment = newRow.comment;
+		const fail = (msg) => {
+			const err = new Error(msg);
+			err.userFacing = true;
+			showAlert(msg, "error");
+			throw err;
+		};
 
-		if (!branchAccountId) {
-			showAlert("Выберите счет филиала", "error");
-			throw new Error("Branch account is required");
-		}
+		try {
+			const branchAccountId = newRow.branch_account_name;
+			const accrualTypeId = newRow.accrual_name;
+			const amount = Number(newRow.amount);
+			const comment = newRow.comment;
 
-		if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
-			showAlert("Нет права записи по выбранному счету начислений", "error");
-			throw new Error("No write access to accrual account");
-		}
+			if (!branchAccountId) fail("Выберите счет филиала");
 
-		if (!accrualTypeId) {
-			showAlert("Выберите тип начисления", "error");
-			throw new Error("Accrual type is required");
-		}
-
-		if (!Number.isFinite(amount) || amount <= 0) {
-			showAlert("Ошибочная сумма начисления", "error");
-			throw new Error("Invalid accrual amount");
-		}
-
-		const salaryRecord = appsmith.store?.salaryOfPeriod?.id
-		? appsmith.store.salaryOfPeriod
-		: await salary.getOrCreateSalaryForCurrentSelection();
-		const salaryId = salaryRecord?.id;
-
-		if (!salaryId) {
-			showAlert("Не удалось создать запись зарплаты", "error");
-			throw new Error("salaryId missing");
-		}
-
-		const result = await items.createItems({
-			collection: "salary_accruals",
-			body: {
-				salary_id: salaryId,
-				branch_account_id: branchAccountId,
-				accrual_type_id: accrualTypeId,
-				comment,
-				amount
+			if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryAccrualWriteBranchAccountIds")) {
+				fail("Нет права записи по выбранному счету начислений");
 			}
-		});
 
-		await accruals.loadSalaryAccruals();
-		await utils.refreshSelectedEmployeeSummaryFromDetails();
+			if (!accrualTypeId) fail("Выберите тип начисления");
 
-		return result.data?.id;
+			if (!Number.isFinite(amount) || amount <= 0) {
+				fail("Ошибочная сумма начисления");
+			}
+
+			const salaryRecord = appsmith.store?.salaryOfPeriod?.id
+			? appsmith.store.salaryOfPeriod
+			: await salary.getOrCreateSalaryForCurrentSelection();
+			const salaryId = salaryRecord?.id;
+
+			if (!salaryId) fail("Не удалось создать запись зарплаты");
+
+			const result = await items.createItems({
+				collection: "salary_accruals",
+				body: {
+					salary_id: salaryId,
+					branch_account_id: branchAccountId,
+					accrual_type_id: accrualTypeId,
+					comment,
+					amount
+				}
+			});
+
+			await accruals.loadSalaryAccruals();
+			await utils.refreshSelectedEmployeeSummaryFromDetails();
+
+			return result.data?.id;
+		} catch (err) {
+			if (err?.authHandled) throw err;
+			if (err?.userFacing) return null;
+
+			console.error("createSalaryAccrual error:", err);
+			showAlert("Ошибка при создании начисления", "error");
+			throw err;
+		}
 	},
+
 	async updateSalaryAccrual(changed) {
 		const { allFields, updatedFields } = changed;
 		const salaryId = appsmith.store?.salaryOfPeriod?.id;
