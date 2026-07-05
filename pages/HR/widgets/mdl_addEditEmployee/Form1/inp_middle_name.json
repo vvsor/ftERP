@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 7,
+  "bottomRow": 11,
   "boxShadow": "none",
-  "defaultText": "{{ appsmith.store?.hrSelectedEmployee?.last_name || \"\" }}",
+  "defaultText": "{{ appsmith.store?.hrSelectedEmployee?.middle_name || \"\" }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -15,32 +15,25 @@
     },
     {
       "key": "defaultText"
-    },
-    {
-      "key": "isRequired"
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicPropertyPathList": [
-    {
-      "key": "isRequired"
-    }
-  ],
+  "dynamicPropertyPathList": [],
   "dynamicTriggerPathList": [],
   "iconAlign": "left",
   "inputType": "TEXT",
   "isDisabled": false,
   "isLoading": false,
-  "isRequired": "{{ appsmith.store?.hrEmployeeModalMode === \"add\" }}",
+  "isRequired": false,
   "isVisible": true,
   "key": "22zpbcqvy8",
-  "label": "Фамилия",
+  "label": "Отчество",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 1,
+  "leftColumn": 43,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -52,16 +45,16 @@
   "originalBottomRow": 13,
   "originalTopRow": 6,
   "parentColumnSpace": 7.351837158203125,
-  "parentId": "3ufkw5xfin",
+  "parentId": "dij6k1fbzs",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
-  "rightColumn": 21,
+  "rightColumn": 63,
   "showStepArrows": false,
-  "topRow": 0,
+  "topRow": 5,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "yv7rikf8mi",
-  "widgetName": "inp_last_name"
+  "widgetId": "5oeity650q",
+  "widgetName": "inp_middle_name"
 }

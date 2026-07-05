@@ -3,15 +3,18 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 15,
+  "bottomRow": 11,
   "boxShadow": "none",
-  "defaultText": "",
+  "defaultText": "{{ appsmith.store?.hrSelectedEmployee?.first_name || \"\" }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
     },
     {
       "key": "isRequired"
@@ -25,19 +28,19 @@
   ],
   "dynamicTriggerPathList": [],
   "iconAlign": "left",
-  "inputType": "PASSWORD",
+  "inputType": "TEXT",
   "isDisabled": false,
   "isLoading": false,
-  "isRequired": "{{ appsmith.store?.hrEmployeeModalMode === \"add1\" }}",
+  "isRequired": "{{ appsmith.store?.hrEmployeeModalMode === \"add\" }}",
   "isVisible": true,
   "key": "22zpbcqvy8",
-  "label": "Пароль",
+  "label": "Имя",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 22,
+  "leftColumn": 21,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -46,20 +49,19 @@
   "mobileRightColumn": 20,
   "mobileTopRow": 5,
   "needsErrorInfo": false,
-  "originalBottomRow": 21,
-  "originalTopRow": 14,
+  "originalBottomRow": 13,
+  "originalTopRow": 6,
   "parentColumnSpace": 7.351837158203125,
-  "parentId": "3ufkw5xfin",
+  "parentId": "dij6k1fbzs",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
-  "rightColumn": 42,
-  "shouldAllowAutofill": true,
+  "rightColumn": 41,
   "showStepArrows": false,
-  "topRow": 8,
+  "topRow": 5,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "6xz487566i",
-  "widgetName": "inp_password"
+  "widgetId": "4y8quiqlu2",
+  "widgetName": "inp_first_name"
 }

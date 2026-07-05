@@ -37,7 +37,7 @@
   "mobileTopRow": 0,
   "needsErrorInfo": false,
   "onClick": "{{hrEmployees.closeEmployeeModal();}}",
-  "parentId": "caki23bn46",
+  "parentId": "dij6k1fbzs",
   "renderMode": "CANVAS",
   "responsiveBehavior": "hug",
   "rightColumn": 64,

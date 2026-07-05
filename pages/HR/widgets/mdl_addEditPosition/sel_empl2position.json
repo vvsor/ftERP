@@ -17,9 +17,6 @@
       "key": "sourceData"
     },
     {
-      "key": "isVisible"
-    },
-    {
       "key": "defaultOptionValue"
     }
   ],
@@ -27,9 +24,6 @@
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
-    },
-    {
-      "key": "isVisible"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -37,7 +31,7 @@
   "isFilterable": true,
   "isLoading": false,
   "isRequired": false,
-  "isVisible": "{{appsmith.store?.hrPositionModalMode !== \"edit\"}}",
+  "isVisible": false,
   "key": "s0rcrbaz7o",
   "labelAlignment": "left",
   "labelPosition": "Top",

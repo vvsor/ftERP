@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 5,
+  "bottomRow": 4,
   "dynamicBindingPathList": [
     {
       "key": "truncateButtonColor"
@@ -24,7 +24,7 @@
   "isLoading": false,
   "isVisible": true,
   "key": "neh1lg1nno",
-  "leftColumn": 1,
+  "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -34,15 +34,15 @@
   "mobileTopRow": 1,
   "needsErrorInfo": false,
   "overflow": "NONE",
-  "parentId": "caki23bn46",
+  "parentId": "dij6k1fbzs",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 41,
+  "rightColumn": 40,
   "shouldTruncate": false,
   "text": "{{ appsmith.store?.hrEmployeeModalMode === \"edit\" ? `Профиль: ${appsmith.store?.hrSelectedEmployee?.employee || \"\"}` : \"Новый сотрудник\" }}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
-  "topRow": 1,
+  "topRow": 0,
   "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
   "type": "TEXT_WIDGET",
   "version": 1,

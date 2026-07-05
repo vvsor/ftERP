@@ -49,7 +49,9 @@
     "is_current"
   ],
   "columnUpdatedAt": 1779345911882,
-  "columnWidthMap": {},
+  "columnWidthMap": {
+    "title": 206
+  },
   "customIsLoading": false,
   "customIsLoadingValue": "",
   "defaultPageSize": 0,

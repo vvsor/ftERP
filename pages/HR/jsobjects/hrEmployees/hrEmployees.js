@@ -320,12 +320,13 @@ export default {
 		const positionId = sel_position4empl.selectedOptionValue || null;
 		const assignmentStartDate = hrOfficeTerms.formatDateValue(dp_startDatePos2Empl.selectedDate);
 
+		if (mode === "edit" && !selectedEmployee?.id) return showAlert("Сотрудник не выбран", "warning");
 		if (!body.last_name || !body.first_name) return showAlert("Заполните фамилию и имя", "warning");
 		if (!roleIsAllowed) return showAlert("Выберите разрешенную роль", "warning");
 		if (hasForbiddenPolicies) return showAlert("Выбрана недоступная политика доступа", "warning");
-		if (mode === "add" && positionId && !assignmentStartDate) return showAlert("Укажите дату назначения на должность", "warning");
+		if (positionId && !assignmentStartDate) return showAlert("Укажите дату назначения на должность", "warning");
 
-		if (mode === "add" && positionId) {
+		if (positionId) {
 			try {
 				await hrOfficeTerms.validatePositionAvailableForAssignment({
 					position_id: positionId,
@@ -338,38 +339,39 @@ export default {
 		}
 
 		let assignmentCreated = false;
+		let savedUserId = selectedEmployee?.id || null;
 
 		if (mode === "edit") {
-			await items.updateUser(selectedEmployee.id, body);
-		} else {
-			const createdUser = await items.createUser(body);
-			const createdUserId = hrOfficeTerms.getCreatedRecordId(createdUser);
-
-			if (!createdUserId) throw new Error("Не удалось получить ID созданного пользователя");
-
-			if (mode === "edit" && this.hasProtectedPolicy(selectedEmployee)) {
+			if (this.hasProtectedPolicy(selectedEmployee)) {
 				showAlert("Пользователь с повышенными правами не может редактироваться через HR", "warning");
 				return;
 			}
 
-			if (policyIds.length) {
-				await items.updateUser(createdUserId, {
-					policies: this.buildPoliciesPayload(createdUserId, policyIds, [])
-				});
-			}
+			await items.updateUser(savedUserId, body);
+		} else {
+			const createdUser = await items.createUser(body);
+			savedUserId = hrOfficeTerms.getCreatedRecordId(createdUser);
 
-			if (positionId) {
-				await hrOfficeTerms.createOfficeTermAssignment({
-					user_id: createdUserId,
-					position_id: positionId,
-					date_from: assignmentStartDate
+			if (!savedUserId) throw new Error("Не удалось получить ID созданного пользователя");
+
+			if (policyIds.length) {
+				await items.updateUser(savedUserId, {
+					policies: this.buildPoliciesPayload(savedUserId, policyIds, [])
 				});
-				assignmentCreated = true;
 			}
 		}
 
+		if (positionId) {
+			await hrOfficeTerms.createOfficeTermAssignment({
+				user_id: savedUserId,
+				position_id: positionId,
+				date_from: assignmentStartDate
+			});
+			assignmentCreated = true;
+		}
+
 		showAlert(
-			assignmentCreated ? "Сотрудник добавлен и назначен на должность" : (mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен"),
+			assignmentCreated ? (mode === "edit" ? "Сотрудник обновлен и назначен на должность" : "Сотрудник добавлен и назначен на должность") : (mode === "edit" ? "Сотрудник обновлен" : "Сотрудник добавлен"),
 			"success"
 		);
 		closeModal(mdl_addEditEmployee.name);

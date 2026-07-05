@@ -329,8 +329,8 @@ export default {
 		const mode = appsmith.store?.hrPositionModalMode || "add";
 		const selectedPosition = appsmith.store?.hrSelectedPositionDraft;
 		const body = this.getPositionFormData();
-		const employeeId = mode === "add" ? (sel_empl2position.selectedOptionValue || null) : null;
-		const assignmentStartDate = mode === "add" ? hrOfficeTerms.formatDateValue(dp_startDateEmpl2Pos.selectedDate) : null;
+		const employeeId = sel_empl2position.selectedOptionValue || null;
+		const assignmentStartDate = employeeId ? hrOfficeTerms.formatDateValue(dp_startDateEmpl2Pos.selectedDate) : null;
 
 		if (!body.position_title_id) return showAlert("Выберите название должности", "warning");
 		if (!body.branch_id) return showAlert("Выберите подразделение", "warning");
@@ -357,15 +357,15 @@ export default {
 		} else {
 			const createdPosition = await items.createItems({ collection: "positions", body });
 			savedPositionId = hrOfficeTerms.getCreatedRecordId(createdPosition);
+		}
 
-			if (employeeId) {
-				await hrOfficeTerms.createOfficeTermAssignment({
-					user_id: employeeId,
-					position_id: savedPositionId,
-					date_from: assignmentStartDate
-				});
-				assignmentCreated = true;
-			}
+		if (employeeId) {
+			await hrOfficeTerms.createOfficeTermAssignment({
+				user_id: employeeId,
+				position_id: savedPositionId,
+				date_from: assignmentStartDate
+			});
+			assignmentCreated = true;
 		}
 
 		closeModal(mdl_addEditPosition.name);
@@ -374,7 +374,7 @@ export default {
 			assignmentCreated ? hrEmployees.refreshEmployeesPage({ notify: false }) : Promise.resolve()
 		]);
 		showAlert(
-			assignmentCreated ? "Должность добавлена, сотрудник назначен" : (mode === "edit" ? "Должность обновлена" : "Должность добавлена"),
+			assignmentCreated ? (mode === "edit" ? "Должность обновлена, сотрудник назначен" : "Должность добавлена, сотрудник назначен") : (mode === "edit" ? "Должность обновлена" : "Должность добавлена"),
 			"success"
 		);
 	}

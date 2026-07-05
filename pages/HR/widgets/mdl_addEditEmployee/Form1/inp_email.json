@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 7,
+  "bottomRow": 19,
   "boxShadow": "none",
-  "defaultText": "{{ appsmith.store?.hrSelectedEmployee?.first_name || \"\" }}",
+  "defaultText": "{{ appsmith.store?.hrSelectedEmployee?.email || \"\" }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -15,32 +15,24 @@
     },
     {
       "key": "defaultText"
-    },
-    {
-      "key": "isRequired"
     }
   ],
   "dynamicHeight": "FIXED",
-  "dynamicPropertyPathList": [
-    {
-      "key": "isRequired"
-    }
-  ],
   "dynamicTriggerPathList": [],
   "iconAlign": "left",
-  "inputType": "TEXT",
+  "inputType": "EMAIL",
   "isDisabled": false,
   "isLoading": false,
-  "isRequired": "{{ appsmith.store?.hrEmployeeModalMode === \"add\" }}",
+  "isRequired": false,
   "isVisible": true,
   "key": "22zpbcqvy8",
-  "label": "Имя",
+  "label": "e-mail",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 22,
+  "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -49,19 +41,20 @@
   "mobileRightColumn": 20,
   "mobileTopRow": 5,
   "needsErrorInfo": false,
-  "originalBottomRow": 13,
-  "originalTopRow": 6,
+  "originalBottomRow": 18,
+  "originalTopRow": 11,
   "parentColumnSpace": 7.351837158203125,
-  "parentId": "3ufkw5xfin",
+  "parentId": "dij6k1fbzs",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
-  "rightColumn": 42,
+  "rightColumn": 20,
+  "shouldAllowAutofill": true,
   "showStepArrows": false,
-  "topRow": 0,
+  "topRow": 12,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "4y8quiqlu2",
-  "widgetName": "inp_first_name"
+  "widgetId": "0fdu7gxydw",
+  "widgetName": "inp_email"
 }
