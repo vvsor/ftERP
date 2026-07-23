@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 51,
+  "bottomRow": 54,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -40,7 +40,7 @@
     "branch_names",
     "EditActions1"
   ],
-  "columnUpdatedAt": 1784803781761,
+  "columnUpdatedAt": 1784804867840,
   "columnWidthMap": {
     "branch_id": 210,
     "branch_name": 68,
@@ -100,9 +100,6 @@
     },
     {
       "key": "primaryColumns.branch_names.computedValue"
-    },
-    {
-      "key": "primaryColumns.branch_ids.selectOptions"
     }
   ],
   "dynamicPropertyPathList": [
@@ -211,7 +208,7 @@
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "select",
-      "computedValue": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => {\n\tconst rows = tbl_accounts.processedTableData || [];\n\treturn rows.length\n\t\t? rows.map((row) => row.branch_ids || [])\n\t\t: (branch_ids || []);\n})())) : (() => {\n\tconst rows = tbl_accounts.processedTableData || [];\n\treturn rows.length\n\t\t? rows.map((row) => row.branch_ids || [])\n\t\t: (branch_ids || []);\n})() })()}}",
+      "computedValue": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"branch_ids\"])) : currentRow[\"branch_ids\"] })()}}",
       "currencyCode": "USD",
       "decimals": 0,
       "enableFilter": true,
@@ -231,7 +228,7 @@
       "label": "branch_ids",
       "notation": "standard",
       "originalId": "branch_ids",
-      "selectOptions": "{{(() => { const tableData = tbl_accounts.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => ((() => {\n\tconst rows = tbl_accounts.processedTableData || [];\n\tconst options = (appsmith.store?.hrBranchRows || [])\n\t\t.map((row) => ({ label: row.name, value: row.id }));\n\n\treturn rows.length ? rows.map(() => options) : options;\n})())) : (() => {\n\tconst rows = tbl_accounts.processedTableData || [];\n\tconst options = (appsmith.store?.hrBranchRows || [])\n\t\t.map((row) => ({ label: row.name, value: row.id }));\n\n\treturn rows.length ? rows.map(() => options) : options;\n})() })()}}",
+      "selectOptions": "",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
@@ -262,7 +259,7 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": true,
+      "isVisible": false,
       "label": "branch_names",
       "notation": "standard",
       "originalId": "branch_names",

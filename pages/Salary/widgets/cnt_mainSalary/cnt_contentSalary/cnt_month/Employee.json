@@ -43,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 49,
   "shouldTruncate": false,
-  "text": "{{tbl_employees.selectedRow?.employee ||  \"Не выбран сотрудник\"}}",
+  "text": "{{[tbl_employees.selectedRow?.employee, tbl_employees.selectedRow?.branch_name].filter(Boolean).join(\" — \") || \"Не выбран сотрудник\"}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 6,

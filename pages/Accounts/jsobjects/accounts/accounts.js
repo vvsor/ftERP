@@ -143,6 +143,20 @@ export default {
 		}
 	},
 
+	async syncSelectedAccountBranches(branchIds) {
+		const accountId = appsmith.store?.hrSelectedAccount?.id;
+		if (!accountId) return showAlert("Выберите счет", "warning");
+		if (!this.normalizeBranchIds(branchIds).length) {
+			return showAlert("Выберите хотя бы одно подразделение", "warning");
+		}
+
+		await this.syncAccountBranches(accountId, branchIds);
+		const rows = await this.getAccountRows();
+		const selected = rows.find((row) => String(row.id) === String(accountId)) || null;
+		await storeValue("hrSelectedAccount", selected, true);
+		showAlert("Подразделения счета сохранены", "success");
+	},
+
 	async onAccountBranchFilterChanged() {
 		await storeValue("hrSelectedAccountBranchId", sel_accountsBranch.selectedOptionValue || "", true);
 		await this.ensureAccountSelection({ keepSelection: false });
@@ -170,7 +184,11 @@ export default {
 	async saveAccountRow(rowParam = null) {
 		const rawRow = rowParam || (tbl_accounts.isAddRowInProgress ? tbl_accounts.newRow : (tbl_accounts.updatedRows?.[0] || tbl_accounts.updatedRow || tbl_accounts.selectedRow));
 		const row = this.normalizeTableRow(rawRow);
-		const branchIds = this.normalizeBranchIds(row.branch_ids);
+		const storedRow = (appsmith.store?.hrAccountRows || [])
+		.find((item) => String(item.id) === String(row.id));
+		const branchIds = this.normalizeBranchIds(
+			row.id ? storedRow?.branch_ids : sel_accountsBranch.selectedOptionValue
+		);
 		const body = {
 			name: row?.name?.trim?.() || "",
 			type: row.type || null

@@ -1,0 +1,79 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 6,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store?.hrSelectedAccount?.branch_ids || []))(MultiSelect1.options, MultiSelect1.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onDropdownOpen"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDropdownOpen"
+    }
+  ],
+  "isDisabled": "{{!appsmith.store?.hrSelectedAccount?.id}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "4xq0em3job",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Счет привязан к следующим подразделениям",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 11,
+  "mobileLeftColumn": 24,
+  "mobileRightColumn": 44,
+  "mobileTopRow": 4,
+  "needsErrorInfo": false,
+  "onDropdownOpen": "{{accounts.syncSelectedAccountBranches(ms_accountBranches.selectedOptionValues);}}",
+  "optionLabel": "name",
+  "optionValue": "id",
+  "parentColumnSpace": 5.79296875,
+  "parentId": "29oho5zkft",
+  "parentRowSpace": 10,
+  "placeholderText": "Выберите подразделения",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "serverSideFiltering": false,
+  "sourceData": "{{appsmith.store?.hrBranchRows || []}}",
+  "topRow": 0,
+  "type": "MULTI_SELECT_WIDGET_V2",
+  "version": 1,
+  "widgetId": "2s3g1tl1dw",
+  "widgetName": "ms_curAccountBranches"
+}

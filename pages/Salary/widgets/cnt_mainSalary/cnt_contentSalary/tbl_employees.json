@@ -44,9 +44,10 @@
     "salary_id",
     "position_id"
   ],
-  "columnUpdatedAt": 1779041492200,
+  "columnUpdatedAt": 1784804617825,
   "columnWidthMap": {
     "branch": 321,
+    "branch_name": 242,
     "employee": 254.24316406250003,
     "title": 272
   },
@@ -281,8 +282,8 @@
       "isDiscardVisible": true,
       "isEditable": false,
       "isSaveVisible": true,
-      "isVisible": false,
-      "label": "branch_name",
+      "isVisible": true,
+      "label": "Подразделение",
       "notation": "standard",
       "originalId": "branch_name",
       "sticky": "",
