@@ -1,10 +1,10 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 50,
+  "bottomRow": 55,
   "boxShadow": "none",
   "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
-  "buttonVariant": "PRIMARY",
+  "buttonVariant": "SECONDARY",
   "disabledWhenInvalid": false,
   "dynamicBindingPathList": [
     {
@@ -14,22 +14,28 @@
       "key": "borderRadius"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "isDefaultClickDisabled": true,
   "isDisabled": false,
   "isLoading": false,
   "isVisible": true,
-  "key": "n35qezmzc6",
+  "key": "93ibzmm517",
   "leftColumn": 41,
   "minWidth": 120,
-  "mobileBottomRow": 29,
-  "mobileLeftColumn": 16,
-  "mobileRightColumn": 32,
-  "mobileTopRow": 25,
+  "mobileBottomRow": 46,
+  "mobileLeftColumn": 3,
+  "mobileRightColumn": 19,
+  "mobileTopRow": 42,
   "needsErrorInfo": false,
-  "originalBottomRow": 50,
-  "originalTopRow": 46,
-  "parentColumnSpace": 11.212890625,
+  "onClick": "{{profile_tasks.connectTelegram();}}",
+  "originalBottomRow": 57,
+  "originalTopRow": 53,
+  "parentColumnSpace": 10.6640625,
   "parentId": "266885u91y",
   "parentRowSpace": 10,
   "placement": "CENTER",
@@ -38,10 +44,10 @@
   "resetFormOnClick": false,
   "responsiveBehavior": "hug",
   "rightColumn": 57,
-  "text": "Сохранить",
-  "topRow": 46,
+  "text": "... подключить",
+  "topRow": 51,
   "type": "BUTTON_WIDGET",
   "version": 1,
-  "widgetId": "chxsiv4qr6",
-  "widgetName": "btn_saveProfile"
+  "widgetId": "o3ycee6fjb",
+  "widgetName": "btn_connectTelegram"
 }

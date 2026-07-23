@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 34,
+  "bottomRow": 35,
   "boxShadow": "none",
-  "defaultText": "Директор",
+  "defaultText": "{{appsmith.store.user.last_name}}",
   "displayName": "Input",
   "dynamicBindingPathList": [
     {
@@ -13,6 +13,9 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -27,7 +30,7 @@
   "isRequired": true,
   "isVisible": true,
   "key": "2use2p5sva",
-  "label": "Должность",
+  "label": "Фамилия",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
@@ -36,12 +39,12 @@
   "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
-  "originalBottomRow": 34,
-  "originalTopRow": 26,
+  "originalBottomRow": 37,
+  "originalTopRow": 29,
   "parentColumnSpace": 18.1875,
   "parentId": "266885u91y",
   "parentRowSpace": 10,
-  "placeholderText": "       должность",
+  "placeholderText": "Фамилия",
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "rightColumn": 57,
@@ -52,9 +55,9 @@
     "textarea"
   ],
   "shouldAllowAutofill": false,
-  "topRow": 26,
+  "topRow": 27,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "ed20a69elv",
-  "widgetName": "inp_positionProfile"
+  "widgetId": "kdwark2111",
+  "widgetName": "inp_surnameProfile"
 }

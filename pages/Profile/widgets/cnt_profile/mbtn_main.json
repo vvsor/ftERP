@@ -1,7 +1,7 @@
 {
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 9,
+  "bottomRow": 5,
   "boxShadow": "none",
   "configureMenuItems": {
     "config": {
@@ -191,14 +191,16 @@
   "mobileRightColumn": 60,
   "mobileTopRow": 4,
   "needsErrorInfo": false,
+  "originalBottomRow": 9,
+  "originalTopRow": 5,
   "parentColumnSpace": 17.25,
   "parentId": "266885u91y",
   "parentRowSpace": 10,
   "placement": "BETWEEN",
   "renderMode": "CANVAS",
-  "rightColumn": 64,
+  "rightColumn": 63,
   "sourceData": "{{nav.menuItems(\"profile\")}}",
-  "topRow": 5,
+  "topRow": 1,
   "type": "MENU_BUTTON_WIDGET",
   "version": 1,
   "widgetId": "6l3j7qn64z",

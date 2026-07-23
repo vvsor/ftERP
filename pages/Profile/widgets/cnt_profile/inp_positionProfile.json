@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 49,
+  "bottomRow": 43,
   "boxShadow": "none",
-  "defaultText": "{{appsmith.store.user.tgchannelusername}}",
+  "defaultText": "Директор",
   "displayName": "Input",
   "dynamicBindingPathList": [
     {
@@ -13,9 +13,6 @@
     },
     {
       "key": "borderRadius"
-    },
-    {
-      "key": "defaultText"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -25,29 +22,29 @@
   "iconSVG": "/static/media/icon.9f505595da61a34f563dba82adeb06ec.svg",
   "inputType": "TEXT",
   "isDeprecated": false,
-  "isDisabled": true,
+  "isDisabled": false,
   "isLoading": false,
   "isRequired": true,
   "isVisible": true,
   "key": "2use2p5sva",
-  "label": "Имя пользователя в Telegram",
+  "label": "Должность",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
   "labelTextSize": "0.875rem",
-  "labelWidth": "5",
+  "labelWidth": 5,
   "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
-  "originalBottomRow": 49,
-  "originalTopRow": 42,
+  "originalBottomRow": 45,
+  "originalTopRow": 37,
   "parentColumnSpace": 18.1875,
   "parentId": "266885u91y",
   "parentRowSpace": 10,
-  "placeholderText": "       username",
+  "placeholderText": "Должность\n",
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
-  "rightColumn": 41,
+  "rightColumn": 57,
   "searchTags": [
     "form",
     "text input",
@@ -55,10 +52,9 @@
     "textarea"
   ],
   "shouldAllowAutofill": false,
-  "tooltip": "",
-  "topRow": 42,
+  "topRow": 35,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "h1u3e0sz75",
-  "widgetName": "inp_telegramId"
+  "widgetId": "ed20a69elv",
+  "widgetName": "inp_positionProfile"
 }
