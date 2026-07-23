@@ -15,7 +15,9 @@ export default {
 			}
 
 
+			const employeeBranchId = await salaryAccounts.getEmployeeBranchId({ salaryId });
 			const accountRows = await salaryAccounts.getBranchAccountsRaw({
+				branchId: employeeBranchId,
 				accessField: "payments_access",
 				allowed: ["read", "write"]
 			});
@@ -108,6 +110,11 @@ export default {
 			if (!salaryAccounts.hasBranchAccountWriteAccess(branchAccountId, "salaryPaymentWriteBranchAccountIds")) {
 				fail("Нет права записи по выбранному счету выплат");
 			}
+
+			if (!(await salaryAccounts.isBranchAccountAvailableForEmployee(branchAccountId, { salaryId }))) {
+				fail("Выбранный счет не привязан к подразделению сотрудника");
+			}
+
 			if (!paymentDate) fail("Укажите дату выплаты");
 
 			//  Get account type (CASH / CASHLESS / ...)
@@ -238,6 +245,8 @@ export default {
 
 		// Final values after edit
 		const nextAmount = "amount" in patch ? Number(patch.amount) : Number(allFields.amount);
+		const oldBranchAccountId =
+					allFields.branch_account_id || allFields.branch_account_name;
 		const nextBranchAccountId =
 					"branch_account_id" in patch ? patch.branch_account_id : (allFields.branch_account_id || allFields.branch_account_name);
 		const nextPaymentDate =
@@ -255,6 +264,19 @@ export default {
 
 		if (!salaryAccounts.hasBranchAccountWriteAccess(nextBranchAccountId, "salaryPaymentWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету выплат", "error");
+			return null;
+		}
+
+		if (
+			String(oldBranchAccountId) !== String(nextBranchAccountId) &&
+			!salaryAccounts.hasBranchAccountWriteAccess(oldBranchAccountId, "salaryPaymentWriteBranchAccountIds")
+		) {
+			showAlert("Нет права записи по исходному счету выплат", "error");
+			return null;
+		}
+
+		if (!(await salaryAccounts.isBranchAccountAvailableForEmployee(nextBranchAccountId, { salaryId }))) {
+			showAlert("Выбранный счет не привязан к подразделению сотрудника", "error");
 			return null;
 		}
 

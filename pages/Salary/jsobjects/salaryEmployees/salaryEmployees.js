@@ -9,7 +9,7 @@ export default {
 		const index = rows.findIndex((row) => String(row.id) === String(selectedId));
 		return index >= 0 ? index : 0;
 	},
-	
+
 	async tbl_employees_onRowSelected() {
 		const row = tbl_employees.selectedRow;
 		if (!row?.id) return;
@@ -22,6 +22,19 @@ export default {
 		if (appsmith.store?.salaryReady === false) return;
 
 		const current = appsmith.store?.SelectedOfficeTerm;
+		const isEmployeeChanged =
+					current?.id && String(current.id) !== String(row.id);
+
+		if (isEmployeeChanged) {
+			await Promise.all([
+				tbl_salaryAccruals.isAddRowInProgress
+				? resetWidget("tbl_salaryAccruals", true)
+				: Promise.resolve(),
+				tbl_salaryPayments.isAddRowInProgress
+				? resetWidget("tbl_salaryPayments", true)
+				: Promise.resolve()
+			]);
+		}
 		if (current?.id === row.id && appsmith.store?.salaryOfPeriod?.id) return;
 
 		await storeValue("salaryReady", false, true);

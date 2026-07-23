@@ -14,10 +14,13 @@ export default {
 				return [];
 			}
 
+			const employeeBranchId = await salaryAccounts.getEmployeeBranchId({ salaryId });
 			const accountRows = await salaryAccounts.getBranchAccountsRaw({
+				branchId: employeeBranchId,
 				accessField: "accruals_access",
 				allowed: ["read", "write"]
 			});
+
 			const accountIds = accountRows.map((row) => row.id).filter(Boolean);
 
 			if (!accountIds.length) {
@@ -107,6 +110,10 @@ export default {
 				fail("Нет права записи по выбранному счету начислений");
 			}
 
+			if (!(await salaryAccounts.isBranchAccountAvailableForEmployee(branchAccountId))) {
+				fail("Выбранный счет не привязан к подразделению сотрудника");
+			}
+
 			if (!accrualTypeId) fail("Выберите тип начисления");
 
 			if (!Number.isFinite(amount) || amount <= 0) {
@@ -194,6 +201,19 @@ export default {
 
 		if (!salaryAccounts.hasBranchAccountWriteAccess(newAccountId, "salaryAccrualWriteBranchAccountIds")) {
 			showAlert("Нет права записи по выбранному счету начислений", "error");
+			return null;
+		}
+		
+		if (
+			String(oldAccountId) !== String(newAccountId) &&
+			!salaryAccounts.hasBranchAccountWriteAccess(oldAccountId, "salaryAccrualWriteBranchAccountIds")
+		) {
+			showAlert("Нет права записи по исходному счету начислений", "error");
+			return null;
+		}
+
+		if (!(await salaryAccounts.isBranchAccountAvailableForEmployee(newAccountId, { salaryId }))) {
+			showAlert("Выбранный счет не привязан к подразделению сотрудника", "error");
 			return null;
 		}
 

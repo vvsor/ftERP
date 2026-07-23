@@ -58,8 +58,73 @@ export default {
 		return rows.filter((row) => allowedIds.has(String(row.id)));
 	},
 
-	async getBranchAccountsRaw({ accessField = null, allowed = ["read", "write"], accessRows = null } = {}) {
-		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
+	async getEmployeeBranchId({ officeTermId = null, salaryId = null } = {}) {
+		if (salaryId) {
+			const response = await items.getItems({
+				collection: "salary",
+				fields: "office_term_id.position_id.branch_id.id",
+				filter: { id: { _eq: salaryId } },
+				limit: 1
+			});
+
+			const salaryRow = response.data?.[0];
+			return salaryRow?.office_term_id?.position_id?.branch_id?.id ?? null;
+		}
+
+		const targetOfficeTermId = officeTermId ?? appsmith.store?.SelectedOfficeTerm?.id;
+		if (!targetOfficeTermId) return null;
+
+		const response = await items.getItems({
+			collection: "office_terms",
+			fields: "position_id.branch_id.id",
+			filter: { id: { _eq: targetOfficeTermId } },
+			limit: 1
+		});
+
+		return response.data?.[0]?.position_id?.branch_id?.id ?? null;
+	},
+
+	async isBranchAccountAvailableForEmployee(accountId, { officeTermId = null, salaryId = null } = {}) {
+		const branchId = await this.getEmployeeBranchId({ officeTermId, salaryId });
+		if (!accountId || !branchId) return false;
+
+		const [accountResponse, linkResponse] = await Promise.all([
+			items.getItems({
+				collection: "branch_accounts",
+				fields: "id",
+				filter: {
+					_and: [
+						{ id: { _eq: accountId } },
+						{ date_deleted: { _null: true } }
+					]
+				},
+				limit: 1
+			}),
+			items.getItems({
+				collection: "branch_accounts_branches",
+				fields: "id",
+				filter: {
+					_and: [
+						{ branch_accounts_id: { id: { _eq: accountId } } },
+						{ branches_id: { id: { _eq: branchId } } }
+					]
+				},
+				limit: 1
+			})
+		]);
+
+		return Boolean(accountResponse.data?.[0] && linkResponse.data?.[0]);
+	},
+
+	async getBranchAccountsRaw({
+		branchId = null,
+		accessField = null,
+		allowed = ["read", "write"],
+		accessRows = null
+	} = {}) {
+		const employeeBranchId = branchId ?? await this.getEmployeeBranchId();
+		if (!employeeBranchId) return [];
+
 		const [response, linksResponse] = await Promise.all([
 			items.getItems({
 				collection: "branch_accounts",
@@ -67,28 +132,22 @@ export default {
 				filter: { date_deleted: { _null: true } },
 				limit: -1
 			}),
-			branchId
-			? items.getItems({
+			items.getItems({
 				collection: "branch_accounts_branches",
 				fields: "branch_accounts_id.id",
-				filter: { branches_id: { id: { _eq: branchId } } },
+				filter: { branches_id: { id: { _eq: employeeBranchId } } },
 				limit: -1
 			})
-			: Promise.resolve({ data: [] })
 		]);
 
-		let rows = response.data || [];
+		const accountIds = new Set(
+			(linksResponse.data || [])
+			.map((link) => link.branch_accounts_id?.id ?? link.branch_accounts_id)
+			.filter(Boolean)
+			.map(String)
+		);
 
-		if (branchId) {
-			const accountIds = new Set(
-				(linksResponse.data || [])
-				.map((link) => link.branch_accounts_id?.id ?? link.branch_accounts_id)
-				.filter(Boolean)
-				.map(String)
-			);
-
-			rows = rows.filter((row) => accountIds.has(String(row.id)));
-		}
+		let rows = (response.data || []).filter((row) => accountIds.has(String(row.id)));
 
 		if (accessField) {
 			const rowsAccess = accessRows || await this.getBranchAccountAccessRows();
@@ -97,7 +156,6 @@ export default {
 
 		return rows.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
 	},
-
 	async getBranchAccountsOptions(params = {}) {
 		const rows = await this.getBranchAccountsRaw(params);
 		return rows.map((row) => ({
