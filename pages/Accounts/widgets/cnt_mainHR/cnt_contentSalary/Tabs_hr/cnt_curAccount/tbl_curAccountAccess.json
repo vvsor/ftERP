@@ -47,10 +47,11 @@
   ],
   "columnUpdatedAt": 1783070502459,
   "columnWidthMap": {
-    "active": 129,
+    "account_access": 138,
+    "active": 64,
     "customColumn1": 60,
     "id": 127,
-    "position_id": 169,
+    "position_id": 399,
     "position_name": 225
   },
   "customIsLoading": false,

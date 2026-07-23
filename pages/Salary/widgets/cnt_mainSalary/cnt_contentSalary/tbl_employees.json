@@ -47,7 +47,8 @@
   "columnUpdatedAt": 1779041492200,
   "columnWidthMap": {
     "branch": 321,
-    "employee": 254.24316406250003
+    "employee": 254.24316406250003,
+    "title": 272
   },
   "customIsLoading": false,
   "customIsLoadingValue": "",
@@ -135,7 +136,7 @@
   "isLoading": false,
   "isSortable": true,
   "isVisible": true,
-  "isVisibleDownload": false,
+  "isVisibleDownload": true,
   "isVisibleFilters": true,
   "isVisiblePagination": false,
   "isVisibleSearch": true,
