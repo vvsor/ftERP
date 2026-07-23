@@ -28,11 +28,15 @@ export default {
 
 				if (!user?.id) return null;
 
+				const lastName = user.last_name || "";
+				const firstName = user.first_name || "";
+
 				return {
 					id: user.id,
-					last_name: user.last_name || "",
-					first_name: user.first_name || "",
-					initials: user.first_name?.[0] ? `${user.first_name[0]}.` : "",
+					last_name: lastName,
+					first_name: firstName,
+					name: [lastName, firstName].filter(Boolean).join(" "),
+					initials: firstName?.[0] ? `${firstName[0]}.` : "",
 					title: position?.title_id?.title || ""
 				};
 			})
@@ -46,6 +50,7 @@ export default {
 			});
 
 			contacts.sort((a, b) => a.last_name.localeCompare(b.last_name));
+			await storeValue("officeTermUsers", contacts, false);
 			return contacts;
 		} catch (error) {
 			if (error?.authHandled) throw error;
@@ -53,6 +58,7 @@ export default {
 			throw error;
 		}
 	},
+
 	// for auditors and participants
 	getNamesFromArray: (usersArray) => {
 		// Извлекаем JSON часть из строки (удаляем "<b>Участники</b>: ")

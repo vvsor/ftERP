@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 33,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( tasks.selectedTask ? tasks.selectedTask.assignee: \"\"))(sel_crmTaskAssignee.options, sel_crmTaskAssignee.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( crmTasks.getSelectedTask()?.assigner_id?.id || \"\"))(sel_crmTaskAssignee.options, sel_crmTaskAssignee.serverSideFiltering) }}",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {
@@ -17,12 +17,6 @@
       "key": "sourceData"
     },
     {
-      "key": "optionLabel"
-    },
-    {
-      "key": "optionValue"
-    },
-    {
       "key": "defaultOptionValue"
     }
   ],
@@ -30,12 +24,6 @@
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
-    },
-    {
-      "key": "optionLabel"
-    },
-    {
-      "key": "optionValue"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -61,8 +49,8 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "optionLabel": "{{sel_crmTaskAssignee.sourceData.map((item) => (item.user_id.last_name + ' ' + item.user_id.first_name ))}}",
-  "optionValue": "{{sel_crmTaskAssignee.sourceData.map((item) => (item.user_id.id))}}",
+  "optionLabel": "",
+  "optionValue": "",
   "originalBottomRow": 34,
   "originalTopRow": 27,
   "parentColumnSpace": 6.9375,
@@ -76,7 +64,7 @@
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "{{_qGetUsersOfficeTerms.data.data}}",
+  "sourceData": "{{crmTasks.getSelectedTask()?.assigner_id?.id || \"\"}}",
   "tags": [
     "Suggested",
     "Select"

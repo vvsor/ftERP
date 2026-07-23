@@ -52,7 +52,7 @@
     "Suggested",
     "Content"
   ],
-  "text": "Клиент: <b> {{tbl_crmTasks.selectedRow ? tbl_crmTasks.selectedRow.client_id.name : \"\"\n}}</b>",
+  "text": "Клиент: <b>{{tbl_crmTasks.selectedRow?.client_id?.name || \"\"}}</b>",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,

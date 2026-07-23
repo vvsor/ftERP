@@ -5,7 +5,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 51,
   "boxShadow": "none",
-  "defaultText": "{{tasks.selectedTask ? tasks.selectedTask.description : \"\"}}",
+  "defaultText": "{{crmTasks.getSelectedTask()?.description || \"\"}}",
   "displayName": "Input",
   "dynamicBindingPathList": [
     {

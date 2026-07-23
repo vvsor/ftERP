@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 14,
+  "bottomRow": 12,
   "boxShadow": "none",
-  "defaultText": "{{crmTasks.selectedTask ? crmTasks.selectedTask.title: '')}}",
+  "defaultText": "{{crmTasks.getSelectedTask()?.title || \"\"}}",
   "displayName": "Input",
   "dynamicBindingPathList": [
     {
@@ -70,7 +70,7 @@
     "Suggested",
     "Inputs"
   ],
-  "topRow": 8,
+  "topRow": 6,
   "type": "INPUT_WIDGET_V2",
   "validation": "{{inp_crmTaskTitle.text.length > 0 }}",
   "version": 2,

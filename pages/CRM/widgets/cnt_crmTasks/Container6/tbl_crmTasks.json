@@ -145,7 +145,7 @@
   "mobileTopRow": 27,
   "multiRowSelection": false,
   "needsErrorInfo": false,
-  "onRowSelected": "{{crmTasks.setSelectedTask((appsmith.store.crmTaskRows || [])[tbl_crmTasks.selectedRowIndex]);}}",
+  "onRowSelected": "{{crmTasks.setSelectedTask(tbl_crmTasks.selectedRow);}}",
   "originalBottomRow": 72,
   "originalTopRow": 12,
   "parentColumnSpace": 17.9375,
