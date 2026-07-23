@@ -36,6 +36,9 @@
     },
     {
       "key": "configureMenuItems.config.iconName"
+    },
+    {
+      "key": "label"
     }
   ],
   "dynamicPropertyPathList": [
@@ -88,8 +91,8 @@
   "isLoading": false,
   "isVisible": true,
   "key": "o2kna0hd2j",
-  "label": "Меню",
-  "leftColumn": 56,
+  "label": "{{(() => {\n  const user = appsmith.store?.user;\n  if (!user) return \"Меню\";\n\n  const name = utils.formatUserName(user);\n  const email = user.email || \"\";\n  return [name, email].filter(Boolean).join(\", \") || \"Меню\";\n})()}}",
+  "leftColumn": 39,
   "menuColor": "{{appsmith.theme.colors.primaryColor}}",
   "menuItems": {
     "menuItem2": {

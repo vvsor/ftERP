@@ -32,14 +32,14 @@
   "parentId": "1l6q7u6qeo",
   "parentRowSpace": 10,
   "renderMode": "CANVAS",
-  "rightColumn": 56,
+  "rightColumn": 38,
   "searchTags": [
     "typography",
     "paragraph",
     "label"
   ],
   "shouldTruncate": false,
-  "text": "{{appsmith.store?.user ? `Вы авторизованы как ${utils.formatUserName(appsmith.store?.user)}, ${appsmith.store.user?.email}` : `Вы неавторизованы.`}}",
+  "text": "{{appsmith.store?.user ? `Вы авторизованы, выберете страницу` : `Вы неавторизованы.`}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 6,
