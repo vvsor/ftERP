@@ -56,7 +56,7 @@
     "Suggested",
     "Content"
   ],
-  "text": "{{crmTasks.selectedTask ? crmTasks.selectedTask.title + \" (\" + crmTasks.selectedTask.id + \")\" : \"\"}}",
+  "text": "{{currentItem.title ? currentItem.title + \" (\" + currentItem.id + \")\" : \"\"}}",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,

@@ -55,7 +55,7 @@
     "Suggested",
     "Content"
   ],
-  "text": "Cрок: {{ crmTasks.selectedTask ? moment(crmTasks.selectedTask.deadline).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:MM\") : \"\"\n}}",
+  "text": "Срок: {{currentItem.deadline ? moment(currentItem.deadline).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:mm\") : \"\"}}",
   "textAlign": "LEFT",
   "textColor": "#27272a",
   "topRow": 0,
@@ -63,5 +63,5 @@
   "type": "TEXT_WIDGET",
   "version": 1,
   "widgetId": "g53qmuagf6",
-  "widgetName": "txt_TaskDeadlineCopy1"
+  "widgetName": "txt_crmTaskDeadline"
 }
