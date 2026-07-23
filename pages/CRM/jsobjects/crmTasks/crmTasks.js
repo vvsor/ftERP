@@ -1,187 +1,199 @@
 export default {
-	selectedTask: undefined,
+  selectedTask: undefined,
 
-	setSelectedTask: async (task) => {
-		this.selectedTask = task;
-	},
+  async setSelectedTask(task) {
+    const nextTask = task?.id ? task : null;
+    crmTasks.selectedTask = nextTask;
 
-	tbs_task_onTabSelected: async () => {
-		// if task is selected and...
-		if (this.selectedTask){
-			const taskId = this.selectedTask.id;
-			switch (tbs_task.selectedTab){
-					// ...we are on comments tab
-				case "Комментарии":
-					// comments.getTaskComments(taskId)
-					break;
-					// ...we are on files tab
-				case "Логи":
-					// this.getTaskLog(taskId);
-					break;
-					// ...we are on files tab
-				case "Файлы":
-					// this.getTaskFiles(taskId)
-					break;
-			}
-			// utils.addAuditAction.data("task_view",tbl_tasks.selectedRow.id);
-		} else {
-			return
-		}
-	},
+    if (nextTask) {
+      await storeValue("selectedCrmTask", nextTask, true);
+    } else {
+      await removeValue("selectedCrmTask");
+    }
+  },
 
-	initCRMTasks: async () => {
-		const user = appsmith.store?.user;
-		const isEditMode = appsmith.mode === "EDIT";
-		const hasCrmAccess = (appsmith.store?.appPageCodes || []).includes("crm");
+  async setTaskRows(rows) {
+    const safeRows = Array.isArray(rows) ? rows : [];
+    await storeValue("crmTaskRows", safeRows, false);
+    return safeRows;
+  },
 
-		if (!user?.token) {
-			if (isEditMode) {
-				showAlert("EDIT: нет токена пользователя, остаёмся на странице CRM без загрузки данных.", "warning");
-			} else {
-				showAlert("Требуется авторизация. Перенаправление на страницу входа.", "info");
-				navigateTo("Auth");
-			}
-			return;
-		}
+  getTaskRows() {
+    return Array.isArray(appsmith.store?.crmTaskRows) ? appsmith.store.crmTaskRows : [];
+  },
 
-		if (!hasCrmAccess) {
-			showAlert("Нет доступа к странице CRM.", "warning");
+  getSelectedTask() {
+    return appsmith.store?.selectedCrmTask || crmTasks.selectedTask || null;
+  },
 
-			if (!isEditMode) {
-				navigateTo("Auth");
-				return;
-			}
-		}
+  getSourceTaskById(taskId, fallbackRows = []) {
+    const rows = crmTasks.getTaskRows().length ? crmTasks.getTaskRows() : fallbackRows;
+    return rows.find((row) => row.id === taskId) || null;
+  },
 
-		try {
-			const tasksData = await crmTasks.getCRMTasks();
-			crmTasks.selectedTask = tasksData.length > 0 ? tasksData[0] : null;
+  async tbs_task_onTabSelected() {
+    return crmTasks.getSelectedTask();
+  },
 
-			return crmTasks.tbs_task_onTabSelected();
-		} catch (error) {
-			console.error("Error loading tasks:", error);
-		}
-	},
-	getClientTasks: async () => {
-	},
+  initCRMTasks: async () => {
+    const user = appsmith.store?.user;
+    const isEditMode = appsmith.mode === "EDIT";
+    const hasCrmAccess = (appsmith.store?.appPageCodes || []).includes("crm");
 
-	getCRMTasks: async () => {
-		let userid;
-		// if Substitute user is selected and not disabled
-		if (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled) {
-			userid = sel_chooseEmployee.selectedOptionValue;  // then use this userid
-		} else {
-			userid = appsmith.store.user.id;  // otherwise use logged user
-		}
+    if (!user?.token) {
+      if (isEditMode) {
+        showAlert("EDIT: нет токена пользователя, остаёмся на странице CRM без загрузки данных.", "warning");
+      } else {
+        showAlert("Требуется авторизация. Перенаправление на страницу входа.", "info");
+        navigateTo("Auth");
+      }
+      return;
+    }
 
-		try {
-			// Create the filter object for tasks
-			const FilterObj = {
-				"_or": [
-					// {
-					// "user_created": {
-					// "_eq": userid
-					// }
-					// },
-					{
-						"assigner_id": {
-							"_eq": userid
-						}
-					},
-					{
-						"assignee_id": {
-							"_eq": userid
-						}
-					}
-				]
-			};
+    if (!hasCrmAccess) {
+      showAlert("Нет доступа к странице CRM.", "warning");
+      if (!isEditMode) {
+        navigateTo("Auth");
+        return;
+      }
+    }
 
-			// Convert to JSON string if necessary for the API
-			const Filter = JSON.stringify(FilterObj);
+    try {
+      await items.ensureFreshToken();
 
-			// Define the fields to include in the response
-			const Fields = `
-      client_id.id,
-      client_id.name,
-			assigner_id.id,
-      assigner_id.last_name,
-      assigner_id.first_name,
-      assignee_id.id,
-      assignee_id.last_name,
-      assignee_id.first_name,
-      *
-    `;
+      const tasksData = await crmTasks.getCRMTasks();
+      await crmTasks.setTaskRows(tasksData);
 
-			// Get user tasks
-			const allTasks = await _qGetCRMTasks.run({ 
-				filter: Filter,
-				fields: Fields
-			});
+      if (tasksData.length > 0) {
+        await crmTasks.setSelectedTask(tasksData[0]);
+        await crmTasks.tbs_task_onTabSelected();
+      } else {
+        await crmTasks.setSelectedTask(null);
+      }
 
-			// Filter for incomplete tasks if check is set
-			let filteredTasks;
-			switch (chk_withCompleted.isChecked) {
-				case true:
-					filteredTasks = allTasks.data;
-					break;
-				case false:
-					filteredTasks = allTasks.data.filter(task => !task.is_complete);
-					break;
-			}
+      await utils.GetUsersOfficeTerms();
+    } catch (error) {
+      if (error?.authHandled) return;
+      console.error("Error loading CRM tasks:", error);
+    }
+  },
 
-			// Create filter object for unread tasks
-			const unreadFilterObj = {
-				"user_id": {
-					"_eq": userid
-				}
-			};
+  getClientTasks: async () => {
+    return [];
+  },
 
-			// Define the fields to include in the response
-			const unreadFields = `*`;
+  getCRMTasks: async () => {
+    const userid = (sel_chooseEmployee.selectedOptionValue && !sel_chooseEmployee.isDisabled)
+      ? sel_chooseEmployee.selectedOptionValue
+      : appsmith.store?.user?.id;
 
-			// Convert to JSON string if necessary for the API
-			const unreadFilter = JSON.stringify(unreadFilterObj);
+    if (!userid) throw new Error("user id missing");
 
-			// Get unread tasks with error handling
-			const unreadTasks = await _qGetCRMUnread.run({ 
-				filter: unreadFilter,
-				fields: unreadFields
-			}).catch(error => {
-				console.error("Error fetching unread tasks:", error);
-				return { data: [] }; // Return empty array on error
-			});
+    try {
+      const tasksResponse = await items.getItems({
+        collection: "crm_tasks",
+        fields: [
+          "id",
+          "title",
+          "description",
+          "deadline",
+          "is_complete",
+          "client_id.id",
+          "client_id.name",
+          "assigner_id.id",
+          "assigner_id.last_name",
+          "assigner_id.first_name",
+          "assignee_id.id",
+          "assignee_id.last_name",
+          "assignee_id.first_name"
+        ].join(","),
+        filter: {
+          _or: [
+            { assigner_id: { _eq: userid } },
+            { assignee_id: { _eq: userid } }
+          ]
+        },
+        limit: -1
+      });
 
-			// Optimize task combination using a Map for faster lookups
-			const unreadMap = new Map();
-			unreadTasks.data.forEach(unread => {
-				unreadMap.set(unread.crm_task_id, unread);
-			});
+      const allTasks = Array.isArray(tasksResponse.data) ? tasksResponse.data : [];
+      const filteredTasks = chk_withCompleted.isChecked
+        ? allTasks
+        : allTasks.filter((task) => !task.is_complete);
 
-			// Combine tasks with unread information
-			const combinedTasks = filteredTasks.map(task => {
-				const unreadRecord = unreadMap.get(task.id);
+      let unreadRows = [];
+      const taskIds = filteredTasks.map((task) => task.id);
 
-				if (unreadRecord) {
-					return {
-						...task,
-						unread: true,
-						unreadInfo: unreadRecord
-					};
-				} else {
-					return {
-						...task,
-						unread: false
-					};
-				}
-			});
+      if (taskIds.length > 0) {
+        const unreadResponse = await items.getItems({
+          collection: "crm_unread",
+          fields: "id,crm_task_id,user_id",
+          filter: {
+            user_id: { _eq: userid },
+            crm_task_id: { _in: taskIds }
+          },
+          limit: -1
+        });
 
-			combinedTasks.sort((a, b) => a.id - b.id);
+        unreadRows = Array.isArray(unreadResponse.data) ? unreadResponse.data : [];
+      }
 
-			return combinedTasks;
-		} catch (error) {
-			console.error("Error in task processing:", error);
-			throw error; // Re-throw to allow calling code to handle the error
-		}
-	},
+      const unreadMap = new Map(
+        unreadRows.map((row) => [
+          typeof row.crm_task_id === "object" ? row.crm_task_id.id : row.crm_task_id,
+          row
+        ])
+      );
 
+      const combinedTasks = filteredTasks.map((task) => {
+        const unreadRecord = unreadMap.get(task.id);
+        return {
+          ...task,
+          unread: Boolean(unreadRecord),
+          unreadInfo: unreadRecord || null
+        };
+      });
+
+      combinedTasks.sort((a, b) => a.id - b.id);
+      return combinedTasks;
+    } catch (error) {
+      if (error?.authHandled) throw error;
+      console.error("Error in CRM task processing:", error);
+      throw error;
+    }
+  },
+
+  async updateTaskList({ keepSelection = true } = {}) {
+    const selectedTaskId = keepSelection ? crmTasks.getSelectedTask()?.id : null;
+    const rows = await crmTasks.getCRMTasks();
+
+    await crmTasks.setTaskRows(rows);
+
+    if (!selectedTaskId) {
+      await crmTasks.setSelectedTask(rows[0] || null);
+      return rows;
+    }
+
+    const nextSelected = rows.find((row) => row.id === selectedTaskId) || rows[0] || null;
+    await crmTasks.setSelectedTask(nextSelected);
+    return rows;
+  },
+
+  async btn_markRead_onClick() {
+    const selectedTask = crmTasks.getSelectedTask();
+    const unreadInfo = selectedTask?.unreadInfo;
+
+    if (!unreadInfo?.id) return;
+
+    await items.deleteItems({
+      collection: "crm_unread",
+      body: {
+        query: {
+          filter: { id: { _eq: unreadInfo.id } }
+        }
+      }
+    });
+
+    await crmTasks.updateTaskList();
+  }
 }

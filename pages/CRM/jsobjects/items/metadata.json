@@ -1,0 +1,24 @@
+{
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_8d1881ec-0371-4ef1-8962-cb1abbef8753",
+  "id": "CRM_items",
+  "unpublishedCollection": {
+    "name": "items",
+    "pageId": "CRM",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "refreshPromise",
+        "value": "null"
+      },
+      {
+        "name": "authFailureHandled",
+        "value": "false"
+      },
+      {
+        "name": "queryQueue",
+        "value": "null"
+      }
+    ]
+  }
+}

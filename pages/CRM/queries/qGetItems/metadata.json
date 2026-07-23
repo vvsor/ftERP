@@ -11,7 +11,7 @@
           "value": "application/json"
         }
       ],
-      "body": "a{{this.params.body}}",
+      "body": "{{this.params.body}}",
       "bodyFormData": [],
       "encodeParamsToggle": true,
       "formData": {

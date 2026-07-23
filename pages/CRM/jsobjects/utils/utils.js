@@ -7,49 +7,52 @@ export default {
 		return [last, `${first}${middle}`].filter(Boolean).join(" ").trim();
 	},
 
-	GetUsersOfficeTerms: () => {
-		// Create the filter object
-		const FilterObj = {
-			// "id": {
-			// "_eq": taskId
-			// // "_eq": "209"
-		};
-		// Convert to JSON string if necessary for the API
-		const Filter = JSON.stringify(FilterObj);
+	GetUsersOfficeTerms: async () => {
+		try {
+			const response = await items.getItems({
+				collection: "office_terms",
+				fields: [
+					"user_id.id",
+					"user_id.first_name",
+					"user_id.last_name",
+					"position_id.title_id.title"
+				].join(","),
+				limit: -1
+			});
 
-		// Define the fields to include in the response
-		const Fields = `
-				user_id.id,
-				user_id.first_name,
-				user_id.last_name,
-				position_id.title_id.title
-			`;
+			const sourceData = Array.isArray(response.data) ? response.data : [];
+			let contacts = sourceData
+			.map((item) => {
+				const user = item?.user_id;
+				const position = item?.position_id;
 
-		return _qGetUsersOfficeTerms.run({ 
-			filter: Filter,
-			fields: Fields
-		})
-			.then(response => {
-			// console.log(`Retrieved ${response.data?.length || 0} comments for task ${taskId}`);
-			// const Sorted = response.data;
-			// Sorted.sort((a, b) => b.id - a.id);
-			// console.log(Sorted.data);
-			const sourceData=response.data;
-			const contacts = sourceData.map(item => ({
-				id: item.user_id.id,
-				last_name: item.user_id.last_name,
-				first_name: item.user_id.first_name,
-				initials: `${item.user_id.first_name[0]}.`,
-				title: item.position_id.title_id.title
-			}));
+				if (!user?.id) return null;
+
+				return {
+					id: user.id,
+					last_name: user.last_name || "",
+					first_name: user.first_name || "",
+					initials: user.first_name?.[0] ? `${user.first_name[0]}.` : "",
+					title: position?.title_id?.title || ""
+				};
+			})
+			.filter(Boolean);
+
+			const seen = new Set();
+			contacts = contacts.filter((contact) => {
+				if (seen.has(contact.id)) return false;
+				seen.add(contact.id);
+				return true;
+			});
+
+			contacts.sort((a, b) => a.last_name.localeCompare(b.last_name));
 			return contacts;
-		})
-			.catch(error => {
-			console.error(`Error fetching office terms:`, error);
-			throw error; // Re-throw to allow calling code to handle the error
-		});
+		} catch (error) {
+			if (error?.authHandled) throw error;
+			console.error("Error fetching office terms:", error);
+			throw error;
+		}
 	},
-
 	// for auditors and participants
 	getNamesFromArray: (usersArray) => {
 		// Извлекаем JSON часть из строки (удаляем "<b>Участники</b>: ")

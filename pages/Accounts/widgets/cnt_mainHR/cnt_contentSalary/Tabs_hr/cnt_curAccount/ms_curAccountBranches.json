@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 6,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store?.hrSelectedAccount?.branch_ids || []))(MultiSelect1.options, MultiSelect1.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( appsmith.store?.hrSelectedAccount?.branch_ids || []))(ms_curAccountBranches.options, ms_curAccountBranches.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
@@ -31,12 +31,18 @@
       "key": "isDisabled"
     },
     {
-      "key": "onDropdownOpen"
+      "key": "onOptionChange"
     }
   ],
   "dynamicTriggerPathList": [
     {
       "key": "onDropdownOpen"
+    },
+    {
+      "key": "onOptionChange"
+    },
+    {
+      "key": "onDropdownClose"
     }
   ],
   "isDisabled": "{{!appsmith.store?.hrSelectedAccount?.id}}",
@@ -59,7 +65,9 @@
   "mobileRightColumn": 44,
   "mobileTopRow": 4,
   "needsErrorInfo": false,
-  "onDropdownOpen": "{{accounts.syncSelectedAccountBranches(ms_accountBranches.selectedOptionValues);}}",
+  "onDropdownClose": "",
+  "onDropdownOpen": "",
+  "onOptionChange": "{{accounts.syncSelectedAccountBranches(ms_curAccountBranches.selectedOptionValues);}}",
   "optionLabel": "name",
   "optionValue": "id",
   "parentColumnSpace": 5.79296875,
