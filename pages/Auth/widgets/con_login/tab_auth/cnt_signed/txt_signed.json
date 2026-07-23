@@ -39,7 +39,7 @@
     "label"
   ],
   "shouldTruncate": false,
-  "text": "{{appsmith.store?.user ? `Вы авторизованы, выберете страницу` : `Вы неавторизованы.`}}",
+  "text": "{{appsmith.store?.user ? `Вы авторизованы, выберите нужный раздел` : `Вы неавторизованы.`}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 6,
