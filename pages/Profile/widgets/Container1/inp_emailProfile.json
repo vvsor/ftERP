@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 34,
+  "bottomRow": 42,
   "boxShadow": "none",
-  "defaultText": "Директор",
+  "defaultText": "{{appsmith.store.user.email}}",
   "displayName": "Input",
   "dynamicBindingPathList": [
     {
@@ -13,6 +13,9 @@
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -20,14 +23,14 @@
   "hideCard": false,
   "iconAlign": "left",
   "iconSVG": "/static/media/icon.9f505595da61a34f563dba82adeb06ec.svg",
-  "inputType": "TEXT",
+  "inputType": "EMAIL",
   "isDeprecated": false,
   "isDisabled": false,
   "isLoading": false,
   "isRequired": true,
   "isVisible": true,
   "key": "2use2p5sva",
-  "label": "Должность",
+  "label": "Email",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
@@ -36,12 +39,12 @@
   "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
-  "originalBottomRow": 34,
-  "originalTopRow": 26,
+  "originalBottomRow": 42,
+  "originalTopRow": 34,
   "parentColumnSpace": 18.1875,
   "parentId": "266885u91y",
   "parentRowSpace": 10,
-  "placeholderText": "       должность",
+  "placeholderText": "       Введите email",
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "rightColumn": 57,
@@ -51,10 +54,9 @@
     "number",
     "textarea"
   ],
-  "shouldAllowAutofill": false,
-  "topRow": 26,
+  "topRow": 34,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "ed20a69elv",
-  "widgetName": "inp_emailCopy1Copy"
+  "widgetId": "wvoo0p3ekr",
+  "widgetName": "inp_emailProfile"
 }

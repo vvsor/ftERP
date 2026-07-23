@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 18,
+  "bottomRow": 26,
   "boxShadow": "none",
-  "defaultText": "{{appsmith.store.user.first_name}}",
+  "defaultText": "{{appsmith.store.user.last_name}}",
   "displayName": "Input",
   "dynamicBindingPathList": [
     {
@@ -30,7 +30,7 @@
   "isRequired": true,
   "isVisible": true,
   "key": "2use2p5sva",
-  "label": "Имя",
+  "label": "Фамилия",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
@@ -39,8 +39,8 @@
   "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
-  "originalBottomRow": 18,
-  "originalTopRow": 10,
+  "originalBottomRow": 26,
+  "originalTopRow": 18,
   "parentColumnSpace": 18.1875,
   "parentId": "266885u91y",
   "parentRowSpace": 10,
@@ -55,9 +55,9 @@
     "textarea"
   ],
   "shouldAllowAutofill": false,
-  "topRow": 10,
+  "topRow": 18,
   "type": "INPUT_WIDGET_V2",
   "version": 2,
-  "widgetId": "p9bgvtcvx7",
-  "widgetName": "inp_emailCopy"
+  "widgetId": "kdwark2111",
+  "widgetName": "inp_surnameProfile"
 }
