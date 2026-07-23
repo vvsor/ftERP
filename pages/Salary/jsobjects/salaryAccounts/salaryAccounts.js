@@ -60,21 +60,35 @@ export default {
 
 	async getBranchAccountsRaw({ accessField = null, allowed = ["read", "write"], accessRows = null } = {}) {
 		const branchId = appsmith.store?.salarySelectedBranchId ?? "";
-		const filter = {
-			_and: [
-				{ date_deleted: { _null: true } },
-				...(branchId ? [{ branch_id: { id: { _eq: branchId } } }] : [])
-			]
-		};
-
-		const response = await items.getItems({
-			collection: "branch_accounts",
-			fields: "id,name,type,branch_id.id,date_deleted",
-			filter,
-			limit: -1
-		});
+		const [response, linksResponse] = await Promise.all([
+			items.getItems({
+				collection: "branch_accounts",
+				fields: "id,name,type,date_deleted",
+				filter: { date_deleted: { _null: true } },
+				limit: -1
+			}),
+			branchId
+			? items.getItems({
+				collection: "branch_accounts_branches",
+				fields: "branch_accounts_id.id",
+				filter: { branches_id: { id: { _eq: branchId } } },
+				limit: -1
+			})
+			: Promise.resolve({ data: [] })
+		]);
 
 		let rows = response.data || [];
+
+		if (branchId) {
+			const accountIds = new Set(
+				(linksResponse.data || [])
+				.map((link) => link.branch_accounts_id?.id ?? link.branch_accounts_id)
+				.filter(Boolean)
+				.map(String)
+			);
+
+			rows = rows.filter((row) => accountIds.has(String(row.id)));
+		}
 
 		if (accessField) {
 			const rowsAccess = accessRows || await this.getBranchAccountAccessRows();

@@ -36,6 +36,14 @@ export default {
 		return !!value;
 	},
 
+	normalizeBranchIds(value) {
+		const values = Array.isArray(value) ? value : [value];
+		return [...new Set(values
+											 .map((item) => item?.value ?? item?.id ?? item)
+											 .filter((item) => item !== null && item !== undefined && item !== "")
+											 .map(String))];
+	},
+
 	async refreshAccountsPage({ notify = false, keepSelection = true } = {}) {
 		await this.getAccountRows();
 		await this.ensureAccountSelection({ keepSelection });
@@ -43,23 +51,47 @@ export default {
 	},
 
 	async getAccountRows({ commitToStore = true } = {}) {
-		const response = await items.getItems({
-			collection: "branch_accounts",
-			fields: "id,name,type,branch_id.id,branch_id.name,date_deleted",
-			filter: { date_deleted: { _null: true } },
-			limit: -1
-		});
+		const [accountsResponse, linksResponse] = await Promise.all([
+			items.getItems({
+				collection: "branch_accounts",
+				fields: "id,name,type,date_deleted",
+				filter: { date_deleted: { _null: true } },
+				limit: -1
+			}),
+			items.getItems({
+				collection: "branch_accounts_branches",
+				fields: "branch_accounts_id.id,branches_id.id,branches_id.name",
+				limit: -1
+			})
+		]);
 
-		const rows = (response.data || []).map((row) => ({
-			id: row.id,
-			name: row.name || "",
-			type: row.type || "",
-			branch_id: row.branch_id?.id ?? row.branch_id ?? null,
-			branch_name: row.branch_id?.name || ""
-		})).sort((a, b) =>
-						 String(a.branch_name || "").localeCompare(String(b.branch_name || "")) ||
-						 String(a.name || "").localeCompare(String(b.name || ""))
-						);
+		const branchesByAccountId = new Map();
+
+		for (const link of linksResponse.data || []) {
+			const accountId = link.branch_accounts_id?.id ?? link.branch_accounts_id;
+			const branchId = link.branches_id?.id ?? link.branches_id;
+			if (!accountId || !branchId) continue;
+
+			const branches = branchesByAccountId.get(String(accountId)) || [];
+			branches.push({ id: branchId, name: link.branches_id?.name || "" });
+			branchesByAccountId.set(String(accountId), branches);
+		}
+
+		const rows = (accountsResponse.data || []).map((row) => {
+			const branches = [...(branchesByAccountId.get(String(row.id)) || [])]
+			.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+
+			return {
+				id: row.id,
+				name: row.name || "",
+				type: row.type || "",
+				branch_ids: branches.map((branch) => branch.id),
+				branch_names: branches.map((branch) => branch.name).filter(Boolean).join(", ")
+			};
+		}).sort((a, b) =>
+						String(a.branch_names || "").localeCompare(String(b.branch_names || "")) ||
+						String(a.name || "").localeCompare(String(b.name || ""))
+					 );
 
 		if (commitToStore) await storeValue("hrAccountRows", rows, false);
 		return rows;
@@ -69,7 +101,46 @@ export default {
 		const rows = Array.isArray(appsmith.store?.hrAccountRows) ? appsmith.store.hrAccountRows : [];
 		const branchId = sel_accountsBranch.selectedOptionValue || appsmith.store?.hrSelectedAccountBranchId || "";
 		if (!branchId) return rows;
-		return rows.filter((row) => String(row.branch_id || "") === String(branchId));
+
+		return rows.filter((row) =>
+											 (row.branch_ids || []).some((id) => String(id) === String(branchId))
+											);
+	},
+
+	async syncAccountBranches(accountId, branchIds) {
+		const desiredIds = this.normalizeBranchIds(branchIds);
+		const existingResponse = await items.getItems({
+			collection: "branch_accounts_branches",
+			fields: "id,branches_id.id",
+			filter: { branch_accounts_id: { id: { _eq: accountId } } },
+			limit: -1
+		});
+
+		const existing = (existingResponse.data || []).map((link) => ({
+			id: link.id,
+			branchId: String(link.branches_id?.id ?? link.branches_id)
+		}));
+		const existingIds = new Set(existing.map((link) => link.branchId));
+
+		for (const branchId of desiredIds) {
+			if (!existingIds.has(branchId)) {
+				await items.createItems({
+					collection: "branch_accounts_branches",
+					body: { branch_accounts_id: accountId, branches_id: branchId }
+				});
+			}
+		}
+
+		const linkIdsToDelete = existing
+		.filter((link) => !desiredIds.includes(link.branchId))
+		.map((link) => link.id);
+
+		if (linkIdsToDelete.length) {
+			await items.deleteItems({
+				collection: "branch_accounts_branches",
+				body: { keys: linkIdsToDelete }
+			});
+		}
 	},
 
 	async onAccountBranchFilterChanged() {
@@ -99,14 +170,14 @@ export default {
 	async saveAccountRow(rowParam = null) {
 		const rawRow = rowParam || (tbl_accounts.isAddRowInProgress ? tbl_accounts.newRow : (tbl_accounts.updatedRows?.[0] || tbl_accounts.updatedRow || tbl_accounts.selectedRow));
 		const row = this.normalizeTableRow(rawRow);
+		const branchIds = this.normalizeBranchIds(row.branch_ids);
 		const body = {
 			name: row?.name?.trim?.() || "",
-			branch_id: row.branch_id || sel_accountsBranch.selectedOptionValue || null,
 			type: row.type || null
 		};
 
 		if (!body.name) return showAlert("Укажите название счета", "warning");
-		if (!body.branch_id) return showAlert("Выберите подразделение", "warning");
+		if (!branchIds.length) return showAlert("Выберите хотя бы одно подразделение", "warning");
 		if (!["CASH", "CASHLESS"].includes(body.type)) return showAlert("Выберите тип счета", "warning");
 
 		let savedId = row.id || null;
@@ -116,6 +187,8 @@ export default {
 		} else {
 			await items.updateItems({ collection: "branch_accounts", body: { keys: [savedId], data: body } });
 		}
+
+		await this.syncAccountBranches(savedId, branchIds);
 
 		const rows = await this.getAccountRows();
 		const selected = rows.find((item) => String(item.id) === String(savedId)) || rows[0] || null;
