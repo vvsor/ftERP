@@ -41,11 +41,11 @@ export default {
 
 	accrualsSummaryTextPerson() {
 		const summary = this.getPaymentsSummaryPerson();
-		return `Безнал: ${utils.formatCurrencyRu(summary.cashlessAccrued)}. Наличными: ${utils.formatCurrencyRu(summary.cashAccrued)}`;
+		return `безнал: ${utils.formatCurrencyRu(summary.cashlessAccrued)}, нал: ${utils.formatCurrencyRu(summary.cashAccrued)}`;
 	},
 
 	paymentsSummaryTextPerson() {
 		const summary = this.getPaymentsSummaryPerson();
-		return `Безналично: ${utils.formatCurrencyRu(summary.cashlessPaid)}. Наличными: ${utils.formatCurrencyRu(summary.cashPaid)}`;
+		return `безнал: ${utils.formatCurrencyRu(summary.cashlessPaid)}, Нал: ${utils.formatCurrencyRu(summary.cashPaid)}`;
 	}
 }
