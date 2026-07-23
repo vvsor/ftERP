@@ -72,7 +72,7 @@
   ],
   "topRow": 8,
   "type": "INPUT_WIDGET_V2",
-  "validation": "{{inp_TaskTitle.text.length > 0 }}",
+  "validation": "{{inp_crmTaskTitle.text.length > 0 }}",
   "version": 2,
   "widgetId": "uu7cd9np9q",
   "widgetName": "inp_TaskTitleCopy"

@@ -3,9 +3,9 @@
   "animateLoading": true,
   "autoFocus": false,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 51,
+  "bottomRow": 14,
   "boxShadow": "none",
-  "defaultText": "{{tasks.selectedTask ? tasks.selectedTask.description : \"\"}}",
+  "defaultText": "{{crmTasks.selectedTask ? crmTasks.selectedTask.title: '')}}",
   "displayName": "Input",
   "dynamicBindingPathList": [
     {
@@ -15,22 +15,27 @@
       "key": "borderRadius"
     },
     {
+      "key": "validation"
+    },
+    {
       "key": "defaultText"
     }
   ],
-  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [],
   "dynamicTriggerPathList": [],
+  "errorMessage": "Задайте название задачи",
   "hideCard": false,
   "iconAlign": "left",
   "iconSVG": "https://appcdn.appsmith.com/static/media/icon.f2c34197dbcf03595098986de898928f.svg",
-  "inputType": "MULTI_LINE_TEXT",
+  "inputType": "TEXT",
   "isDeprecated": false,
   "isDisabled": false,
   "isLoading": false,
-  "isRequired": false,
+  "isRequired": true,
   "isVisible": true,
   "key": "mrq1py9frh",
-  "label": "Описание",
+  "label": "Название",
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "",
@@ -40,16 +45,16 @@
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
-  "mobileBottomRow": 21,
-  "mobileLeftColumn": 0,
-  "mobileRightColumn": 13,
-  "mobileTopRow": 14,
-  "originalBottomRow": 51,
-  "originalTopRow": 41,
+  "mobileBottomRow": 14,
+  "mobileLeftColumn": 3,
+  "mobileRightColumn": 23,
+  "mobileTopRow": 7,
+  "originalBottomRow": 15,
+  "originalTopRow": 9,
   "parentColumnSpace": 6.9375,
   "parentId": "zne97i1g3e",
   "parentRowSpace": 10,
-  "placeholderText": "Добавьте описание задачи",
+  "placeholderText": "Напишите название задачи",
   "renderMode": "CANVAS",
   "resetOnSubmit": true,
   "responsiveBehavior": "fill",
@@ -60,15 +65,15 @@
     "number",
     "textarea"
   ],
-  "shouldAllowAutofill": false,
   "showStepArrows": false,
   "tags": [
     "Suggested",
     "Inputs"
   ],
-  "topRow": 41,
+  "topRow": 8,
   "type": "INPUT_WIDGET_V2",
+  "validation": "{{inp_crmTaskTitle.text.length > 0 }}",
   "version": 2,
-  "widgetId": "40mqyxtcr4",
-  "widgetName": "inp_TaskComment"
+  "widgetId": "4jf2s4vm2a",
+  "widgetName": "inp_crmTaskTitle"
 }

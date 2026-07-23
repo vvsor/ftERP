@@ -31,7 +31,7 @@
       "key": "isDisabled"
     },
     {
-      "key": "onOptionChange"
+      "key": "onDropdownClose"
     }
   ],
   "dynamicTriggerPathList": [
@@ -65,9 +65,9 @@
   "mobileRightColumn": 44,
   "mobileTopRow": 4,
   "needsErrorInfo": false,
-  "onDropdownClose": "",
+  "onDropdownClose": "{{accounts.syncSelectedAccountBranches(ms_curAccountBranches.selectedOptionValues);}}",
   "onDropdownOpen": "",
-  "onOptionChange": "{{accounts.syncSelectedAccountBranches(ms_curAccountBranches.selectedOptionValues);}}",
+  "onOptionChange": "",
   "optionLabel": "name",
   "optionValue": "id",
   "parentColumnSpace": 5.79296875,

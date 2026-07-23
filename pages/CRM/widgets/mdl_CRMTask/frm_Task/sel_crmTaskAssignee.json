@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 33,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( tasks.selectedTask ? tasks.selectedTask.assignee: \"\"))(sel_TaskAssignee.options, sel_TaskAssignee.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( tasks.selectedTask ? tasks.selectedTask.assignee: \"\"))(sel_crmTaskAssignee.options, sel_crmTaskAssignee.serverSideFiltering) }}",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {
@@ -61,8 +61,8 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "optionLabel": "{{sel_TaskAssignee.sourceData.map((item) => (item.user_id.last_name + ' ' + item.user_id.first_name ))}}",
-  "optionValue": "{{sel_TaskAssignee.sourceData.map((item) => (item.user_id.id))}}",
+  "optionLabel": "{{sel_crmTaskAssignee.sourceData.map((item) => (item.user_id.last_name + ' ' + item.user_id.first_name ))}}",
+  "optionValue": "{{sel_crmTaskAssignee.sourceData.map((item) => (item.user_id.id))}}",
   "originalBottomRow": 34,
   "originalTopRow": 27,
   "parentColumnSpace": 6.9375,
@@ -85,5 +85,5 @@
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "6ydlkmgo63",
-  "widgetName": "sel_TaskAssignee"
+  "widgetName": "sel_crmTaskAssignee"
 }

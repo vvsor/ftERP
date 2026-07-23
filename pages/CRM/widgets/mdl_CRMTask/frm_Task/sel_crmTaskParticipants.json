@@ -58,8 +58,8 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "optionLabel": "{{sel_TaskParticipants.sourceData.map((item) => (item.user_id.last_name + ' ' + item.user_id.first_name ))}}",
-  "optionValue": "{{sel_TaskParticipants.sourceData.map((item) => (item.user_id.id))}}",
+  "optionLabel": "{{sel_crmTaskParticipants.sourceData.map((item) => (item.user_id.last_name + ' ' + item.user_id.first_name ))}}",
+  "optionValue": "{{sel_crmTaskParticipants.sourceData.map((item) => (item.user_id.id))}}",
   "originalBottomRow": 42,
   "originalTopRow": 35,
   "parentColumnSpace": 6.9375,
@@ -82,5 +82,5 @@
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "vssg5mep6r",
-  "widgetName": "sel_TaskParticipants"
+  "widgetName": "sel_crmTaskParticipants"
 }

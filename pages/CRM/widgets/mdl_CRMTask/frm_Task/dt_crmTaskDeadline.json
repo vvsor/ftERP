@@ -5,7 +5,7 @@
   "bottomRow": 25,
   "boxShadow": "none",
   "closeOnSelection": true,
-  "dateFormat": "{{ moment(dat_TaskDeadline.selectedDate).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:MM\")\n}}",
+  "dateFormat": "{{ moment(dt_crmTaskDeadline.selectedDate).tz(\"Europe/Moscow\").format(\"DD.MM.YYYY, HH:MM\")\n}}",
   "datePickerType": "DATE_PICKER",
   "defaultDate": "{{crmTasks.selectedTask ? crmTasks.selectedTask.deadline: moment(Date()).tz(\"Europe/Moscow\").add(1,'days')}}",
   "displayName": "DatePicker",
@@ -77,5 +77,5 @@
   "type": "DATE_PICKER_WIDGET2",
   "version": 2,
   "widgetId": "blzqbie5q0",
-  "widgetName": "dat_TaskDeadline"
+  "widgetName": "dt_crmTaskDeadline"
 }

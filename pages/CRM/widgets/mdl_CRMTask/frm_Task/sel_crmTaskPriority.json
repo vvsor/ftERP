@@ -4,7 +4,7 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 25,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( tasks.selectedTask ? tasks.selectedTask.priority: MEDIUM))(sel_TaskPriority.options, sel_TaskPriority.serverSideFiltering) }}",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( tasks.selectedTask ? tasks.selectedTask.priority: MEDIUM))(sel_crmTaskPriority.options, sel_crmTaskPriority.serverSideFiltering) }}",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {
@@ -70,5 +70,5 @@
   "type": "SELECT_WIDGET",
   "version": 1,
   "widgetId": "734cu0p1gn",
-  "widgetName": "sel_TaskPriority"
+  "widgetName": "sel_crmTaskPriority"
 }

@@ -2,9 +2,9 @@
   "accentColor": "{{appsmith.theme.colors.primaryColor}}",
   "animateLoading": true,
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-  "bottomRow": 18,
+  "bottomRow": 41,
   "boxShadow": "none",
-  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( tasks.selectedTask ? tasks.selectedTask.status: in_progress))(sel_TaskStatus.options, sel_TaskStatus.serverSideFiltering) }}",
+  "defaultOptionValue": "",
   "displayName": "Select",
   "dynamicBindingPathList": [
     {
@@ -14,13 +14,25 @@
       "key": "borderRadius"
     },
     {
-      "key": "defaultOptionValue"
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
     }
   ],
   "dynamicHeight": "FIXED",
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
     }
   ],
   "dynamicTriggerPathList": [],
@@ -34,10 +46,10 @@
   "isVisible": true,
   "key": "7edlq6wt3w",
   "labelAlignment": "left",
-  "labelPosition": "Left",
-  "labelText": "Статус",
+  "labelPosition": "Top",
+  "labelText": "Аудиторы",
   "labelTextSize": "0.875rem",
-  "labelWidth": "13",
+  "labelWidth": 5,
   "leftColumn": 0,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
@@ -46,29 +58,29 @@
   "mobileLeftColumn": 10,
   "mobileRightColumn": 30,
   "mobileTopRow": 35,
-  "optionLabel": "name",
-  "optionValue": "code",
-  "originalBottomRow": 19,
-  "originalTopRow": 15,
+  "optionLabel": "{{sel_crmTaskAuditors.sourceData.map((item) => (item.user_id.last_name + ' ' + item.user_id.first_name ))}}",
+  "optionValue": "{{sel_crmTaskAuditors.sourceData.map((item) => (item.user_id.id))}}",
+  "originalBottomRow": 42,
+  "originalTopRow": 35,
   "parentColumnSpace": 6.9375,
   "parentId": "zne97i1g3e",
   "parentRowSpace": 10,
-  "placeholderText": "Выберите приоритет",
+  "placeholderText": "Выберите аудиторов",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 32,
+  "rightColumn": 29,
   "searchTags": [
     "dropdown"
   ],
   "serverSideFiltering": false,
-  "sourceData": "[\n  {\n    \"name\": \"черновик\",\n    \"code\": \"draft\"\n  },\n  {\n    \"name\": \"в работе\",\n    \"code\": \"in_progress\"\n  },\n  {\n    \"name\": \"выполнена\",\n    \"code\": \"completed\"\n  }\n]",
+  "sourceData": "{{_qGetUsersOfficeTerms.data.data}}",
   "tags": [
     "Suggested",
     "Select"
   ],
-  "topRow": 14,
+  "topRow": 34,
   "type": "SELECT_WIDGET",
   "version": 1,
-  "widgetId": "gja3bcanow",
-  "widgetName": "sel_TaskStatus"
+  "widgetId": "uhdtbzgwtw",
+  "widgetName": "sel_crmTaskAuditors"
 }

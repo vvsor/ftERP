@@ -62,5 +62,5 @@
   "type": "CHECKBOX_WIDGET",
   "version": 1,
   "widgetId": "ie7t1ql839",
-  "widgetName": "chk_TaskCompleted"
+  "widgetName": "chk_crmTaskCompleted"
 }
