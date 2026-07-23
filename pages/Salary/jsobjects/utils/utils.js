@@ -200,14 +200,65 @@ export default {
 			utils.getSalaryByOfficeTermId(officeTerms, periodMonth),
 			salaryAccounts.getBranchAccountAccessRows()
 		]);
-		const salaryIds = Object.values(salaryByOfficeTermId).map((salary) => salary.id).filter(Boolean);
-		const accrualAccountIds = salaryAccounts.getAllowedBranchAccountIds(accountAccessRows, "accruals_access", ["read", "write"]);
-		const paymentAccountIds = salaryAccounts.getAllowedBranchAccountIds(accountAccessRows, "payments_access", ["read", "write"]);
 
-		const [accrualsBySalaryId, paymentsBySalaryId] = await Promise.all([
-			utils.getAccrualsBySalaryId(salaryIds, accrualAccountIds),
-			utils.getPaymentsBySalaryId(salaryIds, paymentAccountIds)
-		]);
+		const termsByBranchId = officeTerms.reduce((result, term) => {
+			const branchId = term.position_id?.branch_id?.id ?? term.position_id?.branch_id;
+			if (!branchId) return result;
+
+			const key = String(branchId);
+			if (!result[key]) {
+				result[key] = { branchId, terms: [] };
+			}
+
+			result[key].terms.push(term);
+			return result;
+		}, {});
+
+		const totalsByBranch = await Promise.all(
+			Object.values(termsByBranchId).map(async ({ branchId, terms }) => {
+				const salaryIds = terms
+				.map((term) => salaryByOfficeTermId[term.id]?.id)
+				.filter(Boolean);
+
+				if (salaryIds.length === 0) {
+					return {
+						accrualsBySalaryId: {},
+						paymentsBySalaryId: {}
+					};
+				}
+
+				const [accrualAccountRows, paymentAccountRows] = await Promise.all([
+					salaryAccounts.getBranchAccountsRaw({
+						branchId,
+						accessRows: accountAccessRows,
+						accessField: "accruals_access",
+						allowed: ["read", "write"]
+					}),
+					salaryAccounts.getBranchAccountsRaw({
+						branchId,
+						accessRows: accountAccessRows,
+						accessField: "payments_access",
+						allowed: ["read", "write"]
+					})
+				]);
+
+				const [accrualsBySalaryId, paymentsBySalaryId] = await Promise.all([
+					utils.getAccrualsBySalaryId(salaryIds, accrualAccountRows.map((row) => row.id)),
+					utils.getPaymentsBySalaryId(salaryIds, paymentAccountRows.map((row) => row.id))
+				]);
+
+				return { accrualsBySalaryId, paymentsBySalaryId };
+			})
+		);
+
+		const accrualsBySalaryId = Object.assign(
+			{},
+			...totalsByBranch.map((totals) => totals.accrualsBySalaryId)
+		);
+		const paymentsBySalaryId = Object.assign(
+			{},
+			...totalsByBranch.map((totals) => totals.paymentsBySalaryId)
+		);
 
 		const rows = officeTerms.map((term) => {
 			const user = term.user_id || {};
@@ -278,6 +329,8 @@ export default {
 		if (appsmith.store?.salaryReady !== false) {
 			await storeValue("salaryReady", false, true);
 		}
+
+		await salaryAccounts.refreshBranchAccountAccessOptions();
 
 		const salaryRecord = await salary.loadSalary(prefetchedSalaryRecord, { createIfMissing: false });
 

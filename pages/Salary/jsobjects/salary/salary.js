@@ -126,9 +126,25 @@ export default {
 		const recurring = prevRes.data || [];
 		if (recurring.length === 0) return;
 
+		const employeeBranchId = await salaryAccounts.getEmployeeBranchId({
+			salaryId: newSalaryId
+		});
+		const writeAccountRows = await salaryAccounts.getBranchAccountsRaw({
+			branchId: employeeBranchId,
+			accessField: "accruals_access",
+			allowed: ["write"]
+		});
+		const writeAccountIds = new Set(writeAccountRows.map((row) => String(row.id)));
+		const recurringToCopy = recurring.filter((accrual) => {
+			const accountId = accrual.branch_account_id?.id ?? accrual.branch_account_id;
+			return accountId && writeAccountIds.has(String(accountId));
+		});
+
+		if (recurringToCopy.length === 0) return;
+
 		await items.createItems({
 			collection: "salary_accruals",
-			body: recurring.map((a) => ({
+			body: recurringToCopy.map((a) => ({
 				salary_id: newSalaryId,
 				branch_account_id: a.branch_account_id?.id ?? null,
 				accrual_type_id: a.accrual_type_id?.id ?? null,
@@ -216,7 +232,6 @@ export default {
 
 			const referenceDataPromise = Promise.all([
 				utils.getAccrualTypesOptions(),
-				salaryAccounts.refreshBranchAccountAccessOptions(),
 				utils.getBranches()
 			]);
 
