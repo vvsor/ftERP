@@ -14,7 +14,16 @@
       "key": "borderRadius"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "isDefaultClickDisabled": true,
   "isDisabled": false,
   "isLoading": false,
@@ -27,8 +36,9 @@
   "mobileRightColumn": 32,
   "mobileTopRow": 25,
   "needsErrorInfo": false,
-  "originalBottomRow": 61,
-  "originalTopRow": 57,
+  "onClick": "{{profile_tasks.saveProfile();}}",
+  "originalBottomRow": 59,
+  "originalTopRow": 55,
   "parentColumnSpace": 11.212890625,
   "parentId": "266885u91y",
   "parentRowSpace": 10,

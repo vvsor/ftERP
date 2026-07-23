@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "66959955819ac61979db6c71_d6974722-fb6c-4733-a7b2-4f545c701464",
-  "id": "Profile_profile_tasks.myFun1",
+  "gitSyncId": "691b2aa4dd6b1b7f5b14dd39_275b9c5d-b540-4fff-aad5-9f29efd9bac1",
+  "id": "Profile_profile_tasks.saveProfile",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -10,7 +10,6 @@
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
-    "clientSideExecution": true,
     "collectionId": "Profile_profile_tasks",
     "confirmBeforeExecute": false,
     "datasource": {
@@ -23,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "profile_tasks.myFun1",
-    "name": "myFun1",
+    "fullyQualifiedName": "profile_tasks.saveProfile",
+    "name": "saveProfile",
     "pageId": "Profile",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

@@ -67,7 +67,7 @@ export default {
 			// 2. Get user data by token
 			const userData = await qGetUserDataByToken.run({ token: accessToken });
 			if (!userData?.data?.id) throw new Error("No user details");
-			const { id, email, first_name, last_name, tgchannelusername } = userData.data;
+			const { id, email, first_name, middle_name, last_name, tgchannelusername } = userData.data;
 
 			// 3. Store user in Appsmith store
 			await storeValue("user", {
@@ -77,6 +77,7 @@ export default {
 				refresh_token: refreshToken,
 				role: payload.role,
 				first_name,
+				middle_name,
 				last_name,
 				tgchannelusername,
 				token_exp_ms: tokenExpMs || null
