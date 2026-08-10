@@ -146,9 +146,9 @@ export default {
 	async syncSelectedAccountBranches(branchIds) {
 		const accountId = appsmith.store?.hrSelectedAccount?.id;
 		if (!accountId) return showAlert("Выберите счет", "warning");
-		if (!this.normalizeBranchIds(branchIds).length) {
-			return showAlert("Выберите хотя бы одно подразделение", "warning");
-		}
+		// if (!this.normalizeBranchIds(branchIds).length) {
+			// return showAlert("Выберите хотя бы одно подразделение", "warning");
+		// }
 
 		await this.syncAccountBranches(accountId, branchIds);
 		const rows = await this.getAccountRows();
@@ -195,7 +195,7 @@ export default {
 		};
 
 		if (!body.name) return showAlert("Укажите название счета", "warning");
-		if (!branchIds.length) return showAlert("Выберите хотя бы одно подразделение", "warning");
+		// if (!branchIds.length) return showAlert("Выберите хотя бы одно подразделение", "warning");
 		if (!["CASH", "CASHLESS"].includes(body.type)) return showAlert("Выберите тип счета", "warning");
 
 		let savedId = row.id || null;
