@@ -2,6 +2,7 @@ export default {
 	// ================== CONFIG ==================
 	DEBOUNCE_DELAY: 2000,
 	debouncedSaveFn: null,
+	activeSaves: 0,
 
 	// ================== DEBOUNCE ==================
 	debounce(func, delay) {
@@ -13,11 +14,20 @@ export default {
 	},
 
 	// ================== CORE SAVE ==================
-	async saveField(fieldName, widget) {
+	async saveField(fieldName, widget, context) {
+		const isCurrent = () => context?.officeTermId &&
+					String(appsmith.store?.SelectedOfficeTerm?.id) === String(context.officeTermId) &&
+					appsmith.store?.periodMonth === context.periodMonth &&
+					!salaryEmployees.selectionInProgress;
+		if (!isCurrent()) return;
+
 		if (!appsmith.store?.salaryReady) {
 			console.warn("Autosave blocked: salary not ready");
 			return;
 		}
+		this.activeSaves += 1;
+		let requestedSalaryCreation = false;
+
 		try {
 			let salaryRec = appsmith.store?.salaryOfPeriod;
 			const value = utils.extractValue(widget);
@@ -32,7 +42,7 @@ export default {
 					console.warn("Autosave skipped: empty value without salary", fieldName);
 					return;
 				}
-
+				requestedSalaryCreation = true;
 				salaryRec = await salary.getOrCreateSalaryForCurrentSelection();
 			}
 
@@ -56,14 +66,23 @@ export default {
 			};
 
 			await items.updateItems(params);
+			if (!isCurrent()) return;
 			await salary.setSalaryOfPeriod({
-				...salaryRec,
+				...appsmith.store.salaryOfPeriod,
 				[fieldName]: value
 			});
 
 		} catch (err) {
 			console.error(`Autosave failed for ${fieldName}:`, err);
 			showAlert(`Autosave failed: ${fieldName}`, "warning");
+		} finally {
+			try {
+				if (requestedSalaryCreation) {
+					await storeValue("salaryCreateInProgress", false, false);
+				}
+			} finally {
+				this.activeSaves -= 1;
+			}
 		}
 	},
 
@@ -82,6 +101,13 @@ export default {
 			this.initAutosave();
 		}
 
-		this.debouncedSaveFn(fieldName, widget);
+		if (appsmith.store?.salaryReady !== true || salaryEmployees.selectionInProgress) return;
+
+		const context = {
+			officeTermId: appsmith.store?.SelectedOfficeTerm?.id,
+			periodMonth: appsmith.store?.periodMonth
+		};
+		const snapshot = { text: utils.extractValue(widget) };
+		this.debouncedSaveFn(fieldName, snapshot, context);
 	}
 }

@@ -12,6 +12,9 @@
         },
         {
           "name": "widget"
+        },
+        {
+          "name": "context"
         }
       ],
       "paginationType": "NONE",

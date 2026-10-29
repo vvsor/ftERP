@@ -10,39 +10,46 @@ export default {
 		return index >= 0 ? index : 0;
 	},
 
-	async tbl_employees_onRowSelected() {
-		const row = tbl_employees.selectedRow;
-		if (!row?.id) return;
+	selectionInProgress: false,
 
-		if (appsmith.store?.salaryCreateInProgress === true) {
-			resetWidget("tbl_employees", true);
+	async tbl_employees_onRowSelected() {
+		const row = { ...tbl_employees.selectedRow };
+		if (!row.id) return;
+
+		if (salaryEmployees.selectionInProgress || autosave.activeSaves > 0 ||
+				appsmith.store?.salaryCreateInProgress === true ||
+				appsmith.store?.salaryReady === false) {
+			await resetWidget("tbl_employees", true);
 			return;
 		}
 
-		if (appsmith.store?.salaryReady === false) return;
-
 		const current = appsmith.store?.SelectedOfficeTerm;
-		const isEmployeeChanged =
-					current?.id && String(current.id) !== String(row.id);
+		if (String(current?.id) === String(row.id) && appsmith.store?.salaryOfPeriod?.id) return;
 
-		if (isEmployeeChanged) {
+		salaryEmployees.selectionInProgress = true;
+		try {
+			await storeValue("salaryReady", false, true);
 			await Promise.all([
+				removeValue("salaryOfPeriod"),
+				storeValue("salaryPaymentRows", [], false),
+				storeValue("salaryAccrualRows", [], false),
 				tbl_salaryAccruals.isAddRowInProgress
-				? resetWidget("tbl_salaryAccruals", true)
-				: Promise.resolve(),
+				? resetWidget("tbl_salaryAccruals", true) : Promise.resolve(),
 				tbl_salaryPayments.isAddRowInProgress
-				? resetWidget("tbl_salaryPayments", true)
-				: Promise.resolve()
+				? resetWidget("tbl_salaryPayments", true) : Promise.resolve()
 			]);
+			await salary.setSelectedOfficeTerm(row);
+			await salaryPeriod.initPeriod();
+			const prefetchedSalaryRecord = appsmith.store?.salaryByOfficeTermId?.[row.id] || null;
+			await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
+		} finally {
+			try {
+				await resetWidget("tbl_employees", true);
+				await storeValue("salaryReady", true, true);
+			} finally {
+				salaryEmployees.selectionInProgress = false;
+			}
 		}
-		if (current?.id === row.id && appsmith.store?.salaryOfPeriod?.id) return;
-
-		await storeValue("salaryReady", false, true);
-		await salary.setSelectedOfficeTerm(row);
-		await salaryPeriod.initPeriod();
-
-		const prefetchedSalaryRecord = appsmith.store?.salaryByOfficeTermId?.[row.id] || null;
-		await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
 	},
 
 	async sel_chooseBranch_OptionChanged() {

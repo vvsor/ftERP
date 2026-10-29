@@ -15,12 +15,18 @@
     },
     {
       "key": "defaultText"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicHeight": "AUTO_HEIGHT",
   "dynamicPropertyPathList": [
     {
       "key": "onTextChanged"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -30,7 +36,7 @@
   ],
   "iconAlign": "left",
   "inputType": "MULTI_LINE_TEXT",
-  "isDisabled": false,
+  "isDisabled": "{{ appsmith.store?.salaryReady !== true || salaryEmployees.selectionInProgress || autosave.activeSaves > 0 || appsmith.store?.salaryCreateInProgress === true }}",
   "isLoading": false,
   "isRequired": false,
   "isVisible": true,
