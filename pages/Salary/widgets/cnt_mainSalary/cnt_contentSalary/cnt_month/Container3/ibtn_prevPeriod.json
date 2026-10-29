@@ -36,7 +36,7 @@
     }
   ],
   "iconName": "double-chevron-left",
-  "isDisabled": "{{appsmith.store?.salaryPeriodShiftInProgress === true || appsmith.store?.salaryReady === false}}",
+  "isDisabled": "{{ appsmith.store?.salaryPeriodShiftInProgress === true || appsmith.store?.salaryReady !== true || salaryEmployees.selectionInProgress || autosave.activeSaves > 0 || appsmith.store?.salaryCreateInProgress === true }}",
   "isLoading": false,
   "isVisible": true,
   "key": "mz1gyuwe0d",

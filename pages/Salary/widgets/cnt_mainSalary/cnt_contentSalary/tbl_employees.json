@@ -44,15 +44,15 @@
     "salary_id",
     "position_id"
   ],
-  "columnUpdatedAt": 1784804617825,
+  "columnUpdatedAt": 1793253725579,
   "columnWidthMap": {
     "branch": 321,
     "branch_name": 242,
     "employee": 254.24316406250003,
     "title": 272
   },
-  "customIsLoading": false,
-  "customIsLoadingValue": "",
+  "customIsLoading": true,
+  "customIsLoadingValue": "{{ appsmith.store?.salaryReady !== true || salaryEmployees.selectionInProgress || autosave.activeSaves > 0 || appsmith.store?.salaryCreateInProgress === true }}",
   "defaultPageSize": 0,
   "defaultSelectedRowIndex": "{{salaryEmployees.getSelectedEmployeeRowIndex()}}",
   "defaultSelectedRowIndices": "[]",
@@ -108,6 +108,9 @@
     },
     {
       "key": "primaryColumns.position_id.computedValue"
+    },
+    {
+      "key": "customIsLoadingValue"
     }
   ],
   "dynamicPropertyPathList": [

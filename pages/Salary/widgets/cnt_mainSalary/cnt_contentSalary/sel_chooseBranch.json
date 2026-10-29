@@ -18,6 +18,9 @@
     },
     {
       "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicHeight": "FIXED",
@@ -27,6 +30,9 @@
     },
     {
       "key": "onOptionChange"
+    },
+    {
+      "key": "isDisabled"
     }
   ],
   "dynamicTriggerPathList": [
@@ -37,7 +43,7 @@
   "hideCard": false,
   "iconSVG": "https://appcdn.appsmith.com/static/media/icon.a7b19dc8b31d68fcff57f1d2c0084a18.svg",
   "isDeprecated": false,
-  "isDisabled": false,
+  "isDisabled": "{{ appsmith.store?.salaryReady !== true || salaryEmployees.selectionInProgress || autosave.activeSaves > 0 || appsmith.store?.salaryCreateInProgress === true }}",
   "isFilterable": true,
   "isLoading": false,
   "isRequired": false,
