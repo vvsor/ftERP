@@ -19,7 +19,7 @@ export default {
 		if (salaryEmployees.selectionInProgress || autosave.activeSaves > 0 ||
 				appsmith.store?.salaryCreateInProgress === true ||
 				appsmith.store?.salaryReady === false) {
-			await resetWidget("tbl_employees", true);
+			await tbl_employees.setSelectedRowIndex(salaryEmployees.getSelectedEmployeeRowIndex());
 			return;
 		}
 
@@ -44,7 +44,7 @@ export default {
 			await utils.reloadSalaryContext({ salaryRecord: prefetchedSalaryRecord });
 		} finally {
 			try {
-				await resetWidget("tbl_employees", true);
+				await tbl_employees.setSelectedRowIndex(salaryEmployees.getSelectedEmployeeRowIndex());
 				await storeValue("salaryReady", true, true);
 			} finally {
 				salaryEmployees.selectionInProgress = false;
