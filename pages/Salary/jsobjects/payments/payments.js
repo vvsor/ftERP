@@ -1,7 +1,7 @@
 export default {
 	DELETE_CONFIRM_WINDOW_MS: 5000,
 
-	async loadSalaryPayments(salaryIdParam, { commitToStore = true } = {}) {
+	async loadSalaryPayments(salaryIdParam, { commitToStore = true, accountIds = null } = {}) {
 		try {
 			const salaryId =
 						salaryIdParam ||
@@ -15,14 +15,15 @@ export default {
 			}
 
 
-			const employeeBranchId = await salaryAccounts.getEmployeeBranchId({ salaryId });
-			const accountRows = await salaryAccounts.getBranchAccountsRaw({
-				branchId: employeeBranchId,
-				accessField: "payments_access",
-				allowed: ["read", "write"]
-			});
-			const accountIds = accountRows.map((row) => row.id).filter(Boolean);
-
+			if (!Array.isArray(accountIds)) {
+				const employeeBranchId = await salaryAccounts.getEmployeeBranchId({ salaryId });
+				const accountRows = await salaryAccounts.getBranchAccountsRaw({
+					branchId: employeeBranchId,
+					accessField: "payments_access",
+					allowed: ["read", "write"]
+				});
+				accountIds = accountRows.map((row) => row.id).filter(Boolean);
+			}
 			if (!accountIds.length) {
 				if (commitToStore) await storeValue("salaryPaymentRows", [], false);
 				return [];

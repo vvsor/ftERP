@@ -36,7 +36,7 @@
   "mobileTopRow": 0,
   "needsErrorInfo": false,
   "onChange": "{{\npayments.loadSalaryPayments()\n}}",
-  "originalBottomRow": 4,
+  "originalBottomRow": 5,
   "originalTopRow": 0,
   "parentColumnSpace": 8.279403686523438,
   "parentId": "90l8jo0fx8",

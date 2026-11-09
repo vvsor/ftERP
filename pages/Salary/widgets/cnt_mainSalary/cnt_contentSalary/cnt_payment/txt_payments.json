@@ -43,7 +43,7 @@
   "responsiveBehavior": "fill",
   "rightColumn": 49,
   "shouldTruncate": false,
-  "text": "Выплаты: {{tbl_employees.selectedRow?.employee ? salarySummaries.paymentsSummaryTextPerson() : \"не выбран сотрудник\"}}",
+  "text": "Выплаты: {{appsmith.store?.SelectedOfficeTerm?.id ? salarySummaries.paymentsSummaryTextPerson() : \"не выбран сотрудник\"}}",
   "textAlign": "LEFT",
   "textColor": "#231F20",
   "topRow": 0,

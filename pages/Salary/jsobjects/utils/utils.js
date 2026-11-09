@@ -330,7 +330,7 @@ export default {
 			await storeValue("salaryReady", false, true);
 		}
 
-		await salaryAccounts.refreshBranchAccountAccessOptions();
+		const accountContext = await salaryAccounts.refreshBranchAccountAccessOptions();
 
 		const salaryRecord = await salary.loadSalary(prefetchedSalaryRecord, { createIfMissing: false });
 
@@ -360,12 +360,18 @@ export default {
 
 		const paymentRowsPromise = payments.loadSalaryPayments(
 			salaryRecord.id,
-			{ commitToStore: false }
+			{
+				commitToStore: false,
+				accountIds: accountContext.paymentRows.map((row) => row.id)
+			}
 		);
 
 		const accrualRowsPromise = accruals.loadSalaryAccruals(
 			salaryRecord.id,
-			{ commitToStore: false }
+			{
+				commitToStore: false,
+				accountIds: accountContext.accrualRows.map((row) => row.id)
+			}
 		);
 
 		const employeeRowsPromise =

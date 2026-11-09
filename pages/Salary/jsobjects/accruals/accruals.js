@@ -1,7 +1,7 @@
 export default {
 	DELETE_CONFIRM_WINDOW_MS: 5000,
 
-	async loadSalaryAccruals(salaryIdParam, { commitToStore = true } = {}) {
+	async loadSalaryAccruals(salaryIdParam, { commitToStore = true, accountIds = null } = {}) {
 		try {
 			const salaryId =
 						salaryIdParam ||
@@ -14,14 +14,15 @@ export default {
 				return [];
 			}
 
-			const employeeBranchId = await salaryAccounts.getEmployeeBranchId({ salaryId });
-			const accountRows = await salaryAccounts.getBranchAccountsRaw({
-				branchId: employeeBranchId,
-				accessField: "accruals_access",
-				allowed: ["read", "write"]
-			});
-
-			const accountIds = accountRows.map((row) => row.id).filter(Boolean);
+			if (!Array.isArray(accountIds)) {
+				const employeeBranchId = await salaryAccounts.getEmployeeBranchId({ salaryId });
+				const accountRows = await salaryAccounts.getBranchAccountsRaw({
+					branchId: employeeBranchId,
+					accessField: "accruals_access",
+					allowed: ["read", "write"]
+				});
+				accountIds = accountRows.map((row) => row.id).filter(Boolean);
+			}
 
 			if (!accountIds.length) {
 				if (commitToStore) await storeValue("salaryAccrualRows", [], false);
@@ -203,7 +204,7 @@ export default {
 			showAlert("Нет права записи по выбранному счету начислений", "error");
 			return null;
 		}
-		
+
 		if (
 			String(oldAccountId) !== String(newAccountId) &&
 			!salaryAccounts.hasBranchAccountWriteAccess(oldAccountId, "salaryAccrualWriteBranchAccountIds")
