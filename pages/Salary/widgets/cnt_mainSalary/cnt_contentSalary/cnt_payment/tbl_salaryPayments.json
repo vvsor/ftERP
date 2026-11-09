@@ -5,7 +5,7 @@
   "borderColor": "#E0DEDE",
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "borderWidth": "1",
-  "bottomRow": 34,
+  "bottomRow": 33,
   "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
   "cachedTableData": {},
   "canFreezeColumn": true,
@@ -52,8 +52,8 @@
     "customColumn1": 60,
     "payment_date": 162
   },
-  "customIsLoading": false,
-  "customIsLoadingValue": "",
+  "customIsLoading": true,
+  "customIsLoadingValue": "{{ appsmith.store?.salaryReady !== true || salaryEmployees.selectionInProgress || autosave.activeSaves > 0 || appsmith.store?.salaryCreateInProgress === true }}",
   "defaultNewRow": "{{ \n  {\n    payment_date: moment().format(\"YYYY-MM-DD\")\n  }\n}}",
   "defaultPageSize": 0,
   "defaultSelectedRowIndex": "-1",
@@ -131,6 +131,9 @@
     },
     {
       "key": "primaryColumns.customColumn1.isDisabled"
+    },
+    {
+      "key": "customIsLoadingValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -612,7 +615,7 @@
   "showInlineEditingOptionDropdown": true,
   "tableData": "{{ Array.isArray(appsmith.store?.salaryPaymentRows) ? appsmith.store.salaryPaymentRows : [] }}",
   "textSize": "0.875rem",
-  "topRow": 5,
+  "topRow": 4,
   "totalRecordsCount": 0,
   "type": "TABLE_WIDGET_V2",
   "version": 2,

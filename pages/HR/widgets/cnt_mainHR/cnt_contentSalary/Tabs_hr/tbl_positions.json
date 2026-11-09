@@ -56,7 +56,7 @@
     "supervisor_employee",
     "supervisor_display"
   ],
-  "columnUpdatedAt": 1784808167468,
+  "columnUpdatedAt": 1794256820011,
   "columnWidthMap": {
     "branch": 321,
     "customColumn1": 60,
@@ -280,6 +280,7 @@
     "comment": {
       "alias": "comment",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -353,6 +354,7 @@
     "date_from": {
       "alias": "date_from",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "date",
@@ -387,6 +389,7 @@
     "date_till": {
       "alias": "date_till",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -421,6 +424,7 @@
     "email": {
       "alias": "email",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -489,6 +493,7 @@
     "first_name": {
       "alias": "first_name",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -557,6 +562,7 @@
     "last_name": {
       "alias": "last_name",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -591,6 +597,7 @@
     "middle_name": {
       "alias": "middle_name",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -625,6 +632,7 @@
     "office_term_id": {
       "alias": "office_term_id",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "number",
@@ -659,6 +667,7 @@
     "position_title_id": {
       "alias": "position_title_id",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "number",
@@ -693,6 +702,7 @@
     "role": {
       "alias": "role",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -727,6 +737,7 @@
     "role_label": {
       "alias": "role_label",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -761,6 +772,7 @@
     "supervisor_display": {
       "alias": "supervisor_display",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -795,6 +807,7 @@
     "supervisor_employee": {
       "alias": "supervisor_employee",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
@@ -829,6 +842,7 @@
     "supervisor_position_id": {
       "alias": "supervisor_position_id",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "number",
@@ -863,6 +877,7 @@
     "supervisor_title": {
       "alias": "supervisor_title",
       "allowCellWrapping": false,
+      "allowHeaderWrapping": false,
       "allowSameOptionsInNewRow": true,
       "cellBackground": "",
       "columnType": "text",
